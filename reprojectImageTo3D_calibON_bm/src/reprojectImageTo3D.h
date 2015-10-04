@@ -37,6 +37,8 @@ void openImageSource(int input_num,VideoCapture* capL,VideoCapture* capR,Mat* im
 void setStereoBMparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
 void presetStereoBMparams(StereoBM* bm);
 void resize_frame(Mat* frame1,Mat* frame2);
+void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
+void imageProcessing2(Mat src, Mat imgE, Mat imgED);
 void change_resolution(VideoCapture* cap_l,VideoCapture* cap_r);
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
 Mat readQMatrix();

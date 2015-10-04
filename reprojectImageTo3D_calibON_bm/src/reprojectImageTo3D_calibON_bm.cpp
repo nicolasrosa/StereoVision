@@ -147,12 +147,12 @@ int main(int, char**){
 		normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
 		applyColorMap(disp8,disp8_bgr, COLORMAP_JET);
 
-		Mat disp8_median,disp8_median_bgr;
-		medianBlur(disp8,disp8_median,5);
-		applyColorMap(disp8_median,disp8_median_bgr, COLORMAP_JET);
+		/* Image Processing */
+		Mat disp8Median,disp8MedianBGR;
+		Mat disp8eroded;Mat disp8_eroded_dilated;
 
-		imshow("Disparity Map Median Filter 3x3",disp8_median);
-		imshow("Disparity Map Median Filter 3x3 - RGB",disp8_median_bgr);
+		//imageProcessing1(disp8,disp8Median,disp8Median);
+		imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
 
 
 		//(8) Projecting 3D point cloud to imag	125
@@ -583,6 +583,53 @@ void change_resolution(VideoCapture* cap_l,VideoCapture* cap_r){
 
 		cout << "Camera 1 Resolution: " << cap_l->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << cap_l->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
 		cout << "Camera 2 Resolution: " << cap_r->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << cap_r->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+}
+
+void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR){
+
+	// Apply Median Filter
+	medianBlur(img,imgMedian,5);
+	applyColorMap(imgMedian,imgMedianBGR, COLORMAP_JET);
+
+	// Output
+	imshow("Disparity Map Median Filter 3x3",imgMedian);
+	imshow("Disparity Map Median Filter 3x3 - RGB",imgMedianBGR);
+}
+
+void imageProcessing2(Mat src, Mat imgE, Mat imgED){
+	Mat element = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
+	Mat imgEBGR,imgEDBGR;
+	Mat imgEDMedian,imgEDMedianBGR;
+	Mat imgThresholded;
+
+	// Erode and Dilate to take out spurious noise
+	// Apply Erosion and Dilation
+	erode(src,imgE,element);
+	dilate(imgE,imgED,element);
+
+	applyColorMap(imgE,imgEBGR, COLORMAP_JET);
+	applyColorMap(imgED,imgEDBGR, COLORMAP_JET);
+
+	// Apply Median Filter
+	GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
+	//medianBlur(imgED,imgEDMedian,5);
+	applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
+
+	// Thresholding
+	threshold( imgEDMedian, imgThresholded, 128, 255,0);
+
+
+	// Output
+	imshow("Eroded Image",imgE);
+	imshow("Eroded Image BGR",imgEBGR);
+
+	imshow("Eroded+Dilated Image",imgED);
+	imshow("Eroded+Dilated Image BGR",imgEDBGR);
+
+	imshow("Eroded+Dilated+Median Image",imgEDMedian);
+	imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
+
+	imshow("Thresholded Image",imgThresholded);
 }
 
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
