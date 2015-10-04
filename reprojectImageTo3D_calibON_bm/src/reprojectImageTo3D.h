@@ -34,6 +34,8 @@ void createTrackbars();
 
 void print_help();
 void openImageSource(int input_num,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR);
+void setStereoBMparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
+void presetStereoBMparams(StereoBM* bm);
 void resize_frame(Mat* frame1,Mat* frame2);
 void change_resolution(VideoCapture* cap_l,VideoCapture* cap_r);
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
@@ -66,11 +68,11 @@ const double baseline = -2.61138;
  *These will be changed using trackbars
  */
 int preFilterSize			 = 50;	const int preFilterSize_MAX		 	= 100;
-int preFilterCap			 = 50;	const int preFilterCap_MAX		 	= 100;
-int SADWindowSize			 = 17;	const int SADWindowSize_MAX		 	= 100;
-int minDisparity			 = 48;	const int minDisparity_MAX		 	= 100;
-int numberOfDisparities		 = 3;	const int numberOfDisparities_MAX 	= 16;
-int textureThreshold		 = 0;	const int textureThreshold_MAX		= 100;
+int preFilterCap			 = 100;	const int preFilterCap_MAX		 	= 100;
+int SADWindowSize			 = 12;	const int SADWindowSize_MAX		 	= 100;
+int minDisparity			 = 51;	const int minDisparity_MAX		 	= 100;
+int numberOfDisparities		 = 2;	const int numberOfDisparities_MAX 	= 16;
+int textureThreshold		 = 10;	const int textureThreshold_MAX		= 100;
 int uniquenessRatio			 = 0;	const int uniquenessRatio_MAX		= 100;
 int speckleWindowSize		 = 0;	const int speckleWindowSize_MAX	 	= 100;
 int speckleRange			 = 0;	const int speckleRange_MAX		 	= 100;

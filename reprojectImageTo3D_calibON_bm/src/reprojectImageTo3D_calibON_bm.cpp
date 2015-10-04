@@ -20,102 +20,7 @@ private:
     //float percentageOfDeletion;
 };
 
-void setStereoBMparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams){
-	int trackbarsAux[10];
 
-	trackbarsAux[0]= getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
-	trackbarsAux[1]= getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
-	trackbarsAux[2]= getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
-	trackbarsAux[3]= getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
-	trackbarsAux[4]= getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
-	trackbarsAux[5]= getTrackbarPos("textureThreshold",trackbarWindowName)*320;
-	trackbarsAux[6]= getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
-	trackbarsAux[7]= getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
-	trackbarsAux[8]= getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
-	trackbarsAux[9]= getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
-
-	bm->setROI1(*roi1);
-	bm->setROI2(*roi2);
-
-	if(trackbarsAux[0]%2==1 && trackbarsAux[0]>=5 && trackbarsAux[0]<=255){
-		//bm.state->preFilterSize = trackbarsAux[0];
-		bm->setPreFilterSize(trackbarsAux[0]);
-	}
-
-	if(trackbarsAux[1]>=1 && trackbarsAux[1]<=63){
-		//bm.state->preFilterCap = trackbarsAux[1];
-		bm->setPreFilterCap(trackbarsAux[1]);
-	}
-
-	if(trackbarsAux[2]%2==1 && trackbarsAux[2]>=5  && trackbarsAux[2]<=255 && trackbarsAux[2]<=numRows){
-		//bm.state->SADWindowSize = trackbarsAux[2];
-		bm->setBlockSize(trackbarsAux[2]);
-	}
-
-	if(trackbarsAux[3]>=-100 && trackbarsAux[3]<=100){
-		//bm.state->minDisparity = trackbarsAux[3];
-		bm->setMinDisparity(trackbarsAux[3]);
-	}
-
-	if(trackbarsAux[4]%16==0 && trackbarsAux[4]>=16 && trackbarsAux[4]<=256){
-	    //bm.state->numberOfDisparities = trackbarsAux[4];
-		bm->setNumDisparities(trackbarsAux[4]);
-	}
-
-	if(trackbarsAux[5]>=0 && trackbarsAux[5]<=32000){
-		//bm.state->textureThreshold = trackbarsAux[5];
-		bm->setTextureThreshold(trackbarsAux[5]);
-	}
-
-	if(trackbarsAux[6]>=0 && trackbarsAux[6]<=255){
-		//bm.state->uniquenessRatio = trackbarsAux[6];
-		bm->setUniquenessRatio(trackbarsAux[6]);
-	}
-
-	if(trackbarsAux[7]>=0 && trackbarsAux[7]<=100){
-		//bm.state->speckleWindowSize = trackbarsAux[7];
-		bm->setSpeckleWindowSize(trackbarsAux[7]);
-	}
-
-	if(trackbarsAux[8]>=0 && trackbarsAux[8]<=100){
-		//bm.state->speckleRange = trackbarsAux[8];
-		bm->setSpeckleRange(trackbarsAux[8]);
-	}
-
-	if(trackbarsAux[9]>=0 && trackbarsAux[9]<=100){
-		//bm.state->disp12MaxDiff = trackbarsAux[9];
-		bm->setDisp12MaxDiff(trackbarsAux[9]);
-	}
-
-	if(showStereoBMparams){
-		cout << getTrackbarPos("preFilterSize",trackbarWindowName)			<< "\t" << trackbarsAux[0] << endl;
-		cout << getTrackbarPos("preFilterCap",trackbarWindowName)			<< "\t" << trackbarsAux[1] << endl;
-		cout << getTrackbarPos("SADWindowSize",trackbarWindowName)			<< "\t" << trackbarsAux[2] << endl;
-		cout << getTrackbarPos("minDisparity",trackbarWindowName)			<< "\t" << trackbarsAux[3] << endl;
-		cout << getTrackbarPos("numberOfDisparities",trackbarWindowName)	<< "\t" << trackbarsAux[4] << endl;
-		cout << getTrackbarPos("textureThreshold",trackbarWindowName)		<< "\t" << trackbarsAux[5] << endl;
-		cout << getTrackbarPos("uniquenessRatio",trackbarWindowName)		<< "\t" << trackbarsAux[6] << endl;
-		cout << getTrackbarPos("speckleWindowSize",trackbarWindowName)		<< "\t" << trackbarsAux[7] << endl;
-		cout << getTrackbarPos("speckleRange",trackbarWindowName)			<< "\t" << trackbarsAux[8] << endl;
-		cout << getTrackbarPos("disp12MaxDiff",trackbarWindowName)			<< "\t" << trackbarsAux[9] << endl;
-	}
-
-}
-
-void presetStereoBMparams(StereoBM* bm){
-	//PreSetup StereoBM Parameters
-	//numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((int)(capR.get(CV_CAP_PROP_FRAME_WIDTH)/8) + 15)/4 & -16;
-
-	bm->setPreFilterCap(31);
-	bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
-	bm->setMinDisparity(0);
-	bm->setNumDisparities(numberOfDisparities);
-	bm->setTextureThreshold(10);
-	bm->setUniquenessRatio(15);
-	bm->setSpeckleWindowSize(100);
-	bm->setSpeckleRange(32);
-	bm->setDisp12MaxDiff(1);
-}
 
 ImageProcessor::ImageProcessor(float variable){
     cout <<  "Oi" << std::endl ;
@@ -142,7 +47,9 @@ int main(int, char**){
 
 	    //ImageProcessor test(0.1);
 
-	    openImageSource(input_num,&capL,&capR,&imageL[0],&imageR[0]);
+	    //openImageSource(input_num,&capL,&capR,&imageL[0],&imageR[0]);
+	    openImageSource(6,&capL,&capR,&imageL[0],&imageR[0]);
+
 
 	//(2) StereoBM Initialization
 	    Ptr<StereoBM> bm = StereoBM::create(16,9);
@@ -235,11 +142,18 @@ int main(int, char**){
 		Mat disp8_bgr;
 
 		bm->compute(imageL_grey[0],imageR_grey[0],disp);
-		//sgbm->compute(imageL,imageR,disp);
 		//fillOcclusion(disp,16,false);
 
 		normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
 		applyColorMap(disp8,disp8_bgr, COLORMAP_JET);
+
+		Mat disp8_median,disp8_median_bgr;
+		medianBlur(disp8,disp8_median,5);
+		applyColorMap(disp8_median,disp8_median_bgr, COLORMAP_JET);
+
+		imshow("Disparity Map Median Filter 3x3",disp8_median);
+		imshow("Disparity Map Median Filter 3x3 - RGB",disp8_median_bgr);
+
 
 		//(8) Projecting 3D point cloud to imag	125
 		if(show3Dreconstruction){
@@ -403,7 +317,7 @@ void openImageSource(int input_num,VideoCapture* capL,VideoCapture* capR,Mat* im
 
 	// Create an object that decodes the input Video stream.
 		printf("Enter Video Number(1,2,3,4,5,6,7,8,9): ");
-		scanf("%d",&input_num);
+	//	scanf("%d",&input_num);
 		cout << "Input File:";
 		switch(input_num){
 			 case 1:
@@ -522,6 +436,103 @@ void createTrackbars(){ //Create Window for trackbars
 }
 
 void on_trackbar( int, void* ){}; //This function gets called whenever a trackbar position is changed
+
+void setStereoBMparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams){
+	int trackbarsAux[10];
+
+	trackbarsAux[0]= getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
+	trackbarsAux[1]= getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
+	trackbarsAux[2]= getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
+	trackbarsAux[3]= getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
+	trackbarsAux[4]= getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
+	trackbarsAux[5]= getTrackbarPos("textureThreshold",trackbarWindowName)*320;
+	trackbarsAux[6]= getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
+	trackbarsAux[7]= getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
+	trackbarsAux[8]= getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
+	trackbarsAux[9]= getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
+
+	bm->setROI1(*roi1);
+	bm->setROI2(*roi2);
+
+	if(trackbarsAux[0]%2==1 && trackbarsAux[0]>=5 && trackbarsAux[0]<=255){
+		//bm.state->preFilterSize = trackbarsAux[0];
+		bm->setPreFilterSize(trackbarsAux[0]);
+	}
+
+	if(trackbarsAux[1]>=1 && trackbarsAux[1]<=63){
+		//bm.state->preFilterCap = trackbarsAux[1];
+		bm->setPreFilterCap(trackbarsAux[1]);
+	}
+
+	if(trackbarsAux[2]%2==1 && trackbarsAux[2]>=5  && trackbarsAux[2]<=255 && trackbarsAux[2]<=numRows){
+		//bm.state->SADWindowSize = trackbarsAux[2];
+		bm->setBlockSize(trackbarsAux[2]);
+	}
+
+	if(trackbarsAux[3]>=-100 && trackbarsAux[3]<=100){
+		//bm.state->minDisparity = trackbarsAux[3];
+		bm->setMinDisparity(trackbarsAux[3]);
+	}
+
+	if(trackbarsAux[4]%16==0 && trackbarsAux[4]>=16 && trackbarsAux[4]<=256){
+	    //bm.state->numberOfDisparities = trackbarsAux[4];
+		bm->setNumDisparities(trackbarsAux[4]);
+	}
+
+	if(trackbarsAux[5]>=0 && trackbarsAux[5]<=32000){
+		//bm.state->textureThreshold = trackbarsAux[5];
+		bm->setTextureThreshold(trackbarsAux[5]);
+	}
+
+	if(trackbarsAux[6]>=0 && trackbarsAux[6]<=255){
+		//bm.state->uniquenessRatio = trackbarsAux[6];
+		bm->setUniquenessRatio(trackbarsAux[6]);
+	}
+
+	if(trackbarsAux[7]>=0 && trackbarsAux[7]<=100){
+		//bm.state->speckleWindowSize = trackbarsAux[7];
+		bm->setSpeckleWindowSize(trackbarsAux[7]);
+	}
+
+	if(trackbarsAux[8]>=0 && trackbarsAux[8]<=100){
+		//bm.state->speckleRange = trackbarsAux[8];
+		bm->setSpeckleRange(trackbarsAux[8]);
+	}
+
+	if(trackbarsAux[9]>=0 && trackbarsAux[9]<=100){
+		//bm.state->disp12MaxDiff = trackbarsAux[9];
+		bm->setDisp12MaxDiff(trackbarsAux[9]);
+	}
+
+	if(showStereoBMparams){
+		cout << getTrackbarPos("preFilterSize",trackbarWindowName)			<< "\t" << trackbarsAux[0] << endl;
+		cout << getTrackbarPos("preFilterCap",trackbarWindowName)			<< "\t" << trackbarsAux[1] << endl;
+		cout << getTrackbarPos("SADWindowSize",trackbarWindowName)			<< "\t" << trackbarsAux[2] << endl;
+		cout << getTrackbarPos("minDisparity",trackbarWindowName)			<< "\t" << trackbarsAux[3] << endl;
+		cout << getTrackbarPos("numberOfDisparities",trackbarWindowName)	<< "\t" << trackbarsAux[4] << endl;
+		cout << getTrackbarPos("textureThreshold",trackbarWindowName)		<< "\t" << trackbarsAux[5] << endl;
+		cout << getTrackbarPos("uniquenessRatio",trackbarWindowName)		<< "\t" << trackbarsAux[6] << endl;
+		cout << getTrackbarPos("speckleWindowSize",trackbarWindowName)		<< "\t" << trackbarsAux[7] << endl;
+		cout << getTrackbarPos("speckleRange",trackbarWindowName)			<< "\t" << trackbarsAux[8] << endl;
+		cout << getTrackbarPos("disp12MaxDiff",trackbarWindowName)			<< "\t" << trackbarsAux[9] << endl;
+	}
+
+}
+
+void presetStereoBMparams(StereoBM* bm){
+	//PreSetup StereoBM Parameters
+	//numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((int)(capR.get(CV_CAP_PROP_FRAME_WIDTH)/8) + 15)/4 & -16;
+
+	bm->setPreFilterCap(31);
+	bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
+	bm->setMinDisparity(0);
+	bm->setNumDisparities(numberOfDisparities);
+	bm->setTextureThreshold(10);
+	bm->setUniquenessRatio(15);
+	bm->setSpeckleWindowSize(100);
+	bm->setSpeckleRange(32);
+	bm->setDisp12MaxDiff(1);
+}
 
 //void createButtons(){
 //	char* nameb1 = "button1";
