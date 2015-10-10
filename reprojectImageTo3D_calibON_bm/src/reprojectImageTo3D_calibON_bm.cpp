@@ -20,8 +20,6 @@ private:
     //float percentageOfDeletion;
 };
 
-
-
 ImageProcessor::ImageProcessor(float variable){
     cout <<  "Oi" << std::endl ;
     //this->percentageOfDeletion = percentageOfDeletion;
@@ -50,37 +48,33 @@ int main(int, char**){
 	    //openImageSource(input_num,&capL,&capR,&imageL[0],&imageR[0]);
 	    openImageSource(6,&capL,&capR,&imageL[0],&imageR[0]);
 
-
-	//(2) StereoBM Initialization
+	//(2) Stereo Initialization
 	    Ptr<StereoBM> bm = StereoBM::create(16,9);
 	    //Ptr<StereoSGBM> sgbm = StereoSGBM::create(0,16,3);
 
-	    presetStereoBMparams(bm);
+	    stereoInit(bm);
 
-	//(3) Camera Calibration
-		Mat M1,D1,M2,D2;
-		Mat R,T,R1,P1,R2,P2;
-		Rect roi1, roi2;
+	//(3) Stereo Calibration
+	    Mat M1,D1,M2,D2;
+	    Mat R,T,R1,P1,R2,P2;
+	    Rect roi1, roi2;
 
 		if(needCalibration){
 			cout << "Calibration: ON\n" << endl;
-			readCalibFiles(M1,D1,M2,D2,R,T);
+			stereoCalib(M1,D1,M2,D2,R,T);
 		}else{
 			cout << "Calibration: OFF\n" << endl;
 		}
 
-    //(4) Make Q matrix and reproject pixels into 3D spaceQ.at<double>(0,3)=-image_center.x;
-		//Perspective transformation matrix(Q)
-		// [ 1  0    0    	 -cx     ]
-		// [ 0  1    0    	 -cy     ]
-		// [ 0  0    0    	  f      ]
-		// [ 0  0  -1/Tx  (cx-cx')/Tx]
+    //(4) Compute the Q Matrix
+		Mat Q;
+		double focal_length,baseline;
 
-		//Mat Q;
-		Mat Q=readQMatrix();
-		const double focal_length = Q.at<double>(2,3); cout << "f:" << focal_length << endl;
-		const double baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << baseline << endl;
-		//Mat Q=makeQMatrix(Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0),focal_length,baseline*16);
+		Point2d image_center = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
+
+		readQMatrix(Q,&focal_length,&baseline);
+		//calculateQMatrix(Q,image_center,focal_length,baseline*16);
+
 
 	//(5) Camera setting
 		Mat K=Mat::eye(3,3,CV_64F);
@@ -131,7 +125,7 @@ int main(int, char**){
 		//const double baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << baseline << endl;
 
 		//Setting StereoBM Parameters
-		setStereoBMparams(&roi1,&roi2,bm,imageL[0].rows,showStereoBMparams);
+		stereoSetparams(&roi1,&roi2,bm,imageL[0].rows,showStereoBMparams);
 
 		// Convert BGR to Gray_Scale
 		cvtColor(imageL[0],imageL_grey[0],CV_BGR2GRAY);
@@ -152,141 +146,143 @@ int main(int, char**){
 		Mat disp8eroded;Mat disp8_eroded_dilated;
 
 		//imageProcessing1(disp8,disp8Median,disp8Median);
-		imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
+		//imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
 
 
 		//(8) Projecting 3D point cloud to imag	125
-		if(show3Dreconstruction){
-			Mat depth;
-			cv::reprojectImageTo3D(disp,depth,Q);
-			Mat xyz= depth.reshape(3,depth.size().area());
+			if(show3Dreconstruction){
+				Mat depth;
+				cv::reprojectImageTo3D(disp,depth,Q);
+				Mat xyz= depth.reshape(3,depth.size().area());
 
-			lookat(viewpoint, lookatpoint , Rotation);
-			t.at<double>(0,0)=viewpoint.x;
-			t.at<double>(1,0)=viewpoint.y;
-			t.at<double>(2,0)=viewpoint.z;
+				lookat(viewpoint, lookatpoint , Rotation);
+				t.at<double>(0,0)=viewpoint.x;
+				t.at<double>(1,0)=viewpoint.y;
+				t.at<double>(2,0)=viewpoint.z;
 
-			if(showXYZ){
-				//cout<<t<<endl;
-				cout << "x: " << t.at<double>(0,0) << endl;
-				cout << "y: " << t.at<double>(1,0) << endl;
-				cout << "z: " << t.at<double>(2,0) << endl;
+				if(showXYZ){
+					//cout<<t<<endl;
+					cout << "x: " << t.at<double>(0,0) << endl;
+					cout << "y: " << t.at<double>(1,0) << endl;
+					cout << "z: " << t.at<double>(2,0) << endl;
+				}
+
+				t=Rotation*t;
+
+				projectImagefromXYZ(imageL[0],destimage,disp,destdisp,xyz,Rotation,t,K,dist,isSub);
+				destdisp.convertTo(dispshow,CV_8U,0.5);
+				//imshow("3D Depth",dispshow);
+				//imshow("3D Viewer",destimage);
+
+				projectImagefromXYZ(disp8_bgr,destimage,disp,destdisp,xyz,Rotation,t,K,dist,isSub);
+				imshow("3D Depth RGB",destimage);
+			}
+			else{
+				destroyWindow("3D Depth");
+				destroyWindow("3D Viewer");
+				destroyWindow("3D Depth RGB");
 			}
 
-			t=Rotation*t;
-
-			projectImagefromXYZ(imageL[0],destimage,disp,destdisp,xyz,Rotation,t,K,dist,isSub);
-			destdisp.convertTo(dispshow,CV_8U,0.5);
-			//imshow("3D Depth",dispshow);
-			//imshow("3D Viewer",destimage);
-
-			projectImagefromXYZ(disp8_bgr,destimage,disp,destdisp,xyz,Rotation,t,K,dist,isSub);
-			imshow("3D Depth RGB",destimage);
-		}
-		else{
-			destroyWindow("3D Depth");
-			destroyWindow("3D Viewer");
-			destroyWindow("3D Depth RGB");
-		}
-
 		//(9)Movement Difference between Frames
-		if(StartDiff && showDiffImage){
-			absdiff(imageL_grey[0],imageL_grey[1],diffImage);
-		}
+			Mat thresholdImage;
+			if(StartDiff && showDiffImage){
+				absdiff(imageL_grey[0],imageL_grey[1],diffImage);
+				threshold(diffImage, thresholdImage, THRESH_VALUE, 255,THRESH_BINARY);
+			}
 
-		//Saving Previous Frame
-		imageL[0].copyTo(imageL[1]);
-		imageR[0].copyTo(imageR[1]);
-		imageL_grey[0].copyTo(imageL_grey[1]);
-		imageR_grey[0].copyTo(imageR_grey[1]);
+			//Saving Previous Frame
+			imageL[0].copyTo(imageL[1]);
+			imageR[0].copyTo(imageR[1]);
+			imageL_grey[0].copyTo(imageL_grey[1]);
+			imageR_grey[0].copyTo(imageR_grey[1]);
 
-		//imshow("Previous Left",imageL[1]);
-		//imshow("Previous Right",imageR[1]);
+			//imshow("Previous Left",imageL[1]);
+			//imshow("Previous Right",imageR[1]);
 
-		StartDiff=1;
+			StartDiff=1;
 
         //(10)Output
-		if(showInputImage){
-			imshow("Left",imageL[0]);
-			imshow("Right",imageR[0]);
-		}
-		else{
-			destroyWindow("Left");
-			destroyWindow("Right");
-		}
+			if(showInputImage){
+				imshow("Left",imageL[0]);
+				imshow("Right",imageR[0]);
+			}
+			else{
+				destroyWindow("Left");
+				destroyWindow("Right");
+			}
 
-		if(showDisparityMap){
-			imshow("Disparity Map",disp8);
-			imshow("Disparity Map BGR",disp8_bgr);
-		}
-		else{
-			destroyWindow("Disparity Map");
-			destroyWindow("Disparity Map BGR");
-		}
+			if(showDisparityMap){
+				imshow("Disparity Map",disp8);
+				imshow("Disparity Map BGR",disp8_bgr);
+			}
+			else{
+				destroyWindow("Disparity Map");
+				destroyWindow("Disparity Map BGR");
+			}
 
-		if(showDiffImage){
-			imshow("DiffImage",diffImage);
-		}
-		else{
-			destroyWindow("DiffImage");
-		}
+			if(showDiffImage){
+				imshow("DiffImage",diffImage);
+				imshow("thresoldImage",thresholdImage);
+			}
+			else{
+				destroyWindow("DiffImage");
+			}
 
 		//(11)Shortcuts
-		key = waitKey(1);
-		if(key=='`')
-			print_help();
-		if(key=='1')
-			showInputImage = !showInputImage;
-		if(key=='2')
-			showDisparityMap = !showDisparityMap;
-		if(key=='3')
-			show3Dreconstruction = !show3Dreconstruction;
-		if(key=='4')
-			showXYZ = !showXYZ;
-		if(key=='5')
-			showFPS = !showFPS;
-		if(key=='6')
-			showStereoBMparams = !showStereoBMparams;
-		if(key=='7')
-			showDiffImage = !showDiffImage;
+			key = waitKey(1);
+			if(key=='`')
+				print_help();
+			if(key=='1')
+				showInputImage = !showInputImage;
+			if(key=='2')
+				showDisparityMap = !showDisparityMap;
+			if(key=='3')
+				show3Dreconstruction = !show3Dreconstruction;
+			if(key=='4')
+				showXYZ = !showXYZ;
+			if(key=='5')
+				showFPS = !showFPS;
+			if(key=='6')
+				showStereoBMparams = !showStereoBMparams;
+			if(key=='7')
+				showDiffImage = !showDiffImage;
 
-		if(key=='f')
-			isSub=isSub?false:true;
-		if(key=='h')
-			viewpoint.x+=step;
-		if(key=='g')
-			viewpoint.x-=step;
-		if(key=='l')
-			viewpoint.y+=step;
-		if(key=='k')
-			viewpoint.y-=step;
-		if(key=='n')
-			viewpoint.z+=step;
-		if(key=='m')
-			viewpoint.z-=step;
+			if(key=='f')
+				isSub=isSub?false:true;
+			if(key=='h')
+				viewpoint.x+=step;
+			if(key=='g')
+				viewpoint.x-=step;
+			if(key=='l')
+				viewpoint.y+=step;
+			if(key=='k')
+				viewpoint.y-=step;
+			if(key=='n')
+				viewpoint.z+=step;
+			if(key=='m')
+				viewpoint.z-=step;
 
-		if(key=='q')
-			break;
+			if(key=='q')
+				break;
 
 		//(12)Video Loop - If the last frame is reached, reset the capture and the frame_counter
-		frame_counter += 1;
+			frame_counter += 1;
 
-		if(frame_counter == capR.get(CV_CAP_PROP_FRAME_COUNT)){
-			frame_counter = 0;
-			capL.set(CV_CAP_PROP_POS_FRAMES,0);
-			capR.set(CV_CAP_PROP_POS_FRAMES,0);
-		}
+			if(frame_counter == capR.get(CV_CAP_PROP_FRAME_COUNT)){
+				frame_counter = 0;
+				capL.set(CV_CAP_PROP_POS_FRAMES,0);
+				capR.set(CV_CAP_PROP_POS_FRAMES,0);
+			}
 
-		if(showFPS){
-			//cout << "Frames: " << frame_counter << "/" << capR.get(CV_CAP_PROP_FRAME_COUNT) << endl;
-			//cout << "Current time(s): " << current_time << endl;
-			//cout << "FPS: " << (frame_counter/current_time) << endl;
-			fps = (int) (1000/((clock()/1000) - last_time)); // time stuff
-			last_time = clock()/1000;
-			//cout << clock() << endl;
-			cout << "FPS: " << fps << endl; // faster than draw??
-		}
-
+			if(showFPS){
+				//cout << "Frames: " << frame_counter << "/" << capR.get(CV_CAP_PROP_FRAME_COUNT) << endl;
+				//cout << "Current time(s): " << current_time << endl;
+				//cout << "FPS: " << (frame_counter/current_time) << endl;
+				fps = (int) (1000/((clock()/1000) - last_time)); // time stuff
+				last_time = clock()/1000;
+				//cout << clock() << endl;
+				cout << "FPS: " << fps << endl; // faster than draw??
+			}
 	}
     cout << "END" << endl;
     return 0;
@@ -437,7 +433,33 @@ void createTrackbars(){ //Create Window for trackbars
 
 void on_trackbar( int, void* ){}; //This function gets called whenever a trackbar position is changed
 
-void setStereoBMparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams){
+/*** Stereo Initialization function
+  ** Description: Executes the PreSetup of parameters of the StereoBM object
+  ** @param StereoBM bm: Correspondence Object
+  ** Returns:     Nothing
+  ***/
+void stereoInit(StereoBM* bm){
+	bm->setPreFilterCap(31);
+	bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
+	bm->setMinDisparity(0);
+	bm->setNumDisparities(numberOfDisparities);
+	bm->setTextureThreshold(10);
+	bm->setUniquenessRatio(15);
+	bm->setSpeckleWindowSize(100);
+	bm->setSpeckleRange(32);
+	bm->setDisp12MaxDiff(1);
+}
+
+/*** Stereo Parameters Configuration function
+  ** Description: Executes the setup of parameters of the StereoBM object by changing the trackbars
+  ** @param rect roi1: Region of Interest 1
+  ** @param rect roi2: Region of Interest 2
+  ** @param StereoBM bm: Correspondence Object
+  ** @param int numRows: Number of Rows of the input Images
+  ** @param bool showStereoBMparams
+  ** Returns:     Nothing
+  ***/
+void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams){
 	int trackbarsAux[10];
 
 	trackbarsAux[0]= getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
@@ -519,19 +541,50 @@ void setStereoBMparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showS
 
 }
 
-void presetStereoBMparams(StereoBM* bm){
-	//PreSetup StereoBM Parameters
-	//numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((int)(capR.get(CV_CAP_PROP_FRAME_WIDTH)/8) + 15)/4 & -16;
+/*** Stereo Calibration function
+  ** Description: Reads the Calibrations in *.yml files
+  ** Receives:    Matrices Addresses for storage
+  ** @param Mat M1,M2: Intrinsic Matrices from camera 1 and 2
+  ** @param Mat D1,D2: Distortion Coefficients from camera 1 and 2
+  ** @param Mat R: Rotation Matrix
+  ** @param Mat t: Translation Vector
+  ** Returns:     Nothing
+  ***/
+void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
+	FileStorage fs("../data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
 
-	bm->setPreFilterCap(31);
-	bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
-	bm->setMinDisparity(0);
-	bm->setNumDisparities(numberOfDisparities);
-	bm->setTextureThreshold(10);
-	bm->setUniquenessRatio(15);
-	bm->setSpeckleWindowSize(100);
-	bm->setSpeckleRange(32);
-	bm->setDisp12MaxDiff(1);
+	if(!fs.isOpened()){
+		printf("Failed to open file intrinsics.yml\n");
+		return;
+	}
+
+	fs["M1"] >> M1;
+	fs["D1"] >> D1;
+	fs["M2"] >> M2;
+	fs["D2"] >> D2;
+
+	float scale = 1.f;
+	M1 *= scale;
+	M2 *= scale;
+
+	fs.open("../data/calib/calib5_640_480/extrinsics.yml", FileStorage::READ);
+	if(!fs.isOpened()){
+		printf("Failed to open file extrinsics.yml\n");
+		return;
+	}
+
+	fs["R"] >> R;
+	fs["T"] >> T;
+
+	cout << "Intrinsics: " << endl;
+	cout << "M1: " << endl << M1 << endl;
+	cout << "D1: " << endl << D1 << endl;
+	cout << "M2: " << endl << M2 << endl;
+	cout << "D2: " << endl << D2 << endl;
+
+	cout << "\nExtrinsics: "   << endl;
+	cout << "R: " << endl << R << endl;
+	cout << "T: " << endl << T << endl << endl;
 }
 
 //void createButtons(){
@@ -585,15 +638,15 @@ void change_resolution(VideoCapture* cap_l,VideoCapture* cap_r){
 		cout << "Camera 2 Resolution: " << cap_r->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << cap_r->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
 }
 
-void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR){
+void imageProcessing1(Mat Image, Mat MedianImage, Mat MedianImageBGR){
 
 	// Apply Median Filter
-	medianBlur(img,imgMedian,5);
-	applyColorMap(imgMedian,imgMedianBGR, COLORMAP_JET);
+	medianBlur(Image,MedianImage,5);
+	applyColorMap(MedianImage,MedianImageBGR, COLORMAP_JET);
 
 	// Output
-	imshow("Disparity Map Median Filter 3x3",imgMedian);
-	imshow("Disparity Map Median Filter 3x3 - RGB",imgMedianBGR);
+	imshow("Disparity Map Median Filter 3x3",MedianImage);
+	imshow("Disparity Map Median Filter 3x3 - RGB",MedianImageBGR);
 }
 
 void imageProcessing2(Mat src, Mat imgE, Mat imgED){
@@ -644,20 +697,33 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
 	}
 }
 
-Mat readQMatrix(){
-	Mat Q;
+/*** Read Q Matrix function
+  ** Description: Reads the Q Matrix in the *.yml file
+  ** Receives:    Matrices Addresses for storage
+  ** Returns:     Nothing
+  **
+  ** Perspective transformation matrix(Q)
+  ** [ 1  0    0	   -cx     ]
+  ** [ 0  1    0 	   -cy     ]
+  ** [ 0  0    0		f      ]
+  ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
+  ***/
+
+void readQMatrix(Mat &Q,double* focal_length,double* baseline){
 	#ifdef RESOLUTION_640x480
 		FileStorage fs("../data/Q_640_480.yml", FileStorage::READ);
 	#endif
 
 	fs["Q"] >> Q;
 	cout << "Q:" << endl << Q << endl;
-	return(Q);
+
+	*focal_length = Q.at<double>(2,3);  cout << "f:" << *focal_length << endl;
+	*baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << *baseline << endl;
 }
 
-Mat makeQMatrix(Point2d image_center,double focal_length, double baseline){
-    Mat Q=Mat::eye(4,4,CV_64F);
+void calculateQMatrix(Mat &Q,Point2d image_center,double focal_length, double baseline){
 
+    Q = Mat::eye(4,4,CV_64F);
     Q.at<double>(0,3)=-image_center.x;
     Q.at<double>(1,3)=-image_center.y;
     Q.at<double>(2,3)=focal_length;
@@ -666,43 +732,6 @@ Mat makeQMatrix(Point2d image_center,double focal_length, double baseline){
     Q.at<double>(3,2)=1.0/baseline;
     cout << "Q:" << endl;
     cout << Q << endl;
-    return Q;
-}
-
-void readCalibFiles(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
-	FileStorage fs("../data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
-
-	if(!fs.isOpened()){
-		printf("Failed to open file intrinsics.yml\n");
-		return;
-	}
-
-	fs["M1"] >> M1;
-	fs["D1"] >> D1;
-	fs["M2"] >> M2;
-	fs["D2"] >> D2;
-
-	float scale = 1.f;
-	M1 *= scale;
-	M2 *= scale;
-
-	fs.open("../data/calib/calib5_640_480/extrinsics.yml", FileStorage::READ);
-	if(!fs.isOpened()){
-		printf("Failed to open file extrinsics.yml\n");
-		return;
-	}
-
-	fs["R"] >> R;
-	fs["T"] >> T;
-
-	cout << "Intrinsics: " << endl;
-	cout << "M1: " << endl << M1 << endl;
-	cout << "D1: " << endl << D1 << endl;
-	cout << "M2: " << endl << M2 << endl;
-	cout << "D2: " << endl << D2 << endl;
-	cout << "\nExtrinsics: " << endl;
-	cout << "R: " << endl << R << endl;
-	cout << "T: " << endl << T << endl;
 }
 
 void eular2rot(double yaw,double pitch, double roll,Mat& dest){
