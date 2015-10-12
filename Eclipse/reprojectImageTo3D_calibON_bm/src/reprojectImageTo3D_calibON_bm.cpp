@@ -26,8 +26,8 @@ ImageProcessor::ImageProcessor(float variable){
 }
 
 int main(int, char**){
-	int frame_counter=0;
-	float fps,last_time = clock();
+	int frameCounter=0;
+	float fps,lastTime = clock();
 	bool showInputImage=true,showXYZ=false,showStereoBMparams=false,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
 	bool StartDiff=false;
 	char key=0;
@@ -35,17 +35,17 @@ int main(int, char**){
 	Mat diffImage;
 	Mat destimage,destdisp,dispshow;
 
-	print_help();
+	printHelp();
 
 	//(1) Open Image Source
-		int input_num=0;
+		int inputNum=0;
 		Mat imageL[2],imageR[2];
 		Mat	imageL_grey[2],imageR_grey[2];
 	    VideoCapture capL,capR;
 
 	    //ImageProcessor test(0.1);
 
-	    //openImageSource(input_num,&capL,&capR,&imageL[0],&imageR[0]);
+	    //openImageSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
 	    openImageSource(6,&capL,&capR,&imageL[0],&imageR[0]);
 
 	//(2) Stereo Initialization
@@ -68,18 +68,18 @@ int main(int, char**){
 
     //(4) Compute the Q Matrix
 		Mat Q;
-		double focal_length,baseline;
+		double focalLength,baseline;
 
-		Point2d image_center = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
+		Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
 
-		readQMatrix(Q,&focal_length,&baseline);
-		//calculateQMatrix(Q,image_center,focal_length,baseline*16);
+		readQMatrix(Q,&focalLength,&baseline);
+		//calculateQMatrix(Q,imageCenter,focalLength,baseline*16);
 
 
 	//(5) Camera setting
 		Mat K=Mat::eye(3,3,CV_64F);
-		K.at<double>(0,0)=focal_length;
-		K.at<double>(1,1)=focal_length;
+		K.at<double>(0,0)=focalLength;
+		K.at<double>(1,1)=focalLength;
 		K.at<double>(0,2)=(imageL[0].cols-1.0)/2.0;
 		K.at<double>(1,2)=(imageL[0].rows-1.0)/2.0;
 		//cout << "K:" << endl << K << endl;
@@ -104,14 +104,14 @@ int main(int, char**){
 		if(isVideoFile){
 			capL >> imageL[0];
 			capR >> imageR[0];
-			resize_frame(&imageL[0],&imageR[0]);
+			resizeFrame(&imageL[0],&imageR[0]);
 
 			if(needCalibration){
-				Size img_size = imageL[0].size();
-				stereoRectify(M1,D1,M2,D2,img_size,R,T,R1,R2,P1,P2,Q,CALIB_ZERO_DISPARITY,-1,img_size,&roi1,&roi2);
+				Size imageSize = imageL[0].size();
+				stereoRectify(M1,D1,M2,D2,imageSize,R,T,R1,R2,P1,P2,Q,CALIB_ZERO_DISPARITY,-1,imageSize,&roi1,&roi2);
 				Mat rmap[2][2];
-				initUndistortRectifyMap(M1, D1, R1, P1, img_size, CV_16SC2, rmap[0][0], rmap[0][1]);
-				initUndistortRectifyMap(M2, D2, R2, P2, img_size, CV_16SC2, rmap[1][0], rmap[1][1]);
+				initUndistortRectifyMap(M1, D1, R1, P1, imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
+				initUndistortRectifyMap(M2, D2, R2, P2, imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
 				Mat imageLr, imageRr;
 				remap(imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
 				remap(imageR[0], imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
@@ -120,9 +120,6 @@ int main(int, char**){
 				imageR[0] = imageRr;
 			}
 		}
-
-		//const double focal_length = Q.at<double>(2,3); cout << "f:" << focal_length << endl;
-		//const double baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << baseline << endl;
 
 		//Setting StereoBM Parameters
 		stereoSetparams(&roi1,&roi2,bm,imageL[0].rows,showStereoBMparams);
@@ -133,13 +130,13 @@ int main(int, char**){
 
 		Mat disp;
 		Mat disp8  = Mat(imageR[0].rows, imageR[0].cols, CV_8UC1 );
-		Mat disp8_bgr;
+		Mat disp8BGR;
 
 		bm->compute(imageL_grey[0],imageR_grey[0],disp);
 		//fillOcclusion(disp,16,false);
 
 		normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
-		applyColorMap(disp8,disp8_bgr, COLORMAP_JET);
+		applyColorMap(disp8,disp8BGR, COLORMAP_JET);
 
 		/* Image Processing */
 		Mat disp8Median,disp8MedianBGR;
@@ -174,7 +171,7 @@ int main(int, char**){
 				//imshow("3D Depth",dispshow);
 				//imshow("3D Viewer",destimage);
 
-				projectImagefromXYZ(disp8_bgr,destimage,disp,destdisp,xyz,Rotation,t,K,dist,isSub);
+				projectImagefromXYZ(disp8BGR,destimage,disp,destdisp,xyz,Rotation,t,K,dist,isSub);
 				imshow("3D Depth RGB",destimage);
 			}
 			else{
@@ -213,7 +210,7 @@ int main(int, char**){
 
 			if(showDisparityMap){
 				imshow("Disparity Map",disp8);
-				imshow("Disparity Map BGR",disp8_bgr);
+				imshow("Disparity Map BGR",disp8BGR);
 			}
 			else{
 				destroyWindow("Disparity Map");
@@ -231,7 +228,7 @@ int main(int, char**){
 		//(11)Shortcuts
 			key = waitKey(1);
 			if(key=='`')
-				print_help();
+				printHelp();
 			if(key=='1')
 				showInputImage = !showInputImage;
 			if(key=='2')
@@ -265,21 +262,21 @@ int main(int, char**){
 			if(key=='q')
 				break;
 
-		//(12)Video Loop - If the last frame is reached, reset the capture and the frame_counter
-			frame_counter += 1;
+		//(12)Video Loop - If the last frame is reached, reset the capture and the frameCounter
+			frameCounter += 1;
 
-			if(frame_counter == capR.get(CV_CAP_PROP_FRAME_COUNT)){
-				frame_counter = 0;
+			if(frameCounter == capR.get(CV_CAP_PROP_FRAME_COUNT)){
+				frameCounter = 0;
 				capL.set(CV_CAP_PROP_POS_FRAMES,0);
 				capR.set(CV_CAP_PROP_POS_FRAMES,0);
 			}
 
 			if(showFPS){
-				//cout << "Frames: " << frame_counter << "/" << capR.get(CV_CAP_PROP_FRAME_COUNT) << endl;
+				//cout << "Frames: " << frameCounter << "/" << capR.get(CV_CAP_PROP_FRAME_COUNT) << endl;
 				//cout << "Current time(s): " << current_time << endl;
-				//cout << "FPS: " << (frame_counter/current_time) << endl;
-				fps = (int) (1000/((clock()/1000) - last_time)); // time stuff
-				last_time = clock()/1000;
+				//cout << "FPS: " << (frameCounter/current_time) << endl;
+				fps = (int) (1000/((clock()/1000) - lastTime)); // time stuff
+				lastTime = clock()/1000;
 				//cout << clock() << endl;
 				cout << "FPS: " << fps << endl; // faster than draw??
 			}
@@ -288,7 +285,7 @@ int main(int, char**){
     return 0;
 }
 
-void print_help(){
+void printHelp(){
 	std::cout << "\n\n-----------------Help Menu-----------------\n"
 		<< "Run command: ./reprojectImageTo3D\n"
 		<< "Keys:\n"
@@ -307,15 +304,15 @@ void print_help(){
 	    << "\n\n";
 }
 
-void openImageSource(int input_num,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
+void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
 	std::string imageL_filename;
 	std::string imageR_filename;
 
 	// Create an object that decodes the input Video stream.
 		printf("Enter Video Number(1,2,3,4,5,6,7,8,9): ");
-	//	scanf("%d",&input_num);
+	//	scanf("%d",&inputNum);
 		cout << "Input File:";
-		switch(input_num){
+		switch(inputNum){
 			 case 1:
 				 imageL_filename = "../data/left/video2_denoised_long.avi";
 				 imageR_filename = "../data/right/video2_denoised_long.avi";
@@ -554,7 +551,7 @@ void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
 	FileStorage fs("../data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
 
 	if(!fs.isOpened()){
-		printf("Failed to open file intrinsics.yml\n");
+		printf("Failed to open intrinsics.yml file\n");
 		return;
 	}
 
@@ -569,7 +566,7 @@ void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
 
 	fs.open("../data/calib/calib5_640_480/extrinsics.yml", FileStorage::READ);
 	if(!fs.isOpened()){
-		printf("Failed to open file extrinsics.yml\n");
+		printf("Failed to open extrinsics.yml file\n");
 		return;
 	}
 
@@ -594,7 +591,7 @@ void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
 //    createButton(nameb2,callbackButton1,nameb2,CV_PUSH_BUTTON,0);
 //}
 
-void resize_frame(Mat* frame1,Mat* frame2){
+void resizeFrame(Mat* frame1,Mat* frame2){
 	if(frame1->cols != 0 || !frame2->cols != 0){
 		#ifdef RESOLUTION_320x240
 			resize(*frame1, *frame1, Size(320,240), 0, 0, INTER_CUBIC);
@@ -612,30 +609,30 @@ void resize_frame(Mat* frame1,Mat* frame2){
 	}
 }
 
-void change_resolution(VideoCapture* cap_l,VideoCapture* cap_r){
+void change_resolution(VideoCapture* capL,VideoCapture* capR){
 	#ifdef RESOLUTION_320x240
-			cap_l->set(CV_CAP_PROP_FRAME_WIDTH, 320);
-			cap_l->set(CV_CAP_PROP_FRAME_HEIGHT,240);
-			cap_r->set(CV_CAP_PROP_FRAME_WIDTH, 320);
-			cap_r->set(CV_CAP_PROP_FRAME_HEIGHT,240);
+			capL->set(CV_CAP_PROP_FRAME_WIDTH, 320);
+			capL->set(CV_CAP_PROP_FRAME_HEIGHT,240);
+			capR->set(CV_CAP_PROP_FRAME_WIDTH, 320);
+			capR->set(CV_CAP_PROP_FRAME_HEIGHT,240);
 		#endif
 
 		#ifdef RESOLUTION_640x480
-			cap_l->set(CV_CAP_PROP_FRAME_WIDTH, 640);
-			cap_l->set(CV_CAP_PROP_FRAME_HEIGHT,480);
-			cap_r->set(CV_CAP_PROP_FRAME_WIDTH, 640);
-			cap_r->set(CV_CAP_PROP_FRAME_HEIGHT,480);
+			capL->set(CV_CAP_PROP_FRAME_WIDTH, 640);
+			capL->set(CV_CAP_PROP_FRAME_HEIGHT,480);
+			capR->set(CV_CAP_PROP_FRAME_WIDTH, 640);
+			capR->set(CV_CAP_PROP_FRAME_HEIGHT,480);
 		#endif
 
 		#ifdef RESOLUTION_1280x960
-			cap_l->set(CV_CAP_PROP_FRAME_WIDTH,1280);
-			cap_l->set(CV_CAP_PROP_FRAME_HEIGHT,720);
-			cap_r->set(CV_CAP_PROP_FRAME_WIDTH,1280);
-			cap_r->set(CV_CAP_PROP_FRAME_HEIGHT,720);
+			capL->set(CV_CAP_PROP_FRAME_WIDTH,1280);
+			capL->set(CV_CAP_PROP_FRAME_HEIGHT,720);
+			capR->set(CV_CAP_PROP_FRAME_WIDTH,1280);
+			capR->set(CV_CAP_PROP_FRAME_HEIGHT,720);
 		#endif
 
-		cout << "Camera 1 Resolution: " << cap_l->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << cap_l->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
-		cout << "Camera 2 Resolution: " << cap_r->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << cap_r->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+		cout << "Camera 1 Resolution: " << capL->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+		cout << "Camera 2 Resolution: " << capR->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capR->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
 }
 
 void imageProcessing1(Mat Image, Mat MedianImage, Mat MedianImageBGR){
@@ -709,29 +706,33 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
 
-void readQMatrix(Mat &Q,double* focal_length,double* baseline){
+void readQMatrix(Mat &Q,double* focalLength,double* baseline){
 	#ifdef RESOLUTION_640x480
-		FileStorage fs("../data/Q_640_480.yml", FileStorage::READ);
+		FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
 	#endif
+
+	if(!fs.isOpened()){
+		printf("Failed to open Q.yml file\n");
+		return;
+	}
 
 	fs["Q"] >> Q;
 	cout << "Q:" << endl << Q << endl;
 
-	*focal_length = Q.at<double>(2,3);  cout << "f:" << *focal_length << endl;
+	*focalLength = Q.at<double>(2,3);  cout << "f:" << *focalLength << endl;
 	*baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << *baseline << endl;
 }
 
-void calculateQMatrix(Mat &Q,Point2d image_center,double focal_length, double baseline){
+void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline){
 
     Q = Mat::eye(4,4,CV_64F);
-    Q.at<double>(0,3)=-image_center.x;
-    Q.at<double>(1,3)=-image_center.y;
-    Q.at<double>(2,3)=focal_length;
+    Q.at<double>(0,3)=-imageCenter.x;
+    Q.at<double>(1,3)=-imageCenter.y;
+    Q.at<double>(2,3)=focalLength;
     Q.at<double>(3,3)=0.0;
     Q.at<double>(2,2)=0.0;
     Q.at<double>(3,2)=1.0/baseline;
-    cout << "Q:" << endl;
-    cout << Q << endl;
+    cout << "Q:" << endl << Q << endl;
 }
 
 void eular2rot(double yaw,double pitch, double roll,Mat& dest){

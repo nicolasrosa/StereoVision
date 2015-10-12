@@ -33,7 +33,7 @@ using namespace std;
 void on_trackbar(int,void*);
 void createTrackbars();
 
-void print_help();
+void printHelp();
 void openImageSource(int input_num,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR);
 void stereoInit(StereoBM* bm);
 void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T);
@@ -43,8 +43,8 @@ void calculateQMatrix(Mat &Q,Point2d image_center,double focal_length, double ba
 void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
 void imageProcessing2(Mat src, Mat imgE, Mat imgED);
 
-void resize_frame(Mat* frame1,Mat* frame2);
-void change_resolution(VideoCapture* cap_l,VideoCapture* cap_r);
+void resizeFrame(Mat* frame1,Mat* frame2);
+void changeResolution(VideoCapture* cap_l,VideoCapture* cap_r);
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
 
 void eular2rot(double yaw,double pitch, double roll,Mat& dest);
