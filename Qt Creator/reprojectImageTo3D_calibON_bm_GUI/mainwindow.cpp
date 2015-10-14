@@ -13,22 +13,7 @@
 using namespace cv;
 using namespace std;
 
-//class ImageProcessor{
-//public:
-//    ImageProcessor(float variable); //Constructor
-//    //Mat stretchHistogram(Mat image);
-//    //Mat unsharpMasking(Mat image, std::string blurMethod, int kernelSize, float alpha, float beta);
-//    //Mat laplacianSharpening(Mat image, int kernelSize, float alpha, float beta);
-//private:
-//    //float percentageOfDeletion;
-//};
-
-//ImageProcessor::ImageProcessor(float variable){
-//    cout <<  "Oi" << std::endl ;
-//    //this->percentageOfDeletion = percentageOfDeletion;
-//}
-
-MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
+    MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
     tmrTimer = new QTimer(this);
@@ -56,7 +41,7 @@ void MainWindow::on_btnShowDisparityMap_clicked(){
 }
 
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
-
+    showStereoParam = !showStereoParam;
 }
 
 void MainWindow::on_btnShow3DReconstruction_clicked(){
@@ -69,6 +54,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     bool StartDiff=false;
     char key=0;
 
+    ConfigFile cfg;
     Mat diffImage;
     Mat destimage,destdisp,dispshow;
 
@@ -84,10 +70,10 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
     //openImageSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
     openImageSource(6,&capL,&capR,&imageL[0],&imageR[0]);
+    cfg.readConfigFile(&cfg);
 
     //(2) Stereo Initialization
     Ptr<StereoBM> bm = StereoBM::create(16,9);
-    //Ptr<StereoSGBM> sgbm = StereoSGBM::create(0,16,3);
 
     stereoInit(bm);
 
@@ -98,7 +84,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
     if(needCalibration){
         cout << "Calibration: ON\n" << endl;
-        stereoCalib(M1,D1,M2,D2,R,T);
+        stereoCalib(M1,D1,M2,D2,R,T,&cfg);
     }else{
         cout << "Calibration: OFF\n" << endl;
     }
@@ -107,13 +93,13 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     Mat Q;
     double focalLength,baseline;
 
-    readQMatrix(Q,&focalLength,&baseline);
+    readQMatrix(Q,&focalLength,&baseline,&cfg);
 
     //Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
     //calculateQMatrix(Q,imageCenter,focalLength,baseline*16);
 
 
-    //(5) Camera setting
+    //(5) Camera Setting
     Mat K=Mat::eye(3,3,CV_64F);
     K.at<double>(0,0)=focalLength;
     K.at<double>(1,1)=focalLength;
@@ -133,10 +119,9 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     const double step=baseline/10;
     bool isSub=true;
 
-    createTrackbars();
-    //createButtons();
+    isStereoParamSetupTrackbarsCreated=createTrackbars();
+    //createTrackbars();
 
-    cout << "oi" << endl;
     //(7) Rendering Loop
     while(key!='q'){
         if(isVideoFile){
@@ -161,7 +146,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         }
 
         //Setting StereoBM Parameters
-        stereoSetparams(&roi1,&roi2,bm,imageL[0].rows,showStereoBMparams);
+        stereoSetparams(&roi1,&roi2,bm,imageL[0].rows,showStereoParamValues);
 
         // Convert BGR to Gray_Scale
         cvtColor(imageL[0],imageL_grey[0],CV_BGR2GRAY);
@@ -273,6 +258,16 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             destroyWindow("Disparity Map BGR");
         }
 
+//       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
+//       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
+//           isStereoParamSetupTrackbarsCreated=true;
+//           createTrackbars();
+//            cout << "oi" << endl;
+//        }else{
+//            destroyWindow(trackbarWindowName);
+//            isStereoParamSetupTrackbarsCreated=false;
+//        }
+
         if(showDiffImage){
             imshow("DiffImage",diffImage);
             imshow("thresoldImage",thresholdImage);
@@ -297,7 +292,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         if(key=='5')
             showFPS = !showFPS;
         if(key=='6')
-            showStereoBMparams = !showStereoBMparams;
+            showStereoParamValues = !showStereoParamValues;
         if(key=='7')
             showDiffImage = !showDiffImage;
 
@@ -343,6 +338,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     //return 0;
 }
 
+
 void printHelp(){
     std::cout << "\n\n-----------------Help Menu-----------------\n"
               << "Run command: ./reprojectImageTo3D\n"
@@ -367,7 +363,7 @@ void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* ima
     std::string imageR_filename;
 
     // Create an object that decodes the input Video stream.
-    printf("Enter Video Number(1,2,3,4,5,6,7,8,9): ");
+    cout << "Enter Video Number(1,2,3,4,5,6,7,8,9): " << inputNum << endl;
     //	scanf("%d",&inputNum);
     cout << "Input File:";
     switch(inputNum){
@@ -435,7 +431,7 @@ void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* ima
         }
 
         cout << "Input 1 Resolution: " << capR->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capR->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
-        cout << "Input 2 Resolution: " << capL->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+        cout << "Input 2 Resolution: " << capL->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL->get(CV_CAP_PROP_FRAME_HEIGHT) << endl << endl;
     }else{
         cout << "It is not a Video file" << endl;
         if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "jpg" || imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "png"){
@@ -455,11 +451,11 @@ void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* ima
     }
 }
 
-void createTrackbars(){ //Create Window for trackbars
+bool createTrackbars(){ //Create Window for trackbars
     char TrackbarName[50];
 
     // Create TrackBars Window
-    namedWindow("Trackbars",0);
+    namedWindow(trackbarWindowName,0);
 
     // Create memory to store Trackbar name on window
     sprintf( TrackbarName, "preFilterSize");
@@ -484,6 +480,8 @@ void createTrackbars(){ //Create Window for trackbars
     createTrackbar( "speckleWindowSize", trackbarWindowName, &speckleWindowSize, speckleWindowSize_MAX, on_trackbar );
     createTrackbar( "speckleRange", trackbarWindowName, &speckleRange, speckleRange_MAX, on_trackbar );
     createTrackbar( "disp12MaxDiff", trackbarWindowName, &disp12MaxDiff, disp12MaxDiff_MAX, on_trackbar );
+
+    return(true);
 }
 
 void on_trackbar( int, void* ){}; //This function gets called whenever a trackbar position is changed
@@ -514,7 +512,7 @@ void stereoInit(StereoBM* bm){
   ** @param bool showStereoBMparams
   ** Returns:     Nothing
   ***/
-void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams){
+void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoParamsValues){
     int trackbarsAux[10];
 
     trackbarsAux[0]= getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
@@ -581,7 +579,7 @@ void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showSte
         bm->setDisp12MaxDiff(trackbarsAux[9]);
     }
 
-    if(showStereoBMparams){
+    if(showStereoParamsValues){
         cout << getTrackbarPos("preFilterSize",trackbarWindowName)			<< "\t" << trackbarsAux[0] << endl;
         cout << getTrackbarPos("preFilterCap",trackbarWindowName)			<< "\t" << trackbarsAux[1] << endl;
         cout << getTrackbarPos("SADWindowSize",trackbarWindowName)			<< "\t" << trackbarsAux[2] << endl;
@@ -605,11 +603,11 @@ void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showSte
   ** @param Mat t: Translation Vector
   ** Returns:     Nothing
   ***/
-void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
-    FileStorage fs("../../workspace/data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
-
+void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,ConfigFile* cfg){
+    //FileStorage fs("../data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
+    FileStorage fs(cfg->intrinsicsFileName, FileStorage::READ);
     if(!fs.isOpened()){
-        printf("Failed to open file intrinsics.yml\n");
+        printf("Failed to open intrinsics.yml file\n");
         return;
     }
 
@@ -618,18 +616,23 @@ void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
     fs["M2"] >> M2;
     fs["D2"] >> D2;
 
+    fs.release();
+
     float scale = 1.f;
     M1 *= scale;
     M2 *= scale;
 
-    fs.open("../../workspace/data/calib/calib5_640_480/extrinsics.yml", FileStorage::READ);
+    //fs.open("../data/calib/calib5_640_480/extrinsics.yml", FileStorage::READ);
+    fs.open(cfg->extrinsicsFileName, FileStorage::READ);
     if(!fs.isOpened()){
-        printf("Failed to open file extrinsics.yml\n");
+        printf("Failed to open extrinsics.yml file\n");
         return;
     }
 
     fs["R"] >> R;
     fs["T"] >> T;
+
+    fs.release();
 
     cout << "Intrinsics: " << endl;
     cout << "M1: " << endl << M1 << endl;
@@ -641,13 +644,6 @@ void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
     cout << "R: " << endl << R << endl;
     cout << "T: " << endl << T << endl << endl;
 }
-
-//void createButtons(){
-//	char* nameb1 = "button1";
-//	char* nameb2 = "button2";
-//	createButton(nameb1,callbackButton1,nameb1,CV_PUSH_BUTTON,1);
-//    createButton(nameb2,callbackButton1,nameb2,CV_PUSH_BUTTON,0);
-//}
 
 void resizeFrame(Mat* frame1,Mat* frame2){
     if(frame1->cols != 0 || !frame2->cols != 0){
@@ -764,11 +760,11 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
   ** [ 0  0    0		f      ]
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
-
-void readQMatrix(Mat &Q,double* focalLength,double* baseline){
-#ifdef RESOLUTION_640x480
-    FileStorage fs("../../workspace/data/calib/calib5_640_480/Q.yml", FileStorage::READ);
-#endif
+void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
+    #ifdef RESOLUTION_640x480
+        //FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
+        FileStorage fs(cfg->QmatrixFileName, FileStorage::READ);
+    #endif
 
     if(!fs.isOpened()){
         printf("Failed to open Q.yml file\n");
@@ -780,18 +776,6 @@ void readQMatrix(Mat &Q,double* focalLength,double* baseline){
 
     *focalLength = Q.at<double>(2,3);  cout << "f:" << *focalLength << endl;
     *baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << *baseline << endl;
-}
-
-void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline){
-
-    Q = Mat::eye(4,4,CV_64F);
-    Q.at<double>(0,3)=-imageCenter.x;
-    Q.at<double>(1,3)=-imageCenter.y;
-    Q.at<double>(2,3)=focalLength;
-    Q.at<double>(3,3)=0.0;
-    Q.at<double>(2,2)=0.0;
-    Q.at<double>(3,2)=1.0/baseline;
-    cout << "Q:" << endl << Q << endl;
 }
 
 void eular2rot(double yaw,double pitch, double roll,Mat& dest){
@@ -1082,3 +1066,36 @@ static void fillOcclusion_(Mat& src, T invalidvalue){
         }
     }
 }
+
+
+//QImage MainWindow::putImage(const Mat& mat)
+//{
+//    // 8-bits unsigned, NO. OF CHANNELS=1
+//    if(mat.type()==CV_8UC1)
+//    {
+//        // Set the color table (used to translate colour indexes to qRgb values)
+//        QVector<QRgb> colorTable;
+//        for (int i=0; i<256; i++)
+//            colorTable.push_back(qRgb(i,i,i));
+//        // Copy input Mat
+//        const uchar *qImageBuffer = (const uchar*)mat.data;
+//        // Create QImage with same dimensions as input Mat
+//        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_Indexed8);
+//        img.setColorTable(colorTable);
+//        return img;
+//    }
+//    // 8-bits unsigned, NO. OF CHANNELS=3
+//    if(mat.type()==CV_8UC3)
+//    {
+//        // Copy input Mat
+//        const uchar *qImageBuffer = (const uchar*)mat.data;
+//        // Create QImage with same dimensions as input Mat
+//        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
+//        return img.rgbSwapped();
+//    }
+//    else
+//    {
+//        qDebug() << "ERROR: Mat could not be converted to QImage.";
+//        return QImage();
+//    }
+//}

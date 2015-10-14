@@ -693,7 +693,6 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
   ** [ 0  0    0		f      ]
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
-
 void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
 	#ifdef RESOLUTION_640x480
 		//FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
