@@ -29,7 +29,7 @@ int main(int, char**){
 	    //ImageProcessor test(0.1);
 
 	    //openImageSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
-	    openImageSource(6,&capL,&capR,&imageL[0],&imageR[0],isVideoFile);
+	    openImageSource(6,&capL,&capR,&imageL[0],&imageR[0]);
 	    cfg.readConfigFile(&cfg);
 
 	//(2) Stereo Initialization
@@ -126,7 +126,7 @@ int main(int, char**){
 		Mat disp8eroded;Mat disp8_eroded_dilated;
 
 		//imageProcessing1(disp8,disp8Median,disp8Median);
-		imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
+		//imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
 
 
 		//(8) Projecting 3D point cloud to imag	125
@@ -287,7 +287,7 @@ void printHelp(){
 	    << "\n\n";
 }
 
-void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR,bool isVideoFile){
+void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
 	std::string imageL_filename;
 	std::string imageR_filename;
 

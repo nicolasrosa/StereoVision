@@ -80,7 +80,7 @@ void on_trackbar(int,void*);
 void createTrackbars();
 
 void printHelp();
-void openImageSource(int ,VideoCapture* ,VideoCapture* ,Mat* ,Mat* ,bool);
+void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR);
 void stereoInit(StereoBM* bm);
 void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,ConfigFile* cfg);
 void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
