@@ -8,30 +8,13 @@
 using namespace cv;
 using namespace std;
 
-bool isVideoFile=false,isImageFile=false,needCalibration=false;
-
-class ImageProcessor{
-public:
-    ImageProcessor(float variable); //Constructor
-    //Mat stretchHistogram(Mat image);
-    //Mat unsharpMasking(Mat image, std::string blurMethod, int kernelSize, float alpha, float beta);
-    //Mat laplacianSharpening(Mat image, int kernelSize, float alpha, float beta);
-private:
-    //float percentageOfDeletion;
-};
-
-ImageProcessor::ImageProcessor(float variable){
-    cout <<  "Oi" << std::endl ;
-    //this->percentageOfDeletion = percentageOfDeletion;
-}
-
 int main(int, char**){
 	int frameCounter=0;
 	float fps,lastTime = clock();
-	bool showInputImage=true,showXYZ=false,showStereoBMparams=false,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
 	bool StartDiff=false;
 	char key=0;
 
+	ConfigFile cfg;
 	Mat diffImage;
 	Mat destimage,destdisp,dispshow;
 
@@ -46,11 +29,11 @@ int main(int, char**){
 	    //ImageProcessor test(0.1);
 
 	    //openImageSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
-	    openImageSource(6,&capL,&capR,&imageL[0],&imageR[0]);
+	    openImageSource(6,&capL,&capR,&imageL[0],&imageR[0],isVideoFile);
+	    cfg.readConfigFile(&cfg);
 
 	//(2) Stereo Initialization
 	    Ptr<StereoBM> bm = StereoBM::create(16,9);
-	    //Ptr<StereoSGBM> sgbm = StereoSGBM::create(0,16,3);
 
 	    stereoInit(bm);
 
@@ -61,7 +44,7 @@ int main(int, char**){
 
 		if(needCalibration){
 			cout << "Calibration: ON\n" << endl;
-			stereoCalib(M1,D1,M2,D2,R,T);
+			stereoCalib(M1,D1,M2,D2,R,T,&cfg);
 		}else{
 			cout << "Calibration: OFF\n" << endl;
 		}
@@ -70,13 +53,13 @@ int main(int, char**){
 		Mat Q;
 		double focalLength,baseline;
 
-		Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
+		readQMatrix(Q,&focalLength,&baseline,&cfg);
 
-		readQMatrix(Q,&focalLength,&baseline);
+		//Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
 		//calculateQMatrix(Q,imageCenter,focalLength,baseline*16);
 
 
-	//(5) Camera setting
+	//(5) Camera Setting
 		Mat K=Mat::eye(3,3,CV_64F);
 		K.at<double>(0,0)=focalLength;
 		K.at<double>(1,1)=focalLength;
@@ -143,7 +126,7 @@ int main(int, char**){
 		Mat disp8eroded;Mat disp8_eroded_dilated;
 
 		//imageProcessing1(disp8,disp8Median,disp8Median);
-		//imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
+		imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
 
 
 		//(8) Projecting 3D point cloud to imag	125
@@ -304,12 +287,12 @@ void printHelp(){
 	    << "\n\n";
 }
 
-void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
+void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR,bool isVideoFile){
 	std::string imageL_filename;
 	std::string imageR_filename;
 
 	// Create an object that decodes the input Video stream.
-		printf("Enter Video Number(1,2,3,4,5,6,7,8,9): ");
+		cout << "Enter Video Number(1,2,3,4,5,6,7,8,9): " << inputNum << endl;
 	//	scanf("%d",&inputNum);
 		cout << "Input File:";
 		switch(inputNum){
@@ -377,7 +360,7 @@ void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* ima
 			}
 
 			cout << "Input 1 Resolution: " << capR->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capR->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
-			cout << "Input 2 Resolution: " << capL->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+			cout << "Input 2 Resolution: " << capL->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL->get(CV_CAP_PROP_FRAME_HEIGHT) << endl << endl;
 		}else{
 			cout << "It is not a Video file" << endl;
 			if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "jpg" || imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "png"){
@@ -547,9 +530,9 @@ void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showSte
   ** @param Mat t: Translation Vector
   ** Returns:     Nothing
   ***/
-void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
-	FileStorage fs("../data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
-
+void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,ConfigFile* cfg){
+	//FileStorage fs("../data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
+	FileStorage fs(cfg->intrinsicsFileName, FileStorage::READ);
 	if(!fs.isOpened()){
 		printf("Failed to open intrinsics.yml file\n");
 		return;
@@ -560,11 +543,14 @@ void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
 	fs["M2"] >> M2;
 	fs["D2"] >> D2;
 
+	fs.release();
+
 	float scale = 1.f;
 	M1 *= scale;
 	M2 *= scale;
 
-	fs.open("../data/calib/calib5_640_480/extrinsics.yml", FileStorage::READ);
+	//fs.open("../data/calib/calib5_640_480/extrinsics.yml", FileStorage::READ);
+	fs.open(cfg->extrinsicsFileName, FileStorage::READ);
 	if(!fs.isOpened()){
 		printf("Failed to open extrinsics.yml file\n");
 		return;
@@ -572,6 +558,8 @@ void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
 
 	fs["R"] >> R;
 	fs["T"] >> T;
+
+	fs.release();
 
 	cout << "Intrinsics: " << endl;
 	cout << "M1: " << endl << M1 << endl;
@@ -706,9 +694,11 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
 
-void readQMatrix(Mat &Q,double* focalLength,double* baseline){
+void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
 	#ifdef RESOLUTION_640x480
-		FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
+		//FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
+		FileStorage fs(cfg->QmatrixFileName, FileStorage::READ);
+
 	#endif
 
 	if(!fs.isOpened()){
