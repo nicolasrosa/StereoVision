@@ -22,3 +22,6 @@ HEADERS  += mainwindow.h \
     reprojectImageTo3D.h
 
 FORMS    += mainwindow.ui
+
+OTHER_FILES += \
+    config.yml
