@@ -13,7 +13,11 @@
 using namespace cv;
 using namespace std;
 
+<<<<<<< HEAD
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
+=======
+    MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
+>>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
     ui->setupUi(this);
 
     tmrTimer = new QTimer(this);
@@ -39,6 +43,7 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
     showStereoParam = !showStereoParam;
 }
 
+<<<<<<< HEAD
 void MainWindow::on_btnShowInputImages_clicked(){
     showInputImages = true;
     showDisparityMap = false;
@@ -49,6 +54,10 @@ void MainWindow::on_btnShowDisparityMap_clicked(){
     showInputImages = false;
     showDisparityMap = true;
     show3Dreconstruction = false;
+=======
+void MainWindow::on_btnShowStereoParamSetup_clicked(){
+    showStereoParam = !showStereoParam;
+>>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 }
 
 void MainWindow::on_btnShow3DReconstruction_clicked(){
@@ -276,6 +285,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             destroyWindow("Disparity Map BGR");
         }
 
+<<<<<<< HEAD
         //       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
         //       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
         //           isStereoParamSetupTrackbarsCreated=true;
@@ -285,6 +295,17 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //            destroyWindow(trackbarWindowName);
         //            isStereoParamSetupTrackbarsCreated=false;
         //        }
+=======
+//       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
+//       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
+//           isStereoParamSetupTrackbarsCreated=true;
+//           createTrackbars();
+//            cout << "oi" << endl;
+//        }else{
+//            destroyWindow(trackbarWindowName);
+//            isStereoParamSetupTrackbarsCreated=false;
+//        }
+>>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 
         if(showDiffImage){
             imshow("DiffImage",diffImage);
@@ -356,6 +377,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     //return 0;
 }
 
+<<<<<<< HEAD
 void MainWindow::printHelp(){
     ui->txtOutputBox->appendPlainText(QString("-----------------Help Menu-----------------\n")+
                                       QString("Run command line: ./reprojectImageTo3D\n")+
@@ -370,6 +392,26 @@ void MainWindow::printHelp(){
                                       QString("z-axis:\t'n'/'m' -> +z,-z\n")+
                                       QString("-------------------------------------------\n")+
                                       QString("\n\n"));
+=======
+
+void printHelp(){
+    std::cout << "\n\n-----------------Help Menu-----------------\n"
+              << "Run command: ./reprojectImageTo3D\n"
+              << "Keys:\n"
+              << "'`' -\tShow Help\n"
+              << "'1' -\tShow L/R Windows\n"
+              << "'2' -\tShow Disparity Map\n"
+              << "'3' -\tShow 3D Reconstruction\n"
+              << "'4' -\tShow XYZ\n"
+              << "'5' -\tShow FPS\n"
+              << "'6' -\tShow Stereo Parameters\n"
+              << "\n3D Viewer Navigation:\n"
+              << "x-axis:\t'g'/'h' -> +x,-x\n"
+              << "y-axis:\t'l'/'k' -> +y,-y\n"
+              << "z-axis:\t'n'/'m' -> +z,-z\n"
+              << "-------------------------------------------\n"
+              << "\n\n";
+>>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 }
 
 void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
@@ -775,10 +817,17 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
 void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
+<<<<<<< HEAD
 #ifdef RESOLUTION_640x480
     //FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
     FileStorage fs(cfg->QmatrixFileName, FileStorage::READ);
 #endif
+=======
+    #ifdef RESOLUTION_640x480
+        //FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
+        FileStorage fs(cfg->QmatrixFileName, FileStorage::READ);
+    #endif
+>>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 
     if(!fs.isOpened()){
         printf("Failed to open Q.yml file\n");
@@ -790,18 +839,6 @@ void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
 
     *focalLength = Q.at<double>(2,3);  cout << "f:" << *focalLength << endl;
     *baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << *baseline << endl;
-}
-
-void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline){
-
-    Q = Mat::eye(4,4,CV_64F);
-    Q.at<double>(0,3)=-imageCenter.x;
-    Q.at<double>(1,3)=-imageCenter.y;
-    Q.at<double>(2,3)=focalLength;
-    Q.at<double>(3,3)=0.0;
-    Q.at<double>(2,2)=0.0;
-    Q.at<double>(3,2)=1.0/baseline;
-    cout << "Q:" << endl << Q << endl;
 }
 
 void eular2rot(double yaw,double pitch, double roll,Mat& dest){
