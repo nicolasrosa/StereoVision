@@ -30,6 +30,7 @@ private:
     QTimer* tmrTimer;
 
 public slots:
+    void printHelp();
     void StereoVisionProcessAndUpdateGUI();
 
 private slots:
@@ -40,6 +41,7 @@ private slots:
     void on_btnShowStereoParamSetup_clicked();
 
     void on_btnShow3DReconstruction_clicked();
+    void on_btnShowInputImages_clicked();
 };
 
 #endif // MAINWINDOW_H

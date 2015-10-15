@@ -75,10 +75,10 @@
    <widget class="QPushButton" name="btnShowDisparityMap">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>560</y>
-      <width>145</width>
-      <height>51</height>
+      <x>180</x>
+      <y>540</y>
+      <width>181</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -88,10 +88,10 @@
    <widget class="QPushButton" name="btnShowStereoParamSetup">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>500</y>
-      <width>211</width>
-      <height>51</height>
+      <x>10</x>
+      <y>560</y>
+      <width>145</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -101,14 +101,27 @@
    <widget class="QPushButton" name="btnShow3DReconstruction">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>560</y>
-      <width>211</width>
-      <height>51</height>
+      <x>180</x>
+      <y>580</y>
+      <width>181</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Show 3D Reconstruction</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnShowInputImages">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>500</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Left/Right</string>
     </property>
    </widget>
   </widget>

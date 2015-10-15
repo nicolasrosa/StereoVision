@@ -24,9 +24,9 @@ using namespace std;
 #define CALIBRATION_ON
 
 /* Threshold, Erosion, Dilation and Blur Constants */
-#define THRESH_VALUE 128
-#define EROSION_SIZE 3  //SAR
-#define DILATE_SIZE  5	//SAR
+#define THRESH_VALUE 100
+#define EROSION_SIZE 5  //SAR
+#define DILATION_SIZE  5	//SAR
 #define BLUR_SIZE 3
 
 /* Custom Classes*/
@@ -120,10 +120,10 @@ bool showInputImage=true,showXYZ=false,showStereoBMparams=false,showFPS=false,sh
  */
 int preFilterSize			 = 50;	const int preFilterSize_MAX		 	= 100;
 int preFilterCap			 = 100;	const int preFilterCap_MAX		 	= 100;
-int SADWindowSize			 = 12;	const int SADWindowSize_MAX		 	= 100;
-int minDisparity			 = 51;	const int minDisparity_MAX		 	= 100;
-int numberOfDisparities		 = 2;	const int numberOfDisparities_MAX 	= 16;
-int textureThreshold		 = 10;	const int textureThreshold_MAX		= 100;
+int SADWindowSize			 = 25;	const int SADWindowSize_MAX		 	= 100;
+int minDisparity			 = 47;	const int minDisparity_MAX		 	= 100;
+int numberOfDisparities		 = 3;	const int numberOfDisparities_MAX 	= 16;
+int textureThreshold		 = 30;	const int textureThreshold_MAX		= 100;
 int uniquenessRatio			 = 0;	const int uniquenessRatio_MAX		= 100;
 int speckleWindowSize		 = 0;	const int speckleWindowSize_MAX	 	= 100;
 int speckleRange			 = 0;	const int speckleRange_MAX		 	= 100;

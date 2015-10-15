@@ -74,13 +74,12 @@ void ConfigFile::readConfigFile(ConfigFile* cfg){
 void on_trackbar(int,void*);
 bool createTrackbars();
 
-void printHelp();
 void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR);
 void stereoInit(StereoBM* bm);
 void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,ConfigFile* cfg);
 void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
 void readQMatrix(Mat &Q,double* focal_length, double* baseline,ConfigFile* cfg);
-void calculateQMatrix(Mat &Q,Point2d image_center,double focal_length, double baseline);
+void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline);
 void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
 void imageProcessing2(Mat src, Mat imgE, Mat imgED);
 
@@ -109,7 +108,7 @@ const std::string trackbarWindowName = "Stereo Param Setup";
 const double focal_length = 752.093;
 const double baseline = -2.61138;
 bool isVideoFile=false,isImageFile=false,needCalibration=false,isStereoParamSetupTrackbarsCreated=false;
-bool showInputImage=true,showXYZ=false,showStereoParam=false,showStereoParamValues,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
+bool showInputImages=true,showXYZ=false,showStereoParam=false,showStereoParamValues,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
 
 /* Trackbars Variables
  * Initial min and max BM Parameters values.These will be changed using trackbars

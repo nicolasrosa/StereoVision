@@ -36,6 +36,7 @@ public:
     QPushButton *btnShowDisparityMap;
     QPushButton *btnShowStereoParamSetup;
     QPushButton *btnShow3DReconstruction;
+    QPushButton *btnShowInputImages;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -64,13 +65,16 @@ public:
         btnPauseOrResume->setGeometry(QRect(10, 500, 145, 51));
         btnShowDisparityMap = new QPushButton(centralWidget);
         btnShowDisparityMap->setObjectName(QStringLiteral("btnShowDisparityMap"));
-        btnShowDisparityMap->setGeometry(QRect(10, 560, 145, 51));
+        btnShowDisparityMap->setGeometry(QRect(180, 540, 181, 41));
         btnShowStereoParamSetup = new QPushButton(centralWidget);
         btnShowStereoParamSetup->setObjectName(QStringLiteral("btnShowStereoParamSetup"));
-        btnShowStereoParamSetup->setGeometry(QRect(160, 500, 211, 51));
+        btnShowStereoParamSetup->setGeometry(QRect(10, 560, 145, 41));
         btnShow3DReconstruction = new QPushButton(centralWidget);
         btnShow3DReconstruction->setObjectName(QStringLiteral("btnShow3DReconstruction"));
-        btnShow3DReconstruction->setGeometry(QRect(160, 560, 211, 51));
+        btnShow3DReconstruction->setGeometry(QRect(180, 580, 181, 41));
+        btnShowInputImages = new QPushButton(centralWidget);
+        btnShowInputImages->setObjectName(QStringLiteral("btnShowInputImages"));
+        btnShowInputImages->setGeometry(QRect(180, 500, 181, 41));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -97,6 +101,7 @@ public:
         btnShowDisparityMap->setText(QApplication::translate("MainWindow", "Show Disparity Map", 0));
         btnShowStereoParamSetup->setText(QApplication::translate("MainWindow", "Stereo Param Setup", 0));
         btnShow3DReconstruction->setText(QApplication::translate("MainWindow", "Show 3D Reconstruction", 0));
+        btnShowInputImages->setText(QApplication::translate("MainWindow", "Show Left/Right", 0));
     } // retranslateUi
 
 };

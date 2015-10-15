@@ -13,7 +13,7 @@
 using namespace cv;
 using namespace std;
 
-    MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
+MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
     tmrTimer = new QTimer(this);
@@ -35,17 +35,26 @@ void MainWindow::on_btnPauseOrResume_clicked(){
     }
 }
 
-void MainWindow::on_btnShowDisparityMap_clicked(){
-    showDisparityMap = !showDisparityMap;
-    showInputImage = !showInputImage;
-}
-
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
     showStereoParam = !showStereoParam;
 }
 
-void MainWindow::on_btnShow3DReconstruction_clicked(){
+void MainWindow::on_btnShowInputImages_clicked(){
+    showInputImages = true;
+    showDisparityMap = false;
+    show3Dreconstruction = false;
+}
 
+void MainWindow::on_btnShowDisparityMap_clicked(){
+    showInputImages = false;
+    showDisparityMap = true;
+    show3Dreconstruction = false;
+}
+
+void MainWindow::on_btnShow3DReconstruction_clicked(){
+    showInputImages = false;
+    showDisparityMap = false;
+    show3Dreconstruction = true;
 }
 
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
@@ -56,15 +65,15 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
     ConfigFile cfg;
     Mat diffImage;
-    Mat destimage,destdisp,dispshow;
+    Mat disp3Dviewer,disp3D,disp83D,disp3DBGR;
 
     printHelp();
 
     //(1) Open Image Source
     int inputNum=0;
-//    Mat imageL[2],imageR[2];
-//    Mat	imageL_grey[2],imageR_grey[2];
-//    VideoCapture capL,capR;
+    //    Mat imageL[2],imageR[2];
+    //    Mat	imageL_grey[2],imageR_grey[2];
+    //    VideoCapture capL,capR;
 
     //ImageProcessor test(0.1);
 
@@ -170,7 +179,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
 
 
-        //(8) Projecting 3D point cloud to imag	125
+        //(8) Projecting 3D point cloud to image
         if(show3Dreconstruction){
             Mat depth;
             cv::reprojectImageTo3D(disp,depth,Q);
@@ -190,13 +199,22 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
             t=Rotation*t;
 
-            projectImagefromXYZ(imageL[0],destimage,disp,destdisp,xyz,Rotation,t,K,dist,isSub);
-            destdisp.convertTo(dispshow,CV_8U,0.5);
-            //imshow("3D Depth",dispshow);
-            //imshow("3D Viewer",destimage);
+            //projectImagefromXYZ(imageL[0],disp3Dviewer,disp,disp3D,xyz,Rotation,t,K,dist,isSub);
+            projectImagefromXYZ(disp8BGR,disp3DBGR,disp,disp3D,xyz,Rotation,t,K,dist,isSub);
 
-            projectImagefromXYZ(disp8BGR,destimage,disp,destdisp,xyz,Rotation,t,K,dist,isSub);
-            imshow("3D Depth RGB",destimage);
+            // GUI Output
+            disp3D.convertTo(disp83D,CV_8U,0.5);
+            //imshow("3D Depth",disp3D);
+            //imshow("3D Viewer",disp3Dviewer);
+            //imshow("3D Depth RGB",disp3DBGR);
+
+            cv::cvtColor(disp3DBGR,disp3DBGR,CV_BGR2RGB);
+
+            QImage qimageL((uchar*)disp83D.data,disp83D.cols,disp83D.rows,disp83D.step,QImage::Format_Indexed8);
+            QImage qimageR((uchar*)disp3DBGR.data,disp3DBGR.cols,disp3DBGR.rows,disp3DBGR.step,QImage::Format_RGB888);
+
+            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
+            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
         }
         else{
             destroyWindow("3D Depth");
@@ -223,9 +241,9 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         StartDiff=1;
 
         //(10)OpenCV and GUI Output
-        if(showInputImage){
-          //  imshow("Left",imageL[0]);
-          //  imshow("Right",imageR[0]);
+        if(showInputImages){
+            //  imshow("Left",imageL[0]);
+            //  imshow("Right",imageR[0]);
 
             cv::cvtColor(imageL[0],imageL[0],CV_BGR2RGB);
             cv::cvtColor(imageR[0],imageR[0],CV_BGR2RGB);
@@ -258,15 +276,15 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             destroyWindow("Disparity Map BGR");
         }
 
-//       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
-//       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
-//           isStereoParamSetupTrackbarsCreated=true;
-//           createTrackbars();
-//            cout << "oi" << endl;
-//        }else{
-//            destroyWindow(trackbarWindowName);
-//            isStereoParamSetupTrackbarsCreated=false;
-//        }
+        //       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
+        //       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
+        //           isStereoParamSetupTrackbarsCreated=true;
+        //           createTrackbars();
+        //            cout << "oi" << endl;
+        //        }else{
+        //            destroyWindow(trackbarWindowName);
+        //            isStereoParamSetupTrackbarsCreated=false;
+        //        }
 
         if(showDiffImage){
             imshow("DiffImage",diffImage);
@@ -281,12 +299,12 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         key = waitKey(1);
         if(key=='`')
             printHelp();
-        if(key=='1')
-            showInputImage = !showInputImage;
-        if(key=='2')
-            showDisparityMap = !showDisparityMap;
-        if(key=='3')
-            show3Dreconstruction = !show3Dreconstruction;
+        //        if(key=='1')
+        //            showInputImages = !showInputImages;
+        //        if(key=='2')
+        //            showDisparityMap = !showDisparityMap;
+        //        if(key=='3')
+        //            show3Dreconstruction = !show3Dreconstruction;
         if(key=='4')
             showXYZ = !showXYZ;
         if(key=='5')
@@ -338,24 +356,20 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     //return 0;
 }
 
-
-void printHelp(){
-    std::cout << "\n\n-----------------Help Menu-----------------\n"
-              << "Run command: ./reprojectImageTo3D\n"
-              << "Keys:\n"
-              << "'`' -\tShow Help\n"
-              << "'1' -\tShow L/R Windows\n"
-              << "'2' -\tShow Disparity Map\n"
-              << "'3' -\tShow 3D Reconstruction\n"
-              << "'4' -\tShow XYZ\n"
-              << "'5' -\tShow FPS\n"
-              << "'6' -\tShow Stereo Parameters\n"
-              << "\n3D Viewer Navigation:\n"
-              << "x-axis:\t'g'/'h' -> +x,-x\n"
-              << "y-axis:\t'l'/'k' -> +y,-y\n"
-              << "z-axis:\t'n'/'m' -> +z,-z\n"
-              << "-------------------------------------------\n"
-              << "\n\n";
+void MainWindow::printHelp(){
+    ui->txtOutputBox->appendPlainText(QString("-----------------Help Menu-----------------\n")+
+                                      QString("Run command line: ./reprojectImageTo3D\n")+
+                                      QString("Keys:\n")+
+                                      QString("'`' -\tShow Help\n")+
+                                      QString("'1' -\tShow L/R Windows\t\t'4' -\tShow XYZ\n")+
+                                      QString("'2' -\tShow Disparity Map\t\t'5' -\tShow FPS\n")+
+                                      QString("'3' -\tShow 3D Reconstruction\t'6' -\tShow Stereo Parameters\n")+
+                                      QString("\n3D Viewer Navigation:\n")+
+                                      QString("x-axis:\t'g'/'h' -> +x,-x\n")+
+                                      QString("y-axis:\t'l'/'k' -> +y,-y\n")+
+                                      QString("z-axis:\t'n'/'m' -> +z,-z\n")+
+                                      QString("-------------------------------------------\n")+
+                                      QString("\n\n"));
 }
 
 void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
@@ -761,10 +775,10 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
 void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
-    #ifdef RESOLUTION_640x480
-        //FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
-        FileStorage fs(cfg->QmatrixFileName, FileStorage::READ);
-    #endif
+#ifdef RESOLUTION_640x480
+    //FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
+    FileStorage fs(cfg->QmatrixFileName, FileStorage::READ);
+#endif
 
     if(!fs.isOpened()){
         printf("Failed to open Q.yml file\n");
@@ -776,6 +790,18 @@ void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
 
     *focalLength = Q.at<double>(2,3);  cout << "f:" << *focalLength << endl;
     *baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << *baseline << endl;
+}
+
+void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline){
+
+    Q = Mat::eye(4,4,CV_64F);
+    Q.at<double>(0,3)=-imageCenter.x;
+    Q.at<double>(1,3)=-imageCenter.y;
+    Q.at<double>(2,3)=focalLength;
+    Q.at<double>(3,3)=0.0;
+    Q.at<double>(2,2)=0.0;
+    Q.at<double>(3,2)=1.0/baseline;
+    cout << "Q:" << endl << Q << endl;
 }
 
 void eular2rot(double yaw,double pitch, double roll,Mat& dest){

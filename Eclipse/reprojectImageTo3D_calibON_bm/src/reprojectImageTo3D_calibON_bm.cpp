@@ -126,7 +126,7 @@ int main(int, char**){
 		Mat disp8eroded;Mat disp8_eroded_dilated;
 
 		//imageProcessing1(disp8,disp8Median,disp8Median);
-		//imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
+		imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
 
 
 		//(8) Projecting 3D point cloud to imag	125
@@ -164,10 +164,10 @@ int main(int, char**){
 			}
 
 		//(9)Movement Difference between Frames
-			Mat thresholdImage;
+			//Mat thresholdImage;
 			if(StartDiff && showDiffImage){
 				absdiff(imageL_grey[0],imageL_grey[1],diffImage);
-				threshold(diffImage, thresholdImage, THRESH_VALUE, 255,THRESH_BINARY);
+				//threshold(diffImage, thresholdImage, THRESH_VALUE, 255,THRESH_BINARY);
 			}
 
 			//Saving Previous Frame
@@ -202,7 +202,7 @@ int main(int, char**){
 
 			if(showDiffImage){
 				imshow("DiffImage",diffImage);
-				imshow("thresoldImage",thresholdImage);
+				//imshow("thresoldImage",thresholdImage);
 			}
 			else{
 				destroyWindow("DiffImage");
@@ -635,15 +635,16 @@ void imageProcessing1(Mat Image, Mat MedianImage, Mat MedianImageBGR){
 }
 
 void imageProcessing2(Mat src, Mat imgE, Mat imgED){
-	Mat element = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
+	Mat erosionElement = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
+	Mat dilationElement = getStructuringElement( MORPH_RECT,Size( 2*DILATION_SIZE + 1, 2*DILATION_SIZE+1 ),Point( DILATION_SIZE, DILATION_SIZE ) );
 	Mat imgEBGR,imgEDBGR;
 	Mat imgEDMedian,imgEDMedianBGR;
 	Mat imgThresholded;
 
 	// Erode and Dilate to take out spurious noise
 	// Apply Erosion and Dilation
-	erode(src,imgE,element);
-	dilate(imgE,imgED,element);
+	erode(src,imgE,erosionElement);
+	dilate(imgE,imgED,erosionElement);
 
 	applyColorMap(imgE,imgEBGR, COLORMAP_JET);
 	applyColorMap(imgED,imgEDBGR, COLORMAP_JET);
@@ -654,8 +655,10 @@ void imageProcessing2(Mat src, Mat imgE, Mat imgED){
 	applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
 
 	// Thresholding
-	threshold( imgEDMedian, imgThresholded, 128, 255,0);
-
+	//threshold( imgEDMedian, imgThresholded, 128, 255,0);
+	threshold(imgEDMedian, imgThresholded, THRESH_VALUE, 255,0);
+	erode(imgThresholded,imgThresholded,erosionElement);
+	dilate(imgThresholded,imgThresholded,dilationElement);
 
 	// Output
 	imshow("Eroded Image",imgE);
