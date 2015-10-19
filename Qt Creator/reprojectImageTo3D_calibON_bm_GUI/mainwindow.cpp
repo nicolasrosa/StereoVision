@@ -13,11 +13,7 @@
 using namespace cv;
 using namespace std;
 
-<<<<<<< HEAD
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
-=======
-    MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
->>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
     ui->setupUi(this);
 
     tmrTimer = new QTimer(this);
@@ -43,7 +39,6 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
     showStereoParam = !showStereoParam;
 }
 
-<<<<<<< HEAD
 void MainWindow::on_btnShowInputImages_clicked(){
     showInputImages = true;
     showDisparityMap = false;
@@ -54,10 +49,6 @@ void MainWindow::on_btnShowDisparityMap_clicked(){
     showInputImages = false;
     showDisparityMap = true;
     show3Dreconstruction = false;
-=======
-void MainWindow::on_btnShowStereoParamSetup_clicked(){
-    showStereoParam = !showStereoParam;
->>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 }
 
 void MainWindow::on_btnShow3DReconstruction_clicked(){
@@ -79,15 +70,15 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     printHelp();
 
     //(1) Open Image Source
-    int inputNum=0;
+
     //    Mat imageL[2],imageR[2];
     //    Mat	imageL_grey[2],imageR_grey[2];
     //    VideoCapture capL,capR;
 
-    //ImageProcessor test(0.1);
+    StereoProcessor stereo(6);
 
-    //openImageSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
-    openImageSource(6,&capL,&capR,&imageL[0],&imageR[0]);
+    //openStereoSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
+    openStereoSource(stereo.getInputNum(),&capL,&capR,&imageL[0],&imageR[0]);
     cfg.readConfigFile(&cfg);
 
     //(2) Stereo Initialization
@@ -285,7 +276,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             destroyWindow("Disparity Map BGR");
         }
 
-<<<<<<< HEAD
         //       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
         //       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
         //           isStereoParamSetupTrackbarsCreated=true;
@@ -295,17 +285,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //            destroyWindow(trackbarWindowName);
         //            isStereoParamSetupTrackbarsCreated=false;
         //        }
-=======
-//       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
-//       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
-//           isStereoParamSetupTrackbarsCreated=true;
-//           createTrackbars();
-//            cout << "oi" << endl;
-//        }else{
-//            destroyWindow(trackbarWindowName);
-//            isStereoParamSetupTrackbarsCreated=false;
-//        }
->>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 
         if(showDiffImage){
             imshow("DiffImage",diffImage);
@@ -377,7 +356,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     //return 0;
 }
 
-<<<<<<< HEAD
 void MainWindow::printHelp(){
     ui->txtOutputBox->appendPlainText(QString("-----------------Help Menu-----------------\n")+
                                       QString("Run command line: ./reprojectImageTo3D\n")+
@@ -392,60 +370,40 @@ void MainWindow::printHelp(){
                                       QString("z-axis:\t'n'/'m' -> +z,-z\n")+
                                       QString("-------------------------------------------\n")+
                                       QString("\n\n"));
-=======
-
-void printHelp(){
-    std::cout << "\n\n-----------------Help Menu-----------------\n"
-              << "Run command: ./reprojectImageTo3D\n"
-              << "Keys:\n"
-              << "'`' -\tShow Help\n"
-              << "'1' -\tShow L/R Windows\n"
-              << "'2' -\tShow Disparity Map\n"
-              << "'3' -\tShow 3D Reconstruction\n"
-              << "'4' -\tShow XYZ\n"
-              << "'5' -\tShow FPS\n"
-              << "'6' -\tShow Stereo Parameters\n"
-              << "\n3D Viewer Navigation:\n"
-              << "x-axis:\t'g'/'h' -> +x,-x\n"
-              << "y-axis:\t'l'/'k' -> +y,-y\n"
-              << "z-axis:\t'n'/'m' -> +z,-z\n"
-              << "-------------------------------------------\n"
-              << "\n\n";
->>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 }
 
-void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
+void MainWindow::openStereoSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
     std::string imageL_filename;
     std::string imageR_filename;
 
     // Create an object that decodes the input Video stream.
-    cout << "Enter Video Number(1,2,3,4,5,6,7,8,9): " << inputNum << endl;
+    ui->txtOutputBox->appendPlainText(QString("Enter Video Number(1,2,3,4,5,6,7,8,9): "));
     //	scanf("%d",&inputNum);
-    cout << "Input File:";
+    ui->txtOutputBox->appendPlainText(QString("Input File: ")+QString::number(inputNum));
     switch(inputNum){
     case 1:
         imageL_filename = "../data/left/video2_denoised_long.avi";
         imageR_filename = "../data/right/video2_denoised_long.avi";
         needCalibration=true;
-        cout << "video2_denoised_long.avi" << endl;
+        ui->txtOutputBox->appendPlainText(QString("video2_denoised_long.avi"));
         break;
     case 2:
         imageL_filename = "../data/left/video0.avi";
         imageR_filename = "../data/right/video0.avi";
         needCalibration=false;
-        cout << "video0.avi" << endl;
+        ui->txtOutputBox->appendPlainText(QString( "video0.avi"));
         break;
     case 3:
         imageL_filename = "../data/left/video1.avi";
         imageR_filename = "../data/right/video1.avi";
         needCalibration=true;
-        cout << "video1.avi" << endl;
+        ui->txtOutputBox->appendPlainText(QString( "video1.avi"));
         break;
     case 4:
         imageL_filename = "../data/left/video2_noised.avi";
         imageR_filename = "../data/right/video2_noised.avi";
         needCalibration=true;
-        cout << "video2_noised.avi" << endl;
+        ui->txtOutputBox->appendPlainText(QString( "video2_noised.avi"));
         break;
     case 5:
         imageL_filename = "../data/left/20004.avi";
@@ -475,34 +433,34 @@ void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* ima
     }
 
     if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "avi"){
-        cout << "It's a Video file" << endl;
+        ui->txtOutputBox->appendPlainText(QString("It's a Video file"));
         isVideoFile=true;
 
         capL->open(imageL_filename);
         capR->open(imageR_filename);
 
         if(!capL->isOpened() || !capR->isOpened()){		// Check if we succeeded
-            cout <<  "Could not open or find the input videos!" << std::endl ;
+            ui->txtOutputBox->appendPlainText(QString( "Could not open or find the input videos!"));
             //return -1;
         }
 
-        cout << "Input 1 Resolution: " << capR->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capR->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
-        cout << "Input 2 Resolution: " << capL->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL->get(CV_CAP_PROP_FRAME_HEIGHT) << endl << endl;
+        ui->txtOutputBox->appendPlainText(QString("Input 1 Resolution: ") + QString::number(capL->get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(capL->get(CV_CAP_PROP_FRAME_HEIGHT)));
+        ui->txtOutputBox->appendPlainText(QString("Input 2 Resolution: ") + QString::number(capR->get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(capR->get(CV_CAP_PROP_FRAME_HEIGHT)));
     }else{
-        cout << "It is not a Video file" << endl;
+        ui->txtOutputBox->appendPlainText(QString( "It is not a Video file"));
         if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "jpg" || imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "png"){
-            cout << "It's a Image file" << endl;
+            ui->txtOutputBox->appendPlainText(QString( "It's a Image file"));
             isImageFile=true;
 
             imageL[0] = imread(imageL_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
             imageR[0] = imread(imageR_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
 
             if(!imageL[0].data || !imageR[0].data){                          	// Check for invalid input
-                cout <<  "Could not open or find the input images!" << std::endl;
+                ui->txtOutputBox->appendPlainText(QString("Could not open or find the input images!"));
                 //return -1;
             }
         }else{
-            cout << "It is not a Image file" << endl;
+            ui->txtOutputBox->appendPlainText(QString( "It is not a Image file"));
         }
     }
 }
@@ -817,17 +775,10 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
 void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
-<<<<<<< HEAD
 #ifdef RESOLUTION_640x480
     //FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
     FileStorage fs(cfg->QmatrixFileName, FileStorage::READ);
 #endif
-=======
-    #ifdef RESOLUTION_640x480
-        //FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
-        FileStorage fs(cfg->QmatrixFileName, FileStorage::READ);
-    #endif
->>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 
     if(!fs.isOpened()){
         printf("Failed to open Q.yml file\n");
@@ -839,6 +790,18 @@ void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
 
     *focalLength = Q.at<double>(2,3);  cout << "f:" << *focalLength << endl;
     *baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << *baseline << endl;
+}
+
+void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline){
+
+    Q = Mat::eye(4,4,CV_64F);
+    Q.at<double>(0,3)=-imageCenter.x;
+    Q.at<double>(1,3)=-imageCenter.y;
+    Q.at<double>(2,3)=focalLength;
+    Q.at<double>(3,3)=0.0;
+    Q.at<double>(2,2)=0.0;
+    Q.at<double>(3,2)=1.0/baseline;
+    cout << "Q:" << endl << Q << endl;
 }
 
 void eular2rot(double yaw,double pitch, double roll,Mat& dest){

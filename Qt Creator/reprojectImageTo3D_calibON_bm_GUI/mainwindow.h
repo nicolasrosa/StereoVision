@@ -31,6 +31,7 @@ private:
 
 public slots:
     void printHelp();
+    void openStereoSource(int inputNum,cv::VideoCapture* capL,cv::VideoCapture* capR,cv::Mat* imageL,cv::Mat* imageR);
     void StereoVisionProcessAndUpdateGUI();
 
 private slots:

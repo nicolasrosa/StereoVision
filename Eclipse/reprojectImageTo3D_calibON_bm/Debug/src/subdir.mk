@@ -4,13 +4,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/reprojectImageTo3D_calibON_bm.cpp 
+../src/reprojectImageTo3D_calibON_bm.cpp \
+../src/trackObject.cpp 
 
 OBJS += \
-./src/reprojectImageTo3D_calibON_bm.o 
+./src/reprojectImageTo3D_calibON_bm.o \
+./src/trackObject.o 
 
 CPP_DEPS += \
-./src/reprojectImageTo3D_calibON_bm.d 
+./src/reprojectImageTo3D_calibON_bm.d \
+./src/trackObject.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

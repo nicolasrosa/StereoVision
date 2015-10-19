@@ -30,19 +30,22 @@ using namespace std;
 #define BLUR_SIZE 3
 
 /* Custom Classes*/
-class ImageProcessor{
+class StereoProcessor{
 public:
-    ImageProcessor(float variable); //Constructor
-    //Mat stretchHistogram(Mat image);
-    //Mat unsharpMasking(Mat image, std::string blurMethod, int kernelSize, float alpha, float beta);
-    //Mat laplacianSharpening(Mat image, int kernelSize, float alpha, float beta);
+    StereoProcessor(int inputNum); //Constructor
+    int getInputNum();
+
 private:
+    int inputNum;
     //float percentageOfDeletion;
 };
 
-ImageProcessor::ImageProcessor(float variable){
-    cout <<  "Oi" << std::endl ;
-    //this->percentageOfDeletion = percentageOfDeletion;
+StereoProcessor::StereoProcessor(int number){
+    inputNum=number;
+}
+
+int StereoProcessor::getInputNum(){
+    return inputNum;
 }
 
 class ConfigFile{
@@ -74,20 +77,12 @@ void ConfigFile::readConfigFile(ConfigFile* cfg){
 void on_trackbar(int,void*);
 bool createTrackbars();
 
-<<<<<<< HEAD
-=======
-void printHelp();
->>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR);
 void stereoInit(StereoBM* bm);
 void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,ConfigFile* cfg);
 void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
 void readQMatrix(Mat &Q,double* focal_length, double* baseline,ConfigFile* cfg);
-<<<<<<< HEAD
 void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline);
-=======
-void calculateQMatrix(Mat &Q,Point2d image_center,double focal_length, double baseline);
->>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
 void imageProcessing2(Mat src, Mat imgE, Mat imgED);
 
@@ -116,11 +111,7 @@ const std::string trackbarWindowName = "Stereo Param Setup";
 const double focal_length = 752.093;
 const double baseline = -2.61138;
 bool isVideoFile=false,isImageFile=false,needCalibration=false,isStereoParamSetupTrackbarsCreated=false;
-<<<<<<< HEAD
 bool showInputImages=true,showXYZ=false,showStereoParam=false,showStereoParamValues,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
-=======
-bool showInputImage=true,showXYZ=false,showStereoParam=false,showStereoParamValues,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
->>>>>>> 9661ca4503c204694344162c384e144f40ca3a85
 
 /* Trackbars Variables
  * Initial min and max BM Parameters values.These will be changed using trackbars

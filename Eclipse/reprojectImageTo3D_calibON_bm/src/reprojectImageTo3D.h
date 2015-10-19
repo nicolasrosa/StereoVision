@@ -14,6 +14,7 @@
 #include "cvaux.h"
 #include "stdio.h"
 #include "opencv2/opencv.hpp"
+#include "trackObject.h"
 
 using namespace cv;
 using namespace std;
@@ -34,22 +35,22 @@ class ImageProcessor{
 public:
     ImageProcessor(float variable); //Constructor
     //Mat stretchHistogram(Mat image);
-    //Mat unsharpMasking(Mat image, std::string blurMethod, int kernelSize, float alpha, float beta);
+    //Mat unsharpMasking(Mat image, string blurMethod, int kernelSize, float alpha, float beta);
     //Mat laplacianSharpening(Mat image, int kernelSize, float alpha, float beta);
 private:
     //float percentageOfDeletion;
 };
 
 ImageProcessor::ImageProcessor(float variable){
-    cout <<  "Oi" << std::endl ;
+    cout <<  "Oi" << endl ;
     //this->percentageOfDeletion = percentageOfDeletion;
 }
 
 class ConfigFile{
 public:
-	std::string intrinsicsFileName;
-	std::string extrinsicsFileName;
-	std::string QmatrixFileName;
+	string intrinsicsFileName;
+	string extrinsicsFileName;
+	string QmatrixFileName;
 public:
 	void readConfigFile(ConfigFile *cfg);
 };
@@ -87,7 +88,7 @@ void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showSte
 void readQMatrix(Mat &Q,double* focal_length, double* baseline,ConfigFile* cfg);
 void calculateQMatrix(Mat &Q,Point2d image_center,double focal_length, double baseline);
 void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
-void imageProcessing2(Mat src, Mat imgE, Mat imgED);
+void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects);
 
 void resizeFrame(Mat* frame1,Mat* frame2);
 void changeResolution(VideoCapture* cap_l,VideoCapture* cap_r);
@@ -109,10 +110,10 @@ template <class T>
 static void fillOcclusion_(Mat& src, T invalidvalue);
 
 /* Global Variables */
-const std::string trackbarWindowName = "Trackbars";
+const string trackbarWindowName = "Trackbars";
 const double focal_length = 752.093;
 const double baseline = -2.61138;
-bool isVideoFile=false,isImageFile=false,needCalibration=false;
+bool isVideoFile=false,isImageFile=false,needCalibration=false,isTrackingObjects=true;
 bool showInputImage=true,showXYZ=false,showStereoBMparams=false,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
 
 /* Trackbars Variables

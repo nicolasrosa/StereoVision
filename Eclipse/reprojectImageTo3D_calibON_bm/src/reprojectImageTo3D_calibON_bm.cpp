@@ -5,6 +5,10 @@
 // Libraries
 #include "reprojectImageTo3D.h"
 
+//Remover Depois
+#include <unistd.h>
+//#include "opencv2/core/mat.hpp"
+
 using namespace cv;
 using namespace std;
 
@@ -126,7 +130,7 @@ int main(int, char**){
 		Mat disp8eroded;Mat disp8_eroded_dilated;
 
 		//imageProcessing1(disp8,disp8Median,disp8Median);
-		imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
+		imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated,imageL[0],true);
 
 
 		//(8) Projecting 3D point cloud to imag	125
@@ -269,27 +273,27 @@ int main(int, char**){
 }
 
 void printHelp(){
-	std::cout << "\n\n-----------------Help Menu-----------------\n"
-		<< "Run command: ./reprojectImageTo3D\n"
-		<< "Keys:\n"
-		<< "'`' -\tShow Help\n"
-		<< "'1' -\tShow L/R Windows\n"
-		<< "'2' -\tShow Disparity Map\n"
-		<< "'3' -\tShow 3D Reconstruction\n"
-		<< "'4' -\tShow XYZ\n"
-		<< "'5' -\tShow FPS\n"
-		<< "'6' -\tShow Stereo Parameters\n"
-		<< "\n3D Viewer Navigation:\n"
-		<< "x-axis:\t'g'/'h' -> +x,-x\n"
-		<< "y-axis:\t'l'/'k' -> +y,-y\n"
-		<< "z-axis:\t'n'/'m' -> +z,-z\n"
-		<< "-------------------------------------------\n"
-	    << "\n\n";
+	cout << "\n\n-----------------Help Menu-----------------\n"
+		 << "Run command: ./reprojectImageTo3D\n"
+		 << "Keys:\n"
+		 << "'`' -\tShow Help\n"
+		 << "'1' -\tShow L/R Windows\n"
+		 << "'2' -\tShow Disparity Map\n"
+		 << "'3' -\tShow 3D Reconstruction\n"
+		 << "'4' -\tShow XYZ\n"
+		 << "'5' -\tShow FPS\n"
+		 << "'6' -\tShow Stereo Parameters\n"
+		 << "\n3D Viewer Navigation:\n"
+		 << "x-axis:\t'g'/'h' -> +x,-x\n"
+		 << "y-axis:\t'l'/'k' -> +y,-y\n"
+		 << "z-axis:\t'n'/'m' -> +z,-z\n"
+		 << "-------------------------------------------\n"
+	     << "\n\n";
 }
 
 void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
-	std::string imageL_filename;
-	std::string imageR_filename;
+	string imageL_filename;
+	string imageR_filename;
 
 	// Create an object that decodes the input Video stream.
 		cout << "Enter Video Number(1,2,3,4,5,6,7,8,9): " << inputNum << endl;
@@ -355,7 +359,7 @@ void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* ima
 			capR->open(imageR_filename);
 
 			if(!capL->isOpened() || !capR->isOpened()){		// Check if we succeeded
-				cout <<  "Could not open or find the input videos!" << std::endl ;
+				cout <<  "Could not open or find the input videos!" << endl ;
 				//return -1;
 			}
 
@@ -371,7 +375,7 @@ void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* ima
 				imageR[0] = imread(imageR_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
 
 				if(!imageL[0].data || !imageR[0].data){                          	// Check for invalid input
-					cout <<  "Could not open or find the input images!" << std::endl;
+					cout <<  "Could not open or find the input images!" << endl;
 					//return -1;
 				}
 			}else{
@@ -634,15 +638,20 @@ void imageProcessing1(Mat Image, Mat MedianImage, Mat MedianImageBGR){
 	imshow("Disparity Map Median Filter 3x3 - RGB",MedianImageBGR);
 }
 
-void imageProcessing2(Mat src, Mat imgE, Mat imgED){
+void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects){
 	Mat erosionElement = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
 	Mat dilationElement = getStructuringElement( MORPH_RECT,Size( 2*DILATION_SIZE + 1, 2*DILATION_SIZE+1 ),Point( DILATION_SIZE, DILATION_SIZE ) );
 	Mat imgEBGR,imgEDBGR;
 	Mat imgEDMedian,imgEDMedianBGR;
-	Mat imgThresholded;
+	int x,y;
 
-	// Erode and Dilate to take out spurious noise
-	// Apply Erosion and Dilation
+	Mat imgThreshold;			static Mat lastimgThreshold;
+	int nPixels,nTotal;		  	//static int lastThresholdSum=0;
+
+	// Near Object Detection
+
+	//Prefiltering
+	// Apply Erosion and Dilation to take out spurious noise
 	erode(src,imgE,erosionElement);
 	dilate(imgE,imgED,erosionElement);
 
@@ -650,27 +659,55 @@ void imageProcessing2(Mat src, Mat imgE, Mat imgED){
 	applyColorMap(imgED,imgEDBGR, COLORMAP_JET);
 
 	// Apply Median Filter
-	GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
-	//medianBlur(imgED,imgEDMedian,5);
+	//GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
+	medianBlur(imgED,imgEDMedian,5);
 	applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
 
 	// Thresholding
-	//threshold( imgEDMedian, imgThresholded, 128, 255,0);
-	threshold(imgEDMedian, imgThresholded, THRESH_VALUE, 255,0);
-	erode(imgThresholded,imgThresholded,erosionElement);
-	dilate(imgThresholded,imgThresholded,dilationElement);
+	//adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_MEAN_C,THRESH_BINARY,11,-1);
+	//adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_GAUSSIAN_C,THRESH_BINARY,11,0);
+	threshold(imgEDMedian, imgThreshold, THRESH_VALUE, 255,THRESH_BINARY);
+	erode(imgThreshold,imgThreshold,erosionElement);
+	dilate(imgThreshold,imgThreshold,dilationElement);
+
+	// Solving Lighting Noise Problem
+	nPixels = sum(imgThreshold)[0]/255;
+	nTotal = imgThreshold.total();
+
+//	cout << "Number of Pixels:" << nPixels << endl;
+//	cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
+
+	if((((float)nPixels)/nTotal)>0.5){
+//		sleep(1);
+//		cout << "Lighting Noise!!!" << endl;
+//		cout << "Number of Pixels:" << nPixels << endl;
+//		cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
+
+		// Invalidates the last frame
+		imgThreshold = lastimgThreshold;
+	}else{
+		// Saves the last valid frame
+		lastimgThreshold=imgThreshold;
+		//lastThresholdSum = CurrentThresholdSum;
+	}
 
 	// Output
-	imshow("Eroded Image",imgE);
-	imshow("Eroded Image BGR",imgEBGR);
-
-	imshow("Eroded+Dilated Image",imgED);
-	imshow("Eroded+Dilated Image BGR",imgEDBGR);
+//	imshow("Eroded Image",imgE);
+//	imshow("Eroded Image BGR",imgEBGR);
+//
+//	imshow("Eroded+Dilated Image",imgED);
+//	imshow("Eroded+Dilated Image BGR",imgEDBGR);
 
 	imshow("Eroded+Dilated+Median Image",imgEDMedian);
 	imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
 
-	imshow("Thresholded Image",imgThresholded);
+	imshow("Thresholded Image",imgThreshold);
+
+	// Tracking Object
+	if(isTrackingObjects){
+		trackFilteredObject(x,y,imgThreshold,cameraFeedL);
+		imshow("Tracking Object",cameraFeedL);
+	}
 }
 
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){

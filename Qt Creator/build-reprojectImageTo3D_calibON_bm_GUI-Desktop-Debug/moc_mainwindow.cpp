@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[9];
-    char stringdata[214];
+    QByteArrayData data[17];
+    char stringdata[291];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,14 +32,24 @@ static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
 QT_MOC_LITERAL(0, 0, 10),
 QT_MOC_LITERAL(1, 11, 9),
 QT_MOC_LITERAL(2, 21, 0),
-QT_MOC_LITERAL(3, 22, 31),
-QT_MOC_LITERAL(4, 54, 27),
-QT_MOC_LITERAL(5, 82, 30),
-QT_MOC_LITERAL(6, 113, 34),
-QT_MOC_LITERAL(7, 148, 34),
-QT_MOC_LITERAL(8, 183, 29)
+QT_MOC_LITERAL(3, 22, 16),
+QT_MOC_LITERAL(4, 39, 8),
+QT_MOC_LITERAL(5, 48, 17),
+QT_MOC_LITERAL(6, 66, 4),
+QT_MOC_LITERAL(7, 71, 4),
+QT_MOC_LITERAL(8, 76, 8),
+QT_MOC_LITERAL(9, 85, 6),
+QT_MOC_LITERAL(10, 92, 6),
+QT_MOC_LITERAL(11, 99, 31),
+QT_MOC_LITERAL(12, 131, 27),
+QT_MOC_LITERAL(13, 159, 30),
+QT_MOC_LITERAL(14, 190, 34),
+QT_MOC_LITERAL(15, 225, 34),
+QT_MOC_LITERAL(16, 260, 29)
     },
-    "MainWindow\0printHelp\0\0"
+    "MainWindow\0printHelp\0\0openStereoSource\0"
+    "inputNum\0cv::VideoCapture*\0capL\0capR\0"
+    "cv::Mat*\0imageL\0imageR\0"
     "StereoVisionProcessAndUpdateGUI\0"
     "on_btnPauseOrResume_clicked\0"
     "on_btnShowDisparityMap_clicked\0"
@@ -55,7 +65,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -63,16 +73,18 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   49,    2, 0x0a,
-       3,    0,   50,    2, 0x0a,
-       4,    0,   51,    2, 0x08,
-       5,    0,   52,    2, 0x08,
-       6,    0,   53,    2, 0x08,
-       7,    0,   54,    2, 0x08,
-       8,    0,   55,    2, 0x08,
+       1,    0,   54,    2, 0x0a,
+       3,    5,   55,    2, 0x0a,
+      11,    0,   66,    2, 0x0a,
+      12,    0,   67,    2, 0x08,
+      13,    0,   68,    2, 0x08,
+      14,    0,   69,    2, 0x08,
+      15,    0,   70,    2, 0x08,
+      16,    0,   71,    2, 0x08,
 
  // slots: parameters
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int, 0x80000000 | 5, 0x80000000 | 5, 0x80000000 | 8, 0x80000000 | 8,    4,    6,    7,    9,   10,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -89,16 +101,16 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         MainWindow *_t = static_cast<MainWindow *>(_o);
         switch (_id) {
         case 0: _t->printHelp(); break;
-        case 1: _t->StereoVisionProcessAndUpdateGUI(); break;
-        case 2: _t->on_btnPauseOrResume_clicked(); break;
-        case 3: _t->on_btnShowDisparityMap_clicked(); break;
-        case 4: _t->on_btnShowStereoParamSetup_clicked(); break;
-        case 5: _t->on_btnShow3DReconstruction_clicked(); break;
-        case 6: _t->on_btnShowInputImages_clicked(); break;
+        case 1: _t->openStereoSource((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< cv::VideoCapture*(*)>(_a[2])),(*reinterpret_cast< cv::VideoCapture*(*)>(_a[3])),(*reinterpret_cast< cv::Mat*(*)>(_a[4])),(*reinterpret_cast< cv::Mat*(*)>(_a[5]))); break;
+        case 2: _t->StereoVisionProcessAndUpdateGUI(); break;
+        case 3: _t->on_btnPauseOrResume_clicked(); break;
+        case 4: _t->on_btnShowDisparityMap_clicked(); break;
+        case 5: _t->on_btnShowStereoParamSetup_clicked(); break;
+        case 6: _t->on_btnShow3DReconstruction_clicked(); break;
+        case 7: _t->on_btnShowInputImages_clicked(); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -126,13 +138,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }
