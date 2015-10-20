@@ -6,6 +6,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <StereoProcessor.h>
 
 namespace Ui{
     class MainWindow;
@@ -21,9 +22,9 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    cv::Mat imageL[2],imageR[2];
-    cv::Mat	imageL_grey[2],imageR_grey[2];
-    cv::VideoCapture capL,capR;
+    Mat imageL[2],imageR[2];
+    Mat	imageL_grey[2],imageR_grey[2];
+    VideoCapture capL,capR;
 
     QImage qimageL,qimageR;
 

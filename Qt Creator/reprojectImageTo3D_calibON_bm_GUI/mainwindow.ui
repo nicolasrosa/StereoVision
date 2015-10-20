@@ -49,9 +49,9 @@
    <widget class="QPlainTextEdit" name="txtOutputBox">
     <property name="geometry">
      <rect>
-      <x>384</x>
+      <x>614</x>
       <y>488</y>
-      <width>901</width>
+      <width>671</width>
       <height>197</height>
      </rect>
     </property>
@@ -122,6 +122,19 @@
     </property>
     <property name="text">
      <string>Show Left/Right</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnShowTrackingObjectView">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>500</y>
+      <width>211</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Tracking Object View</string>
     </property>
    </widget>
   </widget>

@@ -31,19 +31,22 @@ using namespace std;
 #define BLUR_SIZE 3
 
 /* Custom Classes*/
-class ImageProcessor{
+class StereoProcessor{
 public:
-    ImageProcessor(float variable); //Constructor
-    //Mat stretchHistogram(Mat image);
-    //Mat unsharpMasking(Mat image, string blurMethod, int kernelSize, float alpha, float beta);
-    //Mat laplacianSharpening(Mat image, int kernelSize, float alpha, float beta);
+    StereoProcessor(int inputNum); //Constructor
+    int getInputNum();
+
 private:
+    int inputNum;
     //float percentageOfDeletion;
 };
 
-ImageProcessor::ImageProcessor(float variable){
-    cout <<  "Oi" << endl ;
-    //this->percentageOfDeletion = percentageOfDeletion;
+StereoProcessor::StereoProcessor(int number){
+    inputNum=number;
+}
+
+int StereoProcessor::getInputNum(){
+    return inputNum;
 }
 
 class ConfigFile{
@@ -57,22 +60,19 @@ public:
 
 void ConfigFile::readConfigFile(ConfigFile* cfg){
 	FileStorage fs("config.yml", FileStorage::READ);
+    if(!fs.isOpened()){
+        printf("Failed to open config.yml file.\n");
+        return;
+    }
+    fs["Intrinsics Path"] >> cfg->intrinsicsFileName;
+    fs["Extrinsics Path"] >> cfg->extrinsicsFileName;
+    fs["Q Matrix Path"]   >> cfg->QmatrixFileName;
 
-	if(!fs.isOpened()){
-		printf("Failed to open config.yml file.\n");
-		return;
-	}
+    fs.release();
 
-	fs["Intrinsics Path"] >> cfg->intrinsicsFileName;
-	fs["Extrinsics Path"] >> cfg->extrinsicsFileName;
-	fs["Q Matrix Path"]   >> cfg->QmatrixFileName;
-
-	fs.release();
-
-	cout << "Intrinsics Path: " << cfg->intrinsicsFileName << endl;
-	cout << "Extrinsics Path: " << cfg->extrinsicsFileName << endl;
-	cout << "Q Matrix Path: "   << cfg->QmatrixFileName    << endl;
-
+    cout << "Intrinsics Path: " << cfg->intrinsicsFileName << endl;
+    cout << "Extrinsics Path: " << cfg->extrinsicsFileName << endl;
+    cout << "Q Matrix Path: "   << cfg->QmatrixFileName    << endl;
     cout << "Config.yml Read Successfully." << endl << endl ;
 }
 
@@ -81,12 +81,12 @@ void on_trackbar(int,void*);
 void createTrackbars();
 
 void printHelp();
-void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR);
+void openStereoSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR);
 void stereoInit(StereoBM* bm);
 void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,ConfigFile* cfg);
 void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
-void readQMatrix(Mat &Q,double* focal_length, double* baseline,ConfigFile* cfg);
-void calculateQMatrix(Mat &Q,Point2d image_center,double focal_length, double baseline);
+void readQMatrix(Mat &Q,double* focalLength, double* baseline,ConfigFile* cfg);
+void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline);
 void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
 void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects);
 
@@ -100,6 +100,7 @@ void lookat(Point3d from, Point3d to, Mat& destR);
 void projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, Mat &destdisp, Mat &xyz, Mat &R, Mat &t, Mat &K, Mat &dist, bool isSub);
 void fillOcclusion(Mat& src, int invalidvalue, bool isInv);
 
+/* 3D Reconstruction Classes */
 template <class T>
 static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, Mat& destdisp, Mat& xyz, Mat& R, Mat& t, Mat& K, Mat& dist, Mat& mask, bool isSub);
 
@@ -110,11 +111,11 @@ template <class T>
 static void fillOcclusion_(Mat& src, T invalidvalue);
 
 /* Global Variables */
-const string trackbarWindowName = "Trackbars";
+const string trackbarWindowName = "Stereo Param Setup";
 const double focal_length = 752.093;
 const double baseline = -2.61138;
 bool isVideoFile=false,isImageFile=false,needCalibration=false,isTrackingObjects=true;
-bool showInputImage=true,showXYZ=false,showStereoBMparams=false,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
+bool showInputImage=true,showXYZ=false,showStereoParams=false,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
 
 /* Trackbars Variables
  * Initial min and max BM Parameters values.These will be changed using trackbars

@@ -25,16 +25,15 @@ int main(int, char**){
 	printHelp();
 
 	//(1) Open Image Source
-		int inputNum=0;
 		Mat imageL[2],imageR[2];
 		Mat	imageL_grey[2],imageR_grey[2];
-	    VideoCapture capL,capR;
+		VideoCapture capL,capR;
 
-	    //ImageProcessor test(0.1);
+		StereoProcessor stereo(6);
 
-	    //openImageSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
-	    openImageSource(6,&capL,&capR,&imageL[0],&imageR[0]);
-	    cfg.readConfigFile(&cfg);
+		//openStereoSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
+		openStereoSource(stereo.getInputNum(),&capL,&capR,&imageL[0],&imageR[0]);
+		cfg.readConfigFile(&cfg);
 
 	//(2) Stereo Initialization
 	    Ptr<StereoBM> bm = StereoBM::create(16,9);
@@ -109,7 +108,7 @@ int main(int, char**){
 		}
 
 		//Setting StereoBM Parameters
-		stereoSetparams(&roi1,&roi2,bm,imageL[0].rows,showStereoBMparams);
+		stereoSetparams(&roi1,&roi2,bm,imageL[0].rows,showStereoParams);
 
 		// Convert BGR to Gray_Scale
 		cvtColor(imageL[0],imageL_grey[0],CV_BGR2GRAY);
@@ -227,7 +226,7 @@ int main(int, char**){
 			if(key=='5')
 				showFPS = !showFPS;
 			if(key=='6')
-				showStereoBMparams = !showStereoBMparams;
+				showStereoParams = !showStereoParams;
 			if(key=='7')
 				showDiffImage = !showDiffImage;
 
@@ -291,7 +290,7 @@ void printHelp(){
 	     << "\n\n";
 }
 
-void openImageSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
+void openStereoSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
 	string imageL_filename;
 	string imageR_filename;
 
@@ -388,7 +387,7 @@ void createTrackbars(){ //Create Window for trackbars
 	char TrackbarName[50];
 
 	// Create TrackBars Window
-    namedWindow("Trackbars",0);
+    namedWindow(trackbarWindowName,WINDOW_NORMAL);
 
     // Create memory to store Trackbar name on window
 	sprintf( TrackbarName, "preFilterSize");
@@ -440,10 +439,10 @@ void stereoInit(StereoBM* bm){
   ** @param rect roi2: Region of Interest 2
   ** @param StereoBM bm: Correspondence Object
   ** @param int numRows: Number of Rows of the input Images
-  ** @param bool showStereoBMparams
+  ** @param bool showStereoParams
   ** Returns:     Nothing
   ***/
-void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams){
+void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoParams){
 	int trackbarsAux[10];
 
 	trackbarsAux[0]= getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
@@ -510,7 +509,7 @@ void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showSte
 		bm->setDisp12MaxDiff(trackbarsAux[9]);
 	}
 
-	if(showStereoBMparams){
+	if(showStereoParams){
 		cout << getTrackbarPos("preFilterSize",trackbarWindowName)			<< "\t" << trackbarsAux[0] << endl;
 		cout << getTrackbarPos("preFilterCap",trackbarWindowName)			<< "\t" << trackbarsAux[1] << endl;
 		cout << getTrackbarPos("SADWindowSize",trackbarWindowName)			<< "\t" << trackbarsAux[2] << endl;

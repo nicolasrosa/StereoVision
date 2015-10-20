@@ -2,7 +2,7 @@
  * trackObject.h
  *
  *  Created on: Oct 19, 2015
- *      Author: nicolas
+ *      Author: nicolasrosa
  */
 
 #ifndef SRC_TRACKOBJECT_H_

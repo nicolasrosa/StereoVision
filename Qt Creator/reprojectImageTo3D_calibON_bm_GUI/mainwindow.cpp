@@ -63,7 +63,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     bool StartDiff=false;
     char key=0;
 
-    ConfigFile cfg;
     Mat diffImage;
     Mat disp3Dviewer,disp3D,disp83D,disp3DBGR;
 
@@ -71,20 +70,27 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
     //(1) Open Image Source
 
-    //    Mat imageL[2],imageR[2];
-    //    Mat	imageL_grey[2],imageR_grey[2];
-    //    VideoCapture capL,capR;
+    //Mat imageL[2],imageR[2];
+    //Mat	imageL_grey[2],imageR_grey[2];
+    //VideoCapture capL,capR;
 
+    //MainWindow::stereo = StereoProcessor::StereoProcessor(6);
     StereoProcessor stereo(6);
+
 
     //openStereoSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
     openStereoSource(stereo.getInputNum(),&capL,&capR,&imageL[0],&imageR[0]);
-    cfg.readConfigFile(&cfg);
+    //stereo.cfg.readConfigFile();
+
+    stereo.readConfigFile();
 
     //(2) Stereo Initialization
-    Ptr<StereoBM> bm = StereoBM::create(16,9);
+    //Ptr<StereoBM> bm = StereoBM::create(16,9);
+    //stereoInit(bm);
 
-    stereoInit(bm);
+    cout << "oi" << endl;
+    stereo.bm = StereoBM::create(16,9);
+    stereo.stereoInit();
 
     //(3) Stereo Calibration
     Mat M1,D1,M2,D2;
@@ -93,7 +99,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
     if(needCalibration){
         cout << "Calibration: ON\n" << endl;
-        stereoCalib(M1,D1,M2,D2,R,T,&cfg);
+        stereoCalib(M1,D1,M2,D2,R,T,&stereo);
     }else{
         cout << "Calibration: OFF\n" << endl;
     }
@@ -102,7 +108,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     Mat Q;
     double focalLength,baseline;
 
-    readQMatrix(Q,&focalLength,&baseline,&cfg);
+    stereo.readQMatrix(Q,&focalLength,&baseline,true); //true=640x480 false=others
 
     //Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
     //calculateQMatrix(Q,imageCenter,focalLength,baseline*16);
@@ -155,7 +161,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         }
 
         //Setting StereoBM Parameters
-        stereoSetparams(&roi1,&roi2,bm,imageL[0].rows,showStereoParamValues);
+        stereoSetparams(&roi1,&roi2,stereo.bm,imageL[0].rows,showStereoParamValues);
 
         // Convert BGR to Gray_Scale
         cvtColor(imageL[0],imageL_grey[0],CV_BGR2GRAY);
@@ -165,7 +171,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         Mat disp8  = Mat(imageR[0].rows, imageR[0].cols, CV_8UC1 );
         Mat disp8BGR;
 
-        bm->compute(imageL_grey[0],imageR_grey[0],disp);
+        stereo.bm->compute(imageL_grey[0],imageR_grey[0],disp);
         //fillOcclusion(disp,16,false);
 
         normalize(disp, disp8, 0, 255, CV_MINMAX, CV_8U);
@@ -176,8 +182,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         Mat disp8eroded;Mat disp8_eroded_dilated;
 
         //imageProcessing1(disp8,disp8Median,disp8Median);
-        //imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated);
-
+        imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated,imageL[0],true);
 
         //(8) Projecting 3D point cloud to image
         if(show3Dreconstruction){
@@ -500,23 +505,6 @@ bool createTrackbars(){ //Create Window for trackbars
 
 void on_trackbar( int, void* ){}; //This function gets called whenever a trackbar position is changed
 
-/*** Stereo Initialization function
-  ** Description: Executes the PreSetup of parameters of the StereoBM object
-  ** @param StereoBM bm: Correspondence Object
-  ** Returns:     Nothing
-  ***/
-void stereoInit(StereoBM* bm){
-    bm->setPreFilterCap(31);
-    bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
-    bm->setMinDisparity(0);
-    bm->setNumDisparities(numberOfDisparities);
-    bm->setTextureThreshold(10);
-    bm->setUniquenessRatio(15);
-    bm->setSpeckleWindowSize(100);
-    bm->setSpeckleRange(32);
-    bm->setDisp12MaxDiff(1);
-}
-
 /*** Stereo Parameters Configuration function
   ** Description: Executes the setup of parameters of the StereoBM object by changing the trackbars
   ** @param rect roi1: Region of Interest 1
@@ -617,9 +605,9 @@ void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showSte
   ** @param Mat t: Translation Vector
   ** Returns:     Nothing
   ***/
-void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,ConfigFile* cfg){
+void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,StereoProcessor* stereo){
     //FileStorage fs("../data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
-    FileStorage fs(cfg->intrinsicsFileName, FileStorage::READ);
+    FileStorage fs(stereo->intrinsicsFileName, FileStorage::READ);
     if(!fs.isOpened()){
         printf("Failed to open intrinsics.yml file\n");
         return;
@@ -637,7 +625,7 @@ void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,ConfigFile* cfg){
     M2 *= scale;
 
     //fs.open("../data/calib/calib5_640_480/extrinsics.yml", FileStorage::READ);
-    fs.open(cfg->extrinsicsFileName, FileStorage::READ);
+    fs.open(stereo->extrinsicsFileName, FileStorage::READ);
     if(!fs.isOpened()){
         printf("Failed to open extrinsics.yml file\n");
         return;
@@ -715,40 +703,76 @@ void imageProcessing1(Mat Image, Mat MedianImage, Mat MedianImageBGR){
     imshow("Disparity Map Median Filter 3x3 - RGB",MedianImageBGR);
 }
 
-void imageProcessing2(Mat src, Mat imgE, Mat imgED){
-    Mat element = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
+void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects){
+    Mat erosionElement = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
+    Mat dilationElement = getStructuringElement( MORPH_RECT,Size( 2*DILATION_SIZE + 1, 2*DILATION_SIZE+1 ),Point( DILATION_SIZE, DILATION_SIZE ) );
     Mat imgEBGR,imgEDBGR;
     Mat imgEDMedian,imgEDMedianBGR;
-    Mat imgThresholded;
+    int x,y;
 
-    // Erode and Dilate to take out spurious noise
-    // Apply Erosion and Dilation
-    erode(src,imgE,element);
-    dilate(imgE,imgED,element);
+    Mat imgThreshold;			static Mat lastimgThreshold;
+    int nPixels,nTotal;		  	//static int lastThresholdSum=0;
+
+    // Near Object Detection
+
+    //Prefiltering
+    // Apply Erosion and Dilation to take out spurious noise
+    erode(src,imgE,erosionElement);
+    dilate(imgE,imgED,erosionElement);
 
     applyColorMap(imgE,imgEBGR, COLORMAP_JET);
     applyColorMap(imgED,imgEDBGR, COLORMAP_JET);
 
     // Apply Median Filter
-    GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
-    //medianBlur(imgED,imgEDMedian,5);
+    //GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
+    medianBlur(imgED,imgEDMedian,5);
     applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
 
     // Thresholding
-    threshold( imgEDMedian, imgThresholded, 128, 255,0);
+    //adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_MEAN_C,THRESH_BINARY,11,-1);
+    //adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_GAUSSIAN_C,THRESH_BINARY,11,0);
+    threshold(imgEDMedian, imgThreshold, THRESH_VALUE, 255,THRESH_BINARY);
+    erode(imgThreshold,imgThreshold,erosionElement);
+    dilate(imgThreshold,imgThreshold,dilationElement);
 
+    // Solving Lighting Noise Problem
+    nPixels = sum(imgThreshold)[0]/255;
+    nTotal = imgThreshold.total();
+
+//	cout << "Number of Pixels:" << nPixels << endl;
+//	cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
+
+    if((((float)nPixels)/nTotal)>0.5){
+//		sleep(1);
+//		cout << "Lighting Noise!!!" << endl;
+//		cout << "Number of Pixels:" << nPixels << endl;
+//		cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
+
+        // Invalidates the last frame
+        imgThreshold = lastimgThreshold;
+    }else{
+        // Saves the last valid frame
+        lastimgThreshold=imgThreshold;
+        //lastThresholdSum = CurrentThresholdSum;
+    }
 
     // Output
-    imshow("Eroded Image",imgE);
-    imshow("Eroded Image BGR",imgEBGR);
-
-    imshow("Eroded+Dilated Image",imgED);
-    imshow("Eroded+Dilated Image BGR",imgEDBGR);
+//	imshow("Eroded Image",imgE);
+//	imshow("Eroded Image BGR",imgEBGR);
+//
+//	imshow("Eroded+Dilated Image",imgED);
+//	imshow("Eroded+Dilated Image BGR",imgEDBGR);
 
     imshow("Eroded+Dilated+Median Image",imgEDMedian);
     imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
 
-    imshow("Thresholded Image",imgThresholded);
+    imshow("Thresholded Image",imgThreshold);
+
+    // Tracking Object
+    if(isTrackingObjects){
+        trackFilteredObject(x,y,imgThreshold,cameraFeedL);
+        imshow("Tracking Object",cameraFeedL);
+    }
 }
 
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
@@ -761,35 +785,6 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
             }
         }
     }
-}
-
-/*** Read Q Matrix function
-  ** Description: Reads the Q Matrix in the *.yml file
-  ** Receives:    Matrices Addresses for storage
-  ** Returns:     Nothing
-  **
-  ** Perspective transformation matrix(Q)
-  ** [ 1  0    0	   -cx     ]
-  ** [ 0  1    0 	   -cy     ]
-  ** [ 0  0    0		f      ]
-  ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
-  ***/
-void readQMatrix(Mat &Q,double* focalLength,double* baseline,ConfigFile* cfg){
-#ifdef RESOLUTION_640x480
-    //FileStorage fs("../data/calib/calib5_640_480/Q.yml", FileStorage::READ);
-    FileStorage fs(cfg->QmatrixFileName, FileStorage::READ);
-#endif
-
-    if(!fs.isOpened()){
-        printf("Failed to open Q.yml file\n");
-        return;
-    }
-
-    fs["Q"] >> Q;
-    cout << "Q:" << endl << Q << endl;
-
-    *focalLength = Q.at<double>(2,3);  cout << "f:" << *focalLength << endl;
-    *baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << *baseline << endl;
 }
 
 void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline){

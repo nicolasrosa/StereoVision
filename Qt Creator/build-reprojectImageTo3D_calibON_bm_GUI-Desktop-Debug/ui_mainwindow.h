@@ -37,6 +37,7 @@ public:
     QPushButton *btnShowStereoParamSetup;
     QPushButton *btnShow3DReconstruction;
     QPushButton *btnShowInputImages;
+    QPushButton *btnShowTrackingObjectView;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -58,7 +59,7 @@ public:
         lblOriginalRight->setAutoFillBackground(true);
         txtOutputBox = new QPlainTextEdit(centralWidget);
         txtOutputBox->setObjectName(QStringLiteral("txtOutputBox"));
-        txtOutputBox->setGeometry(QRect(384, 488, 901, 197));
+        txtOutputBox->setGeometry(QRect(614, 488, 671, 197));
         txtOutputBox->setReadOnly(true);
         btnPauseOrResume = new QPushButton(centralWidget);
         btnPauseOrResume->setObjectName(QStringLiteral("btnPauseOrResume"));
@@ -75,6 +76,9 @@ public:
         btnShowInputImages = new QPushButton(centralWidget);
         btnShowInputImages->setObjectName(QStringLiteral("btnShowInputImages"));
         btnShowInputImages->setGeometry(QRect(180, 500, 181, 41));
+        btnShowTrackingObjectView = new QPushButton(centralWidget);
+        btnShowTrackingObjectView->setObjectName(QStringLiteral("btnShowTrackingObjectView"));
+        btnShowTrackingObjectView->setGeometry(QRect(390, 500, 211, 41));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -102,6 +106,7 @@ public:
         btnShowStereoParamSetup->setText(QApplication::translate("MainWindow", "Stereo Param Setup", 0));
         btnShow3DReconstruction->setText(QApplication::translate("MainWindow", "Show 3D Reconstruction", 0));
         btnShowInputImages->setText(QApplication::translate("MainWindow", "Show Left/Right", 0));
+        btnShowTrackingObjectView->setText(QApplication::translate("MainWindow", "Show Tracking Object View", 0));
     } // retranslateUi
 
 };
