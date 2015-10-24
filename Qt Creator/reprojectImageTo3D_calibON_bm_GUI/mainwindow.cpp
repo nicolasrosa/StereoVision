@@ -16,6 +16,8 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
+    //StereoProcessor stereo = StereoVisionProcessInit();
+
     tmrTimer = new QTimer(this);
     connect(tmrTimer,SIGNAL(timeout()),this,SLOT(StereoVisionProcessAndUpdateGUI()));
     tmrTimer->start(30);
@@ -57,70 +59,96 @@ void MainWindow::on_btnShow3DReconstruction_clicked(){
     show3Dreconstruction = true;
 }
 
+//StereoProcessor MainWindow::StereoVisionProcessInit(){
+//    printHelp();
+
+//    //(1) Open Image Source
+
+//    //Mat imageL[2],imageR[2];
+//    //Mat	imageL_grey[2],imageR_grey[2];
+//    //VideoCapture capL,capR;
+
+//    //MainWindow::stereo = StereoProcessor::StereoProcessor(6);
+//    StereoProcessor stereo(6);
+
+//    return(stereo);
+//}
+
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
     int frameCounter=0;
     float fps,lastTime = clock();
     bool StartDiff=false;
     char key=0;
+    static bool isStereoInitialized;
+    bool isBGR2RGBflipped = false;
 
     Mat diffImage;
     Mat disp3Dviewer,disp3D,disp83D,disp3DBGR;
 
+    //if(isStereoInitialized){
     printHelp();
 
     //(1) Open Image Source
+    StereoProcessor stereo(6);  //Initialize StereoProcessor Object
 
-    //Mat imageL[2],imageR[2];
-    //Mat	imageL_grey[2],imageR_grey[2];
-    //VideoCapture capL,capR;
-
-    //MainWindow::stereo = StereoProcessor::StereoProcessor(6);
-    StereoProcessor stereo(6);
-
-
-    //openStereoSource(inputNum,&capL,&capR,&imageL[0],&imageR[0]);
     openStereoSource(stereo.getInputNum(),&capL,&capR,&imageL[0],&imageR[0]);
-    //stereo.cfg.readConfigFile();
-
     stereo.readConfigFile();
 
-    //(2) Stereo Initialization
-    //Ptr<StereoBM> bm = StereoBM::create(16,9);
-    //stereoInit(bm);
+    //(5) Camera Setting
 
-    cout << "oi" << endl;
+    // Checking Resolution
+    stereo.calib.is320x240  = false;
+    stereo.calib.is640x480  = true;
+    stereo.calib.is1280x720 = false;
+
+    if(isVideoFile){
+        stereo.imageSize.width = capL.get(CV_CAP_PROP_FRAME_WIDTH);
+        stereo.imageSize.height = capL.get(CV_CAP_PROP_FRAME_HEIGHT);
+        cout << "oi" << endl;
+    }else{
+        stereo.imageSize.width = imageL[0].cols;
+        stereo.imageSize.height = imageL[0].rows;
+    }
+
+    if(stereo.imageSize.width==0 && stereo.imageSize.height==0){
+        cerr << "Number of Cols and Number of Rows equal to ZERO!" << endl;
+    }else{
+        cout << "Input Resolution(Width,Height): (" << stereo.imageSize.width << "," << stereo.imageSize.height << ")" << endl << endl;
+    }
+
+    //(2) Stereo Initialization
     stereo.bm = StereoBM::create(16,9);
     stereo.stereoInit();
 
     //(3) Stereo Calibration
-    Mat M1,D1,M2,D2;
-    Mat R,T,R1,P1,R2,P2;
-    Rect roi1, roi2;
+        Mat M1,D1,M2,D2;
+        Mat R,T,R1,P1,R2,P2;
+        Rect roi1, roi2;
 
-    if(needCalibration){
-        cout << "Calibration: ON\n" << endl;
-        stereoCalib(M1,D1,M2,D2,R,T,&stereo);
-    }else{
-        cout << "Calibration: OFF\n" << endl;
-    }
+        if(needCalibration){
+            cout << "Calibration: ON\n" << endl;
+            stereo.stereoCalib();
 
-    //(4) Compute the Q Matrix
-    Mat Q;
-    double focalLength,baseline;
+            //(4) Compute the Q Matrix
+            stereo.readQMatrix(); //true=640x480 false=others
 
-    stereo.readQMatrix(Q,&focalLength,&baseline,true); //true=640x480 false=others
+            //Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
+            //calculateQMatrix(Q,imageCenter,focalLength,baseline*16);
 
-    //Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
-    //calculateQMatrix(Q,imageCenter,focalLength,baseline*16);
+            //(5) Camera Setting
+            ////        // Checking Intrinsic Matrix
+            ////        if(stereo.calib.isKcreated){
+            ////           cout << "The Intrinsic Matrix is already Created." << endl << endl;
+            ////        }else{
+            //            //stereo.createKMatrix();
+            // //       }
+            stereo.createKMatrix();
+
+        }else{
+            cout << "Calibration: OFF" << endl << endl;
+        }
 
 
-    //(5) Camera Setting
-    Mat K=Mat::eye(3,3,CV_64F);
-    K.at<double>(0,0)=focalLength;
-    K.at<double>(1,1)=focalLength;
-    K.at<double>(0,2)=(imageL[0].cols-1.0)/2.0;
-    K.at<double>(1,2)=(imageL[0].rows-1.0)/2.0;
-    //cout << "K:" << endl << K << endl;
 
     //(6) Point Cloud Initialization
     Mat dist=Mat::zeros(5,1,CV_64F);
@@ -136,6 +164,8 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
     isStereoParamSetupTrackbarsCreated=createTrackbars();
     //createTrackbars();
+    //}
+    isStereoInitialized = true;
 
     //(7) Rendering Loop
     while(key!='q'){
@@ -143,14 +173,15 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             capL >> imageL[0];
             capR >> imageR[0];
 
-            resizeFrame(&imageL[0],&imageR[0]);
+            resizeFrames(&imageL[0],&imageR[0]);
 
             if(needCalibration){
-                Size imageSize = imageL[0].size();
-                stereoRectify(M1,D1,M2,D2,imageSize,R,T,R1,R2,P1,P2,Q,CALIB_ZERO_DISPARITY,-1,imageSize,&roi1,&roi2);
+                stereo.imageSize = imageL[0].size();
+                stereoRectify(stereo.calib.M1,stereo.calib.D1,stereo.calib.M2,stereo.calib.D2,stereo.imageSize,stereo.calib.R,stereo.calib.T,stereo.calib.R1,stereo.calib.R2,stereo.calib.P1,stereo.calib.P2,stereo.calib.Q,CALIB_ZERO_DISPARITY,-1,stereo.imageSize,&stereo.calib.roi1,&stereo.calib.roi2);
                 Mat rmap[2][2];
-                initUndistortRectifyMap(M1, D1, R1, P1, imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
-                initUndistortRectifyMap(M2, D2, R2, P2, imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+
+                initUndistortRectifyMap(stereo.calib.M1, stereo.calib.D1, stereo.calib.R1, stereo.calib.P1, stereo.imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
+                initUndistortRectifyMap(stereo.calib.M2, stereo.calib.D2, stereo.calib.R2, stereo.calib.P2, stereo.imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
                 Mat imageLr, imageRr;
                 remap(imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
                 remap(imageR[0], imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
@@ -161,7 +192,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         }
 
         //Setting StereoBM Parameters
-        stereoSetparams(&roi1,&roi2,stereo.bm,imageL[0].rows,showStereoParamValues);
+        stereoSetparams(&stereo.calib.roi1,&stereo.calib.roi2,stereo.bm,imageL[0].rows,showStereoParamValues);
 
         // Convert BGR to Gray_Scale
         cvtColor(imageL[0],imageL_grey[0],CV_BGR2GRAY);
@@ -182,12 +213,12 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         Mat disp8eroded;Mat disp8_eroded_dilated;
 
         //imageProcessing1(disp8,disp8Median,disp8Median);
-        imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated,imageL[0],true);
+        //imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated,imageL[0],true);
 
         //(8) Projecting 3D point cloud to image
         if(show3Dreconstruction){
             Mat depth;
-            cv::reprojectImageTo3D(disp,depth,Q);
+            cv::reprojectImageTo3D(disp,depth,stereo.calib.Q);
             Mat xyz= depth.reshape(3,depth.size().area());
 
             lookat(viewpoint, lookatpoint , Rotation);
@@ -205,7 +236,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             t=Rotation*t;
 
             //projectImagefromXYZ(imageL[0],disp3Dviewer,disp,disp3D,xyz,Rotation,t,K,dist,isSub);
-            projectImagefromXYZ(disp8BGR,disp3DBGR,disp,disp3D,xyz,Rotation,t,K,dist,isSub);
+            projectImagefromXYZ(disp8BGR,disp3DBGR,disp,disp3D,xyz,Rotation,t,stereo.calib.K,dist,isSub);
 
             // GUI Output
             disp3D.convertTo(disp83D,CV_8U,0.5);
@@ -250,9 +281,16 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             //  imshow("Left",imageL[0]);
             //  imshow("Right",imageR[0]);
 
+        if(isVideoFile){
             cv::cvtColor(imageL[0],imageL[0],CV_BGR2RGB);
             cv::cvtColor(imageR[0],imageR[0],CV_BGR2RGB);
+        }
 
+        if(!isVideoFile && isBGR2RGBflipped == false){
+            cv::cvtColor(imageL[0],imageL[0],CV_BGR2RGB);
+            cv::cvtColor(imageR[0],imageR[0],CV_BGR2RGB);
+            bool isBGR2RGBflipped = true;
+        }
             QImage qimageL((uchar*)imageL[0].data,imageL[0].cols,imageL[0].rows,imageL[0].step,QImage::Format_RGB888);
             QImage qimageR((uchar*)imageR[0].data,imageR[0].cols,imageR[0].rows,imageR[0].step,QImage::Format_RGB888);
 
@@ -421,8 +459,8 @@ void MainWindow::openStereoSource(int inputNum,VideoCapture* capL,VideoCapture* 
         needCalibration=true;
         break;
     case 7:
-        imageL_filename = "../data/left/left1.png";
-        imageR_filename = "../data/right/right1.png";
+        imageL_filename = "../../workspace/data/left/left1.png";
+        imageR_filename = "../../workspace/data/right/right1.png";
         needCalibration=false;
         break;
     case 8:
@@ -460,9 +498,9 @@ void MainWindow::openStereoSource(int inputNum,VideoCapture* capL,VideoCapture* 
             imageL[0] = imread(imageL_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
             imageR[0] = imread(imageR_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
 
-            if(!imageL[0].data || !imageR[0].data){                          	// Check for invalid input
+            if(!imageL[0].data || !imageR[0].data){                     // Check for invalid input
                 ui->txtOutputBox->appendPlainText(QString("Could not open or find the input images!"));
-                //return -1;
+                return;
             }
         }else{
             ui->txtOutputBox->appendPlainText(QString( "It is not a Image file"));
@@ -596,58 +634,7 @@ void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showSte
 
 }
 
-/*** Stereo Calibration function
-  ** Description: Reads the Calibrations in *.yml files
-  ** Receives:    Matrices Addresses for storage
-  ** @param Mat M1,M2: Intrinsic Matrices from camera 1 and 2
-  ** @param Mat D1,D2: Distortion Coefficients from camera 1 and 2
-  ** @param Mat R: Rotation Matrix
-  ** @param Mat t: Translation Vector
-  ** Returns:     Nothing
-  ***/
-void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,StereoProcessor* stereo){
-    //FileStorage fs("../data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
-    FileStorage fs(stereo->intrinsicsFileName, FileStorage::READ);
-    if(!fs.isOpened()){
-        printf("Failed to open intrinsics.yml file\n");
-        return;
-    }
-
-    fs["M1"] >> M1;
-    fs["D1"] >> D1;
-    fs["M2"] >> M2;
-    fs["D2"] >> D2;
-
-    fs.release();
-
-    float scale = 1.f;
-    M1 *= scale;
-    M2 *= scale;
-
-    //fs.open("../data/calib/calib5_640_480/extrinsics.yml", FileStorage::READ);
-    fs.open(stereo->extrinsicsFileName, FileStorage::READ);
-    if(!fs.isOpened()){
-        printf("Failed to open extrinsics.yml file\n");
-        return;
-    }
-
-    fs["R"] >> R;
-    fs["T"] >> T;
-
-    fs.release();
-
-    cout << "Intrinsics: " << endl;
-    cout << "M1: " << endl << M1 << endl;
-    cout << "D1: " << endl << D1 << endl;
-    cout << "M2: " << endl << M2 << endl;
-    cout << "D2: " << endl << D2 << endl;
-
-    cout << "\nExtrinsics: "   << endl;
-    cout << "R: " << endl << R << endl;
-    cout << "T: " << endl << T << endl << endl;
-}
-
-void resizeFrame(Mat* frame1,Mat* frame2){
+void resizeFrames(Mat* frame1,Mat* frame2){
     if(frame1->cols != 0 || !frame2->cols != 0){
 #ifdef RESOLUTION_320x240
         resize(*frame1, *frame1, Size(320,240), 0, 0, INTER_CUBIC);
@@ -739,14 +726,14 @@ void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTracki
     nPixels = sum(imgThreshold)[0]/255;
     nTotal = imgThreshold.total();
 
-//	cout << "Number of Pixels:" << nPixels << endl;
-//	cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
+    //	cout << "Number of Pixels:" << nPixels << endl;
+    //	cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
 
     if((((float)nPixels)/nTotal)>0.5){
-//		sleep(1);
-//		cout << "Lighting Noise!!!" << endl;
-//		cout << "Number of Pixels:" << nPixels << endl;
-//		cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
+        //		sleep(1);
+        //		cout << "Lighting Noise!!!" << endl;
+        //		cout << "Number of Pixels:" << nPixels << endl;
+        //		cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
 
         // Invalidates the last frame
         imgThreshold = lastimgThreshold;
@@ -757,11 +744,11 @@ void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTracki
     }
 
     // Output
-//	imshow("Eroded Image",imgE);
-//	imshow("Eroded Image BGR",imgEBGR);
-//
-//	imshow("Eroded+Dilated Image",imgED);
-//	imshow("Eroded+Dilated Image BGR",imgEDBGR);
+    //	imshow("Eroded Image",imgE);
+    //	imshow("Eroded Image BGR",imgEBGR);
+    //
+    //	imshow("Eroded+Dilated Image",imgED);
+    //	imshow("Eroded+Dilated Image BGR",imgEDBGR);
 
     imshow("Eroded+Dilated+Median Image",imgEDMedian);
     imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
@@ -1089,7 +1076,7 @@ static void fillOcclusion_(Mat& src, T invalidvalue){
 }
 
 
-//QImage MainWindow::putImage(const Mat& mat)
+//Image MainWindow::putImage(const Mat& mat)
 //{
 //    // 8-bits unsigned, NO. OF CHANNELS=1
 //    if(mat.type()==CV_8UC1)

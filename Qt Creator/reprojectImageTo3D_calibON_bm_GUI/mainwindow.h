@@ -17,11 +17,13 @@ class MainWindow : public QMainWindow{
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void printHelp();
+    void openStereoSource(int inputNum,cv::VideoCapture* capL,cv::VideoCapture* capR,cv::Mat* imageL,cv::Mat* imageR);
+    //StereoProcessor StereoVisionProcessInit();
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
-
     Mat imageL[2],imageR[2];
     Mat	imageL_grey[2],imageR_grey[2];
     VideoCapture capL,capR;
@@ -31,8 +33,6 @@ private:
     QTimer* tmrTimer;
 
 public slots:
-    void printHelp();
-    void openStereoSource(int inputNum,cv::VideoCapture* capL,cv::VideoCapture* capR,cv::Mat* imageL,cv::Mat* imageR);
     void StereoVisionProcessAndUpdateGUI();
 
 private slots:

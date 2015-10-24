@@ -35,15 +35,15 @@ using namespace std;
 void on_trackbar(int,void*);
 bool createTrackbars();
 
-void stereoInit(StereoBM* bm);
-void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T,StereoProcessor* stereo);
+
+//void stereoInit(StereoBM* bm);
 void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
 //void readQMatrix(Mat &Q,double* focalLength, double* baseline,StereoProcessor* stereo);
 void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline);
 void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
 void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects);
 
-void resizeFrame(Mat* frame1,Mat* frame2);
+void resizeFrames(Mat* frame1,Mat* frame2);
 void changeResolution(VideoCapture* cap_l,VideoCapture* cap_r);
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
 
