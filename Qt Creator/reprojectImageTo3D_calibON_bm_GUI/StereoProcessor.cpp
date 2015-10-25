@@ -31,10 +31,12 @@ void StereoProcessor::readConfigFile(){
 
     fs.release();
 
+    cout << "------------------------------Config.yml------------------------------" << endl;
     cout << "Intrinsics Path: " << this->calib.intrinsicsFileName << endl;
     cout << "Extrinsics Path: " << this->calib.extrinsicsFileName << endl;
     cout << "Q Matrix Path: "   << this->calib.QmatrixFileName    << endl;
     cout << "Config.yml Read Successfully." << endl << endl ;
+    cout << "----------------------------------------------------------------------" << endl;
 }
 
 
@@ -163,4 +165,15 @@ void StereoProcessor::readQMatrix(){
         cerr << "Check Q.yml file!\n" << endl;
         return;
     }
+}
+
+void StereoProcessor::calculateQMatrix(){
+    this->calib.Q = Mat::eye(4,4,CV_64F);
+    this->calib.Q.at<double>(0,3)=-this->imageCenter.x;
+    this->calib.Q.at<double>(1,3)=-this->imageCenter.y;
+    this->calib.Q.at<double>(2,3)=this->calib.focalLength;
+    this->calib.Q.at<double>(3,3)=0.0;
+    this->calib.Q.at<double>(2,2)=0.0;
+    this->calib.Q.at<double>(3,2)=1.0/this->calib.baseline;
+    cout << "Q:" << endl << this->calib.Q << endl;
 }

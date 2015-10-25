@@ -10,11 +10,12 @@
 
 /* Libraries */
 #include "opencv2/opencv.hpp"
+#include "3DReconstruction.h"
 
 using namespace cv;
 using namespace std;
 
-/* Custom Classes*/
+/* Custom Classes */
 class StereoCalib{
 public:
     StereoCalib(); //Constructor
@@ -41,14 +42,17 @@ public:
     StereoProcessor(int inputNum); //Constructor
     int getInputNum();
     void readConfigFile();
-    void readQMatrix();
     void stereoInit();
     void stereoCalib();
     void createKMatrix();
+    void readQMatrix();
+    void calculateQMatrix();
 
     Ptr<StereoBM> bm;
     StereoCalib calib;
+    Reconstruction3D view3D;
     Size imageSize;
+    Point2d imageCenter;
 private:
     int inputNum;
 };

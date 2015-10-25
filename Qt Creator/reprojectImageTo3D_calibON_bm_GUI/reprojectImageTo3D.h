@@ -16,6 +16,7 @@
 #include "opencv2/opencv.hpp"
 #include "trackObject.h"
 #include "StereoProcessor.h"
+#include "3DReconstruction.h"
 
 using namespace cv;
 using namespace std;
@@ -39,7 +40,7 @@ bool createTrackbars();
 //void stereoInit(StereoBM* bm);
 void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
 //void readQMatrix(Mat &Q,double* focalLength, double* baseline,StereoProcessor* stereo);
-void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline);
+//void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline);
 void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
 void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects);
 
@@ -47,26 +48,10 @@ void resizeFrames(Mat* frame1,Mat* frame2);
 void changeResolution(VideoCapture* cap_l,VideoCapture* cap_r);
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
 
-/* 3D Reconstruction Functions */
-void eular2rot(double yaw,double pitch, double roll,Mat& dest);
-void lookat(Point3d from, Point3d to, Mat& destR);
-void projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, Mat &destdisp, Mat &xyz, Mat &R, Mat &t, Mat &K, Mat &dist, bool isSub);
-void fillOcclusion(Mat& src, int invalidvalue, bool isInv);
-
-/* 3D Reconstruction Classes */
-template <class T>
-static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, Mat& destdisp, Mat& xyz, Mat& R, Mat& t, Mat& K, Mat& dist, Mat& mask, bool isSub);
-
-template <class T>
-static void fillOcclusionInv_(Mat& src, T invalidvalue);
-
-template <class T>
-static void fillOcclusion_(Mat& src, T invalidvalue);
 
 /* Global Variables */
 const std::string trackbarWindowName = "Stereo Param Setup";
-const double focal_length = 752.093;
-const double baseline = -2.61138;
+
 bool isVideoFile=false,isImageFile=false,needCalibration=false,isStereoParamSetupTrackbarsCreated=false,isTrackingObjects=true;;
 bool showInputImages=true,showXYZ=false,showStereoParam=false,showStereoParamValues,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
 

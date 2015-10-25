@@ -17,12 +17,14 @@ LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_photo -lopenc
 SOURCES += main.cpp\
         mainwindow.cpp \
         trackObject.cpp \
-    StereoProcessor.cpp
+    StereoProcessor.cpp \
+    3DReconstruction.cpp
 
 HEADERS  += mainwindow.h \
     reprojectImageTo3D.h \
     trackObject.h \
-    StereoProcessor.h
+    StereoProcessor.h \
+    3DReconstruction.h
 
 FORMS    += mainwindow.ui
 

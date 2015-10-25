@@ -48,11 +48,13 @@ OBJECTS_DIR   = ./
 SOURCES       = ../reprojectImageTo3D_calibON_bm_GUI/main.cpp \
 		../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp \
 		../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp \
-		../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp moc_mainwindow.cpp
+		../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp \
+		../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		trackObject.o \
 		StereoProcessor.o \
+		3DReconstruction.o \
 		moc_mainwindow.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
@@ -345,7 +347,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0 || mkdir -p .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h ../reprojectImageTo3D_calibON_bm_GUI/reprojectImageTo3D.h ../reprojectImageTo3D_calibON_bm_GUI/trackObject.h ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/main.cpp ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp ../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.ui .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && (cd `dirname .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0` && $(TAR) reprojectImageTo3D_calibON_bm_GUI1.0.0.tar reprojectImageTo3D_calibON_bm_GUI1.0.0 && $(COMPRESS) reprojectImageTo3D_calibON_bm_GUI1.0.0.tar) && $(MOVE) `dirname .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0`/reprojectImageTo3D_calibON_bm_GUI1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h ../reprojectImageTo3D_calibON_bm_GUI/reprojectImageTo3D.h ../reprojectImageTo3D_calibON_bm_GUI/trackObject.h ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.h .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/main.cpp ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp ../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.cpp .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.ui .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && (cd `dirname .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0` && $(TAR) reprojectImageTo3D_calibON_bm_GUI1.0.0.tar reprojectImageTo3D_calibON_bm_GUI1.0.0 && $(COMPRESS) reprojectImageTo3D_calibON_bm_GUI1.0.0.tar) && $(MOVE) `dirname .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0`/reprojectImageTo3D_calibON_bm_GUI1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0
 
 
 clean:compiler_clean 
@@ -482,6 +484,7 @@ moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
 		/usr/include/qt5/QtWidgets/qtabwidget.h \
 		/usr/include/qt5/QtGui/qicon.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h \
 		../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h -o moc_mainwindow.cpp
 
@@ -615,6 +618,7 @@ main.o: ../reprojectImageTo3D_calibON_bm_GUI/main.cpp ../reprojectImageTo3D_cali
 		/usr/include/qt5/QtGui/qtouchdevice.h \
 		/usr/include/qt5/QtWidgets/qtabwidget.h \
 		/usr/include/qt5/QtGui/qicon.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h \
 		/usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qapplication.h \
 		/usr/include/qt5/QtCore/qcoreapplication.h \
@@ -629,6 +633,7 @@ mainwindow.o: ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp ../reprojectIm
 		/usr/local/include/opencv/highgui.h \
 		/usr/local/include/opencv/cvaux.h \
 		../reprojectImageTo3D_calibON_bm_GUI/trackObject.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h \
 		../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h \
 		/usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
@@ -904,12 +909,14 @@ mainwindow.o: ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp ../reprojectIm
 		/usr/include/qt5/QtCore/qtcoreversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp
 
-trackObject.o: ../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp ../reprojectImageTo3D_calibON_bm_GUI/trackObject.h \
-		/usr/local/include/opencv/cv.h
+trackObject.o: ../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp ../reprojectImageTo3D_calibON_bm_GUI/trackObject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o trackObject.o ../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp
 
-StereoProcessor.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp 
+StereoProcessor.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoProcessor.o ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp
+
+3DReconstruction.o: ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.cpp ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o 3DReconstruction.o ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
