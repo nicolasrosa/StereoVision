@@ -18,15 +18,18 @@ SOURCES += main.cpp\
         mainwindow.cpp \
         trackObject.cpp \
     StereoProcessor.cpp \
-    3DReconstruction.cpp
+    3DReconstruction.cpp \
+    setstereoparams.cpp
 
 HEADERS  += mainwindow.h \
     reprojectImageTo3D.h \
     trackObject.h \
     StereoProcessor.h \
-    3DReconstruction.h
+    3DReconstruction.h \
+    setstereoparams.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    setstereoparams.ui
 
 OTHER_FILES += \
     config.yml

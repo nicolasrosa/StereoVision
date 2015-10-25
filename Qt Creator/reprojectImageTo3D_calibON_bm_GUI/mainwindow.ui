@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Stereo Vision Main</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLabel" name="lblOriginalLeft">
@@ -38,6 +38,9 @@
       <width>640</width>
       <height>480</height>
      </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
     </property>
     <property name="autoFillBackground">
      <bool>true</bool>
@@ -153,7 +156,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

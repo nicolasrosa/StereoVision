@@ -44,6 +44,7 @@ private slots:
 
     void on_btnShow3DReconstruction_clicked();
     void on_btnShowInputImages_clicked();
+    void on_btnShowTrackingObjectView_clicked();
 };
 
 #endif // MAINWINDOW_H

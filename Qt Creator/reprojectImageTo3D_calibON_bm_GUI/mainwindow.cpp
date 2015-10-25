@@ -6,9 +6,10 @@
 #include "reprojectImageTo3D.h"
 
 //Qt Creator Libs
+#include <QtCore>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QtCore>
+#include "setstereoparams.h"
 
 using namespace cv;
 using namespace std;
@@ -38,7 +39,11 @@ void MainWindow::on_btnPauseOrResume_clicked(){
 }
 
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
-    showStereoParam = !showStereoParam;
+    //showStereoParam = !showStereoParam;
+
+    SetStereoParams SetStereoParamsWindow;
+    SetStereoParamsWindow.setModal(true);
+    SetStereoParamsWindow.exec();
 }
 
 void MainWindow::on_btnShowInputImages_clicked(){
@@ -57,6 +62,11 @@ void MainWindow::on_btnShow3DReconstruction_clicked(){
     showInputImages = false;
     showDisparityMap = false;
     show3Dreconstruction = true;
+}
+
+void MainWindow::on_btnShowTrackingObjectView_clicked()
+{
+
 }
 
 //StereoProcessor MainWindow::StereoVisionProcessInit(){

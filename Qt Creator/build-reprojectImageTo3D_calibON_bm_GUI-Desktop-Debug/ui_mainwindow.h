@@ -56,6 +56,7 @@ public:
         lblOriginalRight = new QLabel(centralWidget);
         lblOriginalRight->setObjectName(QStringLiteral("lblOriginalRight"));
         lblOriginalRight->setGeometry(QRect(648, 4, 640, 480));
+        lblOriginalRight->setMouseTracking(false);
         lblOriginalRight->setAutoFillBackground(true);
         txtOutputBox = new QPlainTextEdit(centralWidget);
         txtOutputBox->setObjectName(QStringLiteral("txtOutputBox"));
@@ -87,6 +88,7 @@ public:
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
+        MainWindow->insertToolBarBreak(mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
@@ -98,7 +100,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Stereo Vision Main", 0));
         lblOriginalLeft->setText(QString());
         lblOriginalRight->setText(QString());
         btnPauseOrResume->setText(QApplication::translate("MainWindow", "Pause", 0));
