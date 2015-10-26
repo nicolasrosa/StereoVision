@@ -9,15 +9,15 @@
 #include <QtCore>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "setstereoparams.h"
 
 using namespace cv;
 using namespace std;
 
-MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
+//MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow),stereo(StereoProcessor::StereoProcessor(6)){
+MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow),StereoProcessor(6){
     ui->setupUi(this);
 
-    //StereoProcessor stereo = StereoVisionProcessInit();
+    StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
     connect(tmrTimer,SIGNAL(timeout()),this,SLOT(StereoVisionProcessAndUpdateGUI()));
@@ -69,25 +69,91 @@ void MainWindow::on_btnShowTrackingObjectView_clicked()
 
 }
 
-//StereoProcessor MainWindow::StereoVisionProcessInit(){
-//    printHelp();
+void MainWindow::StereoVisionProcessInit(){
+    printHelp();
 
-//    //(1) Open Image Source
+    cerr << "Arrumar a Matrix K, os valores das últimas colunas estão errados." << endl;
+    cerr << "Arrumar a função StereoProcessor::calculateQMatrix()." << endl;
+    cerr << "Arrumar a estrutura do código, evitar que a inicialização seja executada mais de uma vez." << endl;
 
-//    //Mat imageL[2],imageR[2];
-//    //Mat	imageL_grey[2],imageR_grey[2];
-//    //VideoCapture capL,capR;
+    openStereoSource(this->getInputNum(),&capL,&capR,&imageL[0],&imageR[0]);
+    this->readConfigFile();
 
-//    //MainWindow::stereo = StereoProcessor::StereoProcessor(6);
-//    StereoProcessor stereo(6);
+    //(1) Open Image Source
+    //StereoProcessor stereo(6);  //Initialize StereoProcessor Object
 
-//    return(stereo);
-//}
+    //openStereoSource(this->getInputNum(),&capL,&capR,&imageL[0],&imageR[0]);
+    //this->readConfigFile();
+
+    //(5) Camera Setting
+
+    // Checking Resolution
+    this->calib.is320x240  = false;
+    this->calib.is640x480  = true;
+    this->calib.is1280x720 = false;
+
+    if(isVideoFile){
+        this->imageSize.width = capL.get(CV_CAP_PROP_FRAME_WIDTH);
+        this->imageSize.height = capL.get(CV_CAP_PROP_FRAME_HEIGHT);
+    }else{
+        this->imageSize.width = imageL[0].cols;
+        this->imageSize.height = imageL[0].rows;
+    }
+
+    if(this->imageSize.width==0 && this->imageSize.height==0){
+        cerr << "Number of Cols and Number of Rows equal to ZERO!" << endl;
+    }else{
+        cout << "Input Resolution(Width,Height): (" << this->imageSize.width << "," << this->imageSize.height << ")" << endl << endl;
+    }
+
+    //(2) Stereo Initialization
+    this->bm = StereoBM::create(16,9);
+    this->stereoInit();
+
+    //(3) Stereo Calibration
+    Mat M1,D1,M2,D2;
+    Mat R,T,R1,P1,R2,P2;
+    Rect roi1, roi2;
+
+    if(needCalibration){
+        cout << "Calibration: ON" << endl;
+        this->stereoCalib();
+
+        //(4) Compute the Q Matrix
+        this->readQMatrix(); //true=640x480 false=others
+
+        //Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
+        //this->calculateQMatrix();
+
+        //(5) Camera Setting
+        ////        // Checking Intrinsic Matrix
+        ////        if(this->calib.isKcreated){
+        ////           cout << "The Intrinsic Matrix is already Created." << endl << endl;
+        ////        }else{
+        //            //this->createKMatrix();
+        // //       }
+        this->createKMatrix();
+
+    }else{
+        cout << "Calibration: OFF" << endl << endl;
+    }
+
+    //(6) Point Cloud Initialization
+    this->view3D.PointCloudInit(this->calib.baseline/10,true);
+
+    this->view3D.setViewPoint(20.0,20.0,-this->calib.baseline*10);
+    this->view3D.setLookAtPoint(22.0,16.0,this->calib.baseline*10.0);
+
+
+
+    isStereoParamSetupTrackbarsCreated=createTrackbars();
+    //createTrackbars();
+
+}
 
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
     //Local Variables
     char key=0;
-    static bool isStereoInitialized;
     bool isBGR2RGBflipped = false;
 
     //Diff
@@ -98,85 +164,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     int frameCounter=0;
     float fps,lastTime = clock();
 
-    //if(isStereoInitialized){
-    printHelp();
-
-    cerr << "Arrumar a Matrix K, os valores das últimas colunas estão errados." << endl;
-    cerr << "Arrumar a função StereoProcessor::calculateQMatrix()." << endl;
-    cerr << "Arrumar a estrutura do código, evitar que a inicialização seja executada mais de uma vez." << endl;
-
-    //(1) Open Image Source
-    StereoProcessor stereo(6);  //Initialize StereoProcessor Object
-
-    openStereoSource(stereo.getInputNum(),&capL,&capR,&imageL[0],&imageR[0]);
-    stereo.readConfigFile();
-
-    //(5) Camera Setting
-
-    // Checking Resolution
-    stereo.calib.is320x240  = false;
-    stereo.calib.is640x480  = true;
-    stereo.calib.is1280x720 = false;
-
-    if(isVideoFile){
-        stereo.imageSize.width = capL.get(CV_CAP_PROP_FRAME_WIDTH);
-        stereo.imageSize.height = capL.get(CV_CAP_PROP_FRAME_HEIGHT);
-    }else{
-        stereo.imageSize.width = imageL[0].cols;
-        stereo.imageSize.height = imageL[0].rows;
-    }
-
-    if(stereo.imageSize.width==0 && stereo.imageSize.height==0){
-        cerr << "Number of Cols and Number of Rows equal to ZERO!" << endl;
-    }else{
-        cout << "Input Resolution(Width,Height): (" << stereo.imageSize.width << "," << stereo.imageSize.height << ")" << endl << endl;
-    }
-
-    //(2) Stereo Initialization
-    stereo.bm = StereoBM::create(16,9);
-    stereo.stereoInit();
-
-    //(3) Stereo Calibration
-        Mat M1,D1,M2,D2;
-        Mat R,T,R1,P1,R2,P2;
-        Rect roi1, roi2;
-
-        if(needCalibration){
-            cout << "Calibration: ON" << endl;
-            stereo.stereoCalib();
-
-            //(4) Compute the Q Matrix
-            stereo.readQMatrix(); //true=640x480 false=others
-
-            //Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
-            //stereo.calculateQMatrix();
-
-            //(5) Camera Setting
-            ////        // Checking Intrinsic Matrix
-            ////        if(stereo.calib.isKcreated){
-            ////           cout << "The Intrinsic Matrix is already Created." << endl << endl;
-            ////        }else{
-            //            //stereo.createKMatrix();
-            // //       }
-            stereo.createKMatrix();
-
-        }else{
-            cout << "Calibration: OFF" << endl << endl;
-        }
-
-    //(6) Point Cloud Initialization
-    stereo.view3D.PointCloudInit(stereo.calib.baseline/10,true);
-
-    stereo.view3D.setViewPoint(20.0,20.0,-stereo.calib.baseline*10);
-    stereo.view3D.setLookAtPoint(22.0,16.0,stereo.calib.baseline*10.0);
-
-
-
-    isStereoParamSetupTrackbarsCreated=createTrackbars();
-    //createTrackbars();
-    //}
-    isStereoInitialized = true;
-
     //(7) Rendering Loop
     while(key!='q'){
         if(isVideoFile){
@@ -186,12 +173,12 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             resizeFrames(&imageL[0],&imageR[0]);
 
             if(needCalibration){
-                stereo.imageSize = imageL[0].size();
-                stereoRectify(stereo.calib.M1,stereo.calib.D1,stereo.calib.M2,stereo.calib.D2,stereo.imageSize,stereo.calib.R,stereo.calib.T,stereo.calib.R1,stereo.calib.R2,stereo.calib.P1,stereo.calib.P2,stereo.calib.Q,CALIB_ZERO_DISPARITY,-1,stereo.imageSize,&stereo.calib.roi1,&stereo.calib.roi2);
+                this->imageSize = imageL[0].size();
+                stereoRectify(this->calib.M1,this->calib.D1,this->calib.M2,this->calib.D2,this->imageSize,this->calib.R,this->calib.T,this->calib.R1,this->calib.R2,this->calib.P1,this->calib.P2,this->calib.Q,CALIB_ZERO_DISPARITY,-1,this->imageSize,&this->calib.roi1,&this->calib.roi2);
                 Mat rmap[2][2];
 
-                initUndistortRectifyMap(stereo.calib.M1, stereo.calib.D1, stereo.calib.R1, stereo.calib.P1, stereo.imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
-                initUndistortRectifyMap(stereo.calib.M2, stereo.calib.D2, stereo.calib.R2, stereo.calib.P2, stereo.imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+                initUndistortRectifyMap(this->calib.M1, this->calib.D1, this->calib.R1, this->calib.P1, this->imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
+                initUndistortRectifyMap(this->calib.M2, this->calib.D2, this->calib.R2, this->calib.P2, this->imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
                 Mat imageLr, imageRr;
                 remap(imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
                 remap(imageR[0], imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
@@ -202,7 +189,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         }
 
         //Setting StereoBM Parameters
-        stereoSetparams(&stereo.calib.roi1,&stereo.calib.roi2,stereo.bm,imageL[0].rows,showStereoParamValues);
+        stereoSetparams(&this->calib.roi1,&this->calib.roi2,this->bm,imageL[0].rows,showStereoParamValues);
 
         // Convert BGR to Gray_Scale
         cvtColor(imageL[0],imageL_grey[0],CV_BGR2GRAY);
@@ -213,7 +200,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         Mat disp_8U  = Mat(imageR[0].rows, imageR[0].cols, CV_8UC1);
         Mat disp_BGR = Mat(imageR[0].rows, imageR[0].cols, CV_8UC3);
 
-        stereo.bm->compute(imageL_grey[0],imageR_grey[0],disp);
+        this->bm->compute(imageL_grey[0],imageR_grey[0],disp);
         //fillOcclusion(disp,16,false);
 
         normalize(disp, disp_8U, 0, 255, CV_MINMAX, CV_8U);
@@ -229,36 +216,36 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //(8) Projecting 3D point cloud to image
         if(show3Dreconstruction){
             Mat depth;
-            cv::reprojectImageTo3D(disp,depth,stereo.calib.Q);
+            cv::reprojectImageTo3D(disp,depth,this->calib.Q);
             Mat xyz= depth.reshape(3,depth.size().area());
 
-            lookat(stereo.view3D.viewpoint, stereo.view3D.lookatpoint , stereo.view3D.Rotation);
-            stereo.view3D.t.at<double>(0,0)=stereo.view3D.viewpoint.x;
-            stereo.view3D.t.at<double>(1,0)=stereo.view3D.viewpoint.y;
-            stereo.view3D.t.at<double>(2,0)=stereo.view3D.viewpoint.z;
+            lookat(this->view3D.viewpoint, this->view3D.lookatpoint , this->view3D.Rotation);
+            this->view3D.t.at<double>(0,0)=this->view3D.viewpoint.x;
+            this->view3D.t.at<double>(1,0)=this->view3D.viewpoint.y;
+            this->view3D.t.at<double>(2,0)=this->view3D.viewpoint.z;
 
             if(showXYZ){
                 //cout<<t<<endl;
-                cout << "x: " << stereo.view3D.t.at<double>(0,0) << endl;
-                cout << "y: " << stereo.view3D.t.at<double>(1,0) << endl;
-                cout << "z: " << stereo.view3D.t.at<double>(2,0) << endl;
+                cout << "x: " << this->view3D.t.at<double>(0,0) << endl;
+                cout << "y: " << this->view3D.t.at<double>(1,0) << endl;
+                cout << "z: " << this->view3D.t.at<double>(2,0) << endl;
             }
 
-            stereo.view3D.t=stereo.view3D.Rotation*stereo.view3D.t;
+            this->view3D.t=this->view3D.Rotation*this->view3D.t;
 
             //projectImagefromXYZ(imageL[0],disp3Dviewer,disp,disp3D,xyz,Rotation,t,K,dist,isSub);
-            projectImagefromXYZ(disp_BGR,stereo.view3D.disp3D_BGR,disp,stereo.view3D.disp3D,xyz,stereo.view3D.Rotation,stereo.view3D.t,stereo.calib.K,stereo.view3D.dist,stereo.view3D.isSub);
+            projectImagefromXYZ(disp_BGR,this->view3D.disp3D_BGR,disp,this->view3D.disp3D,xyz,this->view3D.Rotation,this->view3D.t,this->calib.K,this->view3D.dist,this->view3D.isSub);
 
             // GUI Output
-            stereo.view3D.disp3D.convertTo(stereo.view3D.disp3D_8U,CV_8U,0.5);
+            this->view3D.disp3D.convertTo(this->view3D.disp3D_8U,CV_8U,0.5);
             //imshow("3D Depth",disp3D);
             //imshow("3D Viewer",disp3Dviewer);
             //imshow("3D Depth RGB",disp3DBGR);
 
-            cv::cvtColor(stereo.view3D.disp3D_BGR,stereo.view3D.disp3D_BGR,CV_BGR2RGB);
+            cv::cvtColor(this->view3D.disp3D_BGR,this->view3D.disp3D_BGR,CV_BGR2RGB);
 
-            QImage qimageL((uchar*)stereo.view3D.disp3D_8U.data,stereo.view3D.disp3D_8U.cols,stereo.view3D.disp3D_8U.rows,stereo.view3D.disp3D_8U.step,QImage::Format_Indexed8);
-            QImage qimageR((uchar*)stereo.view3D.disp3D_BGR.data,stereo.view3D.disp3D_BGR.cols,stereo.view3D.disp3D_BGR.rows,stereo.view3D.disp3D_BGR.step,QImage::Format_RGB888);
+            QImage qimageL((uchar*)this->view3D.disp3D_8U.data,this->view3D.disp3D_8U.cols,this->view3D.disp3D_8U.rows,this->view3D.disp3D_8U.step,QImage::Format_Indexed8);
+            QImage qimageR((uchar*)this->view3D.disp3D_BGR.data,this->view3D.disp3D_BGR.cols,this->view3D.disp3D_BGR.rows,this->view3D.disp3D_BGR.step,QImage::Format_RGB888);
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
@@ -292,16 +279,16 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             //  imshow("Left",imageL[0]);
             //  imshow("Right",imageR[0]);
 
-        if(isVideoFile){
-            cv::cvtColor(imageL[0],imageL[0],CV_BGR2RGB);
-            cv::cvtColor(imageR[0],imageR[0],CV_BGR2RGB);
-        }
+            if(isVideoFile){
+                cv::cvtColor(imageL[0],imageL[0],CV_BGR2RGB);
+                cv::cvtColor(imageR[0],imageR[0],CV_BGR2RGB);
+            }
 
-        if(!isVideoFile && isBGR2RGBflipped == false){
-            cv::cvtColor(imageL[0],imageL[0],CV_BGR2RGB);
-            cv::cvtColor(imageR[0],imageR[0],CV_BGR2RGB);
-            bool isBGR2RGBflipped = true;
-        }
+            if(!isVideoFile && isBGR2RGBflipped == false){
+                cv::cvtColor(imageL[0],imageL[0],CV_BGR2RGB);
+                cv::cvtColor(imageR[0],imageR[0],CV_BGR2RGB);
+                bool isBGR2RGBflipped = true;
+            }
             QImage qimageL((uchar*)imageL[0].data,imageL[0].cols,imageL[0].rows,imageL[0].step,QImage::Format_RGB888);
             QImage qimageR((uchar*)imageR[0].data,imageR[0].cols,imageR[0].rows,imageR[0].step,QImage::Format_RGB888);
 
@@ -369,19 +356,19 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             showDiffImage = !showDiffImage;
 
         if(key=='f')
-            stereo.view3D.isSub=stereo.view3D.isSub?false:true;
+            this->view3D.isSub=this->view3D.isSub?false:true;
         if(key=='h')
-            stereo.view3D.viewpoint.x+=stereo.view3D.step;
+            this->view3D.viewpoint.x+=this->view3D.step;
         if(key=='g')
-            stereo.view3D.viewpoint.x-=stereo.view3D.step;
+            this->view3D.viewpoint.x-=this->view3D.step;
         if(key=='l')
-            stereo.view3D.viewpoint.y+=stereo.view3D.step;
+            this->view3D.viewpoint.y+=this->view3D.step;
         if(key=='k')
-            stereo.view3D.viewpoint.y-=stereo.view3D.step;
+            this->view3D.viewpoint.y-=this->view3D.step;
         if(key=='n')
-            stereo.view3D.viewpoint.z+=stereo.view3D.step;
+            this->view3D.viewpoint.z+=this->view3D.step;
         if(key=='m')
-            stereo.view3D.viewpoint.z-=stereo.view3D.step;
+            this->view3D.viewpoint.z-=this->view3D.step;
 
         if(key=='q')
             break;
@@ -411,19 +398,36 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 }
 
 void MainWindow::printHelp(){
-    ui->txtOutputBox->appendPlainText(QString("-----------------Help Menu-----------------\n")+
-                                      QString("Run command line: ./reprojectImageTo3D\n")+
-                                      QString("Keys:\n")+
-                                      QString("'`' -\tShow Help\n")+
-                                      QString("'1' -\tShow L/R Windows\t\t'4' -\tShow XYZ\n")+
-                                      QString("'2' -\tShow Disparity Map\t\t'5' -\tShow FPS\n")+
-                                      QString("'3' -\tShow 3D Reconstruction\t'6' -\tShow Stereo Parameters\n")+
-                                      QString("\n3D Viewer Navigation:\n")+
-                                      QString("x-axis:\t'g'/'h' -> +x,-x\n")+
-                                      QString("y-axis:\t'l'/'k' -> +y,-y\n")+
-                                      QString("z-axis:\t'n'/'m' -> +z,-z\n")+
-                                      QString("-------------------------------------------\n")+
-                                      QString("\n\n"));
+    //Console Output
+    cout << "-----------------Help Menu-----------------\n"
+         << "Run command line: ./reprojectImageTo3D\n"
+         << "Keys:\n"
+         << "'`' -\tShow Help\n"
+         << "'1' -\tShow L/R Windows\t\t'4' -\tShow XYZ\n"
+         << "'2' -\tShow Disparity Map\t\t'5' -\tShow FPS\n"
+         << "'3' -\tShow 3D Reconstruction\t'6' -\tShow Stereo Parameters\n"
+         << "\n3D Viewer Navigation:\n"
+         << "x-axis:\t'g'/'h' -> +x,-x\n"
+         << "y-axis:\t'l'/'k' -> +y,-y\n"
+         << "z-axis:\t'n'/'m' -> +z,-z\n"
+         << "-------------------------------------------\n"
+         << "\n\n";
+
+    //GUI
+    ui->txtOutputBox->appendPlainText
+            (QString("-----------------Help Menu-----------------\n")+
+             QString("Run command line: ./reprojectImageTo3D\n")+
+             QString("Keys:\n")+
+             QString("'`' -\tShow Help\n")+
+             QString("'1' -\tShow L/R Windows\t\t'4' -\tShow XYZ\n")+
+             QString("'2' -\tShow Disparity Map\t\t'5' -\tShow FPS\n")+
+             QString("'3' -\tShow 3D Reconstruction\t'6' -\tShow Stereo Parameters\n")+
+             QString("\n3D Viewer Navigation:\n")+
+             QString("x-axis:\t'g'/'h' -> +x,-x\n")+
+             QString("y-axis:\t'l'/'k' -> +y,-y\n")+
+             QString("z-axis:\t'n'/'m' -> +z,-z\n")+
+             QString("-------------------------------------------\n")+
+             QString("\n\n"));
 }
 
 void MainWindow::openStereoSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){

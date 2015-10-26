@@ -1,32 +1,33 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+/* Libraries */
 #include <QMainWindow>
-
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <StereoProcessor.h>
+
+/* Custom Libraries */
+#include "StereoProcessor.h"
 
 namespace Ui{
     class MainWindow;
 }
 
-class MainWindow : public QMainWindow{
+class MainWindow : public QMainWindow,public StereoProcessor{
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void StereoVisionProcessInit();
+
     void printHelp();
     void openStereoSource(int inputNum,cv::VideoCapture* capL,cv::VideoCapture* capR,cv::Mat* imageL,cv::Mat* imageR);
-    //StereoProcessor StereoVisionProcessInit();
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
-    Mat imageL[2],imageR[2];
-    Mat	imageL_grey[2],imageR_grey[2];
-    VideoCapture capL,capR;
+    MainWindow::StereoProcessor *stereo;
 
     QImage qimageL,qimageR;
 

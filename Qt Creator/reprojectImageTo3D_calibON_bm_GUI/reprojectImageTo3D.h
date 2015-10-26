@@ -14,9 +14,12 @@
 #include "cvaux.h"
 #include "stdio.h"
 #include "opencv2/opencv.hpp"
+
+/* Custom Libraries */
 #include "trackObject.h"
 #include "StereoProcessor.h"
 #include "3DReconstruction.h"
+#include "setstereoparams.h"
 
 using namespace cv;
 using namespace std;

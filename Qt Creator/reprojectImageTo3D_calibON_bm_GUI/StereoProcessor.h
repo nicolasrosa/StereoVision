@@ -48,6 +48,10 @@ public:
     void readQMatrix();
     void calculateQMatrix();
 
+    Mat imageL[2],imageR[2];
+    Mat	imageL_grey[2],imageR_grey[2];
+    VideoCapture capL,capR;
+
     Ptr<StereoBM> bm;
     StereoCalib calib;
     Reconstruction3D view3D;
