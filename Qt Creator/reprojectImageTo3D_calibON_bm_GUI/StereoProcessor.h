@@ -37,6 +37,15 @@ public:
     bool isKcreated;
 };
 
+class StereoDisparityMap{
+public:
+    StereoDisparityMap(); //Constructor
+
+    Mat disp_16S;
+    Mat disp_8U;
+    Mat disp_BGR;
+ };
+
 class StereoProcessor{
 public:
     StereoProcessor(int inputNum); //Constructor
@@ -47,6 +56,7 @@ public:
     void createKMatrix();
     void readQMatrix();
     void calculateQMatrix();
+    void stereoSetParams();
 
     Mat imageL[2],imageR[2];
     Mat	imageL_grey[2],imageR_grey[2];
@@ -54,12 +64,18 @@ public:
 
     Ptr<StereoBM> bm;
     StereoCalib calib;
+    StereoDisparityMap disp;
     Reconstruction3D view3D;
     Size imageSize;
     Point2d imageCenter;
+    int numRows;
+
+    bool showStereoParamsValues;
 private:
     int inputNum;
 };
 
+/* Global Variables */
+const std::string trackbarWindowName = "Stereo Param Setup";
 
 #endif // STEREOPROCESSOR_H

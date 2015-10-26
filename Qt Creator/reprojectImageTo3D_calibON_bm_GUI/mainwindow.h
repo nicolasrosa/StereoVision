@@ -14,20 +14,21 @@ namespace Ui{
     class MainWindow;
 }
 
-class MainWindow : public QMainWindow,public StereoProcessor{
+class MainWindow : public QMainWindow{
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
     void StereoVisionProcessInit();
-
     void printHelp();
-    void openStereoSource(int inputNum,cv::VideoCapture* capL,cv::VideoCapture* capR,cv::Mat* imageL,cv::Mat* imageR);
+    void openStereoSource(int inputNum);
+    QImage putImage(const Mat& mat);
     ~MainWindow();
+
 
 private:
     Ui::MainWindow *ui;
-    MainWindow::StereoProcessor *stereo;
+    StereoProcessor *stereo;
 
     QImage qimageL,qimageR;
 

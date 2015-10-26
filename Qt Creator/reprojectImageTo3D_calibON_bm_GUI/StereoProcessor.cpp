@@ -7,13 +7,22 @@
 
 #include "StereoProcessor.h"
 
-//Constructor
+/* Begin: Constructors */
 StereoProcessor::StereoProcessor(int number){
     inputNum=number;
 }
 
-//Constructor
 StereoCalib::StereoCalib(){}
+
+StereoDisparityMap::StereoDisparityMap(){
+    // Allocate Memory
+    //Mat disp     = Mat(imageR[0].rows, imageR[0].cols, CV_16UC1);
+    //Mat disp_8U  = Mat(stereo->imageR[0].rows, stereo->imageR[0].cols, CV_8UC1);
+    //Mat disp_BGR = Mat(stereo->imageR[0].rows, stereo->imageR[0].cols, CV_8UC3);
+}
+
+/* End: Constructors */
+
 
 int StereoProcessor::getInputNum(){
     return inputNum;
@@ -97,7 +106,7 @@ void StereoProcessor::stereoCalib(){
     fs.release();
 
     // Check
-    if(this->calib.M1.cols==0 || this->calib.D1.cols==0 || this->calib.M2.cols==0 || this->calib.D2.cols==0 || this->calib.R.cols==0 || this->calib.T.cols==0){
+    if(!this->calib.M1.data || !this->calib.D1.data || !this->calib.M2.data || !this->calib.D2.data || !this->calib.R.data || !this->calib.T.data){
         cerr << "Check instrinsics and extrinsics Matrixes content!" << endl;
         return;
     }
@@ -151,7 +160,7 @@ void StereoProcessor::readQMatrix(){
 
         fs["Q"] >> this->calib.Q;
         // Check
-        if(this->calib.Q.cols==0){
+        if(!this->calib.Q.data){
             cerr << "Check Q Matrix Content!" << endl;
             return;
         }
@@ -176,4 +185,96 @@ void StereoProcessor::calculateQMatrix(){
     this->calib.Q.at<double>(2,2)=0.0;
     this->calib.Q.at<double>(3,2)=1.0/this->calib.baseline;
     cout << "Q:" << endl << this->calib.Q << endl;
+}
+
+/*** Stereo Parameters Configuration function
+  ** Description: Executes the setup of parameters of the StereoBM object by changing the trackbars
+  ** @param rect roi1: Region of Interest 1
+  ** @param rect roi2: Region of Interest 2
+  ** @param StereoBM bm: Correspondence Object
+  ** @param int numRows: Number of Rows of the input Images
+  ** @param bool showStereoBMparams
+  ** Returns:     Nothing
+  ***/
+void StereoProcessor::stereoSetParams(){
+    int trackbarsAux[10];
+
+    trackbarsAux[0]= getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
+    trackbarsAux[1]= getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
+    trackbarsAux[2]= getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
+    trackbarsAux[3]= getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
+    trackbarsAux[4]= getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
+    trackbarsAux[5]= getTrackbarPos("textureThreshold",trackbarWindowName)*320;
+    trackbarsAux[6]= getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
+    trackbarsAux[7]= getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
+    trackbarsAux[8]= getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
+    trackbarsAux[9]= getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
+
+    this->bm->setROI1(this->calib.roi1);
+    this->bm->setROI1(this->calib.roi2);
+
+    this->numRows = imageL[0].rows;
+
+    if(trackbarsAux[0]%2==1 && trackbarsAux[0]>=5 && trackbarsAux[0]<=255){
+        //bm.state->preFilterSize = trackbarsAux[0];
+        bm->setPreFilterSize(trackbarsAux[0]);
+    }
+
+    if(trackbarsAux[1]>=1 && trackbarsAux[1]<=63){
+        //bm.state->preFilterCap = trackbarsAux[1];
+        bm->setPreFilterCap(trackbarsAux[1]);
+    }
+
+    if(trackbarsAux[2]%2==1 && trackbarsAux[2]>=5  && trackbarsAux[2]<=255 && trackbarsAux[2]<=numRows){
+        //bm.state->SADWindowSize = trackbarsAux[2];
+        bm->setBlockSize(trackbarsAux[2]);
+    }
+
+    if(trackbarsAux[3]>=-100 && trackbarsAux[3]<=100){
+        //bm.state->minDisparity = trackbarsAux[3];
+        bm->setMinDisparity(trackbarsAux[3]);
+    }
+
+    if(trackbarsAux[4]%16==0 && trackbarsAux[4]>=16 && trackbarsAux[4]<=256){
+        //bm.state->numberOfDisparities = trackbarsAux[4];
+        bm->setNumDisparities(trackbarsAux[4]);
+    }
+
+    if(trackbarsAux[5]>=0 && trackbarsAux[5]<=32000){
+        //bm.state->textureThreshold = trackbarsAux[5];
+        bm->setTextureThreshold(trackbarsAux[5]);
+    }
+
+    if(trackbarsAux[6]>=0 && trackbarsAux[6]<=255){
+        //bm.state->uniquenessRatio = trackbarsAux[6];
+        bm->setUniquenessRatio(trackbarsAux[6]);
+    }
+
+    if(trackbarsAux[7]>=0 && trackbarsAux[7]<=100){
+        //bm.state->speckleWindowSize = trackbarsAux[7];
+        bm->setSpeckleWindowSize(trackbarsAux[7]);
+    }
+
+    if(trackbarsAux[8]>=0 && trackbarsAux[8]<=100){
+        //bm.state->speckleRange = trackbarsAux[8];
+        bm->setSpeckleRange(trackbarsAux[8]);
+    }
+
+    if(trackbarsAux[9]>=0 && trackbarsAux[9]<=100){
+        //bm.state->disp12MaxDiff = trackbarsAux[9];
+        bm->setDisp12MaxDiff(trackbarsAux[9]);
+    }
+
+    if(showStereoParamsValues){
+        cout << getTrackbarPos("preFilterSize",trackbarWindowName)			<< "\t" << trackbarsAux[0] << endl;
+        cout << getTrackbarPos("preFilterCap",trackbarWindowName)			<< "\t" << trackbarsAux[1] << endl;
+        cout << getTrackbarPos("SADWindowSize",trackbarWindowName)			<< "\t" << trackbarsAux[2] << endl;
+        cout << getTrackbarPos("minDisparity",trackbarWindowName)			<< "\t" << trackbarsAux[3] << endl;
+        cout << getTrackbarPos("numberOfDisparities",trackbarWindowName)	<< "\t" << trackbarsAux[4] << endl;
+        cout << getTrackbarPos("textureThreshold",trackbarWindowName)		<< "\t" << trackbarsAux[5] << endl;
+        cout << getTrackbarPos("uniquenessRatio",trackbarWindowName)		<< "\t" << trackbarsAux[6] << endl;
+        cout << getTrackbarPos("speckleWindowSize",trackbarWindowName)		<< "\t" << trackbarsAux[7] << endl;
+        cout << getTrackbarPos("speckleRange",trackbarWindowName)			<< "\t" << trackbarsAux[8] << endl;
+        cout << getTrackbarPos("disp12MaxDiff",trackbarWindowName)			<< "\t" << trackbarsAux[9] << endl;
+    }
 }

@@ -35,7 +35,7 @@ void Reconstruction3D::PointCloudInit(double baseline,bool isSub){
     this->step = baseline/10;
 }
 
-void eular2rot(double yaw,double pitch, double roll,Mat& dest){
+void Reconstruction3D::eular2rot(double yaw,double pitch, double roll,Mat& dest){
     double theta = yaw/180.0*CV_PI;
     double pusai = pitch/180.0*CV_PI;
     double phi = roll/180.0*CV_PI;
@@ -50,7 +50,7 @@ void eular2rot(double yaw,double pitch, double roll,Mat& dest){
     rr.copyTo(dest);
 }
 
-void lookat(Point3d from, Point3d to, Mat& destR){
+void Reconstruction3D::lookat(Point3d from, Point3d to, Mat& destR){
     double x=(to.x-from.x);
     double y=(to.y-from.y);
     double z=(to.z-from.z);
@@ -61,7 +61,7 @@ void lookat(Point3d from, Point3d to, Mat& destR){
     eular2rot(yaw, pitch, 0,destR);
 }
 
-void projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, Mat &destdisp, Mat &xyz, Mat &R, Mat &t, Mat &K, Mat &dist, bool isSub){
+void Reconstruction3D::projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, Mat &destdisp, Mat &xyz, Mat &R, Mat &t, Mat &K, Mat &dist, bool isSub){
     Mat mask;
     if(mask.empty())mask=Mat::zeros(image.size(),CV_8U);
     if(disp.type()==CV_8U){
@@ -80,8 +80,6 @@ void projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, Mat &destdisp, M
         projectImagefromXYZ_<double>(image,destimage, disp, destdisp, xyz, R, t, K, dist, mask,isSub);
     }
 }
-
-
 
 template <class T>
 static void fillOcclusionInv_(Mat& src, T invalidvalue){

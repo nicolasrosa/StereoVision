@@ -37,7 +37,7 @@ using namespace std;
 
 /* Functions Scope */
 void on_trackbar(int,void*);
-bool createTrackbars();
+void createTrackbars();
 
 
 //void stereoInit(StereoBM* bm);
@@ -53,8 +53,6 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
 
 
 /* Global Variables */
-const std::string trackbarWindowName = "Stereo Param Setup";
-
 bool isVideoFile=false,isImageFile=false,needCalibration=false,isStereoParamSetupTrackbarsCreated=false,isTrackingObjects=true;;
 bool showInputImages=true,showXYZ=false,showStereoParam=false,showStereoParamValues,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showDiffImage=false;
 

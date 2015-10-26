@@ -13,9 +13,11 @@
 using namespace cv;
 using namespace std;
 
-//MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow),stereo(StereoProcessor::StereoProcessor(6)){
-MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow),StereoProcessor(6){
+//MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow),stereo(new StereoProcessor(6)){
+MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
+
+    this->stereo = new StereoProcessor(6);
 
     StereoVisionProcessInit();
 
@@ -74,87 +76,79 @@ void MainWindow::StereoVisionProcessInit(){
 
     cerr << "Arrumar a Matrix K, os valores das últimas colunas estão errados." << endl;
     cerr << "Arrumar a função StereoProcessor::calculateQMatrix()." << endl;
-    cerr << "Arrumar a estrutura do código, evitar que a inicialização seja executada mais de uma vez." << endl;
-
-    openStereoSource(this->getInputNum(),&capL,&capR,&imageL[0],&imageR[0]);
-    this->readConfigFile();
+    cerr << "Arrumar o Constructor da classe StereoDisparityMap para Alocação de Memória das variáveis: disp_16S,disp_8U,disp_BGR" << endl;
 
     //(1) Open Image Source
-    //StereoProcessor stereo(6);  //Initialize StereoProcessor Object
+    openStereoSource(stereo->getInputNum());
+    stereo->readConfigFile();
 
-    //openStereoSource(this->getInputNum(),&capL,&capR,&imageL[0],&imageR[0]);
-    //this->readConfigFile();
-
-    //(5) Camera Setting
+    //(2) Camera Setting
 
     // Checking Resolution
-    this->calib.is320x240  = false;
-    this->calib.is640x480  = true;
-    this->calib.is1280x720 = false;
+    stereo->calib.is320x240  = false;
+    stereo->calib.is640x480  = true;
+    stereo->calib.is1280x720 = false;
 
     if(isVideoFile){
-        this->imageSize.width = capL.get(CV_CAP_PROP_FRAME_WIDTH);
-        this->imageSize.height = capL.get(CV_CAP_PROP_FRAME_HEIGHT);
+        stereo->imageSize.width = stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH);
+        stereo->imageSize.height = stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT);
     }else{
-        this->imageSize.width = imageL[0].cols;
-        this->imageSize.height = imageL[0].rows;
+        stereo->imageSize.width = stereo->imageL[0].cols;
+        stereo->imageSize.height = stereo->imageL[0].rows;
     }
 
-    if(this->imageSize.width==0 && this->imageSize.height==0){
+    if(stereo->imageSize.width==0 && stereo->imageSize.height==0){
         cerr << "Number of Cols and Number of Rows equal to ZERO!" << endl;
     }else{
-        cout << "Input Resolution(Width,Height): (" << this->imageSize.width << "," << this->imageSize.height << ")" << endl << endl;
+        cout << "Input Resolution(Width,Height): (" << stereo->imageSize.width << "," << stereo->imageSize.height << ")" << endl << endl;
     }
 
-    //(2) Stereo Initialization
-    this->bm = StereoBM::create(16,9);
-    this->stereoInit();
+    //(3) Stereo Initialization
+    stereo->bm = StereoBM::create(16,9);
+    stereo->stereoInit();
 
-    //(3) Stereo Calibration
-    Mat M1,D1,M2,D2;
-    Mat R,T,R1,P1,R2,P2;
-    Rect roi1, roi2;
-
+    //(4) Stereo Calibration
     if(needCalibration){
         cout << "Calibration: ON" << endl;
-        this->stereoCalib();
+        stereo->stereoCalib();
 
-        //(4) Compute the Q Matrix
-        this->readQMatrix(); //true=640x480 false=others
+        // Compute the Q Matrix
+        stereo->readQMatrix(); //true=640x480 false=others
 
         //Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
-        //this->calculateQMatrix();
+        //calculateQMatrix();
 
-        //(5) Camera Setting
+        // Compute the K Matrix
         ////        // Checking Intrinsic Matrix
-        ////        if(this->calib.isKcreated){
+        ////        if(stereo->calib.isKcreated){
         ////           cout << "The Intrinsic Matrix is already Created." << endl << endl;
         ////        }else{
-        //            //this->createKMatrix();
+        //            //createKMatrix();
         // //       }
-        this->createKMatrix();
+        stereo->createKMatrix();
 
     }else{
         cout << "Calibration: OFF" << endl << endl;
+        cerr << "Warning: Couldn't generate 3D Reconstruction. Please, check Q,K Matrix." << endl;
+
+        //stereo->readQMatrix(); //true=640x480 false=others
+        //stereo->createKMatrix();
     }
 
-    //(6) Point Cloud Initialization
-    this->view3D.PointCloudInit(this->calib.baseline/10,true);
+    //(5) Point Cloud Initialization
+    stereo->view3D.PointCloudInit(stereo->calib.baseline/10,true);
 
-    this->view3D.setViewPoint(20.0,20.0,-this->calib.baseline*10);
-    this->view3D.setLookAtPoint(22.0,16.0,this->calib.baseline*10.0);
+    stereo->view3D.setViewPoint(20.0,20.0,-stereo->calib.baseline*10);
+    stereo->view3D.setLookAtPoint(22.0,16.0,stereo->calib.baseline*10.0);
 
-
-
-    isStereoParamSetupTrackbarsCreated=createTrackbars();
-    //createTrackbars();
+    //isStereoParamSetupTrackbarsCreated=createTrackbars();
+    createTrackbars();
 
 }
 
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
     //Local Variables
     char key=0;
-    bool isBGR2RGBflipped = false;
 
     //Diff
     bool StartDiff=false;
@@ -164,47 +158,42 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     int frameCounter=0;
     float fps,lastTime = clock();
 
-    //(7) Rendering Loop
+    //(6) Rendering Loop
     while(key!='q'){
         if(isVideoFile){
-            capL >> imageL[0];
-            capR >> imageR[0];
+            stereo->capL >> stereo->imageL[0];
+            stereo->capR >> stereo->imageR[0];
 
-            resizeFrames(&imageL[0],&imageR[0]);
+            resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
 
             if(needCalibration){
-                this->imageSize = imageL[0].size();
-                stereoRectify(this->calib.M1,this->calib.D1,this->calib.M2,this->calib.D2,this->imageSize,this->calib.R,this->calib.T,this->calib.R1,this->calib.R2,this->calib.P1,this->calib.P2,this->calib.Q,CALIB_ZERO_DISPARITY,-1,this->imageSize,&this->calib.roi1,&this->calib.roi2);
+                stereo->imageSize = stereo->imageL[0].size();
+                stereoRectify(stereo->calib.M1,stereo->calib.D1,stereo->calib.M2,stereo->calib.D2,stereo->imageSize,stereo->calib.R,stereo->calib.T,stereo->calib.R1,stereo->calib.R2,stereo->calib.P1,stereo->calib.P2,stereo->calib.Q,CALIB_ZERO_DISPARITY,-1,stereo->imageSize,&stereo->calib.roi1,&stereo->calib.roi2);
                 Mat rmap[2][2];
 
-                initUndistortRectifyMap(this->calib.M1, this->calib.D1, this->calib.R1, this->calib.P1, this->imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
-                initUndistortRectifyMap(this->calib.M2, this->calib.D2, this->calib.R2, this->calib.P2, this->imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+                initUndistortRectifyMap(stereo->calib.M1, stereo->calib.D1, stereo->calib.R1, stereo->calib.P1, stereo->imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
+                initUndistortRectifyMap(stereo->calib.M2, stereo->calib.D2, stereo->calib.R2, stereo->calib.P2, stereo->imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
                 Mat imageLr, imageRr;
-                remap(imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
-                remap(imageR[0], imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
+                remap(stereo->imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
+                remap(stereo->imageR[0], imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
 
-                imageL[0] = imageLr;
-                imageR[0] = imageRr;
+                stereo->imageL[0] = imageLr;
+                stereo->imageR[0] = imageRr;
             }
         }
 
         //Setting StereoBM Parameters
-        stereoSetparams(&this->calib.roi1,&this->calib.roi2,this->bm,imageL[0].rows,showStereoParamValues);
+        stereo->stereoSetParams();
 
-        // Convert BGR to Gray_Scale
-        cvtColor(imageL[0],imageL_grey[0],CV_BGR2GRAY);
-        cvtColor(imageR[0],imageR_grey[0],CV_BGR2GRAY);
+        // Convert BGR to Grey Scale
+        cvtColor(stereo->imageL[0],stereo->imageL_grey[0],CV_BGR2GRAY);
+        cvtColor(stereo->imageR[0],stereo->imageR_grey[0],CV_BGR2GRAY);
 
-        Mat disp;
-        //Mat disp     = Mat(imageR[0].rows, imageR[0].cols, CV_16UC1);
-        Mat disp_8U  = Mat(imageR[0].rows, imageR[0].cols, CV_8UC1);
-        Mat disp_BGR = Mat(imageR[0].rows, imageR[0].cols, CV_8UC3);
-
-        this->bm->compute(imageL_grey[0],imageR_grey[0],disp);
+        stereo->bm->compute(stereo->imageL_grey[0],stereo->imageR_grey[0],stereo->disp.disp_16S);
         //fillOcclusion(disp,16,false);
 
-        normalize(disp, disp_8U, 0, 255, CV_MINMAX, CV_8U);
-        applyColorMap(disp_8U,disp_BGR, COLORMAP_JET);
+        normalize(stereo->disp.disp_16S, stereo->disp.disp_8U, 0, 255, CV_MINMAX, CV_8U);
+        applyColorMap(stereo->disp.disp_8U,stereo->disp.disp_BGR, COLORMAP_JET);
 
         /* Image Processing */
         Mat disp_8Median,disp_8MedianBGR;
@@ -213,39 +202,36 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //imageProcessing1(disp8,disp8Median,disp8Median);
         //imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated,imageL[0],true);
 
-        //(8) Projecting 3D point cloud to image
+        //(7) Projecting 3D point cloud to image
         if(show3Dreconstruction){
-            Mat depth;
-            cv::reprojectImageTo3D(disp,depth,this->calib.Q);
-            Mat xyz= depth.reshape(3,depth.size().area());
+            cv::reprojectImageTo3D(stereo->disp.disp_16S,stereo->view3D.depth,stereo->calib.Q);
+            Mat xyz= stereo->view3D.depth.reshape(3,stereo->view3D.depth.size().area());
 
-            lookat(this->view3D.viewpoint, this->view3D.lookatpoint , this->view3D.Rotation);
-            this->view3D.t.at<double>(0,0)=this->view3D.viewpoint.x;
-            this->view3D.t.at<double>(1,0)=this->view3D.viewpoint.y;
-            this->view3D.t.at<double>(2,0)=this->view3D.viewpoint.z;
+            stereo->view3D.lookat(stereo->view3D.viewpoint, stereo->view3D.lookatpoint , stereo->view3D.Rotation);
+            stereo->view3D.t.at<double>(0,0)=stereo->view3D.viewpoint.x;
+            stereo->view3D.t.at<double>(1,0)=stereo->view3D.viewpoint.y;
+            stereo->view3D.t.at<double>(2,0)=stereo->view3D.viewpoint.z;
 
             if(showXYZ){
                 //cout<<t<<endl;
-                cout << "x: " << this->view3D.t.at<double>(0,0) << endl;
-                cout << "y: " << this->view3D.t.at<double>(1,0) << endl;
-                cout << "z: " << this->view3D.t.at<double>(2,0) << endl;
+                cout << "x: " << stereo->view3D.t.at<double>(0,0) << endl;
+                cout << "y: " << stereo->view3D.t.at<double>(1,0) << endl;
+                cout << "z: " << stereo->view3D.t.at<double>(2,0) << endl;
             }
 
-            this->view3D.t=this->view3D.Rotation*this->view3D.t;
+            stereo->view3D.t=stereo->view3D.Rotation*stereo->view3D.t;
 
             //projectImagefromXYZ(imageL[0],disp3Dviewer,disp,disp3D,xyz,Rotation,t,K,dist,isSub);
-            projectImagefromXYZ(disp_BGR,this->view3D.disp3D_BGR,disp,this->view3D.disp3D,xyz,this->view3D.Rotation,this->view3D.t,this->calib.K,this->view3D.dist,this->view3D.isSub);
+            stereo->view3D.projectImagefromXYZ(stereo->disp.disp_BGR,stereo->view3D.disp3D_BGR,stereo->disp.disp_16S,stereo->view3D.disp3D,xyz,stereo->view3D.Rotation,stereo->view3D.t,stereo->calib.K,stereo->view3D.dist,stereo->view3D.isSub);
 
             // GUI Output
-            this->view3D.disp3D.convertTo(this->view3D.disp3D_8U,CV_8U,0.5);
+            stereo->view3D.disp3D.convertTo(stereo->view3D.disp3D_8U,CV_8U,0.5);
             //imshow("3D Depth",disp3D);
             //imshow("3D Viewer",disp3Dviewer);
             //imshow("3D Depth RGB",disp3DBGR);
 
-            cv::cvtColor(this->view3D.disp3D_BGR,this->view3D.disp3D_BGR,CV_BGR2RGB);
-
-            QImage qimageL((uchar*)this->view3D.disp3D_8U.data,this->view3D.disp3D_8U.cols,this->view3D.disp3D_8U.rows,this->view3D.disp3D_8U.step,QImage::Format_Indexed8);
-            QImage qimageR((uchar*)this->view3D.disp3D_BGR.data,this->view3D.disp3D_BGR.cols,this->view3D.disp3D_BGR.rows,this->view3D.disp3D_BGR.step,QImage::Format_RGB888);
+            QImage qimageL = putImage(stereo->view3D.disp3D_8U);
+            QImage qimageR = putImage(stereo->view3D.disp3D_BGR);
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
@@ -256,41 +242,31 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             destroyWindow("3D Depth RGB");
         }
 
-        //(9)Movement Difference between Frames
+        //(8)Movement Difference between Frames
         Mat thresholdImage;
         if(StartDiff && showDiffImage){
-            absdiff(imageL_grey[0],imageL_grey[1],diffImage);
+            absdiff(stereo->imageL_grey[0],stereo->imageL_grey[1],diffImage);
             threshold(diffImage, thresholdImage, THRESH_VALUE, 255,THRESH_BINARY);
         }
 
         //Saving Previous Frame
-        imageL[0].copyTo(imageL[1]);
-        imageR[0].copyTo(imageR[1]);
-        imageL_grey[0].copyTo(imageL_grey[1]);
-        imageR_grey[0].copyTo(imageR_grey[1]);
+        stereo->imageL[0].copyTo(stereo->imageL[1]);
+        stereo->imageR[0].copyTo(stereo->imageR[1]);
+        stereo->imageL_grey[0].copyTo(stereo->imageL_grey[1]);
+        stereo->imageR_grey[0].copyTo(stereo->imageR_grey[1]);
 
         //imshow("Previous Left",imageL[1]);
         //imshow("Previous Right",imageR[1]);
 
         StartDiff=1;
 
-        //(10)OpenCV and GUI Output
+        //(9)OpenCV and GUI Output
         if(showInputImages){
             //  imshow("Left",imageL[0]);
             //  imshow("Right",imageR[0]);
 
-            if(isVideoFile){
-                cv::cvtColor(imageL[0],imageL[0],CV_BGR2RGB);
-                cv::cvtColor(imageR[0],imageR[0],CV_BGR2RGB);
-            }
-
-            if(!isVideoFile && isBGR2RGBflipped == false){
-                cv::cvtColor(imageL[0],imageL[0],CV_BGR2RGB);
-                cv::cvtColor(imageR[0],imageR[0],CV_BGR2RGB);
-                bool isBGR2RGBflipped = true;
-            }
-            QImage qimageL((uchar*)imageL[0].data,imageL[0].cols,imageL[0].rows,imageL[0].step,QImage::Format_RGB888);
-            QImage qimageR((uchar*)imageR[0].data,imageR[0].cols,imageR[0].rows,imageR[0].step,QImage::Format_RGB888);
+            QImage qimageL = putImage(stereo->imageL[0]);
+            QImage qimageR = putImage(stereo->imageR[0]);
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
@@ -303,11 +279,9 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         if(showDisparityMap){
             //imshow("Disparity Map",disp_8U);
             //imshow("Disparity Map BGR",disp_BGR);
-            Mat disp_RGB;
-            cv::cvtColor(disp_BGR,disp_RGB,CV_BGR2RGB);
 
-            QImage qimageL((uchar*)disp_8U.data,disp_8U.cols,disp_8U.rows,disp_8U.step,QImage::Format_Indexed8);
-            QImage qimageR((uchar*)disp_RGB.data,disp_RGB.cols,disp_RGB.rows,disp_RGB.step,QImage::Format_RGB888);
+            QImage qimageL = putImage(stereo->disp.disp_8U);
+            QImage qimageR = putImage(stereo->disp.disp_BGR);
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
@@ -335,8 +309,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             destroyWindow("DiffImage");
         }
 
-
-        //(11)Shortcuts
+        //(10)Shortcuts
         key = waitKey(1);
         if(key=='`')
             printHelp();
@@ -356,30 +329,30 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             showDiffImage = !showDiffImage;
 
         if(key=='f')
-            this->view3D.isSub=this->view3D.isSub?false:true;
+            stereo->view3D.isSub=stereo->view3D.isSub?false:true;
         if(key=='h')
-            this->view3D.viewpoint.x+=this->view3D.step;
+            stereo->view3D.viewpoint.x+=stereo->view3D.step;
         if(key=='g')
-            this->view3D.viewpoint.x-=this->view3D.step;
+            stereo->view3D.viewpoint.x-=stereo->view3D.step;
         if(key=='l')
-            this->view3D.viewpoint.y+=this->view3D.step;
+            stereo->view3D.viewpoint.y+=stereo->view3D.step;
         if(key=='k')
-            this->view3D.viewpoint.y-=this->view3D.step;
+            stereo->view3D.viewpoint.y-=stereo->view3D.step;
         if(key=='n')
-            this->view3D.viewpoint.z+=this->view3D.step;
+            stereo->view3D.viewpoint.z+=stereo->view3D.step;
         if(key=='m')
-            this->view3D.viewpoint.z-=this->view3D.step;
+            stereo->view3D.viewpoint.z-=stereo->view3D.step;
 
         if(key=='q')
             break;
 
-        //(12)Video Loop - If the last frame is reached, reset the capture and the frameCounter
+        //(11)Video Loop - If the last frame is reached, reset the capture and the frameCounter
         frameCounter += 1;
 
-        if(frameCounter == capR.get(CV_CAP_PROP_FRAME_COUNT)){
+        if(frameCounter == stereo->capR.get(CV_CAP_PROP_FRAME_COUNT)){
             frameCounter = 0;
-            capL.set(CV_CAP_PROP_POS_FRAMES,0);
-            capR.set(CV_CAP_PROP_POS_FRAMES,0);
+            stereo->capL.set(CV_CAP_PROP_POS_FRAMES,0);
+            stereo->capR.set(CV_CAP_PROP_POS_FRAMES,0);
         }
 
         if(showFPS){
@@ -430,7 +403,7 @@ void MainWindow::printHelp(){
              QString("\n\n"));
 }
 
-void MainWindow::openStereoSource(int inputNum,VideoCapture* capL,VideoCapture* capR,Mat* imageL,Mat* imageR){
+void MainWindow::openStereoSource(int inputNum){
     std::string imageL_filename;
     std::string imageR_filename;
 
@@ -494,26 +467,26 @@ void MainWindow::openStereoSource(int inputNum,VideoCapture* capL,VideoCapture* 
         ui->txtOutputBox->appendPlainText(QString("It's a Video file"));
         isVideoFile=true;
 
-        capL->open(imageL_filename);
-        capR->open(imageR_filename);
+        stereo->capL.open(imageL_filename);
+        stereo->capR.open(imageR_filename);
 
-        if(!capL->isOpened() || !capR->isOpened()){		// Check if we succeeded
+        if(!stereo->capL.isOpened() || !stereo->capR.isOpened()){		// Check if we succeeded
             ui->txtOutputBox->appendPlainText(QString( "Could not open or find the input videos!"));
             //return -1;
         }
 
-        ui->txtOutputBox->appendPlainText(QString("Input 1 Resolution: ") + QString::number(capL->get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(capL->get(CV_CAP_PROP_FRAME_HEIGHT)));
-        ui->txtOutputBox->appendPlainText(QString("Input 2 Resolution: ") + QString::number(capR->get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(capR->get(CV_CAP_PROP_FRAME_HEIGHT)));
+        ui->txtOutputBox->appendPlainText(QString("Input 1 Resolution: ") + QString::number(stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT)));
+        ui->txtOutputBox->appendPlainText(QString("Input 2 Resolution: ") + QString::number(stereo->capR.get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(stereo->capR.get(CV_CAP_PROP_FRAME_HEIGHT)));
     }else{
         ui->txtOutputBox->appendPlainText(QString( "It is not a Video file"));
         if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "jpg" || imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "png"){
             ui->txtOutputBox->appendPlainText(QString( "It's a Image file"));
             isImageFile=true;
 
-            imageL[0] = imread(imageL_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
-            imageR[0] = imread(imageR_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
+            stereo->imageL[0] = imread(imageL_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
+            stereo->imageR[0] = imread(imageR_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
 
-            if(!imageL[0].data || !imageR[0].data){                     // Check for invalid input
+            if(!stereo->imageL[0].data || !stereo->imageR[0].data){                     // Check for invalid input
                 ui->txtOutputBox->appendPlainText(QString("Could not open or find the input images!"));
                 return;
             }
@@ -523,7 +496,7 @@ void MainWindow::openStereoSource(int inputNum,VideoCapture* capL,VideoCapture* 
     }
 }
 
-bool createTrackbars(){ //Create Window for trackbars
+void createTrackbars(){ //Create Window for trackbars
     char TrackbarName[50];
 
     // Create TrackBars Window
@@ -552,102 +525,9 @@ bool createTrackbars(){ //Create Window for trackbars
     createTrackbar( "speckleWindowSize", trackbarWindowName, &speckleWindowSize, speckleWindowSize_MAX, on_trackbar );
     createTrackbar( "speckleRange", trackbarWindowName, &speckleRange, speckleRange_MAX, on_trackbar );
     createTrackbar( "disp12MaxDiff", trackbarWindowName, &disp12MaxDiff, disp12MaxDiff_MAX, on_trackbar );
-
-    return(true);
 }
 
 void on_trackbar( int, void* ){}; //This function gets called whenever a trackbar position is changed
-
-/*** Stereo Parameters Configuration function
-  ** Description: Executes the setup of parameters of the StereoBM object by changing the trackbars
-  ** @param rect roi1: Region of Interest 1
-  ** @param rect roi2: Region of Interest 2
-  ** @param StereoBM bm: Correspondence Object
-  ** @param int numRows: Number of Rows of the input Images
-  ** @param bool showStereoBMparams
-  ** Returns:     Nothing
-  ***/
-void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoParamsValues){
-    int trackbarsAux[10];
-
-    trackbarsAux[0]= getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
-    trackbarsAux[1]= getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
-    trackbarsAux[2]= getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
-    trackbarsAux[3]= getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
-    trackbarsAux[4]= getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
-    trackbarsAux[5]= getTrackbarPos("textureThreshold",trackbarWindowName)*320;
-    trackbarsAux[6]= getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
-    trackbarsAux[7]= getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
-    trackbarsAux[8]= getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
-    trackbarsAux[9]= getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
-
-    bm->setROI1(*roi1);
-    bm->setROI2(*roi2);
-
-    if(trackbarsAux[0]%2==1 && trackbarsAux[0]>=5 && trackbarsAux[0]<=255){
-        //bm.state->preFilterSize = trackbarsAux[0];
-        bm->setPreFilterSize(trackbarsAux[0]);
-    }
-
-    if(trackbarsAux[1]>=1 && trackbarsAux[1]<=63){
-        //bm.state->preFilterCap = trackbarsAux[1];
-        bm->setPreFilterCap(trackbarsAux[1]);
-    }
-
-    if(trackbarsAux[2]%2==1 && trackbarsAux[2]>=5  && trackbarsAux[2]<=255 && trackbarsAux[2]<=numRows){
-        //bm.state->SADWindowSize = trackbarsAux[2];
-        bm->setBlockSize(trackbarsAux[2]);
-    }
-
-    if(trackbarsAux[3]>=-100 && trackbarsAux[3]<=100){
-        //bm.state->minDisparity = trackbarsAux[3];
-        bm->setMinDisparity(trackbarsAux[3]);
-    }
-
-    if(trackbarsAux[4]%16==0 && trackbarsAux[4]>=16 && trackbarsAux[4]<=256){
-        //bm.state->numberOfDisparities = trackbarsAux[4];
-        bm->setNumDisparities(trackbarsAux[4]);
-    }
-
-    if(trackbarsAux[5]>=0 && trackbarsAux[5]<=32000){
-        //bm.state->textureThreshold = trackbarsAux[5];
-        bm->setTextureThreshold(trackbarsAux[5]);
-    }
-
-    if(trackbarsAux[6]>=0 && trackbarsAux[6]<=255){
-        //bm.state->uniquenessRatio = trackbarsAux[6];
-        bm->setUniquenessRatio(trackbarsAux[6]);
-    }
-
-    if(trackbarsAux[7]>=0 && trackbarsAux[7]<=100){
-        //bm.state->speckleWindowSize = trackbarsAux[7];
-        bm->setSpeckleWindowSize(trackbarsAux[7]);
-    }
-
-    if(trackbarsAux[8]>=0 && trackbarsAux[8]<=100){
-        //bm.state->speckleRange = trackbarsAux[8];
-        bm->setSpeckleRange(trackbarsAux[8]);
-    }
-
-    if(trackbarsAux[9]>=0 && trackbarsAux[9]<=100){
-        //bm.state->disp12MaxDiff = trackbarsAux[9];
-        bm->setDisp12MaxDiff(trackbarsAux[9]);
-    }
-
-    if(showStereoParamsValues){
-        cout << getTrackbarPos("preFilterSize",trackbarWindowName)			<< "\t" << trackbarsAux[0] << endl;
-        cout << getTrackbarPos("preFilterCap",trackbarWindowName)			<< "\t" << trackbarsAux[1] << endl;
-        cout << getTrackbarPos("SADWindowSize",trackbarWindowName)			<< "\t" << trackbarsAux[2] << endl;
-        cout << getTrackbarPos("minDisparity",trackbarWindowName)			<< "\t" << trackbarsAux[3] << endl;
-        cout << getTrackbarPos("numberOfDisparities",trackbarWindowName)	<< "\t" << trackbarsAux[4] << endl;
-        cout << getTrackbarPos("textureThreshold",trackbarWindowName)		<< "\t" << trackbarsAux[5] << endl;
-        cout << getTrackbarPos("uniquenessRatio",trackbarWindowName)		<< "\t" << trackbarsAux[6] << endl;
-        cout << getTrackbarPos("speckleWindowSize",trackbarWindowName)		<< "\t" << trackbarsAux[7] << endl;
-        cout << getTrackbarPos("speckleRange",trackbarWindowName)			<< "\t" << trackbarsAux[8] << endl;
-        cout << getTrackbarPos("disp12MaxDiff",trackbarWindowName)			<< "\t" << trackbarsAux[9] << endl;
-    }
-
-}
 
 void resizeFrames(Mat* frame1,Mat* frame2){
     if(frame1->cols != 0 || !frame2->cols != 0){
@@ -789,35 +669,33 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
     }
 }
 
-
-//Image MainWindow::putImage(const Mat& mat)
-//{
-//    // 8-bits unsigned, NO. OF CHANNELS=1
-//    if(mat.type()==CV_8UC1)
-//    {
-//        // Set the color table (used to translate colour indexes to qRgb values)
-//        QVector<QRgb> colorTable;
-//        for (int i=0; i<256; i++)
-//            colorTable.push_back(qRgb(i,i,i));
-//        // Copy input Mat
-//        const uchar *qImageBuffer = (const uchar*)mat.data;
-//        // Create QImage with same dimensions as input Mat
-//        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_Indexed8);
-//        img.setColorTable(colorTable);
-//        return img;
-//    }
-//    // 8-bits unsigned, NO. OF CHANNELS=3
-//    if(mat.type()==CV_8UC3)
-//    {
-//        // Copy input Mat
-//        const uchar *qImageBuffer = (const uchar*)mat.data;
-//        // Create QImage with same dimensions as input Mat
-//        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
-//        return img.rgbSwapped();
-//    }
-//    else
-//    {
-//        qDebug() << "ERROR: Mat could not be converted to QImage.";
-//        return QImage();
-//    }
-//}
+QImage MainWindow::putImage(const Mat& mat){
+    // 8-bits unsigned, NO. OF CHANNELS=1
+    if(mat.type()==CV_8UC1)
+    {
+        // Set the color table (used to translate colour indexes to qRgb values)
+        QVector<QRgb> colorTable;
+        for (int i=0; i<256; i++)
+            colorTable.push_back(qRgb(i,i,i));
+        // Copy input Mat
+        const uchar *qImageBuffer = (const uchar*)mat.data;
+        // Create QImage with same dimensions as input Mat
+        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_Indexed8);
+        img.setColorTable(colorTable);
+        return img;
+    }
+    // 8-bits unsigned, NO. OF CHANNELS=3
+    if(mat.type()==CV_8UC3)
+    {
+        // Copy input Mat
+        const uchar *qImageBuffer = (const uchar*)mat.data;
+        // Create QImage with same dimensions as input Mat
+        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
+        return img.rgbSwapped();
+    }
+    else
+    {
+        qDebug() << "ERROR: Mat could not be converted to QImage.";
+        return QImage();
+    }
+}
