@@ -33,9 +33,11 @@ MainWindow::~MainWindow(){
 void MainWindow::on_btnPauseOrResume_clicked(){
     if(tmrTimer->isActive() == true){
         tmrTimer->stop();
+        cout << "Paused!" << endl;
         ui->btnPauseOrResume->setText("Resume");
     }else{
         tmrTimer->start(20);
+        cout << "Resumed!" << endl;
         ui->btnPauseOrResume->setText("Pause");
     }
 }
@@ -77,6 +79,8 @@ void MainWindow::StereoVisionProcessInit(){
     cerr << "Arrumar a Matrix K, os valores das últimas colunas estão errados." << endl;
     cerr << "Arrumar a função StereoProcessor::calculateQMatrix()." << endl;
     cerr << "Arrumar o Constructor da classe StereoDisparityMap para Alocação de Memória das variáveis: disp_16S,disp_8U,disp_BGR" << endl;
+    cerr << "Arrumar o tipo de execução da Stereo Param Setup, fazer com que a execução da main não pause." << endl;
+    cerr << "Arrumar a funcionalidade do Botão Pause/Resume, não está funcionando." << endl;
 
     //(1) Open Image Source
     openStereoSource(stereo->getInputNum());
