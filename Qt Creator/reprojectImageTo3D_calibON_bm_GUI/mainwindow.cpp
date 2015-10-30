@@ -43,11 +43,28 @@ void MainWindow::on_btnPauseOrResume_clicked(){
 }
 
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
-    //showStereoParam = !showStereoParam;
+    static bool isAlreadyInitialized;
 
-    SetStereoParams SetStereoParamsWindow;
-    SetStereoParamsWindow.setModal(true);
-    SetStereoParamsWindow.exec();
+    setstereoparams = new SetStereoParams(this);
+    setstereoparams->show();
+
+    if(!isAlreadyInitialized){
+        this->setstereoparams->setInitialStereoParamsUi(stereo->stereocfg.preFilterSize,
+                                                       stereo->stereocfg.preFilterCap,
+                                                       stereo->stereocfg.SADWindowSize,
+                                                       stereo->stereocfg.minDisparity,
+                                                       stereo->stereocfg.numberOfDisparities,
+                                                       stereo->stereocfg.textureThreshold,
+                                                       stereo->stereocfg.uniquenessRatio,
+                                                       stereo->stereocfg.speckleWindowSize,
+                                                       stereo->stereocfg.speckleRange,
+                                                       stereo->stereocfg.disp12MaxDiff);
+        isAlreadyInitialized = true;
+        cout << "[Stereo Param Setup] Initialized!" << endl;
+    }else{
+        this->setstereoparams->getStereoParamsUi();
+        cout << "[Stereo Param Setup] Last Stereo Params Values Loaded!" << endl;
+    }
 }
 
 void MainWindow::on_btnShowInputImages_clicked(){
@@ -85,6 +102,7 @@ void MainWindow::StereoVisionProcessInit(){
     //(1) Open Image Source
     openStereoSource(stereo->getInputNum());
     stereo->readConfigFile();
+    stereo->readStereoConfigFile();
 
     //(2) Camera Setting
 
@@ -117,7 +135,7 @@ void MainWindow::StereoVisionProcessInit(){
         stereo->stereoCalib();
 
         // Compute the Q Matrix
-        stereo->readQMatrix(); //true=640x480 false=others
+        stereo->calib.readQMatrix(); //true=640x480 false=others
 
         //Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
         //calculateQMatrix();
@@ -129,7 +147,7 @@ void MainWindow::StereoVisionProcessInit(){
         ////        }else{
         //            //createKMatrix();
         // //       }
-        stereo->createKMatrix();
+        stereo->calib.createKMatrix();
 
     }else{
         cout << "Calibration: OFF" << endl << endl;
@@ -146,8 +164,7 @@ void MainWindow::StereoVisionProcessInit(){
     stereo->view3D.setLookAtPoint(22.0,16.0,stereo->calib.baseline*10.0);
 
     //isStereoParamSetupTrackbarsCreated=createTrackbars();
-    createTrackbars();
-
+    //createTrackbars();
 }
 
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
@@ -500,38 +517,40 @@ void MainWindow::openStereoSource(int inputNum){
     }
 }
 
-void createTrackbars(){ //Create Window for trackbars
-    char TrackbarName[50];
+//void createTrackbars(){ //Create Window for trackbars
+//    char TrackbarName[50];
 
-    // Create TrackBars Window
-    namedWindow(trackbarWindowName,0);
+//    // Create TrackBars Window
+//    namedWindow(trackbarWindowName,0);
 
-    // Create memory to store Trackbar name on window
-    sprintf( TrackbarName, "preFilterSize");
-    sprintf( TrackbarName, "preFilterCap");
-    sprintf( TrackbarName, "SADWindowSize");
-    sprintf( TrackbarName, "minDisparity");
-    sprintf( TrackbarName, "numberOfDisparities");
-    sprintf( TrackbarName, "textureThreshold");
-    sprintf( TrackbarName, "uniquenessRatio");
-    sprintf( TrackbarName, "speckleWindowSize");
-    sprintf( TrackbarName, "speckleRange");
-    sprintf( TrackbarName, "disp12MaxDiff");
+//    // Create memory to store Trackbar name on window
+//    sprintf( TrackbarName, "preFilterSize");
+//    sprintf( TrackbarName, "preFilterCap");
+//    sprintf( TrackbarName, "SADWindowSize");
+//    sprintf( TrackbarName, "minDisparity");
+//    sprintf( TrackbarName, "numberOfDisparities");
+//    sprintf( TrackbarName, "textureThreshold");
+//    sprintf( TrackbarName, "uniquenessRatio");
+//    sprintf( TrackbarName, "speckleWindowSize");
+//    sprintf( TrackbarName, "speckleRange");
+//    sprintf( TrackbarName, "disp12MaxDiff");
 
-    //Create Trackbars and insert them into window
-    createTrackbar( "preFilterSize", trackbarWindowName, &preFilterSize, preFilterSize_MAX, on_trackbar );
-    createTrackbar( "preFilterCap", trackbarWindowName, &preFilterCap, preFilterCap_MAX, on_trackbar );
-    createTrackbar( "SADWindowSize", trackbarWindowName, &SADWindowSize, SADWindowSize_MAX, on_trackbar );
-    createTrackbar( "minDisparity", trackbarWindowName, &minDisparity, minDisparity_MAX, on_trackbar );
-    createTrackbar( "numberOfDisparities", trackbarWindowName, &numberOfDisparities, numberOfDisparities_MAX, on_trackbar );
-    createTrackbar( "textureThreshold", trackbarWindowName, &textureThreshold, textureThreshold_MAX, on_trackbar );
-    createTrackbar( "uniquenessRatio", trackbarWindowName, &uniquenessRatio, uniquenessRatio_MAX, on_trackbar );
-    createTrackbar( "speckleWindowSize", trackbarWindowName, &speckleWindowSize, speckleWindowSize_MAX, on_trackbar );
-    createTrackbar( "speckleRange", trackbarWindowName, &speckleRange, speckleRange_MAX, on_trackbar );
-    createTrackbar( "disp12MaxDiff", trackbarWindowName, &disp12MaxDiff, disp12MaxDiff_MAX, on_trackbar );
-}
+//    //Create Trackbars and insert them into window
+//    stereo.
 
-void on_trackbar( int, void* ){}; //This function gets called whenever a trackbar position is changed
+//    createTrackbar( "preFilterSize", trackbarWindowName, &preFilterSize, preFilterSize_MAX, on_trackbar );
+//    createTrackbar( "preFilterCap", trackbarWindowName, &preFilterCap, preFilterCap_MAX, on_trackbar );
+//    createTrackbar( "SADWindowSize", trackbarWindowName, &SADWindowSize, SADWindowSize_MAX, on_trackbar );
+//    createTrackbar( "minDisparity", trackbarWindowName, &minDisparity, minDisparity_MAX, on_trackbar );
+//    createTrackbar( "numberOfDisparities", trackbarWindowName, &numberOfDisparities, numberOfDisparities_MAX, on_trackbar );
+//    createTrackbar( "textureThreshold", trackbarWindowName, &textureThreshold, textureThreshold_MAX, on_trackbar );
+//    createTrackbar( "uniquenessRatio", trackbarWindowName, &uniquenessRatio, uniquenessRatio_MAX, on_trackbar );
+//    createTrackbar( "speckleWindowSize", trackbarWindowName, &speckleWindowSize, speckleWindowSize_MAX, on_trackbar );
+//    createTrackbar( "speckleRange", trackbarWindowName, &speckleRange, speckleRange_MAX, on_trackbar );
+//    createTrackbar( "disp12MaxDiff", trackbarWindowName, &disp12MaxDiff, disp12MaxDiff_MAX, on_trackbar );
+//}
+
+void on_trackbar(int,void*){}; //This function gets called whenever a trackbar position is changed
 
 void resizeFrames(Mat* frame1,Mat* frame2){
     if(frame1->cols != 0 || !frame2->cols != 0){

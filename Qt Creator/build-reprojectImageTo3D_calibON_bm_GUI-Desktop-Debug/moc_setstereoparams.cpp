@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_SetStereoParams_t {
-    QByteArrayData data[23];
-    char stringdata[798];
+    QByteArrayData data[25];
+    char stringdata[842];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -51,7 +51,9 @@ QT_MOC_LITERAL(18, 599, 40),
 QT_MOC_LITERAL(19, 640, 39),
 QT_MOC_LITERAL(20, 680, 41),
 QT_MOC_LITERAL(21, 722, 36),
-QT_MOC_LITERAL(22, 759, 37)
+QT_MOC_LITERAL(22, 759, 37),
+QT_MOC_LITERAL(23, 797, 21),
+QT_MOC_LITERAL(24, 819, 21)
     },
     "SetStereoParams\0on_preFilterSize_slider_valueChanged\0"
     "\0value\0on_preFilterCap_slider_valueChanged\0"
@@ -73,6 +75,7 @@ QT_MOC_LITERAL(22, 759, 37)
     "on_speckleWindowSize_spinBox_valueChanged\0"
     "on_speckleRange_spinBox_valueChanged\0"
     "on_disp12MaxDiff_spinBox_valueChanged\0"
+    "on_buttonBox_accepted\0on_buttonBox_rejected\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -82,7 +85,7 @@ static const uint qt_meta_data_SetStereoParams[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      22,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -90,26 +93,28 @@ static const uint qt_meta_data_SetStereoParams[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,  114,    2, 0x08,
-       4,    1,  117,    2, 0x08,
-       5,    1,  120,    2, 0x08,
-       6,    1,  123,    2, 0x08,
-       7,    1,  126,    2, 0x08,
-       8,    1,  129,    2, 0x08,
-       9,    1,  132,    2, 0x08,
-      10,    1,  135,    2, 0x08,
-      11,    1,  138,    2, 0x08,
-      12,    1,  141,    2, 0x08,
-      13,    1,  144,    2, 0x08,
-      14,    1,  147,    2, 0x08,
-      15,    1,  150,    2, 0x08,
-      16,    1,  153,    2, 0x08,
-      17,    1,  156,    2, 0x08,
-      18,    1,  159,    2, 0x08,
-      19,    1,  162,    2, 0x08,
-      20,    1,  165,    2, 0x08,
-      21,    1,  168,    2, 0x08,
-      22,    1,  171,    2, 0x08,
+       1,    1,  124,    2, 0x08,
+       4,    1,  127,    2, 0x08,
+       5,    1,  130,    2, 0x08,
+       6,    1,  133,    2, 0x08,
+       7,    1,  136,    2, 0x08,
+       8,    1,  139,    2, 0x08,
+       9,    1,  142,    2, 0x08,
+      10,    1,  145,    2, 0x08,
+      11,    1,  148,    2, 0x08,
+      12,    1,  151,    2, 0x08,
+      13,    1,  154,    2, 0x08,
+      14,    1,  157,    2, 0x08,
+      15,    1,  160,    2, 0x08,
+      16,    1,  163,    2, 0x08,
+      17,    1,  166,    2, 0x08,
+      18,    1,  169,    2, 0x08,
+      19,    1,  172,    2, 0x08,
+      20,    1,  175,    2, 0x08,
+      21,    1,  178,    2, 0x08,
+      22,    1,  181,    2, 0x08,
+      23,    0,  184,    2, 0x08,
+      24,    0,  185,    2, 0x08,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -132,6 +137,8 @@ static const uint qt_meta_data_SetStereoParams[] = {
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -191,13 +198,13 @@ int SetStereoParams::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 22)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 22;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 22)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 20;
+        _id -= 22;
     }
     return _id;
 }

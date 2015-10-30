@@ -12,6 +12,8 @@ StereoProcessor::StereoProcessor(int number){
     inputNum=number;
 }
 
+StereoConfig::StereoConfig(){}
+
 StereoCalib::StereoCalib(){}
 
 StereoDisparityMap::StereoDisparityMap(){
@@ -23,6 +25,18 @@ StereoDisparityMap::StereoDisparityMap(){
 
 /* End: Constructors */
 
+//void StereoConfig::setInitialTrackbarsValues(){
+//    this->setInitialStereoParamsUi(this->preFilterSize,
+//                                   this->preFilterCap,
+//                                   this->SADWindowSize,
+//                                   this->minDisparity,
+//                                   this->numberOfDisparities,
+//                                   this->textureThreshold,
+//                                   this->uniquenessRatio,
+//                                   this->speckleWindowSize,
+//                                   this->speckleRange,
+//                                   this->disp12MaxDiff);
+//}
 
 int StereoProcessor::getInputNum(){
     return inputNum;
@@ -37,18 +51,54 @@ void StereoProcessor::readConfigFile(){
     fs["Intrinsics Path"] >> this->calib.intrinsicsFileName;
     fs["Extrinsics Path"] >> this->calib.extrinsicsFileName;
     fs["Q Matrix Path"]   >> this->calib.QmatrixFileName;
+    fs["Stereo Parameters Path"] >> this->calib.StereoParamFileName;
 
     fs.release();
 
     cout << "------------------------------Config.yml------------------------------" << endl;
-    cout << "Intrinsics Path: " << this->calib.intrinsicsFileName << endl;
-    cout << "Extrinsics Path: " << this->calib.extrinsicsFileName << endl;
-    cout << "Q Matrix Path: "   << this->calib.QmatrixFileName    << endl;
+    cout << "Intrinsics Path: "         << this->calib.intrinsicsFileName  << endl;
+    cout << "Extrinsics Path: "         << this->calib.extrinsicsFileName  << endl;
+    cout << "Q Matrix Path: "           << this->calib.QmatrixFileName     << endl;
+    cout << "Stereo Parameters Path:"   << this->calib.StereoParamFileName << endl;
     cout << "Config.yml Read Successfully." << endl << endl ;
     cout << "----------------------------------------------------------------------" << endl;
 }
 
+void StereoProcessor::readStereoConfigFile(){
+    FileStorage fs(this->calib.StereoParamFileName, FileStorage::READ);
+    if(!fs.isOpened()){
+        cerr << "Failed to open stereo.yml file!" << endl;
+        return;
+    }
 
+    fs["preFilterSize"] >> this->stereocfg.preFilterSize;
+    fs["preFilterCap"] >> this->stereocfg.preFilterCap;
+    fs["SADWindowSize"] >> this->stereocfg.SADWindowSize;
+    fs["minDisparity"] >> this->stereocfg.minDisparity;
+    fs["numberOfDisparities"] >> this->stereocfg.numberOfDisparities;
+    fs["textureThreshold"] >> this->stereocfg.textureThreshold;
+    fs["uniquenessRatio"] >> this->stereocfg.uniquenessRatio;
+    fs["speckleWindowSize"] >> this->stereocfg.speckleWindowSize;
+    fs["speckleRange"] >> this->stereocfg.speckleRange;
+    fs["disp12MaxDiff"] >> this->stereocfg.disp12MaxDiff;
+
+    fs.release();
+
+    // Display
+    cout << "------------------------------StereoConfig----------------------------" << endl;
+    cout << "preFilterSize: "       << this->stereocfg.preFilterSize          << endl;
+    cout << "preFilterCap: "        << this->stereocfg.preFilterCap           << endl;
+    cout << "SADWindowSize: "       << this->stereocfg.SADWindowSize          << endl;
+    cout << "minDisparity: "        << this->stereocfg.minDisparity           << endl;
+    cout << "numberOfDisparities: " << this->stereocfg.numberOfDisparities    << endl;
+    cout << "textureThreshold: "    << this->stereocfg.textureThreshold       << endl;
+    cout << "uniquenessRatio: "     << this->stereocfg.uniquenessRatio        << endl;
+    cout << "speckleWindowSize: "   << this->stereocfg.speckleWindowSize      << endl;
+    cout << "speckleRange: "        << this->stereocfg.speckleRange           << endl;
+    cout << "disp12MaxDiff: "       << this->stereocfg.disp12MaxDiff          << endl;
+    cout << "stereo.yml Read Successfully."  << endl << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
+}
 
 /*** Stereo Initialization function
   ** Description: Executes the PreSetup of parameters of the StereoBM object
@@ -126,15 +176,15 @@ void StereoProcessor::stereoCalib(){
     cout << "----------------------------------------------------------------------" << endl << endl;
 }
 
-void StereoProcessor::createKMatrix(){
-    this->calib.K=Mat::eye(3,3,CV_64F);
-    this->calib.K.at<double>(0,0)=this->calib.focalLength;
-    this->calib.K.at<double>(1,1)=this->calib.focalLength;
-    //this->calib.K.at<double>(0,2)=(this->imageSize.width-1.0)/2.0;
-    //this->calib.K.at<double>(1,2)=(this->imageSize.height-1.0)/2.0;
-    this->calib.K.at<double>(0,2)=(0-1.0)/2.0;
-    this->calib.K.at<double>(1,2)=(0-1.0)/2.0;
-    cout << "K:" << endl << this->calib.K << endl;
+void StereoCalib::createKMatrix(){
+    this->K=Mat::eye(3,3,CV_64F);
+    this->K.at<double>(0,0)=this->focalLength;
+    this->K.at<double>(1,1)=this->focalLength;
+    //this->K.at<double>(0,2)=(this->imageSize.width-1.0)/2.0;
+    //this->K.at<double>(1,2)=(this->imageSize.height-1.0)/2.0;
+    this->K.at<double>(0,2)=(0-1.0)/2.0;
+    this->K.at<double>(1,2)=(0-1.0)/2.0;
+    cout << "K:" << endl << this->K << endl;
 }
 
 /*** Read Q Matrix function
@@ -148,43 +198,42 @@ void StereoProcessor::createKMatrix(){
   ** [ 0  0    0		f      ]
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
+void StereoCalib::readQMatrix(){
+    FileStorage fs(this->QmatrixFileName, FileStorage::READ);
 
-void StereoProcessor::readQMatrix(){
-    FileStorage fs(this->calib.QmatrixFileName, FileStorage::READ);
-
-    if(this->calib.is640x480){
+    if(this->is640x480){
         if(!fs.isOpened()){
             cerr << "Failed to open Q.yml file" << endl;
             return;
         }
 
-        fs["Q"] >> this->calib.Q;
+        fs["Q"] >> this->Q;
         // Check
-        if(!this->calib.Q.data){
+        if(!this->Q.data){
             cerr << "Check Q Matrix Content!" << endl;
             return;
         }
 
         // Display
-        cout << "Q:" << endl << this->calib.Q << endl;
+        cout << "Q:" << endl << this->Q << endl;
 
-        this->calib.focalLength = this->calib.Q.at<double>(2,3);  cout << "f:" << this->calib.focalLength << endl;
-        this->calib.baseline = -1.0/this->calib.Q.at<double>(3,2); cout << "baseline: " << this->calib.baseline << endl;
+        this->focalLength = this->Q.at<double>(2,3);  cout << "f:" << this->focalLength << endl;
+        this->baseline = -1.0/this->Q.at<double>(3,2); cout << "baseline: " << this->baseline << endl;
     }else{
         cerr << "Check Q.yml file!\n" << endl;
         return;
     }
 }
 
-void StereoProcessor::calculateQMatrix(){
-    this->calib.Q = Mat::eye(4,4,CV_64F);
-    this->calib.Q.at<double>(0,3)=-this->imageCenter.x;
-    this->calib.Q.at<double>(1,3)=-this->imageCenter.y;
-    this->calib.Q.at<double>(2,3)=this->calib.focalLength;
-    this->calib.Q.at<double>(3,3)=0.0;
-    this->calib.Q.at<double>(2,2)=0.0;
-    this->calib.Q.at<double>(3,2)=1.0/this->calib.baseline;
-    cout << "Q:" << endl << this->calib.Q << endl;
+void StereoCalib::calculateQMatrix(){
+    this->Q = Mat::eye(4,4,CV_64F);
+    this->Q.at<double>(0,3)=-this->imageCenter.x;
+    this->Q.at<double>(1,3)=-this->imageCenter.y;
+    this->Q.at<double>(2,3)=this->focalLength;
+    this->Q.at<double>(3,3)=0.0;
+    this->Q.at<double>(2,2)=0.0;
+    this->Q.at<double>(3,2)=1.0/this->baseline;
+    cout << "Q:" << endl << this->Q << endl;
 }
 
 /*** Stereo Parameters Configuration function
@@ -199,16 +248,38 @@ void StereoProcessor::calculateQMatrix(){
 void StereoProcessor::stereoSetParams(){
     int trackbarsAux[10];
 
-    trackbarsAux[0]= getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
-    trackbarsAux[1]= getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
-    trackbarsAux[2]= getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
-    trackbarsAux[3]= getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
-    trackbarsAux[4]= getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
-    trackbarsAux[5]= getTrackbarPos("textureThreshold",trackbarWindowName)*320;
-    trackbarsAux[6]= getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
-    trackbarsAux[7]= getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
-    trackbarsAux[8]= getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
-    trackbarsAux[9]= getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
+    //    trackbarsAux[0] = getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
+    //    trackbarsAux[1] = getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
+    //    trackbarsAux[2] = getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
+    //    trackbarsAux[3] = getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
+    //    trackbarsAux[4] = getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
+    //    trackbarsAux[5] = getTrackbarPos("textureThreshold",trackbarWindowName)*320;
+    //    trackbarsAux[6] = getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
+    //    trackbarsAux[7] = getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
+    //    trackbarsAux[8] = getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
+    //    trackbarsAux[9] = getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
+
+    //    trackbarsAux[0] = this->preFilterSize_slider->value()*2.5+5;
+    //    trackbarsAux[1] = this->preFilterCap_slider->value()*0.625+1;
+    //    trackbarsAux[2] = this->SADWindowSize_slider->value()*2.5+5;
+    //    trackbarsAux[3] = this->minDisparity_slider->value()*2.0-100;
+    //    trackbarsAux[4] = this->numberOfDisparities_slider->value()*16;
+    //    trackbarsAux[5] = this->textureThreshold_slider->value()*320;
+    //    trackbarsAux[6] = this->uniquenessRatio_slider->value()*2.555;
+    //    trackbarsAux[7] = this->speckleWindowSize_slider->value()*1.0;
+    //    trackbarsAux[8] = this->speckleRange_slider->value()*1.0;
+    //    trackbarsAux[9] = this->disp12MaxDiff_slider->value()*1.0;
+
+    trackbarsAux[0] = this->stereocfg.preFilterSize*2.5+5;
+    trackbarsAux[1] = this->stereocfg.preFilterCap*0.625+1;
+    trackbarsAux[2] = this->stereocfg.SADWindowSize*2.5+5;
+    trackbarsAux[3] = this->stereocfg.minDisparity*2.0-100;
+    trackbarsAux[4] = this->stereocfg.numberOfDisparities*16;
+    trackbarsAux[5] = this->stereocfg.textureThreshold*320;
+    trackbarsAux[6] = this->stereocfg.uniquenessRatio*2.555;
+    trackbarsAux[7] = this->stereocfg.speckleWindowSize*1.0;
+    trackbarsAux[8] = this->stereocfg.speckleRange*1.0;
+    trackbarsAux[9] = this->stereocfg.disp12MaxDiff*1.0;
 
     this->bm->setROI1(this->calib.roi1);
     this->bm->setROI1(this->calib.roi2);

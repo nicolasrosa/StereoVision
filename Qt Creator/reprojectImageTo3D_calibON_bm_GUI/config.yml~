@@ -1,4 +1,0 @@
-%YAML:1.0
-Intrinsics Path: "../data/calib/calib5_640_480/intrinsics.yml"
-Extrinsics Path: "../data/calib/calib5_640_480/extrinsics.yml"
-Q Matrix Path: "../data/calib/calib5_640_480/Q.yml"

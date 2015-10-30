@@ -38,6 +38,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
    <property name="singleStep">
     <number>1</number>
    </property>
@@ -50,9 +53,12 @@
     <rect>
      <x>380</x>
      <y>10</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QSlider" name="preFilterCap_slider">
@@ -64,6 +70,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -73,9 +82,12 @@
     <rect>
      <x>380</x>
      <y>50</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QLabel" name="preFilterSize_label">
@@ -126,6 +138,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -135,9 +150,12 @@
     <rect>
      <x>380</x>
      <y>90</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QLabel" name="minDisparity_label">
@@ -162,6 +180,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -171,9 +192,12 @@
     <rect>
      <x>380</x>
      <y>130</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QLabel" name="numberOfDisparities_label">
@@ -198,6 +222,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -207,9 +234,12 @@
     <rect>
      <x>380</x>
      <y>170</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QLabel" name="textureThreshold_label">
@@ -234,6 +264,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -243,9 +276,12 @@
     <rect>
      <x>380</x>
      <y>210</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QLabel" name="uniquenessRatio_label">
@@ -270,6 +306,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -279,9 +318,12 @@
     <rect>
      <x>380</x>
      <y>250</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QLabel" name="speckleWindowSize_label">
@@ -306,6 +348,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -315,9 +360,12 @@
     <rect>
      <x>380</x>
      <y>290</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QLabel" name="speckleRange_label">
@@ -342,6 +390,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -351,9 +402,12 @@
     <rect>
      <x>380</x>
      <y>330</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
    </property>
   </widget>
   <widget class="QLabel" name="disp12MaxDiff_label">
@@ -378,6 +432,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>1</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -387,9 +444,12 @@
     <rect>
      <x>380</x>
      <y>370</y>
-     <width>48</width>
+     <width>51</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>1</number>
    </property>
   </widget>
  </widget>

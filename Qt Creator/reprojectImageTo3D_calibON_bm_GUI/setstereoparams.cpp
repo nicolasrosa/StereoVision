@@ -11,26 +11,46 @@ using namespace std;
 
 SetStereoParams::SetStereoParams(QWidget *parent) : QDialog(parent), ui(new Ui::SetStereoParams){
     ui->setupUi(this);
+    this->isAlreadyShowing = false;
+}
 
-    //    QWidget *window = new QWidget;
-    //    window->setWindowTitle("Enter Your Age");
+//Ui::SetStereoParams* SetStereoParams::getUi(){
+//    return(this->ui);
+//}
 
-    //    QSpinBox *spinBox = new QSpinBox;
-    //    QSlider *slider = new QSlider(Qt::Horizontal);
-    //    spinBox->setRange(0, 130);
-    //    slider->setRange(0, 130);
+void SetStereoParams::setInitialStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff){
+    this->ui->preFilterSize_slider->setValue(preFilterSize);
+    this->ui->preFilterSize_spinBox->setValue(preFilterSize);
 
-    //    QObject::connect(spinBox, SIGNAL(valueChanged(int)),slider, SLOT(setValue(int)));
-    //    QObject::connect(slider, SIGNAL(valueChanged(int)),spinBox, SLOT(setValue(int)));
-    //    spinBox->setValue(35);
+    this->ui->preFilterCap_slider->setValue(preFilterCap);
+    this->ui->preFilterCap_spinBox->setValue(preFilterCap);
 
-    //    QHBoxLayout *layout = new QHBoxLayout;
+    this->ui->SADWindowSize_slider->setValue(SADWindowSize);
+    this->ui->SADWindowSize_spinBox->setValue(SADWindowSize);
 
-    //    layout->addWidget(spinBox);
-    //    layout->addWidget(slider);
-    //    window->setLayout(layout);
+    this->ui->minDisparity_slider->setValue(minDisparity);
+    this->ui->minDisparity_spinBox->setValue(minDisparity);
 
-    //    window->show();
+    this->ui->numberOfDisparities_slider->setValue(numberOfDisparities);
+    this->ui->numberOfDisparities_spinBox->setValue(numberOfDisparities);
+
+    this->ui->textureThreshold_slider->setValue(textureThreshold);
+    this->ui->textureThreshold_spinBox->setValue(textureThreshold);
+
+    this->ui->uniquenessRatio_slider->setValue(uniquenessRatio);
+    this->ui->uniquenessRatio_spinBox->setValue(uniquenessRatio);
+
+    this->ui->speckleWindowSize_slider->setValue(speckleWindowSize);
+    this->ui->speckleWindowSize_spinBox->setValue(speckleWindowSize);
+
+    this->ui->speckleRange_slider->setValue(speckleRange);
+    this->ui->speckleRange_spinBox->setValue(speckleRange);
+
+    this->ui->disp12MaxDiff_slider->setValue(disp12MaxDiff);
+    this->ui->disp12MaxDiff_spinBox->setValue(disp12MaxDiff);
+}
+
+void SetStereoParams::getStereoParamsUi(){
 
 }
 
@@ -160,3 +180,14 @@ void SetStereoParams::on_disp12MaxDiff_spinBox_valueChanged(int value)
     cout << "Spin10: " << value << endl;
     connect(ui->disp12MaxDiff_spinBox, SIGNAL(valueChanged(int)),ui->disp12MaxDiff_slider,SLOT(setValue(int)));
 }
+
+//void SetStereoParams::on_buttonBox_accepted()
+//{
+//    isAlreadyShowing = false;
+//}
+
+//void SetStereoParams::on_buttonBox_rejected()
+//{
+//    isAlreadyShowing = false;
+//}
+

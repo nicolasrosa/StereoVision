@@ -2,3 +2,4 @@
 Intrinsics Path: "/home/nicolas/workspace/data/calib/calib5_640_480/intrinsics.yml"
 Extrinsics Path: "/home/nicolas/workspace/data/calib/calib5_640_480/extrinsics.yml"
 Q Matrix Path: "/home/nicolas/workspace/data/calib/calib5_640_480/Q.yml"
+Stereo Parameters Path: "/home/nicolas/workspace/data/calib/calib5_640_480/stereo.yml"
