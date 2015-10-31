@@ -8,6 +8,12 @@
 #ifndef STEREOPROCESSOR_H
 #define STEREOPROCESSOR_H
 
+/* Threshold, Erosion, Dilation and Blur Constants */
+#define THRESH_VALUE   100
+#define EROSION_SIZE     5
+#define DILATION_SIZE    5
+#define BLUR_SIZE        3
+
 /* Libraries */
 #include "opencv2/opencv.hpp"
 #include "3DReconstruction.h"
@@ -20,17 +26,6 @@ using namespace std;
 ///* Trackbars Variables
 // * Initial min and max BM Parameters values.These will be changed using trackbars
 // */
-//int preFilterSize			 = 50;	const int preFilterSize_MAX		 	= 100;
-//int preFilterCap			 = 100;	const int preFilterCap_MAX		 	= 100;
-//int SADWindowSize			 = 25;	const int SADWindowSize_MAX		 	= 100;
-//int minDisparity			 = 47;	const int minDisparity_MAX		 	= 100;
-//int numberOfDisparities		 = 3;	const int numberOfDisparities_MAX 	= 16;
-//int textureThreshold		 = 30;	const int textureThreshold_MAX		= 100;
-//int uniquenessRatio			 = 0;	const int uniquenessRatio_MAX		= 100;
-//int speckleWindowSize		 = 0;	const int speckleWindowSize_MAX	 	= 100;
-//int speckleRange			 = 0;	const int speckleRange_MAX		 	= 100;
-//int disp12MaxDiff			 = 1;	const int disp12MaxDiff_MAX		 	= 1;
-
 const int preFilterSize_MAX		 	= 100;
 const int preFilterCap_MAX		 	= 100;
 const int SADWindowSize_MAX		 	= 100;
@@ -43,10 +38,9 @@ const int speckleRange_MAX		 	= 100;
 const int disp12MaxDiff_MAX		 	= 1;
 
 /* Custom Classes */
-class StereoConfig : public SetStereoParams{
+class StereoConfig{
 public:
     StereoConfig(); //Constructor
-    //void setInitialTrackbarsValues();
 
     int preFilterSize;
     int preFilterCap;
@@ -59,7 +53,6 @@ public:
     int speckleRange;
     int disp12MaxDiff;
 };
-
 
 class StereoCalib{
 public:
@@ -97,7 +90,7 @@ public:
     Mat disp_BGR;
 };
 
-class StereoProcessor: public Ui_SetStereoParams{
+class StereoProcessor: public Ui_SetStereoParams,StereoConfig{
 public:
     StereoProcessor(int inputNum); //Constructor
     int getInputNum();
@@ -107,7 +100,9 @@ public:
 
     void stereoInit();
     void stereoCalib();
-    void stereoSetParams();
+    void setStereoParams();
+
+    void imageProcessing(Mat src, Mat imgE, Mat imgED,Mat trackingView,bool isTrackingObjects);
 
     Mat imageL[2],imageR[2];
     Mat	imageL_grey[2],imageR_grey[2];
@@ -120,6 +115,10 @@ public:
     Reconstruction3D view3D;
     Size imageSize;
     int numRows;
+
+    //Results
+    Mat imgThreshold;
+    Mat trackingView;
 
     bool showStereoParamsValues;
 private:

@@ -11,14 +11,14 @@ using namespace std;
 
 SetStereoParams::SetStereoParams(QWidget *parent) : QDialog(parent), ui(new Ui::SetStereoParams){
     ui->setupUi(this);
-    this->isAlreadyShowing = false;
+    //this->isAlreadyShowing = false;
 }
 
 //Ui::SetStereoParams* SetStereoParams::getUi(){
 //    return(this->ui);
 //}
 
-void SetStereoParams::setInitialStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff){
+void SetStereoParams::loadStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff){
     this->ui->preFilterSize_slider->setValue(preFilterSize);
     this->ui->preFilterSize_spinBox->setValue(preFilterSize);
 
@@ -50,9 +50,9 @@ void SetStereoParams::setInitialStereoParamsUi(int preFilterSize,int preFilterCa
     this->ui->disp12MaxDiff_spinBox->setValue(disp12MaxDiff);
 }
 
-void SetStereoParams::getStereoParamsUi(){
+//void SetStereoParams::getStereoParamsUi(){
 
-}
+//}
 
 SetStereoParams::~SetStereoParams()
 {
@@ -64,18 +64,21 @@ void SetStereoParams::on_preFilterSize_slider_valueChanged(int value)
 {
     cout << "Bar1: " << value << endl;
     connect(ui->preFilterSize_slider, SIGNAL(valueChanged(int)),ui->preFilterSize_spinBox,SLOT(setValue(int)));
+    //this->stereocfg.preFilterSize = ui->preFilterSize_slider->value();
 }
 
 void SetStereoParams::on_preFilterCap_slider_valueChanged(int value)
 {
     cout << "Bar2: " << value << endl;
     connect(ui->preFilterCap_slider, SIGNAL(valueChanged(int)),ui->preFilterCap_spinBox,SLOT(setValue(int)));
+    //this->stereocfg.preFilterCap = ui->preFilterCap_slider->value();
 }
 
 void SetStereoParams::on_SADWindowSize_slider_valueChanged(int value)
 {
     cout << "Bar3: " << value << endl;
     connect(ui->SADWindowSize_slider, SIGNAL(valueChanged(int)),ui->SADWindowSize_spinBox,SLOT(setValue(int)));
+    //ui->SADWindowSize_slider->value();
 }
 
 void SetStereoParams::on_minDisparity_slider_valueChanged(int value)
@@ -181,13 +184,11 @@ void SetStereoParams::on_disp12MaxDiff_spinBox_valueChanged(int value)
     connect(ui->disp12MaxDiff_spinBox, SIGNAL(valueChanged(int)),ui->disp12MaxDiff_slider,SLOT(setValue(int)));
 }
 
-//void SetStereoParams::on_buttonBox_accepted()
-//{
-//    isAlreadyShowing = false;
-//}
+void SetStereoParams::on_buttonBox_accepted(){
+    //isAlreadyShowing = false;
+}
 
-//void SetStereoParams::on_buttonBox_rejected()
-//{
-//    isAlreadyShowing = false;
-//}
+void SetStereoParams::on_buttonBox_rejected(){
+    //isAlreadyShowing = false;
+}
 

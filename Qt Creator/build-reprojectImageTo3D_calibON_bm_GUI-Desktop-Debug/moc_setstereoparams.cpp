@@ -168,6 +168,8 @@ void SetStereoParams::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 17: _t->on_speckleWindowSize_spinBox_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 18: _t->on_speckleRange_spinBox_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 19: _t->on_disp12MaxDiff_spinBox_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 20: _t->on_buttonBox_accepted(); break;
+        case 21: _t->on_buttonBox_rejected(); break;
         default: ;
         }
     }

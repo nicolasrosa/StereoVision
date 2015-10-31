@@ -6,6 +6,7 @@
  */
 
 #include "StereoProcessor.h"
+#include "trackObject.h"
 
 /* Begin: Constructors */
 StereoProcessor::StereoProcessor(int number){
@@ -245,20 +246,21 @@ void StereoCalib::calculateQMatrix(){
   ** @param bool showStereoBMparams
   ** Returns:     Nothing
   ***/
-void StereoProcessor::stereoSetParams(){
+void StereoProcessor::setStereoParams(){
     int trackbarsAux[10];
 
-    //    trackbarsAux[0] = getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
-    //    trackbarsAux[1] = getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
-    //    trackbarsAux[2] = getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
-    //    trackbarsAux[3] = getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
-    //    trackbarsAux[4] = getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
-    //    trackbarsAux[5] = getTrackbarPos("textureThreshold",trackbarWindowName)*320;
-    //    trackbarsAux[6] = getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
-    //    trackbarsAux[7] = getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
-    //    trackbarsAux[8] = getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
-    //    trackbarsAux[9] = getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
+    trackbarsAux[0] = getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
+    trackbarsAux[1] = getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
+    trackbarsAux[2] = getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
+    trackbarsAux[3] = getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
+    trackbarsAux[4] = getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
+    trackbarsAux[5] = getTrackbarPos("textureThreshold",trackbarWindowName)*320;
+    trackbarsAux[6] = getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
+    trackbarsAux[7] = getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
+    trackbarsAux[8] = getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
+    trackbarsAux[9] = getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
 
+    //Tentativa 1
     //    trackbarsAux[0] = this->preFilterSize_slider->value()*2.5+5;
     //    trackbarsAux[1] = this->preFilterCap_slider->value()*0.625+1;
     //    trackbarsAux[2] = this->SADWindowSize_slider->value()*2.5+5;
@@ -270,16 +272,20 @@ void StereoProcessor::stereoSetParams(){
     //    trackbarsAux[8] = this->speckleRange_slider->value()*1.0;
     //    trackbarsAux[9] = this->disp12MaxDiff_slider->value()*1.0;
 
-    trackbarsAux[0] = this->stereocfg.preFilterSize*2.5+5;
-    trackbarsAux[1] = this->stereocfg.preFilterCap*0.625+1;
-    trackbarsAux[2] = this->stereocfg.SADWindowSize*2.5+5;
-    trackbarsAux[3] = this->stereocfg.minDisparity*2.0-100;
-    trackbarsAux[4] = this->stereocfg.numberOfDisparities*16;
-    trackbarsAux[5] = this->stereocfg.textureThreshold*320;
-    trackbarsAux[6] = this->stereocfg.uniquenessRatio*2.555;
-    trackbarsAux[7] = this->stereocfg.speckleWindowSize*1.0;
-    trackbarsAux[8] = this->stereocfg.speckleRange*1.0;
-    trackbarsAux[9] = this->stereocfg.disp12MaxDiff*1.0;
+    //Tentativa 2
+    //    trackbarsAux[0] = this->stereocfg.preFilterSize*2.5+5;
+    //    trackbarsAux[1] = this->stereocfg.preFilterCap*0.625+1;
+    //    trackbarsAux[2] = this->stereocfg.SADWindowSize*2.5+5;
+    //    trackbarsAux[3] = this->stereocfg.minDisparity*2.0-100;
+    //    trackbarsAux[4] = this->stereocfg.numberOfDisparities*16;
+    //    trackbarsAux[5] = this->stereocfg.textureThreshold*320;
+    //    trackbarsAux[6] = this->stereocfg.uniquenessRatio*2.555;
+    //    trackbarsAux[7] = this->stereocfg.speckleWindowSize*1.0;
+    //    trackbarsAux[8] = this->stereocfg.speckleRange*1.0;
+    //    trackbarsAux[9] = this->stereocfg.disp12MaxDiff*1.0;
+
+    //cout << "preFilterSize: "<< this->stereocfg.preFilterSize << " track0:" << this->stereocfg.preFilterSize*2.5+5 << endl;
+    //cout << "preFilterCap:  "<< this->stereocfg.preFilterCap  << " track1:" << this->stereocfg.preFilterCap*2.5+5 << endl;
 
     this->bm->setROI1(this->calib.roi1);
     this->bm->setROI1(this->calib.roi2);
@@ -347,5 +353,79 @@ void StereoProcessor::stereoSetParams(){
         cout << getTrackbarPos("speckleWindowSize",trackbarWindowName)		<< "\t" << trackbarsAux[7] << endl;
         cout << getTrackbarPos("speckleRange",trackbarWindowName)			<< "\t" << trackbarsAux[8] << endl;
         cout << getTrackbarPos("disp12MaxDiff",trackbarWindowName)			<< "\t" << trackbarsAux[9] << endl;
+    }
+}
+
+void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects){
+    Mat erosionElement = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
+    Mat dilationElement = getStructuringElement( MORPH_RECT,Size( 2*DILATION_SIZE + 1, 2*DILATION_SIZE+1 ),Point( DILATION_SIZE, DILATION_SIZE ) );
+    Mat imgEBGR,imgEDBGR;
+    Mat imgEDMedian,imgEDMedianBGR;
+    int x,y;
+
+    //Mat imgThreshold;
+    static Mat lastimgThreshold;
+    int nPixels,nTotal;		  	//static int lastThresholdSum=0;
+
+    // Near Object Detection
+
+    //Prefiltering
+    // Apply Erosion and Dilation to take out spurious noise
+    erode(src,imgE,erosionElement);
+    dilate(imgE,imgED,erosionElement);
+
+    applyColorMap(imgE,imgEBGR, COLORMAP_JET);
+    applyColorMap(imgED,imgEDBGR, COLORMAP_JET);
+
+    // Apply Median Filter
+    //GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
+    medianBlur(imgED,imgEDMedian,5);
+    applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
+
+    // Thresholding
+    //adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_MEAN_C,THRESH_BINARY,11,-1);
+    //adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_GAUSSIAN_C,THRESH_BINARY,11,0);
+    threshold(imgEDMedian, imgThreshold, THRESH_VALUE, 255,THRESH_BINARY);
+    erode(imgThreshold,imgThreshold,erosionElement);
+    dilate(imgThreshold,imgThreshold,dilationElement);
+
+    // Solving Lighting Noise Problem
+    nPixels = sum(imgThreshold)[0]/255;
+    nTotal = imgThreshold.total();
+
+    //	cout << "Number of Pixels:" << nPixels << endl;
+    //	cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
+
+    if((((float)nPixels)/nTotal)>0.5){
+        //		sleep(1);
+        //		cout << "Lighting Noise!!!" << endl;
+        //		cout << "Number of Pixels:" << nPixels << endl;
+        //		cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
+
+        // Invalidates the last frame
+        imgThreshold = lastimgThreshold;
+    }else{
+        // Saves the last valid frame
+        lastimgThreshold=imgThreshold;
+        //lastThresholdSum = CurrentThresholdSum;
+    }
+
+    // Output
+    //imshow("Eroded Image",imgE);
+    //imshow("Eroded Image BGR",imgEBGR);
+
+    //	imshow("Eroded+Dilated Image",imgED);
+    //	imshow("Eroded+Dilated Image BGR",imgEDBGR);
+
+    //imshow("Eroded+Dilated+Median Image",imgEDMedian);
+    //imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
+
+    //imshow("Thresholded Image",imgThreshold);
+
+    // Tracking Object
+    if(isTrackingObjects){
+        trackFilteredObject(x,y,imgThreshold,cameraFeedL);
+        trackingView = cameraFeedL;
+        //imshow("Tracking Object",trackingView);
     }
 }

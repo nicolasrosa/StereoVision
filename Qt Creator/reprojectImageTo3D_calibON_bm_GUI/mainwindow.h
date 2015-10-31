@@ -23,6 +23,7 @@ public:
     void StereoVisionProcessInit();
     void printHelp();
     void openStereoSource(int inputNum);
+    void createTrackbars();
     QImage putImage(const Mat& mat);
     ~MainWindow();
 
@@ -30,7 +31,7 @@ public:
 private:
     Ui::MainWindow *ui;
     StereoProcessor *stereo;
-    SetStereoParams *setstereoparams;
+    SetStereoParams *StereoParamsSetupWindow;
 
     QImage qimageL,qimageR;
 

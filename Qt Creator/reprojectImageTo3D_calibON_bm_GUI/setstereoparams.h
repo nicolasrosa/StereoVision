@@ -13,8 +13,8 @@ class SetStereoParams : public QDialog
 
 public:
     explicit SetStereoParams(QWidget *parent = 0);
-    void setInitialStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff);
-    void getStereoParamsUi();
+    void loadStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff);
+    //void getStereoParamsUi();
     ~SetStereoParams();
 
     bool isAlreadyShowing;
@@ -45,7 +45,6 @@ private slots:
     void on_disp12MaxDiff_spinBox_valueChanged(int value);
 
     void on_buttonBox_accepted();
-
     void on_buttonBox_rejected();
 
 private:

@@ -43,51 +43,48 @@ void MainWindow::on_btnPauseOrResume_clicked(){
 }
 
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
-    static bool isAlreadyInitialized;
+    StereoParamsSetupWindow = new SetStereoParams(this);
 
-    setstereoparams = new SetStereoParams(this);
-    setstereoparams->show();
-
-    if(!isAlreadyInitialized){
-        this->setstereoparams->setInitialStereoParamsUi(stereo->stereocfg.preFilterSize,
-                                                       stereo->stereocfg.preFilterCap,
-                                                       stereo->stereocfg.SADWindowSize,
-                                                       stereo->stereocfg.minDisparity,
-                                                       stereo->stereocfg.numberOfDisparities,
-                                                       stereo->stereocfg.textureThreshold,
-                                                       stereo->stereocfg.uniquenessRatio,
-                                                       stereo->stereocfg.speckleWindowSize,
-                                                       stereo->stereocfg.speckleRange,
-                                                       stereo->stereocfg.disp12MaxDiff);
-        isAlreadyInitialized = true;
-        cout << "[Stereo Param Setup] Initialized!" << endl;
-    }else{
-        this->setstereoparams->getStereoParamsUi();
-        cout << "[Stereo Param Setup] Last Stereo Params Values Loaded!" << endl;
-    }
+    cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
+    this->StereoParamsSetupWindow->loadStereoParamsUi(stereo->stereocfg.preFilterSize,
+                                              stereo->stereocfg.preFilterCap,
+                                              stereo->stereocfg.SADWindowSize,
+                                              stereo->stereocfg.minDisparity,
+                                              stereo->stereocfg.numberOfDisparities,
+                                              stereo->stereocfg.textureThreshold,
+                                              stereo->stereocfg.uniquenessRatio,
+                                              stereo->stereocfg.speckleWindowSize,
+                                              stereo->stereocfg.speckleRange,
+                                              stereo->stereocfg.disp12MaxDiff);
+   StereoParamsSetupWindow->show();
 }
 
 void MainWindow::on_btnShowInputImages_clicked(){
     showInputImages = true;
     showDisparityMap = false;
     show3Dreconstruction = false;
+    showTrackingObjectView = false;
 }
 
 void MainWindow::on_btnShowDisparityMap_clicked(){
     showInputImages = false;
     showDisparityMap = true;
     show3Dreconstruction = false;
+    showTrackingObjectView = false;
 }
 
 void MainWindow::on_btnShow3DReconstruction_clicked(){
     showInputImages = false;
     showDisparityMap = false;
     show3Dreconstruction = true;
+    showTrackingObjectView = false;
 }
 
-void MainWindow::on_btnShowTrackingObjectView_clicked()
-{
-
+void MainWindow::on_btnShowTrackingObjectView_clicked(){
+    showInputImages = false;
+    showDisparityMap = false;
+    show3Dreconstruction = false;
+    showTrackingObjectView = true;
 }
 
 void MainWindow::StereoVisionProcessInit(){
@@ -163,8 +160,7 @@ void MainWindow::StereoVisionProcessInit(){
     stereo->view3D.setViewPoint(20.0,20.0,-stereo->calib.baseline*10);
     stereo->view3D.setLookAtPoint(22.0,16.0,stereo->calib.baseline*10.0);
 
-    //isStereoParamSetupTrackbarsCreated=createTrackbars();
-    //createTrackbars();
+    createTrackbars();
 }
 
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
@@ -204,7 +200,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         }
 
         //Setting StereoBM Parameters
-        stereo->stereoSetParams();
+        stereo->setStereoParams();
 
         // Convert BGR to Grey Scale
         cvtColor(stereo->imageL[0],stereo->imageL_grey[0],CV_BGR2GRAY);
@@ -217,11 +213,11 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         applyColorMap(stereo->disp.disp_8U,stereo->disp.disp_BGR, COLORMAP_JET);
 
         /* Image Processing */
-        Mat disp_8Median,disp_8MedianBGR;
-        Mat disp_8eroded;Mat disp_8_eroded_dilated;
+        Mat disp_8UMedian,disp_8UMedianBGR;
+        Mat disp_8Ueroded;Mat disp_8U_eroded_dilated;
 
-        //imageProcessing1(disp8,disp8Median,disp8Median);
-        //imageProcessing2(disp8,disp8eroded,disp8_eroded_dilated,imageL[0],true);
+        //imageProcessing1(stereo->disp.disp_8U,disp_8UMedian,disp_8UMedian);
+        stereo->imageProcessing(stereo->disp.disp_8U,disp_8Ueroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
 
         //(7) Projecting 3D point cloud to image
         if(show3Dreconstruction){
@@ -310,6 +306,14 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         else{
             destroyWindow("Disparity Map");
             destroyWindow("Disparity Map BGR");
+        }
+
+        if(showTrackingObjectView){
+            QImage qimageL = putImage(stereo->trackingView);
+            QImage qimageR = putImage(stereo->imgThreshold);
+
+            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
+            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
         }
 
         //       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
@@ -517,38 +521,38 @@ void MainWindow::openStereoSource(int inputNum){
     }
 }
 
-//void createTrackbars(){ //Create Window for trackbars
-//    char TrackbarName[50];
+void MainWindow::createTrackbars(){ //Create Window for trackbars
+    char TrackbarName[50];
 
-//    // Create TrackBars Window
-//    namedWindow(trackbarWindowName,0);
+    // Create TrackBars Window
+    namedWindow(trackbarWindowName,0);
 
-//    // Create memory to store Trackbar name on window
-//    sprintf( TrackbarName, "preFilterSize");
-//    sprintf( TrackbarName, "preFilterCap");
-//    sprintf( TrackbarName, "SADWindowSize");
-//    sprintf( TrackbarName, "minDisparity");
-//    sprintf( TrackbarName, "numberOfDisparities");
-//    sprintf( TrackbarName, "textureThreshold");
-//    sprintf( TrackbarName, "uniquenessRatio");
-//    sprintf( TrackbarName, "speckleWindowSize");
-//    sprintf( TrackbarName, "speckleRange");
-//    sprintf( TrackbarName, "disp12MaxDiff");
+    // Create memory to store Trackbar name on window
+    sprintf( TrackbarName, "preFilterSize");
+    sprintf( TrackbarName, "preFilterCap");
+    sprintf( TrackbarName, "SADWindowSize");
+    sprintf( TrackbarName, "minDisparity");
+    sprintf( TrackbarName, "numberOfDisparities");
+    sprintf( TrackbarName, "textureThreshold");
+    sprintf( TrackbarName, "uniquenessRatio");
+    sprintf( TrackbarName, "speckleWindowSize");
+    sprintf( TrackbarName, "speckleRange");
+    sprintf( TrackbarName, "disp12MaxDiff");
 
-//    //Create Trackbars and insert them into window
-//    stereo.
+    //Create Trackbars and insert them into window
 
-//    createTrackbar( "preFilterSize", trackbarWindowName, &preFilterSize, preFilterSize_MAX, on_trackbar );
-//    createTrackbar( "preFilterCap", trackbarWindowName, &preFilterCap, preFilterCap_MAX, on_trackbar );
-//    createTrackbar( "SADWindowSize", trackbarWindowName, &SADWindowSize, SADWindowSize_MAX, on_trackbar );
-//    createTrackbar( "minDisparity", trackbarWindowName, &minDisparity, minDisparity_MAX, on_trackbar );
-//    createTrackbar( "numberOfDisparities", trackbarWindowName, &numberOfDisparities, numberOfDisparities_MAX, on_trackbar );
-//    createTrackbar( "textureThreshold", trackbarWindowName, &textureThreshold, textureThreshold_MAX, on_trackbar );
-//    createTrackbar( "uniquenessRatio", trackbarWindowName, &uniquenessRatio, uniquenessRatio_MAX, on_trackbar );
-//    createTrackbar( "speckleWindowSize", trackbarWindowName, &speckleWindowSize, speckleWindowSize_MAX, on_trackbar );
-//    createTrackbar( "speckleRange", trackbarWindowName, &speckleRange, speckleRange_MAX, on_trackbar );
-//    createTrackbar( "disp12MaxDiff", trackbarWindowName, &disp12MaxDiff, disp12MaxDiff_MAX, on_trackbar );
-//}
+
+    createTrackbar( "preFilterSize", trackbarWindowName, &this->stereo->stereocfg.preFilterSize, preFilterSize_MAX, on_trackbar );
+    createTrackbar( "preFilterCap", trackbarWindowName, &this->stereo->stereocfg.preFilterCap, preFilterCap_MAX, on_trackbar );
+    createTrackbar( "SADWindowSize", trackbarWindowName, &this->stereo->stereocfg.SADWindowSize, SADWindowSize_MAX, on_trackbar );
+    createTrackbar( "minDisparity", trackbarWindowName, &this->stereo->stereocfg.minDisparity, minDisparity_MAX, on_trackbar );
+    createTrackbar( "numberOfDisparities", trackbarWindowName, &this->stereo->stereocfg.numberOfDisparities, numberOfDisparities_MAX, on_trackbar );
+    createTrackbar( "textureThreshold", trackbarWindowName, &this->stereo->stereocfg.textureThreshold, textureThreshold_MAX, on_trackbar );
+    createTrackbar( "uniquenessRatio", trackbarWindowName, &this->stereo->stereocfg.uniquenessRatio, uniquenessRatio_MAX, on_trackbar );
+    createTrackbar( "speckleWindowSize", trackbarWindowName, &this->stereo->stereocfg.speckleWindowSize, speckleWindowSize_MAX, on_trackbar );
+    createTrackbar( "speckleRange", trackbarWindowName, &this->stereo->stereocfg.speckleRange, speckleRange_MAX, on_trackbar );
+    createTrackbar( "disp12MaxDiff", trackbarWindowName, &this->stereo->stereocfg.disp12MaxDiff, disp12MaxDiff_MAX, on_trackbar );
+}
 
 void on_trackbar(int,void*){}; //This function gets called whenever a trackbar position is changed
 
@@ -606,78 +610,6 @@ void imageProcessing1(Mat Image, Mat MedianImage, Mat MedianImageBGR){
     // Output
     imshow("Disparity Map Median Filter 3x3",MedianImage);
     imshow("Disparity Map Median Filter 3x3 - RGB",MedianImageBGR);
-}
-
-void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects){
-    Mat erosionElement = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
-    Mat dilationElement = getStructuringElement( MORPH_RECT,Size( 2*DILATION_SIZE + 1, 2*DILATION_SIZE+1 ),Point( DILATION_SIZE, DILATION_SIZE ) );
-    Mat imgEBGR,imgEDBGR;
-    Mat imgEDMedian,imgEDMedianBGR;
-    int x,y;
-
-    Mat imgThreshold;			static Mat lastimgThreshold;
-    int nPixels,nTotal;		  	//static int lastThresholdSum=0;
-
-    // Near Object Detection
-
-    //Prefiltering
-    // Apply Erosion and Dilation to take out spurious noise
-    erode(src,imgE,erosionElement);
-    dilate(imgE,imgED,erosionElement);
-
-    applyColorMap(imgE,imgEBGR, COLORMAP_JET);
-    applyColorMap(imgED,imgEDBGR, COLORMAP_JET);
-
-    // Apply Median Filter
-    //GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
-    medianBlur(imgED,imgEDMedian,5);
-    applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
-
-    // Thresholding
-    //adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_MEAN_C,THRESH_BINARY,11,-1);
-    //adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_GAUSSIAN_C,THRESH_BINARY,11,0);
-    threshold(imgEDMedian, imgThreshold, THRESH_VALUE, 255,THRESH_BINARY);
-    erode(imgThreshold,imgThreshold,erosionElement);
-    dilate(imgThreshold,imgThreshold,dilationElement);
-
-    // Solving Lighting Noise Problem
-    nPixels = sum(imgThreshold)[0]/255;
-    nTotal = imgThreshold.total();
-
-    //	cout << "Number of Pixels:" << nPixels << endl;
-    //	cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
-
-    if((((float)nPixels)/nTotal)>0.5){
-        //		sleep(1);
-        //		cout << "Lighting Noise!!!" << endl;
-        //		cout << "Number of Pixels:" << nPixels << endl;
-        //		cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
-
-        // Invalidates the last frame
-        imgThreshold = lastimgThreshold;
-    }else{
-        // Saves the last valid frame
-        lastimgThreshold=imgThreshold;
-        //lastThresholdSum = CurrentThresholdSum;
-    }
-
-    // Output
-    //	imshow("Eroded Image",imgE);
-    //	imshow("Eroded Image BGR",imgEBGR);
-    //
-    //	imshow("Eroded+Dilated Image",imgED);
-    //	imshow("Eroded+Dilated Image BGR",imgEDBGR);
-
-    imshow("Eroded+Dilated+Median Image",imgEDMedian);
-    imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
-
-    imshow("Thresholded Image",imgThreshold);
-
-    // Tracking Object
-    if(isTrackingObjects){
-        trackFilteredObject(x,y,imgThreshold,cameraFeedL);
-        imshow("Tracking Object",cameraFeedL);
-    }
 }
 
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
