@@ -33,7 +33,7 @@ using namespace std;
 void on_trackbar(int,void*);
 
 //void stereoInit(StereoBM* bm);
-void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
+//void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showStereoBMparams);
 //void readQMatrix(Mat &Q,double* focalLength, double* baseline,StereoProcessor* stereo);
 //void calculateQMatrix(Mat &Q,Point2d imageCenter,double focalLength, double baseline);
 void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
@@ -46,6 +46,6 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
 
 /* Global Variables */
 bool isVideoFile=false,isImageFile=false,needCalibration=false,isStereoParamSetupTrackbarsCreated=false,isTrackingObjects=true;;
-bool showInputImages=true,showXYZ=false,showStereoParam=false,showStereoParamValues,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showTrackingObjectView=false,showDiffImage=false;
+//bool showInputImages=true,showXYZ=false,showStereoParam=false,showStereoParamValues,showFPS=false,showDisparityMap=false,show3Dreconstruction=false,showTrackingObjectView=false,showDiffImage=false;
 
 #endif /* reproject_Image_To_3D_LIB_H_ */

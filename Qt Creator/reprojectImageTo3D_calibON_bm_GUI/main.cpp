@@ -1,9 +1,10 @@
 #include "mainwindow.h"
+
 #include <QApplication>
 
-#include <QHBoxLayout>
-#include <QSlider>
-#include <QSpinBox>
+//#include <QHBoxLayout>
+//#include <QSlider>
+//#include <QSpinBox>
 
 int main(int argc, char *argv[]){
     QApplication app(argc, argv);

@@ -2,11 +2,12 @@
 // Nicolas Rosa, June 2015.
 // Credits: http://opencv.jp/opencv2-x-samples/point-cloud-rendering
 
-// Libraries
-#include "reprojectImageTo3D.h"
-
-//Qt Creator Libs
+/* Libraries */
 #include <QtCore>
+#include <opencv2/imgproc/imgproc.hpp>
+
+/* Custom Libraries */
+#include "reprojectImageTo3D.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -47,44 +48,56 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
 
     cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
     this->StereoParamsSetupWindow->loadStereoParamsUi(stereo->stereocfg.preFilterSize,
-                                              stereo->stereocfg.preFilterCap,
-                                              stereo->stereocfg.SADWindowSize,
-                                              stereo->stereocfg.minDisparity,
-                                              stereo->stereocfg.numberOfDisparities,
-                                              stereo->stereocfg.textureThreshold,
-                                              stereo->stereocfg.uniquenessRatio,
-                                              stereo->stereocfg.speckleWindowSize,
-                                              stereo->stereocfg.speckleRange,
-                                              stereo->stereocfg.disp12MaxDiff);
-   StereoParamsSetupWindow->show();
+                                                      stereo->stereocfg.preFilterCap,
+                                                      stereo->stereocfg.SADWindowSize,
+                                                      stereo->stereocfg.minDisparity,
+                                                      stereo->stereocfg.numberOfDisparities,
+                                                      stereo->stereocfg.textureThreshold,
+                                                      stereo->stereocfg.uniquenessRatio,
+                                                      stereo->stereocfg.speckleWindowSize,
+                                                      stereo->stereocfg.speckleRange,
+                                                      stereo->stereocfg.disp12MaxDiff);
+    StereoParamsSetupWindow->show();
 }
 
 void MainWindow::on_btnShowInputImages_clicked(){
-    showInputImages = true;
-    showDisparityMap = false;
-    show3Dreconstruction = false;
-    showTrackingObjectView = false;
+    this->stereo->flags.showInputImages = true;
+    this->stereo->flags.showDisparityMap = false;
+    this->stereo->flags.show3Dreconstruction = false;
+    this->stereo->flags.showTrackingObjectView = false;
+    this->stereo->flags.showDiffImage = false;
 }
 
 void MainWindow::on_btnShowDisparityMap_clicked(){
-    showInputImages = false;
-    showDisparityMap = true;
-    show3Dreconstruction = false;
-    showTrackingObjectView = false;
+    this->stereo->flags.showInputImages = false;
+    this->stereo->flags.showDisparityMap = true;
+    this->stereo->flags.show3Dreconstruction = false;
+    this->stereo->flags.showTrackingObjectView = false;
+    this->stereo->flags.showDiffImage = false;
 }
 
 void MainWindow::on_btnShow3DReconstruction_clicked(){
-    showInputImages = false;
-    showDisparityMap = false;
-    show3Dreconstruction = true;
-    showTrackingObjectView = false;
+    this->stereo->flags.showInputImages = false;
+    this->stereo->flags.showDisparityMap = false;
+    this->stereo->flags.show3Dreconstruction = true;
+    this->stereo->flags.showTrackingObjectView = false;
+    this->stereo->flags.showDiffImage = false;
 }
 
 void MainWindow::on_btnShowTrackingObjectView_clicked(){
-    showInputImages = false;
-    showDisparityMap = false;
-    show3Dreconstruction = false;
-    showTrackingObjectView = true;
+    this->stereo->flags.showInputImages = false;
+    this->stereo->flags.showDisparityMap = false;
+    this->stereo->flags.show3Dreconstruction = false;
+    this->stereo->flags.showTrackingObjectView = true;
+    this->stereo->flags.showDiffImage = false;
+}
+
+void MainWindow::on_btnShowDiffImage_clicked(){
+    this->stereo->flags.showInputImages = false;
+    this->stereo->flags.showDisparityMap = false;
+    this->stereo->flags.show3Dreconstruction = false;
+    this->stereo->flags.showTrackingObjectView = false;
+    this->stereo->flags.showDiffImage = true;
 }
 
 void MainWindow::StereoVisionProcessInit(){
@@ -167,10 +180,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
     //Local Variables
     char key=0;
 
-    //Diff
-    bool StartDiff=false;
-    Mat diffImage;
-
     //Timing
     int frameCounter=0;
     float fps,lastTime = clock();
@@ -217,10 +226,11 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         Mat disp_8Ueroded;Mat disp_8U_eroded_dilated;
 
         //imageProcessing1(stereo->disp.disp_8U,disp_8UMedian,disp_8UMedian);
+
         stereo->imageProcessing(stereo->disp.disp_8U,disp_8Ueroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
 
         //(7) Projecting 3D point cloud to image
-        if(show3Dreconstruction){
+        if(stereo->flags.show3Dreconstruction){
             cv::reprojectImageTo3D(stereo->disp.disp_16S,stereo->view3D.depth,stereo->calib.Q);
             Mat xyz= stereo->view3D.depth.reshape(3,stereo->view3D.depth.size().area());
 
@@ -229,7 +239,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             stereo->view3D.t.at<double>(1,0)=stereo->view3D.viewpoint.y;
             stereo->view3D.t.at<double>(2,0)=stereo->view3D.viewpoint.z;
 
-            if(showXYZ){
+            if(stereo->flags.showXYZ){
                 //cout<<t<<endl;
                 cout << "x: " << stereo->view3D.t.at<double>(0,0) << endl;
                 cout << "y: " << stereo->view3D.t.at<double>(1,0) << endl;
@@ -260,25 +270,32 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         }
 
         //(8)Movement Difference between Frames
-        Mat thresholdImage;
-        if(StartDiff && showDiffImage){
-            absdiff(stereo->imageL_grey[0],stereo->imageL_grey[1],diffImage);
-            threshold(diffImage, thresholdImage, THRESH_VALUE, 255,THRESH_BINARY);
+
+        //if(StartDiff && showDiffImage){
+        if(stereo->diff.StartDiff){
+            absdiff(stereo->imageL_grey[0],stereo->imageL_grey[1],stereo->diff.diffImage);
+            //threshold(stereo->diff.diffImage, stereo->diff.thresholdImage, THRESH_VALUE, 255,THRESH_BINARY);
         }
 
-        //Saving Previous Frame
-        stereo->imageL[0].copyTo(stereo->imageL[1]);
-        stereo->imageR[0].copyTo(stereo->imageR[1]);
-        stereo->imageL_grey[0].copyTo(stereo->imageL_grey[1]);
-        stereo->imageR_grey[0].copyTo(stereo->imageR_grey[1]);
+        stereo->saveLastFrames();
+        stereo->diff.StartDiff=1;
 
         //imshow("Previous Left",imageL[1]);
         //imshow("Previous Right",imageR[1]);
 
-        StartDiff=1;
+        if(!stereo->diff.diffImage.data){
+            cout << "Continue!" << endl;
+        }else{
+
+            bitwise_and(stereo->diff.diffImage,stereo->imgThreshold,stereo->diff.res);
+
+            imshow("imgThreshold",stereo->imgThreshold);
+            imshow("DiffImage",stereo->diff.diffImage);
+            imshow("Bitwise_AND",stereo->diff.res);
+        }
 
         //(9)OpenCV and GUI Output
-        if(showInputImages){
+        if(stereo->flags.showInputImages){
             //  imshow("Left",imageL[0]);
             //  imshow("Right",imageR[0]);
 
@@ -293,7 +310,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             destroyWindow("Right");
         }
 
-        if(showDisparityMap){
+        if(stereo->flags.showDisparityMap){
             //imshow("Disparity Map",disp_8U);
             //imshow("Disparity Map BGR",disp_BGR);
 
@@ -308,13 +325,23 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             destroyWindow("Disparity Map BGR");
         }
 
-        if(showTrackingObjectView){
+        if(stereo->flags.showTrackingObjectView){
             QImage qimageL = putImage(stereo->trackingView);
             QImage qimageR = putImage(stereo->imgThreshold);
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
         }
+
+        if(stereo->flags.showDiffImage){
+            this->qimageL = putImage(stereo->diff.diffImage);
+            this->qimageR = putImage(stereo->diff.res);
+
+
+            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
+            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+        }
+
 
         //       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
         //       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
@@ -326,13 +353,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //            isStereoParamSetupTrackbarsCreated=false;
         //        }
 
-        if(showDiffImage){
-            imshow("DiffImage",diffImage);
-            imshow("thresoldImage",thresholdImage);
-        }
-        else{
-            destroyWindow("DiffImage");
-        }
+
 
         //(10)Shortcuts
         key = waitKey(1);
@@ -345,13 +366,13 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //        if(key=='3')
         //            show3Dreconstruction = !show3Dreconstruction;
         if(key=='4')
-            showXYZ = !showXYZ;
+            stereo->flags.showXYZ = !stereo->flags.showXYZ;
         if(key=='5')
-            showFPS = !showFPS;
+            stereo->flags.showFPS = !stereo->flags.showFPS;
         if(key=='6')
-            showStereoParamValues = !showStereoParamValues;
+            stereo->flags.showStereoParamValues = !stereo->flags.showStereoParamValues;
         if(key=='7')
-            showDiffImage = !showDiffImage;
+            stereo->flags.showDiffImage = !stereo->flags.showDiffImage;
 
         if(key=='f')
             stereo->view3D.isSub=stereo->view3D.isSub?false:true;
@@ -380,7 +401,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             stereo->capR.set(CV_CAP_PROP_POS_FRAMES,0);
         }
 
-        if(showFPS){
+        if(stereo->flags.showFPS){
             //cout << "Frames: " << frameCounter << "/" << capR.get(CV_CAP_PROP_FRAME_COUNT) << endl;
             //cout << "Current time(s): " << current_time << endl;
             //cout << "FPS: " << (frameCounter/current_time) << endl;

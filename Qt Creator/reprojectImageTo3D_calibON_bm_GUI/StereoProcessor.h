@@ -15,7 +15,9 @@
 #define BLUR_SIZE        3
 
 /* Libraries */
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
+
+/* Custom Libraries */
 #include "3DReconstruction.h"
 #include "setstereoparams.h"
 #include "ui_setstereoparams.h"
@@ -23,9 +25,9 @@
 using namespace cv;
 using namespace std;
 
-///* Trackbars Variables
-// * Initial min and max BM Parameters values.These will be changed using trackbars
-// */
+/* Trackbars Variables
+ * Initial min and max BM Parameters values.These will be changed using trackbars
+ */
 const int preFilterSize_MAX		 	= 100;
 const int preFilterCap_MAX		 	= 100;
 const int SADWindowSize_MAX		 	= 100;
@@ -38,6 +40,31 @@ const int speckleRange_MAX		 	= 100;
 const int disp12MaxDiff_MAX		 	= 1;
 
 /* Custom Classes */
+class StereoFlags{
+public:
+    StereoFlags(); //Constructor
+
+    bool showInputImages;
+    bool showXYZ;
+    bool showStereoParam;
+    bool showStereoParamValues;
+    bool showFPS;
+    bool showDisparityMap;
+    bool show3Dreconstruction;
+    bool showTrackingObjectView;
+    bool showDiffImage;
+};
+
+class StereoDiff{
+public:
+    StereoDiff(); //Constructor
+
+    bool StartDiff;
+    Mat diffImage;
+    //Mat thresholdImage;
+    Mat res;
+};
+
 class StereoConfig{
 public:
     StereoConfig(); //Constructor
@@ -104,6 +131,8 @@ public:
 
     void imageProcessing(Mat src, Mat imgE, Mat imgED,Mat trackingView,bool isTrackingObjects);
 
+    void saveLastFrames();
+
     Mat imageL[2],imageR[2];
     Mat	imageL_grey[2],imageR_grey[2];
     VideoCapture capL,capR;
@@ -113,6 +142,8 @@ public:
     StereoConfig stereocfg;
     StereoDisparityMap disp;
     Reconstruction3D view3D;
+    StereoDiff diff;
+    StereoFlags flags;
     Size imageSize;
     int numRows;
 

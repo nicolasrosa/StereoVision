@@ -13,6 +13,22 @@ StereoProcessor::StereoProcessor(int number){
     inputNum=number;
 }
 
+StereoFlags::StereoFlags(){
+    showInputImages=true;
+    showXYZ=false;
+    showStereoParam=false;
+    showStereoParamValues=false;
+    showFPS=false;
+    showDisparityMap=false;
+    show3Dreconstruction=false;
+    showTrackingObjectView=false;
+    showDiffImage=false;
+}
+
+StereoDiff::StereoDiff(){
+    StartDiff=false;
+}
+
 StereoConfig::StereoConfig(){}
 
 StereoCalib::StereoCalib(){}
@@ -413,10 +429,8 @@ void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFee
     // Output
     //imshow("Eroded Image",imgE);
     //imshow("Eroded Image BGR",imgEBGR);
-
-    //	imshow("Eroded+Dilated Image",imgED);
-    //	imshow("Eroded+Dilated Image BGR",imgEDBGR);
-
+    //imshow("Eroded+Dilated Image",imgED);
+    //imshow("Eroded+Dilated Image BGR",imgEDBGR);
     //imshow("Eroded+Dilated+Median Image",imgEDMedian);
     //imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
 
@@ -424,8 +438,16 @@ void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFee
 
     // Tracking Object
     if(isTrackingObjects){
-        trackFilteredObject(x,y,imgThreshold,cameraFeedL);
-        trackingView = cameraFeedL;
+        cameraFeedL.copyTo(trackingView);
+        trackFilteredObject(x,y,imgThreshold,trackingView);
         //imshow("Tracking Object",trackingView);
     }
+}
+
+//Saving Previous Frame
+void StereoProcessor::saveLastFrames(){
+    imageL[0].copyTo(imageL[1]);
+    imageR[0].copyTo(imageR[1]);
+    imageL_grey[0].copyTo(imageL_grey[1]);
+    imageR_grey[0].copyTo(imageR_grey[1]);
 }

@@ -38,6 +38,7 @@ public:
     QPushButton *btnShow3DReconstruction;
     QPushButton *btnShowInputImages;
     QPushButton *btnShowTrackingObjectView;
+    QPushButton *btnShowDiffImage;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -80,6 +81,9 @@ public:
         btnShowTrackingObjectView = new QPushButton(centralWidget);
         btnShowTrackingObjectView->setObjectName(QStringLiteral("btnShowTrackingObjectView"));
         btnShowTrackingObjectView->setGeometry(QRect(390, 500, 211, 41));
+        btnShowDiffImage = new QPushButton(centralWidget);
+        btnShowDiffImage->setObjectName(QStringLiteral("btnShowDiffImage"));
+        btnShowDiffImage->setGeometry(QRect(390, 540, 211, 41));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -88,7 +92,6 @@ public:
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        MainWindow->insertToolBarBreak(mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
@@ -109,6 +112,7 @@ public:
         btnShow3DReconstruction->setText(QApplication::translate("MainWindow", "Show 3D Reconstruction", 0));
         btnShowInputImages->setText(QApplication::translate("MainWindow", "Show Left/Right", 0));
         btnShowTrackingObjectView->setText(QApplication::translate("MainWindow", "Show Tracking Object View", 0));
+        btnShowDiffImage->setText(QApplication::translate("MainWindow", "Show DiffImage", 0));
     } // retranslateUi
 
 };
