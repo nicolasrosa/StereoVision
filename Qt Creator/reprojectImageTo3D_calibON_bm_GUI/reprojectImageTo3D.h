@@ -14,6 +14,7 @@
 #include "cvaux.h"
 #include "stdio.h"
 #include "opencv2/opencv.hpp"
+#include <fstream>
 
 /* Custom Libraries */
 #include "trackObject.h"

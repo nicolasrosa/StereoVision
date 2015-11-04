@@ -14,6 +14,8 @@
 using namespace cv;
 using namespace std;
 
+void writeMatToFile(cv::Mat& m, const char* filename);
+
 //MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow),stereo(new StereoProcessor(6)){
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
@@ -232,15 +234,41 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //(7) Projecting 3D point cloud to image
         if(stereo->flags.show3Dreconstruction){
             cv::reprojectImageTo3D(stereo->disp.disp_16S,stereo->view3D.depth,stereo->calib.Q);
-            Mat xyz= stereo->view3D.depth.reshape(3,stereo->view3D.depth.size().area());
+            Mat xyz = stereo->view3D.depth.reshape(3,stereo->view3D.depth.size().area());
 
             stereo->view3D.lookat(stereo->view3D.viewpoint, stereo->view3D.lookatpoint , stereo->view3D.Rotation);
             stereo->view3D.t.at<double>(0,0)=stereo->view3D.viewpoint.x;
             stereo->view3D.t.at<double>(1,0)=stereo->view3D.viewpoint.y;
             stereo->view3D.t.at<double>(2,0)=stereo->view3D.viewpoint.z;
 
+
+            //Remover Depois
+//            //Just Remember that 2.at<Vec3f>(Y,X)
+//            // "channels" is a vector of 3 Mat arrays:
+//            vector<Mat> channels(3);
+//            // Split 3D Space Image:
+//            split(stereo->view3D.depth, channels);
+//            Mat X,Y,Z;
+//            X = channels[0];
+//            Y = channels[1];
+//            Z = channels[2];
+
+//            //writeMatToFile(channels[0],"depth0.ods");
+//            //writeMatToFile(channels[1],"depth1.ods");
+//            //writeMatToFile(channels[2],"depth2.ods");
+
+//            //Coordinates(Y,X) = [X,Y,Z]
+//            Vec3f coordinates_value = stereo->view3D.depth.at<Vec3f>(0,0); //X
+//            //float depth_value = stereo->view3D.depth.at<Vec3f>(0,0)[2];   //Z
+//            cout << "Coordinates(0,0)= " << coordinates_value << endl;
+
+//            //double min,max;
+//            //minMaxLoc(stereo->view3D.depth, &min,&max);
+//            //cout << "Min: " << min << endl;
+//            //cout << "Max: " << max << endl;
+
             if(stereo->flags.showXYZ){
-                //cout<<t<<endl;
+                //cout<< stereo->view3D.t <<endl;
                 cout << "x: " << stereo->view3D.t.at<double>(0,0) << endl;
                 cout << "y: " << stereo->view3D.t.at<double>(1,0) << endl;
                 cout << "z: " << stereo->view3D.t.at<double>(2,0) << endl;
@@ -674,4 +702,25 @@ QImage MainWindow::putImage(const Mat& mat){
         qDebug() << "ERROR: Mat could not be converted to QImage.";
         return QImage();
     }
+}
+
+void writeMatToFile(cv::Mat& m, const char* filename)
+{
+    ofstream fout(filename);
+
+    if(!fout)
+    {
+        cout<<"File Not Opened"<<endl;  return;
+    }
+
+    for(int i=0; i<m.rows; i++)
+    {
+        for(int j=0; j<m.cols; j++)
+        {
+            fout<<m.at<float>(i,j)<<"\t";
+        }
+        fout<<endl;
+    }
+
+    fout.close();
 }
