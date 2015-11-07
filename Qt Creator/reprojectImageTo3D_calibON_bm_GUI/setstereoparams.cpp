@@ -11,7 +11,7 @@ using namespace std;
 
 SetStereoParams::SetStereoParams(QWidget *parent) : QDialog(parent), ui(new Ui::SetStereoParams){
     ui->setupUi(this);
-    //this->isAlreadyShowing = false;
+    //stereocfg_pointer = &stereocfg;
 }
 
 //Ui::SetStereoParams* SetStereoParams::getUi(){
@@ -185,10 +185,10 @@ void SetStereoParams::on_disp12MaxDiff_spinBox_valueChanged(int value)
 }
 
 void SetStereoParams::on_buttonBox_accepted(){
-    //isAlreadyShowing = false;
+
 }
 
 void SetStereoParams::on_buttonBox_rejected(){
-    //isAlreadyShowing = false;
+
 }
 

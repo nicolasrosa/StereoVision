@@ -17,6 +17,7 @@ public:
     //void getStereoParamsUi();
     ~SetStereoParams();
 
+    //StereoConfig stereocfg_pointer;
     bool isAlreadyShowing;
 
 private slots:

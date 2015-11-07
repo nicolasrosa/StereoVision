@@ -68,6 +68,7 @@ public:
 class StereoConfig{
 public:
     StereoConfig(); //Constructor
+    StereoConfig getConfig();
 
     int preFilterSize;
     int preFilterCap;

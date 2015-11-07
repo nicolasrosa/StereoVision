@@ -20,7 +20,7 @@ void writeMatToFile(cv::Mat& m, const char* filename);
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(6);
+    this->stereo = new StereoProcessor(1);
 
     StereoVisionProcessInit();
 
@@ -487,15 +487,15 @@ void MainWindow::openStereoSource(int inputNum){
     ui->txtOutputBox->appendPlainText(QString("Input File: ")+QString::number(inputNum));
     switch(inputNum){
     case 1:
-        imageL_filename = "../data/left/video2_denoised_long.avi";
-        imageR_filename = "../data/right/video2_denoised_long.avi";
+        imageL_filename = "../../workspace/data/video10_l.avi";
+        imageR_filename = "../../workspace/data/video10_r.avi";
         needCalibration=true;
         ui->txtOutputBox->appendPlainText(QString("video2_denoised_long.avi"));
         break;
     case 2:
-        imageL_filename = "../data/left/video0.avi";
-        imageR_filename = "../data/right/video0.avi";
-        needCalibration=false;
+        imageL_filename = "../../workspace/data/video12_l.avi";
+        imageR_filename = "../../workspace/data/video12_r.avi";
+        needCalibration=true;
         ui->txtOutputBox->appendPlainText(QString( "video0.avi"));
         break;
     case 3:
