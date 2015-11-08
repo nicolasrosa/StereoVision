@@ -53,16 +53,28 @@ public:
     bool show3Dreconstruction;
     bool showTrackingObjectView;
     bool showDiffImage;
+    bool showWarningLines;
 };
 
 class StereoDiff{
 public:
     StereoDiff(); //Constructor
+    void createDiffImage(Mat,Mat);
+    void createResAND(Mat,Mat);
+    void convertToBGR();
+    void addRedLines();
 
     bool StartDiff;
     Mat diffImage;
-    //Mat thresholdImage;
-    Mat res;
+
+    Mat res_AND;
+    Mat imageL;
+    Mat res_AND_BGR;
+    Mat res_AND_BGR_channels[3];
+
+    double alpha;
+    double beta;
+    Mat res_ADD;
 };
 
 class StereoConfig{

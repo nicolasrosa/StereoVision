@@ -20,7 +20,7 @@ void writeMatToFile(cv::Mat& m, const char* filename);
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(1);
+    this->stereo = new StereoProcessor(2);
 
     StereoVisionProcessInit();
 
@@ -60,46 +60,6 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
                                                       stereo->stereocfg.speckleRange,
                                                       stereo->stereocfg.disp12MaxDiff);
     StereoParamsSetupWindow->show();
-}
-
-void MainWindow::on_btnShowInputImages_clicked(){
-    this->stereo->flags.showInputImages = true;
-    this->stereo->flags.showDisparityMap = false;
-    this->stereo->flags.show3Dreconstruction = false;
-    this->stereo->flags.showTrackingObjectView = false;
-    this->stereo->flags.showDiffImage = false;
-}
-
-void MainWindow::on_btnShowDisparityMap_clicked(){
-    this->stereo->flags.showInputImages = false;
-    this->stereo->flags.showDisparityMap = true;
-    this->stereo->flags.show3Dreconstruction = false;
-    this->stereo->flags.showTrackingObjectView = false;
-    this->stereo->flags.showDiffImage = false;
-}
-
-void MainWindow::on_btnShow3DReconstruction_clicked(){
-    this->stereo->flags.showInputImages = false;
-    this->stereo->flags.showDisparityMap = false;
-    this->stereo->flags.show3Dreconstruction = true;
-    this->stereo->flags.showTrackingObjectView = false;
-    this->stereo->flags.showDiffImage = false;
-}
-
-void MainWindow::on_btnShowTrackingObjectView_clicked(){
-    this->stereo->flags.showInputImages = false;
-    this->stereo->flags.showDisparityMap = false;
-    this->stereo->flags.show3Dreconstruction = false;
-    this->stereo->flags.showTrackingObjectView = true;
-    this->stereo->flags.showDiffImage = false;
-}
-
-void MainWindow::on_btnShowDiffImage_clicked(){
-    this->stereo->flags.showInputImages = false;
-    this->stereo->flags.showDisparityMap = false;
-    this->stereo->flags.show3Dreconstruction = false;
-    this->stereo->flags.showTrackingObjectView = false;
-    this->stereo->flags.showDiffImage = true;
 }
 
 void MainWindow::StereoVisionProcessInit(){
@@ -224,7 +184,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         applyColorMap(stereo->disp.disp_8U,stereo->disp.disp_BGR, COLORMAP_JET);
 
         /* Image Processing */
-        Mat disp_8UMedian,disp_8UMedianBGR;
         Mat disp_8Ueroded;Mat disp_8U_eroded_dilated;
 
         //imageProcessing1(stereo->disp.disp_8U,disp_8UMedian,disp_8UMedian);
@@ -243,29 +202,29 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
 
             //Remover Depois
-//            //Just Remember that 2.at<Vec3f>(Y,X)
-//            // "channels" is a vector of 3 Mat arrays:
-//            vector<Mat> channels(3);
-//            // Split 3D Space Image:
-//            split(stereo->view3D.depth, channels);
-//            Mat X,Y,Z;
-//            X = channels[0];
-//            Y = channels[1];
-//            Z = channels[2];
+            //            //Just Remember that 2.at<Vec3f>(Y,X)
+            //            // "channels" is a vector of 3 Mat arrays:
+            //            vector<Mat> channels(3);
+            //            // Split 3D Space Image:
+            //            split(stereo->view3D.depth, channels);
+            //            Mat X,Y,Z;
+            //            X = channels[0];
+            //            Y = channels[1];
+            //            Z = channels[2];
 
-//            //writeMatToFile(channels[0],"depth0.ods");
-//            //writeMatToFile(channels[1],"depth1.ods");
-//            //writeMatToFile(channels[2],"depth2.ods");
+            //            //writeMatToFile(channels[0],"depth0.ods");
+            //            //writeMatToFile(channels[1],"depth1.ods");
+            //            //writeMatToFile(channels[2],"depth2.ods");
 
-//            //Coordinates(Y,X) = [X,Y,Z]
-//            Vec3f coordinates_value = stereo->view3D.depth.at<Vec3f>(0,0); //X
-//            //float depth_value = stereo->view3D.depth.at<Vec3f>(0,0)[2];   //Z
-//            cout << "Coordinates(0,0)= " << coordinates_value << endl;
+            //            //Coordinates(Y,X) = [X,Y,Z]
+            //            Vec3f coordinates_value = stereo->view3D.depth.at<Vec3f>(0,0); //X
+            //            //float depth_value = stereo->view3D.depth.at<Vec3f>(0,0)[2];   //Z
+            //            cout << "Coordinates(0,0)= " << coordinates_value << endl;
 
-//            //double min,max;
-//            //minMaxLoc(stereo->view3D.depth, &min,&max);
-//            //cout << "Min: " << min << endl;
-//            //cout << "Max: " << max << endl;
+            //            //double min,max;
+            //            //minMaxLoc(stereo->view3D.depth, &min,&max);
+            //            //cout << "Min: " << min << endl;
+            //            //cout << "Max: " << max << endl;
 
             if(stereo->flags.showXYZ){
                 //cout<< stereo->view3D.t <<endl;
@@ -298,59 +257,44 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         }
 
         //(8)Movement Difference between Frames
+        //if(stereo->diff.StartDiff){
+        if(stereo->flags.showDiffImage || stereo->flags.showWarningLines){
+            if(stereo->diff.StartDiff){
+                stereo->diff.createDiffImage(stereo->imageL_grey[0],stereo->imageL_grey[1]);
 
-        //if(StartDiff && showDiffImage){
-        if(stereo->diff.StartDiff){
-            absdiff(stereo->imageL_grey[0],stereo->imageL_grey[1],stereo->diff.diffImage);
-            //threshold(stereo->diff.diffImage, stereo->diff.thresholdImage, THRESH_VALUE, 255,THRESH_BINARY);
-        }
+                if(stereo->diff.diffImage.data){
+                    stereo->diff.createResAND(stereo->diff.diffImage,stereo->imgThreshold);
+                    stereo->diff.convertToBGR();
+                    stereo->imageL[0].copyTo(stereo->diff.imageL);
+                    stereo->diff.addRedLines();
 
-        stereo->saveLastFrames();
-        stereo->diff.StartDiff=1;
+                    //imshow("imgThreshold",stereo->imgThreshold);
+                    //imshow("DiffImage",stereo->diff.diffImage);
+                    //imshow("Bitwise_AND",stereo->diff.res_AND);
+                }
 
-        //imshow("Previous Left",imageL[1]);
-        //imshow("Previous Right",imageR[1]);
-
-        if(!stereo->diff.diffImage.data){
-            cout << "Continue!" << endl;
-        }else{
-
-            bitwise_and(stereo->diff.diffImage,stereo->imgThreshold,stereo->diff.res);
-
-            imshow("imgThreshold",stereo->imgThreshold);
-            imshow("DiffImage",stereo->diff.diffImage);
-            imshow("Bitwise_AND",stereo->diff.res);
+                stereo->saveLastFrames();
+            }else{
+                stereo->saveLastFrames();
+                stereo->diff.StartDiff=1;
+            }
         }
 
         //(9)OpenCV and GUI Output
         if(stereo->flags.showInputImages){
-            //  imshow("Left",imageL[0]);
-            //  imshow("Right",imageR[0]);
-
             QImage qimageL = putImage(stereo->imageL[0]);
             QImage qimageR = putImage(stereo->imageR[0]);
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
         }
-        else{
-            destroyWindow("Left");
-            destroyWindow("Right");
-        }
 
         if(stereo->flags.showDisparityMap){
-            //imshow("Disparity Map",disp_8U);
-            //imshow("Disparity Map BGR",disp_BGR);
-
             QImage qimageL = putImage(stereo->disp.disp_8U);
             QImage qimageR = putImage(stereo->disp.disp_BGR);
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
-        }
-        else{
-            destroyWindow("Disparity Map");
-            destroyWindow("Disparity Map BGR");
         }
 
         if(stereo->flags.showTrackingObjectView){
@@ -361,15 +305,21 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
         }
 
-        if(stereo->flags.showDiffImage){
+        if(stereo->flags.showDiffImage && stereo->diff.StartDiff){
             this->qimageL = putImage(stereo->diff.diffImage);
-            this->qimageR = putImage(stereo->diff.res);
-
+            this->qimageR = putImage(stereo->diff.res_AND);
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
         }
 
+        if(stereo->flags.showWarningLines && stereo->diff.StartDiff){
+            this->qimageL = putImage(stereo->diff.res_ADD);
+            this->qimageR = putImage(stereo->diff.res_AND_BGR);
+
+            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
+            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+        }
 
         //       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
         //       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
@@ -570,6 +520,112 @@ void MainWindow::openStereoSource(int inputNum){
     }
 }
 
+void MainWindow::on_btnShowInputImages_clicked(){
+    this->stereo->flags.showInputImages = true;
+    this->stereo->flags.showDisparityMap = false;
+    this->stereo->flags.show3Dreconstruction = false;
+    this->stereo->flags.showTrackingObjectView = false;
+    this->stereo->flags.showDiffImage = false;
+    this->stereo->flags.showWarningLines = false;
+}
+
+void MainWindow::on_btnShowDisparityMap_clicked(){
+    this->stereo->flags.showInputImages = false;
+    this->stereo->flags.showDisparityMap = true;
+    this->stereo->flags.show3Dreconstruction = false;
+    this->stereo->flags.showTrackingObjectView = false;
+    this->stereo->flags.showDiffImage = false;
+    this->stereo->flags.showWarningLines = false;
+}
+
+void MainWindow::on_btnShow3DReconstruction_clicked(){
+    this->stereo->flags.showInputImages = false;
+    this->stereo->flags.showDisparityMap = false;
+    this->stereo->flags.show3Dreconstruction = true;
+    this->stereo->flags.showTrackingObjectView = false;
+    this->stereo->flags.showDiffImage = false;
+    this->stereo->flags.showWarningLines = false;
+}
+
+void MainWindow::on_btnShowTrackingObjectView_clicked(){
+    this->stereo->flags.showInputImages = false;
+    this->stereo->flags.showDisparityMap = false;
+    this->stereo->flags.show3Dreconstruction = false;
+    this->stereo->flags.showTrackingObjectView = true;
+    this->stereo->flags.showDiffImage = false;
+    this->stereo->flags.showWarningLines = false;
+}
+
+void MainWindow::on_btnShowDiffImage_clicked(){
+    this->stereo->flags.showInputImages = false;
+    this->stereo->flags.showDisparityMap = false;
+    this->stereo->flags.show3Dreconstruction = false;
+    this->stereo->flags.showTrackingObjectView = false;
+    this->stereo->flags.showDiffImage = true;
+    this->stereo->flags.showWarningLines = false;
+}
+
+void MainWindow::on_btnShowDiffImage_2_clicked(){
+    this->stereo->flags.showInputImages = false;
+    this->stereo->flags.showDisparityMap = false;
+    this->stereo->flags.show3Dreconstruction = false;
+    this->stereo->flags.showTrackingObjectView = false;
+    this->stereo->flags.showDiffImage = false;
+    this->stereo->flags.showWarningLines = true;
+}
+
+QImage MainWindow::putImage(const Mat& mat){
+    // 8-bits unsigned, NO. OF CHANNELS=1
+    if(mat.type()==CV_8UC1)
+    {
+        // Set the color table (used to translate colour indexes to qRgb values)
+        QVector<QRgb> colorTable;
+        for (int i=0; i<256; i++)
+            colorTable.push_back(qRgb(i,i,i));
+        // Copy input Mat
+        const uchar *qImageBuffer = (const uchar*)mat.data;
+        // Create QImage with same dimensions as input Mat
+        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_Indexed8);
+        img.setColorTable(colorTable);
+        return img;
+    }
+    // 8-bits unsigned, NO. OF CHANNELS=3
+    if(mat.type()==CV_8UC3)
+    {
+        // Copy input Mat
+        const uchar *qImageBuffer = (const uchar*)mat.data;
+        // Create QImage with same dimensions as input Mat
+        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
+        return img.rgbSwapped();
+    }
+    else
+    {
+        qDebug() << "ERROR: Mat could not be converted to QImage.";
+        return QImage();
+    }
+}
+
+void writeMatToFile(cv::Mat& m, const char* filename)
+{
+    ofstream fout(filename);
+
+    if(!fout)
+    {
+        cout<<"File Not Opened"<<endl;  return;
+    }
+
+    for(int i=0; i<m.rows; i++)
+    {
+        for(int j=0; j<m.cols; j++)
+        {
+            fout<<m.at<float>(i,j)<<"\t";
+        }
+        fout<<endl;
+    }
+
+    fout.close();
+}
+
 void MainWindow::createTrackbars(){ //Create Window for trackbars
     char TrackbarName[50];
 
@@ -671,56 +727,4 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
             }
         }
     }
-}
-
-QImage MainWindow::putImage(const Mat& mat){
-    // 8-bits unsigned, NO. OF CHANNELS=1
-    if(mat.type()==CV_8UC1)
-    {
-        // Set the color table (used to translate colour indexes to qRgb values)
-        QVector<QRgb> colorTable;
-        for (int i=0; i<256; i++)
-            colorTable.push_back(qRgb(i,i,i));
-        // Copy input Mat
-        const uchar *qImageBuffer = (const uchar*)mat.data;
-        // Create QImage with same dimensions as input Mat
-        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_Indexed8);
-        img.setColorTable(colorTable);
-        return img;
-    }
-    // 8-bits unsigned, NO. OF CHANNELS=3
-    if(mat.type()==CV_8UC3)
-    {
-        // Copy input Mat
-        const uchar *qImageBuffer = (const uchar*)mat.data;
-        // Create QImage with same dimensions as input Mat
-        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
-        return img.rgbSwapped();
-    }
-    else
-    {
-        qDebug() << "ERROR: Mat could not be converted to QImage.";
-        return QImage();
-    }
-}
-
-void writeMatToFile(cv::Mat& m, const char* filename)
-{
-    ofstream fout(filename);
-
-    if(!fout)
-    {
-        cout<<"File Not Opened"<<endl;  return;
-    }
-
-    for(int i=0; i<m.rows; i++)
-    {
-        for(int j=0; j<m.cols; j++)
-        {
-            fout<<m.at<float>(i,j)<<"\t";
-        }
-        fout<<endl;
-    }
-
-    fout.close();
 }

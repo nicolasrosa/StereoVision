@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[10];
-    char stringdata[269];
+    QByteArrayData data[11];
+    char stringdata[299];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,7 +38,8 @@ QT_MOC_LITERAL(5, 103, 34),
 QT_MOC_LITERAL(6, 138, 34),
 QT_MOC_LITERAL(7, 173, 29),
 QT_MOC_LITERAL(8, 203, 36),
-QT_MOC_LITERAL(9, 240, 27)
+QT_MOC_LITERAL(9, 240, 27),
+QT_MOC_LITERAL(10, 268, 29)
     },
     "MainWindow\0StereoVisionProcessAndUpdateGUI\0"
     "\0on_btnPauseOrResume_clicked\0"
@@ -48,6 +49,7 @@ QT_MOC_LITERAL(9, 240, 27)
     "on_btnShowInputImages_clicked\0"
     "on_btnShowTrackingObjectView_clicked\0"
     "on_btnShowDiffImage_clicked\0"
+    "on_btnShowDiffImage_2_clicked\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -57,7 +59,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -65,16 +67,18 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   54,    2, 0x0a,
-       3,    0,   55,    2, 0x08,
-       4,    0,   56,    2, 0x08,
-       5,    0,   57,    2, 0x08,
-       6,    0,   58,    2, 0x08,
-       7,    0,   59,    2, 0x08,
-       8,    0,   60,    2, 0x08,
-       9,    0,   61,    2, 0x08,
+       1,    0,   59,    2, 0x0a,
+       3,    0,   60,    2, 0x08,
+       4,    0,   61,    2, 0x08,
+       5,    0,   62,    2, 0x08,
+       6,    0,   63,    2, 0x08,
+       7,    0,   64,    2, 0x08,
+       8,    0,   65,    2, 0x08,
+       9,    0,   66,    2, 0x08,
+      10,    0,   67,    2, 0x08,
 
  // slots: parameters
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -100,6 +104,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 5: _t->on_btnShowInputImages_clicked(); break;
         case 6: _t->on_btnShowTrackingObjectView_clicked(); break;
         case 7: _t->on_btnShowDiffImage_clicked(); break;
+        case 8: _t->on_btnShowDiffImage_2_clicked(); break;
         default: ;
         }
     }
@@ -131,13 +136,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }

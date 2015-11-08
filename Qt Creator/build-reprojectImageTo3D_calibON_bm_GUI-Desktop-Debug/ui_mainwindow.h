@@ -39,6 +39,7 @@ public:
     QPushButton *btnShowInputImages;
     QPushButton *btnShowTrackingObjectView;
     QPushButton *btnShowDiffImage;
+    QPushButton *btnShowDiffImage_2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -84,6 +85,9 @@ public:
         btnShowDiffImage = new QPushButton(centralWidget);
         btnShowDiffImage->setObjectName(QStringLiteral("btnShowDiffImage"));
         btnShowDiffImage->setGeometry(QRect(390, 540, 211, 41));
+        btnShowDiffImage_2 = new QPushButton(centralWidget);
+        btnShowDiffImage_2->setObjectName(QStringLiteral("btnShowDiffImage_2"));
+        btnShowDiffImage_2->setGeometry(QRect(390, 580, 211, 41));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -113,6 +117,7 @@ public:
         btnShowInputImages->setText(QApplication::translate("MainWindow", "Show Left/Right", 0));
         btnShowTrackingObjectView->setText(QApplication::translate("MainWindow", "Show Tracking Object View", 0));
         btnShowDiffImage->setText(QApplication::translate("MainWindow", "Show DiffImage", 0));
+        btnShowDiffImage_2->setText(QApplication::translate("MainWindow", "Show Warning Edges", 0));
     } // retranslateUi
 
 };

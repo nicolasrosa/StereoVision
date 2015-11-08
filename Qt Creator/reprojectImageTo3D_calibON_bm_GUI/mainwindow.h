@@ -48,6 +48,7 @@ private slots:
     void on_btnShowInputImages_clicked();
     void on_btnShowTrackingObjectView_clicked();
     void on_btnShowDiffImage_clicked();
+    void on_btnShowDiffImage_2_clicked();
 };
 
 #endif // MAINWINDOW_H
