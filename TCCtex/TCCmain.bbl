@@ -1,0 +1,37 @@
+\begin{thebibliography}{1}
+
+\bibitem{Dissanayake2001}
+M.W.M.G. Dissanayake, P.~Newman, S.~Clark, H.F. Durrant-Whyte, and M.~Csorba.
+\newblock {A solution to the simultaneous localization and map building
+  (SLAM)$\backslash$nproblem}.
+\newblock {\em IEEE Transactions on Robotics and Automation}, 17(3):229--241,
+  2001.
+
+\bibitem{AAVC}
+{Autonomous Aerial Vehicle Competition}.
+
+\bibitem{Lemaire2007}
+Thomas Lemaire, Cyrille Berger, Il-Kyun Jung, and Simon Lacroix.
+\newblock {Vision-Based SLAM: Stereo and Monocular Approaches}.
+\newblock {\em International Journal of Computer Vision}, 74(3):343--364, 2007.
+
+\bibitem{Shah2014}
+Sunil Shah.
+\newblock {Real-time Image Processing on Low Cost Embedded Computers}.
+\newblock pages 1--29, 2014.
+
+\bibitem{referencia1}
+Autor da~referência 1.
+\newblock Título da referência 1, 2007.
+
+\bibitem{referencia2}
+Google.
+\newblock \url{http://www.google.com.br/}, Acesso em: 04 de dezembro de 2014.
+
+\bibitem{Bradski2008}
+Gary Bradski and Adrian Kaehler.
+\newblock {\em {Learning OpenCV: Computer Vision with the OpenCV Library}},
+  volume~1.
+\newblock 2008.
+
+\end{thebibliography}
