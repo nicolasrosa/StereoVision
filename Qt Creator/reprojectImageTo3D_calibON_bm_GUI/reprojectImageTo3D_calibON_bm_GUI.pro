@@ -19,14 +19,16 @@ SOURCES += main.cpp\
         trackObject.cpp \
     StereoProcessor.cpp \
     3DReconstruction.cpp \
-    setstereoparams.cpp
+    setstereoparams.cpp \
+    StereoCustom.cpp
 
 HEADERS  += mainwindow.h \
     reprojectImageTo3D.h \
     trackObject.h \
     StereoProcessor.h \
     3DReconstruction.h \
-    setstereoparams.h
+    setstereoparams.h \
+    StereoCustom.h
 
 FORMS    += mainwindow.ui \
     setstereoparams.ui

@@ -1,6 +1,7 @@
 #include "setstereoparams.h"
 #include "ui_setstereoparams.h"
 #include "iostream"
+#include "StereoCustom.h"
 
 #include <QHBoxLayout>
 #include <QSlider>
@@ -9,9 +10,32 @@
 //using namespace cv;
 using namespace std;
 
-SetStereoParams::SetStereoParams(QWidget *parent) : QDialog(parent), ui(new Ui::SetStereoParams){
+SetStereoParams::SetStereoParams(QWidget *parent, StereoProcessor *stereo) : QDialog(parent), ui(new Ui::SetStereoParams){
     ui->setupUi(this);
     //stereocfg_pointer = &stereocfg;
+
+    this->stereo = stereo;
+
+    connect(ui->preFilterSize_slider, SIGNAL(valueChanged(int)),ui->preFilterSize_spinBox,SLOT(setValue(int)));
+    connect(ui->preFilterCap_slider, SIGNAL(valueChanged(int)),ui->preFilterCap_spinBox,SLOT(setValue(int)));
+    connect(ui->SADWindowSize_slider, SIGNAL(valueChanged(int)),ui->SADWindowSize_spinBox,SLOT(setValue(int)));
+    connect(ui->minDisparity_slider, SIGNAL(valueChanged(int)),ui->minDisparity_spinBox,SLOT(setValue(int)));
+    connect(ui->numberOfDisparities_slider, SIGNAL(valueChanged(int)),ui->numberOfDisparities_spinBox,SLOT(setValue(int)));
+    connect(ui->textureThreshold_slider, SIGNAL(valueChanged(int)),ui->textureThreshold_spinBox,SLOT(setValue(int)));
+    connect(ui->uniquenessRatio_slider, SIGNAL(valueChanged(int)),ui->uniquenessRatio_spinBox,SLOT(setValue(int)));
+    connect(ui->speckleWindowSize_slider, SIGNAL(valueChanged(int)),ui->speckleWindowSize_spinBox,SLOT(setValue(int)));
+    connect(ui->speckleRange_slider, SIGNAL(valueChanged(int)),ui->speckleRange_spinBox,SLOT(setValue(int)));
+    connect(ui->disp12MaxDiff_slider, SIGNAL(valueChanged(int)),ui->disp12MaxDiff_spinBox,SLOT(setValue(int)));
+    connect(ui->preFilterSize_spinBox, SIGNAL(valueChanged(int)),ui->preFilterSize_slider,SLOT(setValue(int)));
+    connect(ui->preFilterCap_spinBox, SIGNAL(valueChanged(int)),ui->preFilterCap_slider,SLOT(setValue(int)));
+    connect(ui->SADWindowSize_spinBox, SIGNAL(valueChanged(int)),ui->SADWindowSize_slider,SLOT(setValue(int)));
+    connect(ui->minDisparity_spinBox, SIGNAL(valueChanged(int)),ui->minDisparity_slider,SLOT(setValue(int)));
+    connect(ui->numberOfDisparities_spinBox, SIGNAL(valueChanged(int)),ui->numberOfDisparities_slider,SLOT(setValue(int)));
+    connect(ui->textureThreshold_spinBox, SIGNAL(valueChanged(int)),ui->textureThreshold_slider,SLOT(setValue(int)));
+    connect(ui->uniquenessRatio_spinBox, SIGNAL(valueChanged(int)),ui->uniquenessRatio_slider,SLOT(setValue(int)));
+    connect(ui->speckleWindowSize_spinBox, SIGNAL(valueChanged(int)),ui->speckleWindowSize_slider,SLOT(setValue(int)));
+    connect(ui->speckleRange_spinBox, SIGNAL(valueChanged(int)),ui->speckleRange_slider,SLOT(setValue(int)));
+    connect(ui->disp12MaxDiff_spinBox, SIGNAL(valueChanged(int)),ui->disp12MaxDiff_slider,SLOT(setValue(int)));
 }
 
 //Ui::SetStereoParams* SetStereoParams::getUi(){
@@ -63,125 +87,122 @@ SetStereoParams::~SetStereoParams()
 void SetStereoParams::on_preFilterSize_slider_valueChanged(int value)
 {
     cout << "Bar1: " << value << endl;
-    connect(ui->preFilterSize_slider, SIGNAL(valueChanged(int)),ui->preFilterSize_spinBox,SLOT(setValue(int)));
-    //this->stereocfg.preFilterSize = ui->preFilterSize_slider->value();
+    updateValues();
 }
 
 void SetStereoParams::on_preFilterCap_slider_valueChanged(int value)
 {
     cout << "Bar2: " << value << endl;
-    connect(ui->preFilterCap_slider, SIGNAL(valueChanged(int)),ui->preFilterCap_spinBox,SLOT(setValue(int)));
-    //this->stereocfg.preFilterCap = ui->preFilterCap_slider->value();
+    updateValues();
 }
 
 void SetStereoParams::on_SADWindowSize_slider_valueChanged(int value)
 {
     cout << "Bar3: " << value << endl;
-    connect(ui->SADWindowSize_slider, SIGNAL(valueChanged(int)),ui->SADWindowSize_spinBox,SLOT(setValue(int)));
-    //ui->SADWindowSize_slider->value();
+    updateValues();
 }
 
 void SetStereoParams::on_minDisparity_slider_valueChanged(int value)
 {
     cout << "Bar4: " << value << endl;
-    connect(ui->minDisparity_slider, SIGNAL(valueChanged(int)),ui->minDisparity_spinBox,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_numberOfDisparities_slider_valueChanged(int value)
 {
     cout << "Bar5: " << value << endl;
-    connect(ui->numberOfDisparities_slider, SIGNAL(valueChanged(int)),ui->numberOfDisparities_spinBox,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_textureThreshold_slider_valueChanged(int value)
 {
     cout << "Bar6: " << value << endl;
-    connect(ui->textureThreshold_slider, SIGNAL(valueChanged(int)),ui->textureThreshold_spinBox,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_uniquenessRatio_slider_valueChanged(int value)
 {
     cout << "Bar7: " << value << endl;
-    connect(ui->uniquenessRatio_slider, SIGNAL(valueChanged(int)),ui->uniquenessRatio_spinBox,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_speckleWindowSize_slider_valueChanged(int value)
 {
     cout << "Bar8: " << value << endl;
-    connect(ui->speckleWindowSize_slider, SIGNAL(valueChanged(int)),ui->speckleWindowSize_spinBox,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_speckleRange_slider_valueChanged(int value)
 {
     cout << "Bar9: " << value << endl;
-    connect(ui->speckleRange_slider, SIGNAL(valueChanged(int)),ui->speckleRange_spinBox,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_disp12MaxDiff_slider_valueChanged(int value)
 {
     cout << "Bar10: " << value << endl;
-    connect(ui->disp12MaxDiff_slider, SIGNAL(valueChanged(int)),ui->disp12MaxDiff_spinBox,SLOT(setValue(int)));
+    updateValues();
 }
 
 /* SpinBoxes */
 void SetStereoParams::on_preFilterSize_spinBox_valueChanged(int value)
 {
     cout << "Spin1: " << value << endl;
-    connect(ui->preFilterSize_spinBox, SIGNAL(valueChanged(int)),ui->preFilterSize_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_preFilterCap_spinBox_valueChanged(int value)
 {
     cout << "Spin2: " << value << endl;
-    connect(ui->preFilterCap_spinBox, SIGNAL(valueChanged(int)),ui->preFilterCap_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_SADWindowSize_spinBox_valueChanged(int value)
 {
     cout << "Spin3: " << value << endl;
-    connect(ui->SADWindowSize_spinBox, SIGNAL(valueChanged(int)),ui->SADWindowSize_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_minDisparity_spinBox_valueChanged(int value)
 {
     cout << "Spin4: " << value << endl;
-    connect(ui->minDisparity_spinBox, SIGNAL(valueChanged(int)),ui->minDisparity_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_numberOfDisparities_spinBox_valueChanged(int value)
 {
     cout << "Spin5: " << value << endl;
-    connect(ui->numberOfDisparities_spinBox, SIGNAL(valueChanged(int)),ui->numberOfDisparities_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_textureThreshold_spinBox_valueChanged(int value)
 {
     cout << "Spin6: " << value << endl;
-    connect(ui->textureThreshold_spinBox, SIGNAL(valueChanged(int)),ui->textureThreshold_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_uniquenessRatio_spinBox_valueChanged(int value)
 {
     cout << "Spin7: " << value << endl;
-    connect(ui->uniquenessRatio_spinBox, SIGNAL(valueChanged(int)),ui->uniquenessRatio_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_speckleWindowSize_spinBox_valueChanged(int value)
 {
     cout << "Spin8: " << value << endl;
-    connect(ui->speckleWindowSize_spinBox, SIGNAL(valueChanged(int)),ui->speckleWindowSize_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_speckleRange_spinBox_valueChanged(int value)
 {
     cout << "Spin9: " << value << endl;
-    connect(ui->speckleRange_spinBox, SIGNAL(valueChanged(int)),ui->speckleRange_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_disp12MaxDiff_spinBox_valueChanged(int value)
 {
     cout << "Spin10: " << value << endl;
-    connect(ui->disp12MaxDiff_spinBox, SIGNAL(valueChanged(int)),ui->disp12MaxDiff_slider,SLOT(setValue(int)));
+    updateValues();
 }
 
 void SetStereoParams::on_buttonBox_accepted(){
@@ -190,5 +211,20 @@ void SetStereoParams::on_buttonBox_accepted(){
 
 void SetStereoParams::on_buttonBox_rejected(){
 
+}
+
+void SetStereoParams::updateValues() {
+
+    std::cout << "UPDATE VALUES!\n";
+    stereo->setValues(ui->preFilterSize_slider->value(),
+                      ui->preFilterCap_slider->value(),
+                      ui->SADWindowSize_slider->value(),
+                      ui->minDisparity_slider->value(),
+                      ui->numberOfDisparities_slider->value(),
+                      ui->textureThreshold_slider->value(),
+                      ui->uniquenessRatio_slider->value(),
+                      ui->speckleWindowSize_slider->value(),
+                      ui->speckleRange_slider->value(),
+                      ui->disp12MaxDiff_slider->value());
 }
 

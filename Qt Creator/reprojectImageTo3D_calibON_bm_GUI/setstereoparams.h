@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+class StereoProcessor; // foward-declaration
+
 namespace Ui {
 class SetStereoParams;
 }
@@ -12,7 +14,7 @@ class SetStereoParams : public QDialog
     Q_OBJECT
 
 public:
-    explicit SetStereoParams(QWidget *parent = 0);
+    explicit SetStereoParams(QWidget *parent = 0, StereoProcessor *stereo = 0);
     void loadStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff);
     //void getStereoParamsUi();
     ~SetStereoParams();
@@ -20,6 +22,8 @@ public:
     //StereoConfig stereocfg_pointer;
     bool isAlreadyShowing;
 
+signals:
+    void valuesChanged(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff);
 private slots:
     /* Sliders */
     void on_preFilterSize_slider_valueChanged(int value);
@@ -50,6 +54,9 @@ private slots:
 
 private:
     Ui::SetStereoParams *ui;
+    StereoProcessor *stereo;
+
+    void updateValues();
 };
 
 #endif // SETSTEREOPARAMS_H

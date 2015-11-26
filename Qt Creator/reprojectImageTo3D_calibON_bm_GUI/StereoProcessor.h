@@ -14,17 +14,6 @@
 #define DILATION_SIZE    5
 #define BLUR_SIZE        3
 
-/* Libraries */
-#include <opencv2/opencv.hpp>
-
-/* Custom Libraries */
-#include "3DReconstruction.h"
-#include "setstereoparams.h"
-#include "ui_setstereoparams.h"
-
-using namespace cv;
-using namespace std;
-
 /* Trackbars Variables
  * Initial min and max BM Parameters values.These will be changed using trackbars
  */
@@ -38,6 +27,16 @@ const int uniquenessRatio_MAX		= 100;
 const int speckleWindowSize_MAX	 	= 100;
 const int speckleRange_MAX		 	= 100;
 const int disp12MaxDiff_MAX		 	= 1;
+
+/* Libraries */
+#include <opencv2/opencv.hpp>
+
+/* Custom Libraries */
+#include "3DReconstruction.h"
+#include "setstereoparams.h"
+
+using namespace cv;
+using namespace std;
 
 /* Custom Classes */
 class StereoFlags{
@@ -128,45 +127,6 @@ public:
     Mat disp_16S;
     Mat disp_8U;
     Mat disp_BGR;
-};
-
-class StereoProcessor: public Ui_SetStereoParams,StereoConfig{
-public:
-    StereoProcessor(int inputNum); //Constructor
-    int getInputNum();
-
-    void readConfigFile();
-    void readStereoConfigFile();
-
-    void stereoInit();
-    void stereoCalib();
-    void setStereoParams();
-
-    void imageProcessing(Mat src, Mat imgE, Mat imgED,Mat trackingView,bool isTrackingObjects);
-
-    void saveLastFrames();
-
-    Mat imageL[2],imageR[2];
-    Mat	imageL_grey[2],imageR_grey[2];
-    VideoCapture capL,capR;
-
-    Ptr<StereoBM> bm;
-    StereoCalib calib;
-    StereoConfig stereocfg;
-    StereoDisparityMap disp;
-    Reconstruction3D view3D;
-    StereoDiff diff;
-    StereoFlags flags;
-    Size imageSize;
-    int numRows;
-
-    //Results
-    Mat imgThreshold;
-    Mat trackingView;
-
-    bool showStereoParamsValues;
-private:
-    int inputNum;
 };
 
 /* Global Variables */

@@ -20,7 +20,7 @@ void writeMatToFile(cv::Mat& m, const char* filename);
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(2);
+    this->stereo = new StereoProcessor(1);
 
     StereoVisionProcessInit();
 
@@ -46,10 +46,10 @@ void MainWindow::on_btnPauseOrResume_clicked(){
 }
 
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
-    StereoParamsSetupWindow = new SetStereoParams(this);
+    stereoParamsSetupWindow = new SetStereoParams(this, stereo);
 
     cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
-    this->StereoParamsSetupWindow->loadStereoParamsUi(stereo->stereocfg.preFilterSize,
+    this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->stereocfg.preFilterSize,
                                                       stereo->stereocfg.preFilterCap,
                                                       stereo->stereocfg.SADWindowSize,
                                                       stereo->stereocfg.minDisparity,
@@ -59,17 +59,17 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
                                                       stereo->stereocfg.speckleWindowSize,
                                                       stereo->stereocfg.speckleRange,
                                                       stereo->stereocfg.disp12MaxDiff);
-    StereoParamsSetupWindow->show();
+    stereoParamsSetupWindow->show();
 }
 
 void MainWindow::StereoVisionProcessInit(){
-    printHelp();
-
     cerr << "Arrumar a Matrix K, os valores das últimas colunas estão errados." << endl;
     cerr << "Arrumar a função StereoProcessor::calculateQMatrix()." << endl;
     cerr << "Arrumar o Constructor da classe StereoDisparityMap para Alocação de Memória das variáveis: disp_16S,disp_8U,disp_BGR" << endl;
     cerr << "Arrumar o tipo de execução da Stereo Param Setup, fazer com que a execução da main não pause." << endl;
     cerr << "Arrumar a funcionalidade do Botão Pause/Resume, não está funcionando." << endl;
+
+    printHelp();
 
     //(1) Open Image Source
     openStereoSource(stereo->getInputNum());
@@ -135,7 +135,7 @@ void MainWindow::StereoVisionProcessInit(){
     stereo->view3D.setViewPoint(20.0,20.0,-stereo->calib.baseline*10);
     stereo->view3D.setLookAtPoint(22.0,16.0,stereo->calib.baseline*10.0);
 
-    createTrackbars();
+    //createTrackbars();
 }
 
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
@@ -331,8 +331,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //            isStereoParamSetupTrackbarsCreated=false;
         //        }
 
-
-
         //(10)Shortcuts
         key = waitKey(1);
         if(key=='`')
@@ -432,33 +430,35 @@ void MainWindow::openStereoSource(int inputNum){
     std::string imageR_filename;
 
     // Create an object that decodes the input Video stream.
+    cout << "Enter Video Number(1,2,3,4,5,6,7,8,9): " << endl;
     ui->txtOutputBox->appendPlainText(QString("Enter Video Number(1,2,3,4,5,6,7,8,9): "));
     //	scanf("%d",&inputNum);
+    cout << "Input File: " << inputNum << endl;
     ui->txtOutputBox->appendPlainText(QString("Input File: ")+QString::number(inputNum));
     switch(inputNum){
     case 1:
         imageL_filename = "../../workspace/data/video10_l.avi";
         imageR_filename = "../../workspace/data/video10_r.avi";
         needCalibration=true;
-        ui->txtOutputBox->appendPlainText(QString("video2_denoised_long.avi"));
+        //ui->txtOutputBox->appendPlainText(QString("video2_denoised_long.avi"));
         break;
     case 2:
         imageL_filename = "../../workspace/data/video12_l.avi";
         imageR_filename = "../../workspace/data/video12_r.avi";
         needCalibration=true;
-        ui->txtOutputBox->appendPlainText(QString( "video0.avi"));
+        //ui->txtOutputBox->appendPlainText(QString( "video0.avi"));
         break;
     case 3:
         imageL_filename = "../data/left/video1.avi";
         imageR_filename = "../data/right/video1.avi";
         needCalibration=true;
-        ui->txtOutputBox->appendPlainText(QString( "video1.avi"));
+        //ui->txtOutputBox->appendPlainText(QString( "video1.avi"));
         break;
     case 4:
         imageL_filename = "../data/left/video2_noised.avi";
         imageR_filename = "../data/right/video2_noised.avi";
         needCalibration=true;
-        ui->txtOutputBox->appendPlainText(QString( "video2_noised.avi"));
+        //ui->txtOutputBox->appendPlainText(QString( "video2_noised.avi"));
         break;
     case 5:
         imageL_filename = "../data/left/20004.avi";
@@ -488,6 +488,7 @@ void MainWindow::openStereoSource(int inputNum){
     }
 
     if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "avi"){
+        cout << "It's a Video file" << endl;
         ui->txtOutputBox->appendPlainText(QString("It's a Video file"));
         isVideoFile=true;
 
@@ -495,15 +496,20 @@ void MainWindow::openStereoSource(int inputNum){
         stereo->capR.open(imageR_filename);
 
         if(!stereo->capL.isOpened() || !stereo->capR.isOpened()){		// Check if we succeeded
+            cerr <<  "Could not open or find the input videos!" << endl ;
             ui->txtOutputBox->appendPlainText(QString( "Could not open or find the input videos!"));
             //return -1;
         }
 
+        cout << "Input 1 Resolution: " << stereo->capR.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << stereo->capR.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+        cout << "Input 2 Resolution: " << stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT) << endl << endl;
         ui->txtOutputBox->appendPlainText(QString("Input 1 Resolution: ") + QString::number(stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT)));
         ui->txtOutputBox->appendPlainText(QString("Input 2 Resolution: ") + QString::number(stereo->capR.get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(stereo->capR.get(CV_CAP_PROP_FRAME_HEIGHT)));
     }else{
+        cout << "It is not a Video file" << endl;
         ui->txtOutputBox->appendPlainText(QString( "It is not a Video file"));
         if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "jpg" || imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "png"){
+            cout << "It's a Image file" << endl;
             ui->txtOutputBox->appendPlainText(QString( "It's a Image file"));
             isImageFile=true;
 
@@ -515,6 +521,7 @@ void MainWindow::openStereoSource(int inputNum){
                 return;
             }
         }else{
+            cout << "It is not a Image file" << endl;
             ui->txtOutputBox->appendPlainText(QString( "It is not a Image file"));
         }
     }

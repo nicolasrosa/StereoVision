@@ -9,6 +9,7 @@
 
 /* Custom Libraries */
 #include "StereoProcessor.h"
+#include "StereoCustom.h"
 #include "setstereoparams.h"
 
 namespace Ui{
@@ -31,7 +32,7 @@ public:
 private:
     Ui::MainWindow *ui;
     StereoProcessor *stereo;
-    SetStereoParams *StereoParamsSetupWindow;
+    SetStereoParams *stereoParamsSetupWindow;
 
     QImage qimageL,qimageR;
 
