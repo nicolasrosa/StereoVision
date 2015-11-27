@@ -1,4 +1,4 @@
-#include "StereoCustom.h"
+#include "StereoProcessor.h"
 
 StereoProcessor::StereoProcessor(int number) {
     inputNum=number;

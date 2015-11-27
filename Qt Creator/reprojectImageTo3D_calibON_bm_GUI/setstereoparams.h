@@ -2,11 +2,12 @@
 #define SETSTEREOPARAMS_H
 
 #include <QDialog>
+#include "StereoCustom.h"
 
 class StereoProcessor; // foward-declaration
 
 namespace Ui {
-class SetStereoParams;
+    class SetStereoParams;
 }
 
 class SetStereoParams : public QDialog
@@ -15,6 +16,7 @@ class SetStereoParams : public QDialog
 
 public:
     explicit SetStereoParams(QWidget *parent = 0, StereoProcessor *stereo = 0);
+    //explicit SetStereoParams(QWidget *parent = 0);
     void loadStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff);
     //void getStereoParamsUi();
     ~SetStereoParams();

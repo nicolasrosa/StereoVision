@@ -1,7 +1,7 @@
 #include "setstereoparams.h"
 #include "ui_setstereoparams.h"
 #include "iostream"
-#include "StereoCustom.h"
+#include "StereoProcessor.h"
 
 #include <QHBoxLayout>
 #include <QSlider>

@@ -5,11 +5,10 @@
  *      Author: nicolasrosa
  */
 
-#include "StereoProcessor.h"
+#include "StereoCustom.h"
 #include "trackObject.h"
 
 /* Begin: Constructors */
-
 
 StereoFlags::StereoFlags(){
     showInputImages=true;
