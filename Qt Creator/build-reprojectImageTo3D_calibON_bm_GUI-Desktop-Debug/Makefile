@@ -51,7 +51,12 @@ SOURCES       = ../reprojectImageTo3D_calibON_bm_GUI/main.cpp \
 		../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp \
 		../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.cpp \
 		../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.cpp \
-		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.cpp moc_mainwindow.cpp \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.cpp \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.cpp \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.cpp \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.cpp \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.cpp \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoDisparityMap.cpp moc_mainwindow.cpp \
 		moc_setstereoparams.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
@@ -60,6 +65,11 @@ OBJECTS       = main.o \
 		3DReconstruction.o \
 		setstereoparams.o \
 		StereoCustom.o \
+		StereoFlags.o \
+		StereoDiff.o \
+		StereoConfig.o \
+		StereoCalib.o \
+		StereoDisparityMap.o \
 		moc_mainwindow.o \
 		moc_setstereoparams.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -353,7 +363,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0 || mkdir -p .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h ../reprojectImageTo3D_calibON_bm_GUI/reprojectImageTo3D.h ../reprojectImageTo3D_calibON_bm_GUI/trackObject.h ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.h ../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.h ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/main.cpp ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp ../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.cpp ../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.cpp .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.ui ../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.ui .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && (cd `dirname .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0` && $(TAR) reprojectImageTo3D_calibON_bm_GUI1.0.0.tar reprojectImageTo3D_calibON_bm_GUI1.0.0 && $(COMPRESS) reprojectImageTo3D_calibON_bm_GUI1.0.0.tar) && $(MOVE) `dirname .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0`/reprojectImageTo3D_calibON_bm_GUI1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h ../reprojectImageTo3D_calibON_bm_GUI/reprojectImageTo3D.h ../reprojectImageTo3D_calibON_bm_GUI/trackObject.h ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.h ../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.h ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h ../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.h ../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.h ../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.h ../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.h ../reprojectImageTo3D_calibON_bm_GUI/StereoDisparityMap.h .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/main.cpp ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp ../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.cpp ../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoDisparityMap.cpp .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && $(COPY_FILE) --parents ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.ui ../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.ui .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0/ && (cd `dirname .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0` && $(TAR) reprojectImageTo3D_calibON_bm_GUI1.0.0.tar reprojectImageTo3D_calibON_bm_GUI1.0.0 && $(COMPRESS) reprojectImageTo3D_calibON_bm_GUI1.0.0.tar) && $(MOVE) `dirname .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0`/reprojectImageTo3D_calibON_bm_GUI1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/reprojectImageTo3D_calibON_bm_GUI1.0.0
 
 
 clean:compiler_clean 
@@ -495,7 +505,6 @@ moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtWidgets/qdialog.h \
-		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
 		ui_setstereoparams.h \
 		/usr/include/qt5/QtCore/QVariant \
 		/usr/include/qt5/QtWidgets/QAction \
@@ -534,7 +543,12 @@ moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/QSlider \
 		/usr/include/qt5/QtWidgets/QSpinBox \
 		/usr/include/qt5/QtWidgets/qspinbox.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
 		../reprojectImageTo3D_calibON_bm_GUI/trackObject.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.h \
 		../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h -o moc_mainwindow.cpp
 
@@ -788,7 +802,6 @@ main.o: ../reprojectImageTo3D_calibON_bm_GUI/main.cpp ../reprojectImageTo3D_cali
 		../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtWidgets/qdialog.h \
-		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
 		ui_setstereoparams.h \
 		/usr/include/qt5/QtCore/QVariant \
 		/usr/include/qt5/QtWidgets/QAction \
@@ -827,7 +840,12 @@ main.o: ../reprojectImageTo3D_calibON_bm_GUI/main.cpp ../reprojectImageTo3D_cali
 		/usr/include/qt5/QtWidgets/QSlider \
 		/usr/include/qt5/QtWidgets/QSpinBox \
 		/usr/include/qt5/QtWidgets/qspinbox.h \
-		../reprojectImageTo3D_calibON_bm_GUI/trackObject.h
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
+		../reprojectImageTo3D_calibON_bm_GUI/trackObject.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../reprojectImageTo3D_calibON_bm_GUI/main.cpp
 
 mainwindow.o: ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp /usr/include/qt5/QtCore/QtCore \
@@ -1056,16 +1074,11 @@ mainwindow.o: ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp /usr/include/q
 		/usr/include/qt5/QtGui/qevent.h \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
-		../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h \
-		/usr/include/qt5/QtWidgets/QMainWindow \
-		/usr/include/qt5/QtWidgets/qmainwindow.h \
-		/usr/include/qt5/QtWidgets/qtabwidget.h \
-		/usr/include/qt5/QtGui/qicon.h \
-		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
 		ui_setstereoparams.h \
 		/usr/include/qt5/QtCore/QVariant \
 		/usr/include/qt5/QtWidgets/QAction \
 		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
 		/usr/include/qt5/QtWidgets/qactiongroup.h \
 		/usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qapplication.h \
@@ -1089,12 +1102,21 @@ mainwindow.o: ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp /usr/include/q
 		/usr/include/qt5/QtWidgets/qabstractslider.h \
 		/usr/include/qt5/QtWidgets/qstyle.h \
 		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
 		/usr/include/qt5/QtWidgets/qrubberband.h \
 		/usr/include/qt5/QtWidgets/QLabel \
 		/usr/include/qt5/QtWidgets/qlabel.h \
 		/usr/include/qt5/QtWidgets/QSlider \
 		/usr/include/qt5/QtWidgets/QSpinBox \
 		/usr/include/qt5/QtWidgets/qspinbox.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.h \
+		../reprojectImageTo3D_calibON_bm_GUI/mainwindow.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		ui_mainwindow.h \
 		/usr/include/qt5/QtWidgets/QMenuBar \
 		/usr/include/qt5/QtWidgets/qmenubar.h \
@@ -1125,7 +1147,7 @@ mainwindow.o: ../reprojectImageTo3D_calibON_bm_GUI/mainwindow.cpp /usr/include/q
 trackObject.o: ../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp ../reprojectImageTo3D_calibON_bm_GUI/trackObject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o trackObject.o ../reprojectImageTo3D_calibON_bm_GUI/trackObject.cpp
 
-StereoProcessor.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h \
+StereoProcessor.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
 		../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.h \
 		../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.h \
 		/usr/include/qt5/QtWidgets/QDialog \
@@ -1237,7 +1259,8 @@ StereoProcessor.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp ../r
 		/usr/include/qt5/QtCore/qfiledevice.h \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
-		../reprojectImageTo3D_calibON_bm_GUI/trackObject.h
+		../reprojectImageTo3D_calibON_bm_GUI/trackObject.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoProcessor.o ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.cpp
 
 3DReconstruction.o: ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.cpp ../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.h
@@ -1393,6 +1416,14 @@ setstereoparams.o: ../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.cpp ../r
 		/usr/include/qt5/QtWidgets/QSlider \
 		/usr/include/qt5/QtWidgets/QSpinBox \
 		/usr/include/qt5/QtWidgets/qspinbox.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h \
+		../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
+		../reprojectImageTo3D_calibON_bm_GUI/trackObject.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.h \
 		/usr/include/qt5/QtWidgets/QHBoxLayout \
 		/usr/include/qt5/QtWidgets/qboxlayout.h \
 		/usr/include/qt5/QtWidgets/qlayout.h \
@@ -1400,7 +1431,7 @@ setstereoparams.o: ../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.cpp ../r
 		/usr/include/qt5/QtWidgets/qgridlayout.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o setstereoparams.o ../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.cpp
 
-StereoCustom.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
+StereoCustom.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h \
 		../reprojectImageTo3D_calibON_bm_GUI/3DReconstruction.h \
 		../reprojectImageTo3D_calibON_bm_GUI/setstereoparams.h \
 		/usr/include/qt5/QtWidgets/QDialog \
@@ -1552,9 +1583,28 @@ StereoCustom.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.cpp ../reproje
 		/usr/include/qt5/QtWidgets/QSlider \
 		/usr/include/qt5/QtWidgets/QSpinBox \
 		/usr/include/qt5/QtWidgets/qspinbox.h \
-		../reprojectImageTo3D_calibON_bm_GUI/StereoProcessor.h \
-		../reprojectImageTo3D_calibON_bm_GUI/trackObject.h
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.h \
+		../reprojectImageTo3D_calibON_bm_GUI/trackObject.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.h \
+		../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoCustom.o ../reprojectImageTo3D_calibON_bm_GUI/StereoCustom.cpp
+
+StereoFlags.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoFlags.o ../reprojectImageTo3D_calibON_bm_GUI/StereoFlags.cpp
+
+StereoDiff.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoDiff.o ../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.cpp
+
+StereoConfig.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoConfig.o ../reprojectImageTo3D_calibON_bm_GUI/StereoConfig.cpp
+
+StereoCalib.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoCalib.o ../reprojectImageTo3D_calibON_bm_GUI/StereoCalib.cpp
+
+StereoDisparityMap.o: ../reprojectImageTo3D_calibON_bm_GUI/StereoDisparityMap.cpp ../reprojectImageTo3D_calibON_bm_GUI/StereoDiff.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoDisparityMap.o ../reprojectImageTo3D_calibON_bm_GUI/StereoDisparityMap.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

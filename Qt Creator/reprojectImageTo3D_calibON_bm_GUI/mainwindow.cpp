@@ -1,6 +1,12 @@
-// reprojectImageTo3D - BlockMatching Algorithm
-// Nicolas Rosa, June 2015.
-// Credits: http://opencv.jp/opencv2-x-samples/point-cloud-rendering
+/* Project: reprojectImageTo3D - BlockMatching Algorithm
+ * mainwindow.cpp
+ *
+ *  Created on: June, 2015
+ *      Author: nicolasrosa
+ *
+ * // Credits: http://opencv.jp/opencv2-x-samples/point-cloud-rendering
+ * // Credits: Kyle Hounslow - https://www.youtube.com/watch?v=bSeFrPrqZ2A
+ */
 
 /* Libraries */
 #include <QtCore>
@@ -21,12 +27,12 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
 
     this->stereo = new StereoProcessor(1);
-
+    cout << "oi" << endl;
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
     connect(tmrTimer,SIGNAL(timeout()),this,SLOT(StereoVisionProcessAndUpdateGUI()));
-    tmrTimer->start(30);
+    tmrTimer->start(20);
 }
 
 MainWindow::~MainWindow(){
@@ -426,8 +432,8 @@ void MainWindow::printHelp(){
 }
 
 void MainWindow::openStereoSource(int inputNum){
-    std::string imageL_filename;
-    std::string imageR_filename;
+    string imageL_filename;
+    string imageR_filename;
 
     // Create an object that decodes the input Video stream.
     cout << "Enter Video Number(1,2,3,4,5,6,7,8,9): " << endl;

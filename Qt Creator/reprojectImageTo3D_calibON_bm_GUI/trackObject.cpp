@@ -78,8 +78,8 @@ void drawObject(int x, int y,Mat &frame){
 
 }
 
-std::string intToString(int number){
-	std::stringstream ss;
+string intToString(int number){
+    stringstream ss;
 	ss << number;
 	return ss.str();
 }

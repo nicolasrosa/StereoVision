@@ -7,12 +7,8 @@
 
 #include "3DReconstruction.h"
 
-
-
-//Constructor
-Reconstruction3D::Reconstruction3D(){
-
-}
+/* Constructor */
+Reconstruction3D::Reconstruction3D(){}
 
 void Reconstruction3D::setViewPoint(double x,double y,double z){
     this->viewpoint.x = x;

@@ -1,5 +1,5 @@
 /*
- * StereoProcessor.cpp
+ * StereoProcessor.h
  *
  *  Created on: Oct 20, 2015
  *      Author: nicolasrosa
@@ -12,16 +12,19 @@
 #include <opencv2/opencv.hpp>
 
 /* Custom Libraries */
-#include "3DReconstruction.h"
-#include "setstereoparams.h"
-#include "ui_setstereoparams.h"
+#include "StereoCalib.h"
 #include "StereoCustom.h"
-#include "trackObject.h"
+#include "StereoConfig.h"
+#include "StereoDiff.h"
+#include "StereoDisparityMap.h"
+#include "StereoFlags.h"
+
+#include "3DReconstruction.h"
 
 using namespace cv;
 using namespace std;
 
-class StereoProcessor : public Ui_SetStereoParams,public StereoConfig {
+class StereoProcessor : public StereoConfig{
 public:
     StereoProcessor(int inputNum); //Constructor
     int getInputNum();
@@ -32,6 +35,7 @@ public:
     void stereoInit();
     void stereoCalib();
     void setStereoParams();
+    void setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff);
 
     void imageProcessing(Mat src, Mat imgE, Mat imgED,Mat trackingView,bool isTrackingObjects);
 
@@ -51,13 +55,12 @@ public:
     Size imageSize;
     int numRows;
 
-    //Results
+    /* Results */
     Mat imgThreshold;
     Mat trackingView;
 
     bool showStereoParamsValues;
 
-    void setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff);
 private:
     int inputNum;
 };

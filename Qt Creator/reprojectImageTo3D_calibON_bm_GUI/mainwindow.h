@@ -1,16 +1,22 @@
+/*
+ * mainwindow.h
+ *
+ *  Created on: Oct 1, 2015
+ *      Author: nicolasrosa
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 /* Libraries */
 #include <QMainWindow>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/opencv.hpp>
 
 /* Custom Libraries */
 #include "StereoProcessor.h"
-#include "StereoCustom.h"
 #include "setstereoparams.h"
+
+using namespace cv;
 
 namespace Ui{
     class MainWindow;
@@ -27,7 +33,6 @@ public:
     void createTrackbars();
     QImage putImage(const Mat& mat);
     ~MainWindow();
-
 
 private:
     Ui::MainWindow *ui;

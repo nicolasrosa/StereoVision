@@ -20,7 +20,12 @@ SOURCES += main.cpp\
     StereoProcessor.cpp \
     3DReconstruction.cpp \
     setstereoparams.cpp \
-    StereoCustom.cpp
+    StereoCustom.cpp \
+    StereoFlags.cpp \
+    StereoDiff.cpp \
+    StereoConfig.cpp \
+    StereoCalib.cpp \
+    StereoDisparityMap.cpp
 
 HEADERS  += mainwindow.h \
     reprojectImageTo3D.h \
@@ -28,7 +33,12 @@ HEADERS  += mainwindow.h \
     StereoProcessor.h \
     3DReconstruction.h \
     setstereoparams.h \
-    StereoCustom.h
+    StereoCustom.h \
+    StereoFlags.h \
+    StereoDiff.h \
+    StereoConfig.h \
+    StereoCalib.h \
+    StereoDisparityMap.h
 
 FORMS    += mainwindow.ui \
     setstereoparams.ui
