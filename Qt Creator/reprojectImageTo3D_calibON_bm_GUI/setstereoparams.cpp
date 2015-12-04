@@ -88,70 +88,60 @@ void SetStereoParams::on_preFilterSize_slider_valueChanged(int value)
 {
     cout << "Bar1: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 void SetStereoParams::on_preFilterCap_slider_valueChanged(int value)
 {
     cout << "Bar2: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 void SetStereoParams::on_SADWindowSize_slider_valueChanged(int value)
 {
     cout << "Bar3: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 void SetStereoParams::on_minDisparity_slider_valueChanged(int value)
 {
     cout << "Bar4: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 void SetStereoParams::on_numberOfDisparities_slider_valueChanged(int value)
 {
     cout << "Bar5: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 void SetStereoParams::on_textureThreshold_slider_valueChanged(int value)
 {
     cout << "Bar6: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 void SetStereoParams::on_uniquenessRatio_slider_valueChanged(int value)
 {
     cout << "Bar7: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 void SetStereoParams::on_speckleWindowSize_slider_valueChanged(int value)
 {
     cout << "Bar8: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 void SetStereoParams::on_speckleRange_slider_valueChanged(int value)
 {
     cout << "Bar9: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 void SetStereoParams::on_disp12MaxDiff_slider_valueChanged(int value)
 {
     cout << "Bar10: " << value << endl;
     updateValues();
-    this->stereo->setStereoParams();
 }
 
 /* SpinBoxes */

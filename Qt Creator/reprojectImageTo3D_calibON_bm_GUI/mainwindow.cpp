@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
 
     tmrTimer = new QTimer(this);
     connect(tmrTimer,SIGNAL(timeout()),this,SLOT(StereoVisionProcessAndUpdateGUI()));
-    tmrTimer->start(30);
+    tmrTimer->start(20);
 }
 
 MainWindow::~MainWindow(){
