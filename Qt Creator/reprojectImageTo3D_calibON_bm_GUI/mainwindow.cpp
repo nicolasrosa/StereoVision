@@ -27,12 +27,11 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
 
     this->stereo = new StereoProcessor(1);
-    cout << "oi" << endl;
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
     connect(tmrTimer,SIGNAL(timeout()),this,SLOT(StereoVisionProcessAndUpdateGUI()));
-    tmrTimer->start(20);
+    tmrTimer->start(30);
 }
 
 MainWindow::~MainWindow(){
