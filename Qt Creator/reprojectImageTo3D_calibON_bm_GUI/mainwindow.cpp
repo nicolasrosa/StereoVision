@@ -134,13 +134,15 @@ void MainWindow::StereoVisionProcessInit(){
         //stereo->createKMatrix();
     }
 
+    //Setting StereoBM Parameters
+    stereo->setStereoParams();
+
     //(5) Point Cloud Initialization
     stereo->view3D.PointCloudInit(stereo->calib.baseline/10,true);
 
     stereo->view3D.setViewPoint(20.0,20.0,-stereo->calib.baseline*10);
     stereo->view3D.setLookAtPoint(22.0,16.0,stereo->calib.baseline*10.0);
 
-    //createTrackbars();
 }
 
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
@@ -149,7 +151,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
     //Timing
     int frameCounter=0;
-    float fps,lastTime = clock();
+    int fps,lastTime = clock();
 
     //(6) Rendering Loop
     while(key!='q'){
@@ -176,7 +178,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         }
 
         //Setting StereoBM Parameters
-        stereo->setStereoParams();
+        //stereo->setStereoParams();
 
         // Convert BGR to Grey Scale
         cvtColor(stereo->imageL[0],stereo->imageL_grey[0],CV_BGR2GRAY);
@@ -191,8 +193,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         /* Image Processing */
         Mat disp_8Ueroded;Mat disp_8U_eroded_dilated;
 
-        //imageProcessing1(stereo->disp.disp_8U,disp_8UMedian,disp_8UMedian);
-
         stereo->imageProcessing(stereo->disp.disp_8U,disp_8Ueroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
 
         //(7) Projecting 3D point cloud to image
@@ -204,32 +204,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             stereo->view3D.t.at<double>(0,0)=stereo->view3D.viewpoint.x;
             stereo->view3D.t.at<double>(1,0)=stereo->view3D.viewpoint.y;
             stereo->view3D.t.at<double>(2,0)=stereo->view3D.viewpoint.z;
-
-
-            //Remover Depois
-            //            //Just Remember that 2.at<Vec3f>(Y,X)
-            //            // "channels" is a vector of 3 Mat arrays:
-            //            vector<Mat> channels(3);
-            //            // Split 3D Space Image:
-            //            split(stereo->view3D.depth, channels);
-            //            Mat X,Y,Z;
-            //            X = channels[0];
-            //            Y = channels[1];
-            //            Z = channels[2];
-
-            //            //writeMatToFile(channels[0],"depth0.ods");
-            //            //writeMatToFile(channels[1],"depth1.ods");
-            //            //writeMatToFile(channels[2],"depth2.ods");
-
-            //            //Coordinates(Y,X) = [X,Y,Z]
-            //            Vec3f coordinates_value = stereo->view3D.depth.at<Vec3f>(0,0); //X
-            //            //float depth_value = stereo->view3D.depth.at<Vec3f>(0,0)[2];   //Z
-            //            cout << "Coordinates(0,0)= " << coordinates_value << endl;
-
-            //            //double min,max;
-            //            //minMaxLoc(stereo->view3D.depth, &min,&max);
-            //            //cout << "Min: " << min << endl;
-            //            //cout << "Max: " << max << endl;
 
             if(stereo->flags.showXYZ){
                 //cout<< stereo->view3D.t <<endl;
@@ -254,11 +228,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
-        }
-        else{
-            destroyWindow("3D Depth");
-            destroyWindow("3D Viewer");
-            destroyWindow("3D Depth RGB");
         }
 
         //(8)Movement Difference between Frames
@@ -382,14 +351,15 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             stereo->capR.set(CV_CAP_PROP_POS_FRAMES,0);
         }
 
-        if(stereo->flags.showFPS){
+        if(1){
+        //if(stereo->flags.showFPS){
             //cout << "Frames: " << frameCounter << "/" << capR.get(CV_CAP_PROP_FRAME_COUNT) << endl;
             //cout << "Current time(s): " << current_time << endl;
             //cout << "FPS: " << (frameCounter/current_time) << endl;
             fps = (int) (1000/((clock()/1000) - lastTime)); // time stuff
             lastTime = clock()/1000;
             //cout << clock() << endl;
-            cout << "FPS: " << fps << endl; // faster than draw??
+            cout << "FPS: " << fps << endl;
         }
     }
     cout << "END" << endl;

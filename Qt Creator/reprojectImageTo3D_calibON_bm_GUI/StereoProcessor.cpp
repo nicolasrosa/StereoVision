@@ -164,30 +164,6 @@ void StereoProcessor::stereoCalib(){
 void StereoProcessor::setStereoParams(){
     int trackbarsAux[10];
 
-//    trackbarsAux[0] = getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
-//    trackbarsAux[1] = getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
-//    trackbarsAux[2] = getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
-//    trackbarsAux[3] = getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
-//    trackbarsAux[4] = getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
-//    trackbarsAux[5] = getTrackbarPos("textureThreshold",trackbarWindowName)*320;
-//    trackbarsAux[6] = getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
-//    trackbarsAux[7] = getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
-//    trackbarsAux[8] = getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
-//    trackbarsAux[9] = getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
-
-    //Tentativa 1
-//    trackbarsAux[0] = this->preFilterSize_slider->value()*2.5+5;
-//    trackbarsAux[1] = this->preFilterCap_slider->value()*0.625+1;
-//    trackbarsAux[2] = this->SADWindowSize_slider->value()*2.5+5;
-//    trackbarsAux[3] = this->minDisparity_slider->value()*2.0-100;
-//    trackbarsAux[4] = this->numberOfDisparities_slider->value()*16;
-//    trackbarsAux[5] = this->textureThreshold_slider->value()*320;
-//    trackbarsAux[6] = this->uniquenessRatio_slider->value()*2.555;
-//    trackbarsAux[7] = this->speckleWindowSize_slider->value()*1.0;
-//    trackbarsAux[8] = this->speckleRange_slider->value()*1.0;
-//    trackbarsAux[9] = this->disp12MaxDiff_slider->value()*1.0;
-
-    //Tentativa 2
     trackbarsAux[0] = this->stereocfg.preFilterSize*2.5+5;
     trackbarsAux[1] = this->stereocfg.preFilterCap*0.625+1;
     trackbarsAux[2] = this->stereocfg.SADWindowSize*2.5+5;
@@ -198,9 +174,6 @@ void StereoProcessor::setStereoParams(){
     trackbarsAux[7] = this->stereocfg.speckleWindowSize*1.0;
     trackbarsAux[8] = this->stereocfg.speckleRange*1.0;
     trackbarsAux[9] = this->stereocfg.disp12MaxDiff*1.0;
-
-    //cout << "preFilterSize: "<< this->stereocfg.preFilterSize << " track0:" << this->stereocfg.preFilterSize*2.5+5 << endl;
-    //cout << "preFilterCap:  "<< this->stereocfg.preFilterCap  << " track1:" << this->stereocfg.preFilterCap*2.5+5 << endl;
 
     this->bm->setROI1(this->calib.roi1);
     this->bm->setROI1(this->calib.roi2);
