@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.29)  9 NOV 2015 18:18
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.29)  3 DEC 2015 18:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -488,30 +488,26 @@ Package: appendix 2009/09/02 v1.2b extra appendix facilities
 \c@@pps=\count150
 \c@@ppsavesec=\count151
 \c@@ppsaveapp=\count152
-) (./TCCmain.aux
-
-LaTeX Warning: Label `logo' multiply defined.
-
-)
+) (./TCCmain.aux)
 \openout1 = `TCCmain.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 63.
-LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 63
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 61.
+LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 61
 .
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omspzccm.fd
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omspzccm.fd
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -635,7 +631,7 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
 
 ] Excluding 'comment' comment.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 95.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 94.
  [7] [8
 
 ] [9] [10
@@ -682,16 +678,31 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
+
+Overfull \hbox (9.78027pt too wide) in paragraph at lines 4--4
+ [][] []\T1/ptm/m/n/12 Plataformas ex-pe-ri-men-tais de ae-ro-na-ves com o Sis-
+tema Es-té-reo - FPGA (frente) 
+ []
+
+
+Overfull \hbox (0.55293pt too wide) in paragraph at lines 13--13
+ [][] []\T1/ptm/m/n/12 Interface Grá-fica - Vi-su-a-li-za-ção si-mul-tâ-nea dos
+ qua-dros das câ-me-ras es-querda 
+ []
+
 )
 \tf@lof=\write4
 \openout4 = `TCCmain.lof'.
 
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
  [17
 
-] [18
-
 ]
-(./TCCmain.lot)
+[18
+
+] (./TCCmain.lot)
 \tf@lot=\write5
 \openout5 = `TCCmain.lot'.
 
@@ -724,8 +735,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [24]
 Cap\'{\i }tulo 1.
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
-(Font)              Font shape `OMS/pzccm/m/n' tried instead on input line 8.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -738,36 +747,48 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [25
 
-] <./Resources/latex-logo.png, id=87, 803.0pt x 334.24875pt>
-File: ./Resources/latex-logo.png Graphic file (type png)
-
-<use ./Resources/latex-logo.png>
-Package pdftex.def Info: ./Resources/latex-logo.png used on input line 24.
-(pdftex.def)             Requested size: 281.05421pt x 116.9888pt.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[26 <./Resources/latex-logo.png>]) (./Content/3_EspecificacaoProjeto.tex
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[27]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[28
-
 ]
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
+(Font)              Font shape `OMS/pzccm/m/n' tried instead on input line 45.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[26] <./Resources/caminhao_autonomo.jpg, id=90, 722.7pt x 481.8pt>
+File: ./Resources/caminhao_autonomo.jpg Graphic file (type jpg)
+
+<use ./Resources/caminhao_autonomo.jpg>
+Package pdftex.def Info: ./Resources/caminhao_autonomo.jpg used on input line 5
+4.
+(pdftex.def)             Requested size: 252.94878pt x 168.63252pt.
+
+<./Resources/mit_drones.png, id=91, 1136.245pt x 749.80125pt>
+File: ./Resources/mit_drones.png Graphic file (type png)
+
+<use ./Resources/mit_drones.png>
+Package pdftex.def Info: ./Resources/mit_drones.png used on input line 63.
+(pdftex.def)             Requested size: 284.06055pt x 187.44984pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[27 <./Resources/caminhao_autonomo.jpg>]) (./Content/3_EspecificacaoProjeto.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[28 <./Resources/mit_drones.png>]
 Cap\'{\i }tulo 2.
 ) (./Content/4_EmbasamentoTeorico.tex
 
@@ -776,7 +797,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[29]
+[29
+
+]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -791,11 +814,13 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <24.88> not available
 (Font)              Font shape `T1/ptm/b/it' tried instead on input line 1.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <14.4> not available
 (Font)              Font shape `T1/ptm/b/it' tried instead on input line 14.
-<./Resources/fig1.png, id=105, 1022.82124pt x 633.36626pt>
-File: ./Resources/fig1.png Graphic file (type png)
 
-<use ./Resources/fig1.png>
-Package pdftex.def Info: ./Resources/fig1.png used on input line 21.
+<./Resources/stereo_image_geometric_model.png, id=105, 1022.82124pt x 633.36626
+pt>
+File: ./Resources/stereo_image_geometric_model.png Graphic file (type png)
+ <use ./Resources/stereo_image_geometric_model.png>
+Package pdftex.def Info: ./Resources/stereo_image_geometric_model.png used on i
+nput line 21.
 (pdftex.def)             Requested size: 357.9928pt x 221.6815pt.
 
 
@@ -814,7 +839,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[32 <./Resources/fig1.png>]
+[32 <./Resources/stereo_image_geometric_model.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -832,6 +857,37 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Cap\'{\i }tulo 4.
+<./Resources/minoru.jpg, id=120, 1127.21124pt x 1505.625pt>
+File: ./Resources/minoru.jpg Graphic file (type jpg)
+
+<use ./Resources/minoru.jpg>
+Package pdftex.def Info: ./Resources/minoru.jpg used on input line 20.
+(pdftex.def)             Requested size: 112.72772pt x 150.57132pt.
+
+<./Resources/fujiW3.jpg, id=121, 500.62032pt x 346.29375pt>
+File: ./Resources/fujiW3.jpg Graphic file (type jpg)
+
+<use ./Resources/fujiW3.jpg>
+Package pdftex.def Info: ./Resources/fujiW3.jpg used on input line 27.
+(pdftex.def)             Requested size: 175.21973pt x 121.20462pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[35 <./Resources/minoru.jpg>]
+<./Resources/quad_camera_support.jpg, id=125, 3089.5425pt x 2381.89874pt>
+File: ./Resources/quad_camera_support.jpg Graphic file (type jpg)
+
+<use ./Resources/quad_camera_support.jpg>
+Package pdftex.def Info: ./Resources/quad_camera_support.jpg used on input line
+ 34.
+(pdftex.def)             Requested size: 308.97235pt x 238.20383pt.
 ) (./Content/6_Resultados.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -839,34 +895,138 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[35]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[36
-
-]
+[36 <./Resources/fujiW3.jpg> <./Resources/quad_camera_support.jpg>]
 Cap\'{\i }tulo 5.
-) (./Content/7_Conclusao.tex
+<./Resources/gui_showleftright_view.png, id=129, 1314.9125pt x 743.77875pt>
+File: ./Resources/gui_showleftright_view.png Graphic file (type png)
+
+<use ./Resources/gui_showleftright_view.png>
+Package pdftex.def Info: ./Resources/gui_showleftright_view.png used on input l
+ine 32.
+(pdftex.def)             Requested size: 460.22627pt x 260.32646pt.
+
+Overfull \hbox (16.36308pt too wide) in paragraph at lines 32--33
+ [][] 
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[37]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[38
+[37
 
 ]
+<./Resources/gui_showdisparitymap_view.png, id=134, 1294.8375pt x 722.7pt>
+File: ./Resources/gui_showdisparitymap_view.png Graphic file (type png)
+
+<use ./Resources/gui_showdisparitymap_view.png>
+Package pdftex.def Info: ./Resources/gui_showdisparitymap_view.png used on inpu
+t line 41.
+(pdftex.def)             Requested size: 453.1999pt x 252.94878pt.
+
+Overfull \hbox (9.33672pt too wide) in paragraph at lines 41--42
+ [][] 
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[38 <./Resources/gui_showleftright_view.png> <./Resources/gui_showdisparitymap_
+view.png>]
+<./Resources/gui_show3dreconstruction_view.png, id=138, 1290.8225pt x 712.6625p
+t>
+File: ./Resources/gui_show3dreconstruction_view.png Graphic file (type png)
+ <use ./Resources/gui_show3dreconstruction_view.png>
+Package pdftex.def Info: ./Resources/gui_show3dreconstruction_view.png used on 
+input line 50.
+(pdftex.def)             Requested size: 451.79465pt x 249.43561pt.
+
+Overfull \hbox (7.93146pt too wide) in paragraph at lines 50--51
+ [][] 
+ []
+
+
+<./Resources/gui_show_tracking_object_view.png, id=139, 1294.8375pt x 721.69624
+pt>
+File: ./Resources/gui_show_tracking_object_view.png Graphic file (type png)
+ <use ./Resources/gui_show_tracking_object_view.png>
+Package pdftex.def Info: ./Resources/gui_show_tracking_object_view.png used on 
+input line 59.
+(pdftex.def)             Requested size: 453.1999pt x 252.59747pt.
+
+Overfull \hbox (9.33672pt too wide) in paragraph at lines 59--60
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[39 <./Resources/gui_show3dreconstruction_view.png>]
+<./Resources/gui_showdiffimage_view.png, id=143, 1291.82625pt x 721.69624pt>
+File: ./Resources/gui_showdiffimage_view.png Graphic file (type png)
+
+<use ./Resources/gui_showdiffimage_view.png>
+Package pdftex.def Info: ./Resources/gui_showdiffimage_view.png used on input l
+ine 68.
+(pdftex.def)             Requested size: 452.14597pt x 252.59747pt.
+
+Overfull \hbox (8.28278pt too wide) in paragraph at lines 68--69
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[40 <./Resources/gui_show_tracking_object_view.png>]
+<./Resources/gui_showwarningedges_view.png, id=147, 1288.815pt x 714.67pt>
+File: ./Resources/gui_showwarningedges_view.png Graphic file (type png)
+
+<use ./Resources/gui_showwarningedges_view.png>
+Package pdftex.def Info: ./Resources/gui_showwarningedges_view.png used on inpu
+t line 77.
+(pdftex.def)             Requested size: 451.09201pt x 250.13824pt.
+
+Overfull \hbox (7.22882pt too wide) in paragraph at lines 77--78
+ [][] 
+ []
+
+) (./Content/7_Conclusao.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[41 <./Resources/gui_showdiffimage_view.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[42 <./Resources/gui_showwarningedges_view.png>]
 Cap\'{\i }tulo 6.
 ) (./TCCmain.bbl
 
@@ -875,40 +1035,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[39]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[40
-
-]) (./Content/8_Apendices.tex
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[41]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[42
+[43
 
 ]
-Ap\^endice A.
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[43]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -917,9 +1046,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [44
 
-]
-Ap\^endice B.
-) (./Content/9_Anexos.tex
+]) (./Content/8_Apendices.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -936,7 +1063,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [46
 
 ]
-Anexo I.
+Ap\^endice A.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -953,6 +1080,41 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [48
 
 ]
+Ap\^endice B.
+) (./Content/9_Anexos.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[49]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[50
+
+]
+Anexo I.
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[51]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[52
+
+]
 Anexo II.
 )
 
@@ -961,30 +1123,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[49] (./TCCmain.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+[53] (./TCCmain.aux) ) 
 Here is how much of TeX's memory you used:
- 9968 strings out of 494963
- 142954 string characters out of 6179646
- 248702 words of memory out of 5000000
- 12904 multiletter control sequences out of 15000+600000
- 54478 words of font info for 76 fonts, out of 8000000 for 9000
+ 10028 strings out of 494963
+ 145191 string characters out of 6179646
+ 248788 words of memory out of 5000000
+ 12955 multiletter control sequences out of 15000+600000
+ 53867 words of font info for 74 fonts, out of 8000000 for 9000
  38 hyphenation exceptions out of 8191
- 38i,11n,68p,869b,324s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
-rw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8
-a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on TCCmain.pdf (49 pages, 149179 bytes).
+ 38i,11n,68p,869b,314s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.en
+c}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
+/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.
+pfb>
+Output written on TCCmain.pdf (53 pages, 6942455 bytes).
 PDF statistics:
- 197 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
+ 217 PDF objects out of 1000 (max. 8388607)
+ 141 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 

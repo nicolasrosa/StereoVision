@@ -1,9 +1,9 @@
 \select@language {brazil}
 \contentsline {chapter}{\numberline {1}Introdu\c c\~ao}{25}
 \contentsline {section}{\numberline {1.1}Objetivos}{26}
-\contentsline {section}{\numberline {1.2}Justificativa}{27}
-\contentsline {section}{\numberline {1.3}Motiva\c c\~ao}{27}
-\contentsline {section}{\numberline {1.4}Organiza\c c\~ao do trabalho}{27}
+\contentsline {section}{\numberline {1.2}Justificativa}{26}
+\contentsline {section}{\numberline {1.3}Motiva\c c\~ao}{26}
+\contentsline {section}{\numberline {1.4}Organiza\c c\~ao do trabalho}{28}
 \contentsline {chapter}{\numberline {2}Especifica\c c\~ao do Projeto}{29}
 \contentsline {section}{\numberline {2.1}Se\c c\~ao 1}{29}
 \contentsline {section}{\numberline {2.2}Se\c c\~ao 2}{29}
@@ -22,10 +22,10 @@
 \contentsline {subsection}{\numberline {3.8.2}Identifica\c c\~ao - \textit {Object Identification}}{33}
 \contentsline {chapter}{\numberline {4}Materiais e M\'etodos}{35}
 \contentsline {section}{\numberline {4.1}Materiais}{35}
-\contentsline {section}{\numberline {4.2}M\'etodos}{35}
-\contentsline {chapter}{\numberline {5}Resultados}{37}
-\contentsline {chapter}{\numberline {6}Conclus\~ao}{39}
-\contentsline {chapter}{\numberline {A}Ap\^endice 1}{43}
-\contentsline {chapter}{\numberline {B}Ap\^endice 2}{45}
-\contentsline {chapter}{\numberline {I}Anexo 1}{47}
-\contentsline {chapter}{\numberline {II}Anexo 2}{49}
+\contentsline {section}{\numberline {4.2}M\'etodos}{36}
+\contentsline {chapter}{\numberline {5}Resultados Parciais}{37}
+\contentsline {chapter}{\numberline {6}Conclus\~ao}{43}
+\contentsline {chapter}{\numberline {A}Ap\^endice 1}{47}
+\contentsline {chapter}{\numberline {B}Ap\^endice 2}{49}
+\contentsline {chapter}{\numberline {I}Anexo 1}{51}
+\contentsline {chapter}{\numberline {II}Anexo 2}{53}

@@ -1,12 +1,80 @@
-\chapter{Resultados}
-\label{Resultados}
+%\chapter{Resultados}
+%\label{Resultados}
+%------------------------------------ Resultados Parciais -------------------------------------------
 
-\textcolor{red}{\textbf{Dica:} Resultados/Discussões: aqui se mostra o que o trabalho permitiu produzir, e
-às vezes o que pode ser comparado com outros trabalhos - aqui ficam claras se
-as propostas do trabalho são relevantes ou não, pois devem permitir a
-discussão do trabalho;
-- Deve responder: Os resultados estão claros em bom número (nem muito nem
-pouco) que permitam avaliar realmente a proposta e o que foi produzido.}
+\chapter{Resultados Parciais}
+\label{Resultados Parciais}
 
+%\textcolor{red}{\textbf{Dica:} Resultados/Discussões: aqui se mostra o que o trabalho permitiu produzir, e
+%às vezes o que pode ser comparado com outros trabalhos - aqui ficam claras se
+%as propostas do trabalho são relevantes ou não, pois devem permitir a
+%discussão do trabalho;
+%- Deve responder: Os resultados estão claros em bom número (nem muito nem
+%pouco) que permitam avaliar realmente a proposta e o que foi produzido.}
 
+Os resultados obtidos estão inteiramente relacionados ao desenvolvimento do programa e o algoritmo para a detecção de objetos e obstáculos. Nesta seção, serão apresentados os resultados desse \textit{software} obtidos até então.
 
+O software desenvolvido apresenta uma interface gráfica(GUI -- \textit{Graphical User Interface}) amigável, a qual facilita a visualização das imagens obtidas pela câmera estereoscópica e das imagens resultantes dos método de processamento de imagens desenvolvido. Atualmente, o software conta com 8 opções das quais 6 delas são destinadas a visualização das seguintes perspectivas:
+
+\begin{enumerate}
+	\item Imagens retificadas das câmeras esquerda e direita
+ 	\item Mapa de disparidade em Escala de Cinza e RGB
+ 	\item Mapa tridimensional do ambiente reconstruído em Escala de Cinza e RGB
+ 	\item Imagem da Câmera Esquerda com o indicador de objeto rastreado e Imagem binária resultante da limiarização por distância.
+ 	\item Imagem resultante do processo de detecção de movimentos e Imagem resultante do processo de detecção de movimentos limiarizada por distância. 
+ 	\item Imagem resultante da adição da imagem à direita com a Imagem da Câmera Esquerda e Imagem resultante do processo de realce das bordas dos objetos em movimento próximos ao veículo.
+\end{enumerate} 
+
+O botão \textit{Show Left/Right} seleciona a opção na qual a interface gráfica permite a visualização simultânea das imagens retificadas de ambas câmera. A figura \ref{gui_showleftright_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/gui_showleftright_view.png}
+ 	\caption{Interface Gráfica - Visualização simultânea dos quadros das câmeras esquerda e direita}
+ 	\label{gui_showleftright_view}
+\end{figure}
+
+O botão \textit{Show Disparity Map} seleciona a opção na qual a interface gráfica permite a visualização simultânea dos mapas de disparidade em escala de cinza e RGB. A figura \ref{gui_showdisparitymap_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/gui_showdisparitymap_view.png}
+ 	\caption{Interface Gráfica - Visualização dos Mapa de disparidade em Escala de Cinza e RGB}
+ 	\label{gui_showdisparitymap_view}
+\end{figure}
+
+O botão \textit{Show 3D Reconstruction} seleciona a opção na qual a interface gráfica permite a visualização simultânea dos mapas tridimensionais do ambiente reconstruído em escala de cinza e RGB. A figura \ref{gui_show3dreconstruction_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/gui_show3dreconstruction_view.png}
+ 	\caption{Interface Gráfica - Visualização dos Mapa de disparidade em Escala de Cinza e RGB}
+ 	\label{gui_show3dreconstruction_view}
+\end{figure}
+
+O botão \textit{Show Tracking Object View} seleciona a opção na qual a interface gráfica permite a visualização simultânea da imagem da câmera Esquerda com o indicador de objeto rastreado e imagem binária resultante da limiarização por distância. A figura \ref{gui_show_tracking_object_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/gui_show_tracking_object_view.png}
+ 	\caption{Interface Gráfica - Visualização da Imagem da Câmera Esquerda com o indicador de objeto rastreado e da Imagem binária resultante da limiarização por distância}
+ 	\label{gui_show_tracking_object_view}
+\end{figure}
+
+O botão \textit{Show DiffImage} seleciona a opção na qual a interface gráfica permite a visualização simultânea da imagem resultante do processo de detecção de movimentos e imagem resultante do processo de detecção de movimentos limiarizada por distância. A figura \ref{gui_showdiffimage_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/gui_showdiffimage_view.png}
+ 	\caption{Interface Gráfica - Visualização da imagem resultante do processo de detecção de movimentos e imagem resultante do processo de detecção de movimentos limiarizada por distância}
+ 	\label{gui_showdiffimage_view}
+\end{figure}
+
+O botão \textit{Show DiffImage} seleciona a opção na qual a interface gráfica permite a visualização simultânea da imagem resultante da adição da imagem à direita com a imagem da câmera esquerda e imagem resultante do processo de realce das bordas dos objetos em movimento próximos ao veículo. A figura \ref{gui_showwarningedges_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/gui_showwarningedges_view.png}
+ 	\caption{Interface Gráfica - Visualização da Imagem resultante da adição da imagem à direita com a Imagem da Câmera Esquerda e Imagem resultante do processo de realce das bordas dos objetos em movimento próximos ao veículo}
+ 	\label{gui_showwarningedges_view}
+\end{figure}

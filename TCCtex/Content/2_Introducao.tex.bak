@@ -1,0 +1,110 @@
+\chapter{Introdução}
+\label{Introducao}
+
+A pesquisa em VANTs -- Veículos Aéreos não Tripulado vem se tornando um assunto recorrente no âmbito científico. A real motivação para seu desenvolvimento levanta diversas questões éticas e legais, visto que foram inicialmente motivados para fins militares. Por outro lado, esse tipo de plataforma também possui aplicações tais como: cultivo e pulverização de culturas, produção cinematográfica, operações de busca e salvamento, inspeção de linhas elétricas de alta tensão, entrega de mercadorias e encomendas.
+
+A navegação de um micro veículo aéreo em espaço confinado é um desafio significante. Atualmente, a navegação autônoma enfrenta o problema de localização e mapeamento simultâneo, mais conhecido como SLAM (Simultaneous Localization and Mapping) \cite{Dissanayake2001}. SLAM apresenta quatro etapas: Mapeamento, Percepção, Localização e Modelagem. A complexidade deste problema encontra-se no fato de que o veículo necessita navegar em um espaço desconhecido, extrair características importantes do ambiente, construir um mapa com os dados obtidos e simultaneamente localizar-se dentro deste. O sensoriamento pode ser realizado tanto por Visão computacional ou por sensores ópticos. 
+
+O processo de desenvolvimento do veículo consiste em quatro passos: estrutura, circuito, controle e navegação. Os dois primeiros itens compõem o hardware, o qual estabelece as conexões físicas necessárias para integrar os sistemas de alimentação, comunicação e controle. A parte de software engloba o desenvolvimento de algoritmos visando o controle e navegação, mais especificamente o desenvolvimento do código para Visão Estéreo (Stereo Vision) \cite{Lemaire2007}, planejamento de caminho (Path Planning) e arquitetura de máquina de estados (Decision Making).
+
+Um sistema autônomo também implica o processamento de imagens ser embarcado, isto é, o processamento para a navegação do veículo ser realizada \textit{On-line}. Deste modo, as plataformas de desenvolvimento BeagleBone Black e Nvidia jetson TK1 serão analisadas e avaliadas com relação performance ao executar o algoritmo desenvolvido \cite{Shah2014}. 
+
+%------------------------------------- Objetivos ----------------------------------------------------
+\section{Objetivos}
+
+% Objetivos Antigos
+%\textcolor{red}{\textbf{Dica:} Apresente "somente" os objetivos - podem ser gerais e/ou específicos}
+%s
+%\textcolor{red}{
+%\begin{enumerate}
+%	\item Desenvolvimento de um algoritmo de controle para veículo aéreo autônomo
+%	\item Estudo e aplicação do algoritmo de localização e mapeamento simultâneo baseado em Visão (Vision-based SLAM)
+%	\item Desenvolvimento de código da Visão do Quadricóptero para Linux Embarcado
+%	\item Utilização da Plataforma ROS (Robot Operating System)
+%	\item Reproduzir o desafio proposto pela AAVC Competition	
+%\end{enumerate}
+%}
+
+\begin{enumerate}
+	\item Estudo e aplicação de Técnicas de Visão Computacional para Visão Estéreo.
+	\item Desenvolvimento de uma interface de apoio o controle de um veículo autônomo.
+	\item Desenvolvimento de algoritmo de visão estéreo para Linux Embarcado e aplicação em Quadricópteros.
+	\item Comparativo de Desempenho do Algoritmo Desenvolvido em diferentes plataformas.
+\end{enumerate}
+
+%------------------------------------- Justificativa ------------------------------------------------
+\section{Justificativa}
+\textcolor{red}{\textbf{Dica:} Explanação sobre porque o trabalho se
+justifica e quais os pontos de relevância do mesmo}
+
+%------------------------------------- Motivação ----------------------------------------------------
+\section{Motivação}
+%\textcolor{red}{\textbf{Dica:} Um pequeno texto sobre o que motivou o desenvolvimento do
+%Trabalho}
+
+A proposta deste Trabalho de conclusão de Curso é auxiliar o primeiro passo de Mapeamento de ambientes através de visão estereoscópica. Este trabalho, é motivado pela tentativa de reproduzir-se o desafio proposto pela Autonomous Aerial Vehicle Competition (AAVC)\cite{AAVC}, competição organizada pelo Laboratório de Pesquisas da Forca Aérea Americana (AFRL) e sediada em Dayton-OH. Esta competição incentiva o estudo de veículos aéreos autônomos, convidando diversas universidades a compartilhar seus avanços nesta área de pesquisa. O competidor é motivado a adaptar um modelo de quadricóptero 3DRobotics©, assim este veículo precisa cumprir um certo percurso com caixas como obstáculos,detectar e reportar à estação base a posição de um objeto.
+
+A segunda motivação para o desenvolvimento deste trabalho é o crescente número de aplicações de visão estereoscópia em plataformas robótica. Atualmente, existem diversas pesquisas voltadas ao desenvolvimento de veículos autonômos para navegação terrestre, aerea e subaquatica. Nesta seção,
+serão apresentados alguns dos trabalhos envolvendo cada um destes ambientes, os quais câmeras estereoscopicas auxiliam ou são os principais sensores destas plataformas.
+
+Nos dias de hoje, as empresas automobilisticas vem participando de uma verdadeira corrida tecnológica para o desenvolvimento de automóveis totalmente autonomos e economicamente viáveis. As universidades não ficaram para trás e também participam desta corrida. Além disso, vêm apresentando resultados promissores, o que concretizam cada vez mais essa realidade tida até então como distante. Na figura \ref{caminhao_autonomo} abaixo é possível observar o projeto de caminhão autônomo desenvolvido pelo laboratório de robótica móvel - LRM - ICMC/USP. O caminhão conta com diversos sensores, dentro eles câmeras estereoscópicas, que identificam outros automóveis, pessoas e faixas de sinalização \cite{ShinzatoP}. 
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/caminhao_autonomo.jpg}
+ 	\caption{Caminhão Autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP}
+ 	\label{caminhao_autonomo}
+\end{figure}
+
+No caso de navegação autônoma para ambiente áereo, o projeto utilizando \textit{Micro Air Vehicle} - MAVS desenvolvido pelo \textit{Massachusetts Institute of Technology} - MIT permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obstáculos voando a um velocidade de 30 mph (48 $km/h$). O trabalho desenvolvido é um comparativo de desempenho de uma implementação em hardware utilizando FPGA e um processador ARM para processamento embarcado do método \textit{Semi-Global Block Matching} \cite{BarryMIT}.
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/mit_drones.jpg}
+ 	\caption{Aeronave Experimental}
+ 	\label{mit_drones}
+\end{figure}
+
+Fig. 1: Our experimental aircraft platforms holding the
+FGPA stereo system (front) and the pushbroom stereo system
+(back). Cameras are mounted on the front of the wings at
+the same baseline (34 cm) on both airframes. Covers over
+the electronics were removed for this photograph.
+
+Plataformas experimentais de aeronaves com o Sistema Estéreo - FPGA (frente) e o Sistema Estéreo - Pushbroom (trás). Câmaras são montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas células.
+
+underwater \cite{Breivik2010}
+
+%------------------------------------- Organização do trabalho --------------------------------------
+\section{Organização do trabalho}
+\textcolor{red}{\textbf{Dica:} Apresente o que tem em cada capítulo.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,23 +1,23 @@
 \documentclass[11pt,a4paper,twoside,openright]{report}
 
-\usepackage[pdftex]{graphicx} % Biblioteca para uso de figuras
+\usepackage[pdftex]{graphicx} 	% Biblioteca para uso de figuras
 \usepackage{color}
 
-\usepackage[brazil]{babel} % Biblioteca para uso da lï¿½ngua portuguesa
-\usepackage[T1]{fontenc} % Biblioteca para uso da acentuaï¿½ï¿½o de entrada
-\usepackage[latin1]{inputenc} % Biblioteca para uso da acentuaï¿½ï¿½o de saï¿½da
+\usepackage[brazil]{babel} 		% Biblioteca para uso da língua Portuguesa
+\usepackage[T1]{fontenc} 		% Biblioteca para uso da acentuação de entrada
+\usepackage[latin1]{inputenc} 	% Biblioteca para uso da acentuação de saída
 
-\usepackage{amsthm,amsfonts,amsmath,amssymb}  % Biblioteca para uso de comandos matemï¿½ticos
+\usepackage{amsthm,amsfonts,amsmath,amssymb}  % Biblioteca para uso de comandos matemáticos
 \usepackage{pslatex}
 \usepackage{pstricks,pst-node,color,pst-gantt,pst-coil}
 \usepackage{scalefnt}
-\usepackage{float} %Permite colocar "\begin{figure}[H]" e colocar imagem exatamente onde desejar
-\usepackage[hyphens]{url} % Para Aceitar URL nas referencias
+\usepackage{float} % Permite colocar "\begin{figure}[H]" e colocar imagem exatamente onde desejar
+\usepackage[hyphens]{url} % Para Aceitar URL nas referências
 \usepackage{pdfpages}
 
-\usepackage{eurosym} %Pacote para possibilitar o uso do sï¿½mbolo de euro "\euro"
+\usepackage{eurosym} % Pacote para possibilitar o uso do símbolo de euro "\euro"
 
-\usepackage{listings} % para importaï¿½ï¿½o de cï¿½digos fonte 
+\usepackage{listings} % Pacote para importação de códigos fonte 
 
 \usepackage{comment}
 \usepackage[margin=2.7cm]{geometry}
@@ -25,7 +25,7 @@
 
 \setlength{\parskip}{0em}
 
-% Pacote para configurar cabeï¿½alho e rodape
+% Pacote para configurar cabeçalho e rodapé
 \usepackage{fancyhdr}
 \pagestyle{empty}
 \fancyhf{} % clear all header and footer fields
@@ -34,11 +34,9 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-%Pacote para organizar apendices 
-\usepackage[titletoc]{appendix}
+\usepackage[titletoc]{appendix} % Pacote para organizar apêndices 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONFIGURAÇÕES DE ANEXOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%------------------------------------- CONFIGURAÇÕES DE ANEXOS --------------------------------------
 \newcommand{\annexname}{Anexo}
 \makeatletter
 \newcommand\annex{\par
@@ -52,33 +50,33 @@
   {\renewcommand{\abstractname}{#1}\begin{abstract}}
   {\end{abstract}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONFIGURAÇÕES DE Pï¿½GINA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------------------------------- CONFIGURAÇÕES DE PÁGINA --------------------------------------
 %\topmargin -2.1cm
 %\oddsidemargin 0.5cm 
 %\evensidemargin 0.5cm 
 %\textwidth 15cm
 %\textheight 25.1cm
 	
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INÍCIO DO DOCUMENTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------------------------------- INÍCIO DO DOCUMENTO ------------------------------------------
 \begin{document}
 	
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  INCLUDES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------------------------------- INCLUDES -----------------------------------------------------
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ELEMENTOS PRÉ-TEXTUAIS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------------------------------- ELEMENTOS PRÉ-TEXTUAIS ---------------------------------------
 \input{./Content/1_PreTexto.tex}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ADIÇÃO DOS CAPÍTULOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+%------------------------------------- ADIÇÃO DOS CAPÍTULOS -----------------------------------------	
 \input{./Content/2_Introducao.tex}
 \input{./Content/3_EspecificacaoProjeto.tex}
 \input{./Content/4_EmbasamentoTeorico.tex}
 \input{./Content/5_MateriaisMetodos.tex}
 \input{./Content/6_Resultados.tex}
 \input{./Content/7_Conclusao.tex}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ADIÇÃO DAS BIBLIOGRAFIAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
-\bibliographystyle{unsrt} % Define o estilo da bibliografia
-\bibliography{./Content/References} % Faz referência ao arquivo ref.bib
+%------------------------------------- ADIÇÃO DAS BIBLIOGRAFIAS -------------------------------------	
+\bibliographystyle{unsrt} 			% Define o estilo da bibliografia
+\bibliography{./Content/References} 	% Faz referência ao arquivo ref.bib
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ADIÇÃO DOS ANEXOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+%------------------------------------- ADIÇÃO DOS ANEXOS ------------------------------------------- 	
 %\begin{appendices}
 \appendix
 \input{./Content/8_Apendices.tex}
@@ -86,6 +84,6 @@
 
 \annex
 \input{./Content/9_Anexos.tex}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TÉRMINO DO DOCUMENTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------------------------------- TÉRMINO DO DOCUMENTO -----------------------------------------
 \end{document}    
 	
