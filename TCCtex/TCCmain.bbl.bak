@@ -1,0 +1,58 @@
+\begin{thebibliography}{10}
+
+\bibitem{Dissanayake2001}
+M.W.M.G. Dissanayake, P.~Newman, S.~Clark, H.F. Durrant-Whyte, and M.~Csorba.
+\newblock {A solution to the simultaneous localization and map building
+  (SLAM)$\backslash$nproblem}.
+\newblock {\em IEEE Transactions on Robotics and Automation}, 17(3):229--241,
+  2001.
+
+\bibitem{Lemaire2007}
+Thomas Lemaire, Cyrille Berger, Il-Kyun Jung, and Simon Lacroix.
+\newblock {Vision-Based SLAM: Stereo and Monocular Approaches}.
+\newblock {\em International Journal of Computer Vision}, 74(3):343--364, 2007.
+
+\bibitem{Shah2014}
+Sunil Shah.
+\newblock {Real-time Image Processing on Low Cost Embedded Computers}.
+\newblock pages 1--29, 2014.
+
+\bibitem{AAVC}
+{Autonomous Aerial Vehicle Competition}.
+
+\bibitem{ShinzatoP}
+D.~F. {Shinzato, P. Y. ; Os{\'{o}}rio, F. S. ; Wolf}.
+\newblock {Visual Road Recognition Using Artificial Neural Networks and Stereo
+  Vision.}
+\newblock {\em IEEE/RSJ International Conference on Intelligent Robots and
+  Systems - IROS - Workshop}.
+
+\bibitem{BarryMIT}
+Andrew~J Barry, Helen Oleynikova, Dominik Honegger, Marc Pollefeys, and Russ
+  Tedrake.
+\newblock {FPGA vs . Pushbroom Stereo Vision for MAVs}.
+\newblock {\em Vision-based Control and Navigation of Small Lightweight UAVs,
+  IROS Workshop}, pages 1--6, 2015.
+
+\bibitem{Breivik2010}
+G~M Breivik, S~A Fjerdingen, and O~Skotheim.
+\newblock {Robust Pipeline Localization for an Autonomous Underwater Vehicle
+  using Stereo Vision and Echo Sounder Data}.
+\newblock {\em Intelligent Robots and Computer Vision XXVII: Algorithms and
+  Techniques}, 7539, 2010.
+
+\bibitem{Bradski2008}
+Gary Bradski and Adrian Kaehler.
+\newblock {\em {Learning OpenCV: Computer Vision with the OpenCV Library}},
+  volume~1.
+\newblock 2008.
+
+\bibitem{UEDA2011}
+Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.
+\newblock {3D Reconstruction and Point Cloud Rendering}, 2011.
+
+\bibitem{Hounslow2013}
+Kyle Hounslow.
+\newblock {Real-Time Object Tracking Using OpenCV}, 2013.
+
+\end{thebibliography}

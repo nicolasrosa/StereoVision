@@ -1,19 +1,40 @@
 \chapter{Materiais e Métodos}
 \label{Materiais}
 
-\textcolor{red}{\textbf{Dica:} Materiais e Métodos: descrição clara dos procedimentos e dos materiais
-adotados para o desenvolvimento do trabalho (sem resultados) ? incluindo sua
-adequação ao trabalho.
-Tem que responder às perguntas:
--está com um tamanho adequado (proporcional) à monografia?
--há informação suficiente e clara sobre os materiais e sobre os métodos
-adotados?
-Não há necessidade de reproduzir (copiar) as obras que embasam o trabalho e
-sim colocar o suficiente para o entendimento do trabalho e citar as referências.}
+%\textcolor{red}{\textbf{Dica:} Materiais e Métodos: descrição clara dos procedimentos e dos materiais
+%adotados para o desenvolvimento do trabalho (sem resultados) ? incluindo sua
+%adequação ao trabalho.
+%Tem que responder às perguntas:
+%-está com um tamanho adequado (proporcional) à monografia?
+%-há informação suficiente e clara sobre os materiais e sobre os métodos
+%adotados?
+%Não há necessidade de reproduzir (copiar) as obras que embasam o trabalho e
+%sim colocar o suficiente para o entendimento do trabalho e citar as referências.}
 
+Nesta seção serão apresentados os equipamentos necessários e métodos utilizados para o desenvolvimento do projeto. No caso dos equipamentos, serão apresentados todas as especificações técnicas e sua importância para o trabalho. Na seção destinada aos métodos, os algoritmos desenvolvidos para identificação e reconhecimento de objetos serão descritos.
 
 %------------------------------------ Materiais -----------------------------------------------------
 \section{Materiais}
+Com relação aos equipamentos é possível classificá-los em três grupos distintos:
+Câmeras estereoscópicas, Unidades de Processamento, e Equipamentos auxiliares.
+
+\subsection{Câmeras estereoscópicas}
+
+Atualmente, o projeto já utilizou duas câmeras estereoscópicas. Inicialmente, utilizou-se a webcam Minoru(veja figura \ref{minoru}), visto que apresentava preço totalmente acessível e cumpria o requisito de realizar \textit{streaming} via USB. Deste modo, tornou-se um equipamento essencial para a implementação dos métodos para encontro de correspondências entre as câmeras. A tabela \ref{minoru_tab}	 apresenta as espeficações da câmera.
+
+\begin{table}[]
+\centering
+\caption{Especificações - 3D Webcam Minoru}
+\label{minoru_tab}
+\begin{tabular}{ll}
+Sensor de Imagem      & VGA CMOS Sensor  	\\
+Resolução Máxima      & $800×600$        	\\
+Tamanho Linha de Base & 6 cm             	\\
+Taxa de Captura       & 30 fps             	\\
+Foco Manual           & 10 cm até $\infty$	\\
+Campo de Visão        & $42\degree$		   	\\
+\end{tabular}
+\end{table}
 
 \begin{figure}[H]
  	\centering
@@ -29,18 +50,42 @@ sim colocar o suficiente para o entendimento do trabalho e citar as referências.
  	\label{fujiW3}
 \end{figure}
 
-\begin{figure}[H]
- 	\centering
- 	\includegraphics[scale=0.10]{./Resources/quad_camera_support.jpg}
- 	\caption{Quadricóptero $3D Robotics^{©}$ X8 com suporte para a Câmera 3D}
- 	\label{quad_camera_support}
-\end{figure}
-
 Capture high-resolution images in 2D and 3D
 Record HD 3D movies (720p resolution); dual 10-megapixel CCD and lens system
 3.5-inch widescreen autostereoscopic LCD displays images and movies in 3D instantly, with no glasses required
 mini-HDMI output jack offers easy connection to a compatible 3D HDTV; view images and movies instantly in 3D
 Capture images and movies to SD/SDHC memory cards (not included)
+
+\subsection{Unidades de Processamento}
+
+The BeagleBone Black, a completely open-source platform, is meant for both hardware and software developers. The BeagleBone Black Rev C is based on Texas Instruments? Sitara AM3358, Cortex-A8 processor operating at 1 GHz and implements the ARMv7 instruction set. Compared to the ARM11 (1.2 DMIPS/MHz), the superscalar dual-issue microarchitecture and NEON SIMD instruction set extensions of the Cortex-A8 helps achieve nearly twice the performance (2.0 DMIPS/MHz) (Table 1).
+The board comes with 512MB of RAM, 4 GB of eMMC flash storage with the Linux Debian OS preloaded, 10/100 Ethernet, a single USB 2.0 host, and 92 I/O (Fig. 2). The I/O headers allow a large ecosystem of capabilities (>50) to be added for extending functionality to the platform, such as RS-485, LCD display, etc. Support for all hardware- and software-related issues is provided on BeagleBoard.org.
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.10]{./Resources/jetson_tk1.jpg}
+ 	\caption{oi}
+ 	\label{jetson_tk1}
+\end{figure}
+
+
+The Jetson TK1 computer rounds out the high-performance end of the development board universe (Fig. 8). The TK1 has a 32-bit Tegra K1 processor based on the ARM Cortex-A15 CPU design, and incorporates 2 GB of RAM and 16 GB of eMMC memory. Onboard are 192 graphics cores based on the NVIDIA Kepler architecture to deliver very high graphics performance for applications such as infotainment, surveillance, and Linux-based gaming. The board supports Ubuntu 14.04.22
+
+\subsection{Equipamentos auxiliares}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.10]{./Resources/quad_camera_support.jpg}
+ 	\caption{Quadricóptero 3DR X8 com suporte para a Câmera 3D}
+ 	\label{quad_camera_support}
+\end{figure}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.10]{./Resources/calibration_pattern.png}
+ 	\caption{Padrão de Calibração}
+ 	\label{calibration_pattern}
+\end{figure}
 
 
 %------------------------------------ Métodos -------------------------------------------------------
@@ -48,5 +93,6 @@ Capture images and movies to SD/SDHC memory cards (not included)
 
 Métodos utilizados no projeto.
 
+Explicar as abordagens utilizando BM e SGBM
 
 
