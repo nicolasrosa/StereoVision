@@ -1,3 +1,10 @@
+/*
+ * setstereoparams.cpp
+ *
+ *  Created on: Oct 1, 2015
+ *      Author: nicolasrosa
+ */
+
 #include "setstereoparams.h"
 #include "ui_setstereoparams.h"
 #include "iostream"

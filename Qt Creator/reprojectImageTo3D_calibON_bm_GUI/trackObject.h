@@ -1,8 +1,9 @@
 /*
  * trackObject.h
  *
- *  Created on: Oct 19, 2015
- *      Author: nicolasrosa
+ *  Author: Kyle Hounslow
+ * 	Link: https://www.youtube.com/watch?v=bSeFrPrqZ2A
+ *  Published in: March 11, 2013
  */
 
 #ifndef SRC_TRACKOBJECT_H_

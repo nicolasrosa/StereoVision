@@ -56,22 +56,14 @@ Nos dias de hoje, as empresas automobilisticas vem participando de uma verdadeir
  	\label{caminhao_autonomo}
 \end{figure}
 
-No caso de navegação autônoma para ambiente áereo, o projeto utilizando \textit{Micro Air Vehicle} - MAVS desenvolvido pelo \textit{Massachusetts Institute of Technology} - MIT permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obstáculos voando a um velocidade de 30 mph (48 $km/h$). O trabalho desenvolvido é um comparativo de desempenho de uma implementação em hardware utilizando FPGA e um processador ARM para processamento embarcado do método \textit{Semi-Global Block Matching} \cite{BarryMIT}.
+No caso de navegação autônoma para ambiente áereo, o projeto utilizando \textit{Micro Air Vehicle} - MAVS desenvolvido pelo \textit{Massachusetts Institute of Technology} - MIT permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obstáculos voando a um velocidade de 30 mph (48 $km/h$). A figura \ref{mit_drones} abaixo apresenta o trabalho desenvolvido, o qual é um comparativo de desempenho de uma implementação em hardware utilizando FPGA e um processador ARM para processamento embarcado do método \textit{Semi-Global Block Matching} \cite{BarryMIT}.
 
 \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.35]{./Resources/mit_drones.jpg}
- 	\caption{Aeronave Experimental}
+ 	\includegraphics[scale=0.25]{./Resources/mit_drones.png}
+ 	\caption{Plataformas experimentais de aeronaves com o Sistema Estéreo - FPGA (frente) e o Sistema Estéreo - Pushbroom (trás). Câmaras são montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas células.}
  	\label{mit_drones}
 \end{figure}
-
-Fig. 1: Our experimental aircraft platforms holding the
-FGPA stereo system (front) and the pushbroom stereo system
-(back). Cameras are mounted on the front of the wings at
-the same baseline (34 cm) on both airframes. Covers over
-the electronics were removed for this photograph.
-
-Plataformas experimentais de aeronaves com o Sistema Estéreo - FPGA (frente) e o Sistema Estéreo - Pushbroom (trás). Câmaras são montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas células.
 
 underwater \cite{Breivik2010}
 

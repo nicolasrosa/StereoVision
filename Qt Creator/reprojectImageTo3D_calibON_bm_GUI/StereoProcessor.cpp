@@ -19,8 +19,7 @@ int StereoProcessor::getInputNum(){
 }
 
 void StereoProcessor::readConfigFile(){
-    //FileStorage fs("config.yml", FileStorage::READ);
-
+    //FileStorage fs("../reprojectImageTo3D_calibON_bm_GUI/config.yml", FileStorage::READ);
     FileStorage fs("/home/nicolas/repository/StereoVision/Qt Creator/reprojectImageTo3D_calibON_bm_GUI/config.yml", FileStorage::READ);
 
     if(!fs.isOpened()){
