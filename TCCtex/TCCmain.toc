@@ -24,12 +24,12 @@
 \contentsline {section}{\numberline {4.1}Materiais}{35}
 \contentsline {subsection}{\numberline {4.1.1}C\^ameras estereosc\'opicas}{35}
 \contentsline {subsection}{\numberline {4.1.2}Unidades de Processamento}{37}
-\contentsline {subsection}{\numberline {4.1.3}Equipamentos auxiliares}{38}
-\contentsline {section}{\numberline {4.2}M\'etodos}{38}
-\contentsline {chapter}{\numberline {5}Resultados Parciais}{39}
-\contentsline {chapter}{\numberline {6}Conclus\~ao}{45}
-\contentsline {chapter}{\numberline {A}Ap\^endice 1}{47}
-\contentsline {section}{\numberline {A.1}Interface Gr\'afica - StereoVision System}{47}
-\contentsline {subsection}{\numberline {A.1.1}Bibliotecas}{47}
-\contentsline {subsection}{\numberline {A.1.2}C\'odigos-Fonte}{61}
-\contentsline {chapter}{\numberline {I}Anexo 1}{109}
+\contentsline {subsection}{\numberline {4.1.3}Equipamentos auxiliares}{39}
+\contentsline {section}{\numberline {4.2}M\'etodos}{40}
+\contentsline {chapter}{\numberline {5}Resultados Parciais}{41}
+\contentsline {chapter}{\numberline {6}Conclus\~ao}{47}
+\contentsline {chapter}{\numberline {A}Ap\^endice 1}{49}
+\contentsline {section}{\numberline {A.1}Interface Gr\'afica - StereoVision System}{49}
+\contentsline {subsection}{\numberline {A.1.1}Bibliotecas}{49}
+\contentsline {subsection}{\numberline {A.1.2}C\'odigos-Fonte}{63}
+\contentsline {chapter}{\numberline {I}Anexo 1}{111}

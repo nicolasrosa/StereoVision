@@ -7,17 +7,18 @@
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Modelo Idealizado de um sistema de Vis\~ao Est\'ereo}}{32}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces 3D Webcam Minoru}}{36}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces C\^amera Digital Fujifilm FinePix Real 3D W3}}{36}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces oi}}{37}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Quadric\'optero 3DR X8 com suporte para a C\^amera 3D}}{38}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Padr\~ao de Calibra\c c\~ao}}{38}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces C\^amera Digital Fujifilm FinePix Real 3D W3}}{37}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Plataforma de Desenvolvimento - BeagleBone Black}}{38}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Plataforma de Desenvolvimento - Jetson TK1}}{38}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Padr\~ao de Calibra\c c\~ao}}{39}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Quadric\'optero 3DR X8 com suporte para a C\^amera 3D}}{40}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao simult\^anea dos quadros das c\^ameras esquerda e direita}}{40}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao dos Mapa de disparidade em Escala de Cinza e RGB}}{40}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao dos Mapa de disparidade em Escala de Cinza e RGB}}{41}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da Imagem da C\^amera Esquerda com o indicador de objeto rastreado e da Imagem bin\'aria resultante da limiariza\c c\~ao por dist\^ancia}}{42}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da imagem resultante do processo de detec\c c\~ao de movimentos e imagem resultante do processo de detec\c c\~ao de movimentos limiarizada por dist\^ancia}}{43}
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da Imagem resultante da adi\c c\~ao da imagem \`a direita com a Imagem da C\^amera Esquerda e Imagem resultante do processo de realce das bordas dos objetos em movimento pr\'oximos ao ve\IeC {\'\i }culo}}{44}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao simult\^anea dos quadros das c\^ameras esquerda e direita}}{42}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao dos Mapa de disparidade em Escala de Cinza e RGB}}{42}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao dos Mapa de disparidade em Escala de Cinza e RGB}}{43}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da Imagem da C\^amera Esquerda com o indicador de objeto rastreado e da Imagem bin\'aria resultante da limiariza\c c\~ao por dist\^ancia}}{44}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da imagem resultante do processo de detec\c c\~ao de movimentos e imagem resultante do processo de detec\c c\~ao de movimentos limiarizada por dist\^ancia}}{45}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da Imagem resultante da adi\c c\~ao da imagem \`a direita com a Imagem da C\^amera Esquerda e Imagem resultante do processo de realce das bordas dos objetos em movimento pr\'oximos ao ve\IeC {\'\i }culo}}{46}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

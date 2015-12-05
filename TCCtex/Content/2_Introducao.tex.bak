@@ -26,10 +26,10 @@ Um sistema autônomo também implica o processamento de imagens ser embarcado, ist
 %}
 
 \begin{enumerate}
-	\item Estudo e aplicação de Técnicas de Visão Computacional para Visão Estéreo.
-	\item Desenvolvimento de uma interface de apoio o controle de um veículo autônomo.
+	\item Estudo e aplicação de técnicas de visão computacional para visão estéreo.
+	\item Desenvolvimento de uma interface de apoio para o controle de um veículo autônomo.
 	\item Desenvolvimento de algoritmo de visão estéreo para Linux Embarcado e aplicação em Quadricópteros.
-	\item Comparativo de Desempenho do Algoritmo Desenvolvido em diferentes plataformas.
+	\item Comparativo de desempenho do algoritmo desenvolvido em diferentes plataformas.
 \end{enumerate}
 
 %------------------------------------- Justificativa ------------------------------------------------
