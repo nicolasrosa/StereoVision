@@ -20,7 +20,7 @@ Câmeras estereoscópicas, Unidades de Processamento, e Equipamentos auxiliares.
 
 \subsection{Câmeras estereoscópicas}
 
-O projeto já utilizou duas câmeras estereoscópicas. Primeiramente, utilizou-se a webcam Minoru(veja figura \ref{minoru}), visto que apresentava preço totalmente acessível e cumpria o requisito de realizar \textit{streaming} via USB. Deste modo, tornou-se um equipamento essencial para a implementação dos métodos para encontro de correspondências entre as câmeras. A tabela \ref{minoru_tab}	 apresenta as espeficações da webcam.
+O projeto já utilizou duas câmeras estereoscópicas. Primeiramente, utilizou-se a \textit{webcam} Minoru(veja figura \ref{minoru}), visto que apresentava preço totalmente acessível e cumpria o requisito de realizar \textit{streaming} via USB. Deste modo, tornou-se um equipamento essencial para a implementação dos métodos para encontro de correspondências entre as câmeras. A tabela \ref{minoru_tab}	 apresenta as especificações da \textit{webcam}.
 
 \begin{figure}[H]
  	\centering
@@ -44,7 +44,7 @@ O projeto já utilizou duas câmeras estereoscópicas. Primeiramente, utilizou-se a
 \end{tabular}
 \end{table}
 
-Atualmente, a câmera utilizada é uma câmera digital 3D W3 fabricada pela Fujifilm(veja figura) \ref{fujiW3}. A primeira câmera foi substituída, pois o controlador USB não permitia que a webcam realizasse \textit{streaming} na máxima resolução. Deste modo, optou-se por uma câmera com maior resolução e que apresentasse lentes com baixa distorção. Entretanto, essa câmera não apresenta streaming via USB, assim é necessário que os videos sejam processados \textit{offline}. Visto que o projeto preocupa-se principalmente na identificação de obstáculos, isso não oferece nenhuma desvantagem para o desenvolvimento do algoritmo. Todavia, para uma aplicação real, a câmera instalada no veículo deve apresentar esse aspecto. A tabela \ref{fujiW3_tab} apresenta as especificações da câmera.
+Atualmente, a câmera utilizada é uma câmera digital 3D W3 fabricada pela Fujifilm(veja figura) \ref{fujiW3}. A primeira câmera foi substituída, pois o controlador USB não permitia que a webcam realizasse \textit{streaming} na máxima resolução. Deste modo, optou-se por uma câmera com maior resolução e que apresentasse lentes com baixa distorção. Entretanto, essa câmera não apresenta \textit{streaming} via USB, assim é necessário que os vídeos sejam processados \textit{offline}. Visto que o projeto preocupa-se principalmente na identificação de obstáculos, isso não oferece nenhuma desvantagem para o desenvolvimento do algoritmo. Todavia, para uma aplicação real, a câmera instalada no veículo deve apresentar esse aspecto. A tabela \ref{fujiW3_tab} apresenta as especificações da câmera.
 
 \begin{table}[]
 \centering
@@ -133,7 +133,7 @@ Os métodos para a identificação de correspondências entre as câmeras requerem qu
  	\label{calibration_pattern}
 \end{figure}
 
-A motivação deste trabalho é a sua utilização em veículos áereos. Por conta disso, é indispensável que se tenha algum desses veículos. O trabalho conta com a utilização de um quadricóptero produzido pela 3DR, porém este apresenta modificações visando o seu desenvolvimento para navegação autônoma. Deste modo, tem-se a adição de \textit{propellers guards},  pres
+A motivação deste trabalho é a sua utilização em veículos aéreos. Por conta disso, é indispensável que se tenha algum desses veículos. O trabalho conta com a utilização de um quadricóptero produzido pela 3DR, porém este apresenta modificações visando o seu desenvolvimento para navegação autônoma. Deste modo, tem-se a adição de \textit{propellers guards}, objetivando o aumento da segurança do veículo e das pessoas que o operam. Além disso, o \textit{drone} conta com suportes para a câmera estereoscópica e para a plataforma embarcada. Como pode ser observado pela figura \ref{quad_camera_support}, todas as peças foram produzidas utilizando impressora 3D.
 
 \begin{figure}[H]
  	\centering
@@ -142,14 +142,38 @@ A motivação deste trabalho é a sua utilização em veículos áereos. Por conta diss
  	\label{quad_camera_support}
 \end{figure}
 
-
-
-
 %------------------------------------ Métodos -------------------------------------------------------
 \section{Métodos}
 
-Métodos utilizados no projeto.
+\section{Cenários}
+\subsection{Cenário 1}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.10]{./Resources/thumb_video10_l.png}
+ 	\caption{Cenário 1 - }
+ 	\label{thumb_video10_l}
+\end{figure}
+
+\subsection{Cenário 2}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.10]{./Resources/thumb_video12_l.png}
+ 	\caption{Cenário 2 - }
+ 	\label{thumb_video12_l}
+\end{figure}
+
+\subsection{Cenário 3}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.10]{./Resources/thumb_video15.png}
+ 	\caption{Cenário 3 - }
+ 	\label{thumb_video15}
+\end{figure}
 
 Explicar as abordagens utilizando BM e SGBM
+
 
 

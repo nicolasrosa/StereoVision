@@ -11,15 +11,16 @@
 \usepackage{pslatex}
 \usepackage{pstricks,pst-node,color,pst-gantt,pst-coil}
 \usepackage{scalefnt}
-\usepackage{float} % Permite colocar "\begin{figure}[H]" e colocar imagem exatamente onde desejar
-\usepackage[hyphens]{url} % Para Aceitar URL nas referências
+\usepackage{float} 				% Permite colocar "\begin{figure}[H]" e colocar imagem exatamente onde desejar
+\usepackage[hyphens]{url} 		% Para Aceitar URL nas referências
+\usepackage{hyperref}
 \usepackage{pdfpages}
 \usepackage{gensymb}
 
 
-\usepackage{eurosym}  % Pacote para possibilitar o uso do símbolo de euro "\euro"
+\usepackage{eurosym}  			% Pacote para possibilitar o uso do símbolo de euro "\euro"
 
-\usepackage{listings} % Pacote para importação de códigos fonte 
+\usepackage{listings}			% Pacote para importação de códigos fonte 
 
 \usepackage{comment}
 \usepackage[margin=2.7cm]{geometry}
@@ -36,21 +37,7 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-\usepackage[titletoc]{appendix} % Pacote para organizar apêndices 
-
-%------------------------------------- Configurações de Anexos --------------------------------------
-\newcommand{\annexname}{Anexo}
-\makeatletter
-\newcommand\annex{\par
-  \setcounter{chapter}{0}%
-  \setcounter{section}{0}%
-  \gdef\@chapapp{\annexname}%
-  \gdef\thechapter{\@Roman\c@chapter}}
-\makeatother
-
-\newenvironment{poliabstract}[1]
-  {\renewcommand{\abstractname}{#1}\begin{abstract}}
-  {\end{abstract}}
+\usepackage[titletoc]{appendix} 	% Pacote para organizar apêndices 
 
 %------------------------------------- CONFIGURAÇÕES DE PÁGINA --------------------------------------
 %\topmargin -2.1cm
@@ -67,7 +54,7 @@
 %------------------------------------- ELEMENTOS PRÉ-TEXTUAIS ---------------------------------------
 \input{./Content/1_PreTexto.tex}
 
-%------------------------------------- ADIÇÃO DOS CAPÍTULOS -----------------------------------------	
+%------------------------------------- Adição dos Capítulos -----------------------------------------	
 \input{./Content/2_Introducao.tex}
 \input{./Content/3_EspecificacaoProjeto.tex}
 \input{./Content/4_RevisaoBibliografica.tex}
@@ -78,7 +65,21 @@
 \bibliographystyle{unsrt} 			% Define o estilo da bibliografia
 \bibliography{./Content/References} 	% Faz referência ao arquivo ref.bib
 
-%------------------------------------- ADIÇÃO DOS ANEXOS ------------------------------------------- 	
+%------------------------------------- Configurações de Anexos --------------------------------------
+\newcommand{\annexname}{Anexo}
+\makeatletter
+\newcommand\annex{\par
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \gdef\@chapapp{\annexname}%
+  \gdef\thechapter{\@Roman\c@chapter}}
+\makeatother
+
+\newenvironment{poliabstract}[1]
+  {\renewcommand{\abstractname}{#1}\begin{abstract}}
+  {\end{abstract}}
+
+%------------------------------------- Adição dos Anexos -------------------------------------------- 	
 %\begin{appendices}
 \appendix
 \input{./Content/8_Apendices.tex}

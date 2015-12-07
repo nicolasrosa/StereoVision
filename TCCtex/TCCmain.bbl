@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{Dissanayake2001}
 M.W.M.G. Dissanayake, P.~Newman, S.~Clark, H.F. Durrant-Whyte, and M.~Csorba.
@@ -16,6 +16,18 @@ Thomas Lemaire, Cyrille Berger, Il-Kyun Jung, and Simon Lacroix.
 Sunil Shah.
 \newblock {Real-time Image Processing on Low Cost Embedded Computers}.
 \newblock pages 1--29, 2014.
+
+\bibitem{Filho2014}
+Jos{\'{e}} Luiz~Boanova Filho.
+\newblock {Aeronaves N{\~{a}}o Tripul{\'{a}}veis no Brasil e sua
+  Regula{\c{c}}{\~{a}}o}.
+\newblock {\em Revista Brasileira de Direito Aeron{\'{a}}utico e Espacial},
+  2014.
+
+\bibitem{DECEA2015}
+{Departamento de Controle do Espa{\c{c}}o A{\'{e}}reo da Aeron{\'{a}}utica}.
+\newblock {DECEA publica nova regulamenta{\c{c}}{\~{a}}o para voos de RPAS
+  (drones)}, 2015.
 
 \bibitem{AAVC}
 {Autonomous Aerial Vehicle Competition}.
@@ -46,5 +58,13 @@ Gary Bradski and Adrian Kaehler.
 \newblock {\em {Learning OpenCV: Computer Vision with the OpenCV Library}},
   volume~1.
 \newblock 2008.
+
+\bibitem{UEDA2011}
+Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.
+\newblock {3D Reconstruction and Point Cloud Rendering}, 2011.
+
+\bibitem{Hounslow2013}
+Kyle Hounslow.
+\newblock {Real-Time Object Tracking Using OpenCV}, 2013.
 
 \end{thebibliography}

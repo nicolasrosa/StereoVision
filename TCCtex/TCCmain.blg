@@ -6,45 +6,45 @@ Database file #1: ./Content/References.bib
 Warning--empty journal in Shah2014
 Warning--empty year in ShinzatoP
 Warning--empty publisher in Bradski2008
-You've used 8 entries,
+You've used 12 entries,
             1791 wiz_defined-function locations,
-            497 strings with 5053 characters,
-and the built_in function-call counts, 1663 in all, are:
-= -- 140
-> -- 76
+            519 strings with 5664 characters,
+and the built_in function-call counts, 2192 in all, are:
+= -- 176
+> -- 102
 < -- 3
-+ -- 29
-- -- 21
-* -- 106
-:= -- 264
-add.period$ -- 22
-call.type$ -- 8
-change.case$ -- 7
++ -- 40
+- -- 28
+* -- 119
+:= -- 350
+add.period$ -- 31
+call.type$ -- 12
+change.case$ -- 11
 chr.to.int$ -- 0
-cite$ -- 11
-duplicate$ -- 77
-empty$ -- 161
-format.name$ -- 21
-if$ -- 366
+cite$ -- 15
+duplicate$ -- 100
+empty$ -- 229
+format.name$ -- 28
+if$ -- 486
 int.to.chr$ -- 0
-int.to.str$ -- 8
-missing$ -- 8
-newline$ -- 41
-num.names$ -- 7
-pop$ -- 28
+int.to.str$ -- 12
+missing$ -- 9
+newline$ -- 58
+num.names$ -- 11
+pop$ -- 52
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 43
+skip$ -- 57
 stack$ -- 0
 substring$ -- 85
-swap$ -- 18
+swap$ -- 22
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 3
-while$ -- 17
-width$ -- 9
-write$ -- 80
+while$ -- 21
+width$ -- 14
+write$ -- 114
 (There were 3 warnings)
