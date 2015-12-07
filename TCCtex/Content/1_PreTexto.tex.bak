@@ -238,11 +238,14 @@ Keywords: Stereo Vision, Obstacle Detection, Embedded Systems, Unmanned aerial V
 \> AAVC 	 \> \textit{Autonomous Aerial Vehicle Competition}										\\
 \> AFRL  \> \textit{Air Force Research Laboratory} - Laboratório de pesquisas da Força Aérea Americana \\ 
 \> ANAC 	 \> Agência Nacional de Aviação Civil 													\\
+\> AUV 	 \> Autonomous Underwater Vehicle - Veículo Submarinos Autônomo	 						\\
 \> BM 	 \> Block Matching 					 													\\
 \> CUDA 	 \> Compute Unified Device Architecture - Plataforma de computação paralela				\\
 \> DECEA \> Departamento de Controle do Espaço Aéreo												\\
+\> FAA	 \> Federal Aviation Administration - Administração Federal de Aviação					\\
 \> FPGA  \> Field-programmable gate array - Arranjo de Portas Programável em Campo				\\
 \> GUI 	 \>  \textit{Graphical User Interface} - Interface gráfica do usuário						\\
+\> GPS 	 \>  \textit{Global Positioning System} - Sistema de Posicionamento Global				\\
 \> LMR 	 \> Laboratório de Robótica Móvel														\\
 \> MAVS 	 \> Micro Air Vehicle - Micro Veículo Aéreo												\\
 \> MIT 	 \> \textit{Massachusetts Institute of Technology}										\\
@@ -252,7 +255,6 @@ Keywords: Stereo Vision, Obstacle Detection, Embedded Systems, Unmanned aerial V
 \> SLAM 	 \> \textit{Simultaneous Localization and Mapping} - Localização e Mapeamento Simultâneo	\\
 \> UAV 	 \> \textit{Unmanned aerial vehicle} 													\\
 \> VANT  \> Veículo Aéreo não tripulado 															\\
-
 
 
 \end{tabbing}

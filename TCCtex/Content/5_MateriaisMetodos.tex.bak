@@ -38,13 +38,13 @@ O projeto já utilizou duas câmeras estereoscópicas. Primeiramente, utilizou-se a
 \textbf{Resolução Máxima}      & $800×600$        	\\
 \textbf{Tamanho Linha de Base} & 6 cm             	\\
 \textbf{Taxa de Captura}       & 30 fps             	\\
-\textbf{Distância Focal}      & 10 cm até $\infty$	\\
+\textbf{Distância Focal}       & 10 cm até $\infty$	\\
 \textbf{Campo de Visão}        & $42\degree$		   	\\
 \textbf{Peso}				  & 249.48 g				\\
 \end{tabular}
 \end{table}
 
-Atualmente, a câmera utilizada é uma câmera digital 3D W3 fabricada pela Fujifilm(veja figura) \ref{fujiW3}. A primeira câmera foi substituída, pois o controlador USB não permitia que a webcam realizasse \textit{streaming} na máxima resolução. Deste modo, optou-se por uma câmera com maior resolução e que apresentasse lentes com baixa distorção. Entretanto, essa câmera não apresenta \textit{streaming} via USB, assim é necessário que os vídeos sejam processados \textit{offline}. Visto que o projeto preocupa-se principalmente na identificação de obstáculos, isso não oferece nenhuma desvantagem para o desenvolvimento do algoritmo. Todavia, para uma aplicação real, a câmera instalada no veículo deve apresentar esse aspecto. A tabela \ref{fujiW3_tab} apresenta as especificações da câmera.
+Atualmente, a câmera utilizada é uma câmera digital 3D W3 fabricada pela Fujifilm (veja figura \ref{fujiW3}). A primeira câmera foi substituída, pois o controlador USB não permitia que a webcam realizasse \textit{streaming} na máxima resolução. Deste modo, optou-se por uma câmera com maior resolução e que apresentasse lentes com baixa distorção. Entretanto, essa câmera não apresenta \textit{streaming} via USB, assim é necessário que os vídeos sejam processados \textit{offline}. Visto que o projeto preocupa-se principalmente na identificação de obstáculos, isso não oferece nenhuma desvantagem para o desenvolvimento do algoritmo. Todavia, para uma aplicação real, a câmera instalada no veículo deve apresentar esse aspecto. A tabela \ref{fujiW3_tab} apresenta as especificações da câmera.
 
 \begin{table}[]
 \centering
@@ -71,7 +71,7 @@ Atualmente, a câmera utilizada é uma câmera digital 3D W3 fabricada pela Fujifil
 
 Visto que este trabalho também busca a implementação dos algoritmos de detecção de obstáculos em quadricópteros, tem-se como objetivo sua implementação para Linux embarcado. Abaixo estão apresentadas as plataformas que serão utilizadas para este propósito.
 
-A primeira plataforma a ser utilizada e estudada é a plataforma aberta BeagleBone Black. Esta plataforma foi escolhida devido ao seu tamanho reduzido, podendo ser facilmente embarcado, e ao seu poder de processamento, utiliza Cortex-A8 operando à 1 GHz. A tabela \ref{bbb_tab} apresenta as especificações da plataforma.
+A primeira plataforma a ser utilizada e estudada é a plataforma aberta BeagleBone Black, ilustrada na figura \ref{bbb}. Esta plataforma foi escolhida devido ao seu tamanho reduzido, podendo ser facilmente embarcado, e ao seu poder de processamento, utiliza Cortex-A8 operando à 1 GHz. A tabela \ref{bbb_tab} apresenta as especificações da plataforma.
 
 \begin{table}[]
 \centering
@@ -95,7 +95,7 @@ A primeira plataforma a ser utilizada e estudada é a plataforma aberta BeagleBon
  	\label{bbb}
 \end{figure}
 
-A segunda plataforma a ser utilizada e estudada é a plataforma Jetson TK1 produzida pela NVIDIA. Essa plataforma conta com um processador de 32-bits Tegra K1 baseado na tecnologia ARM Cortex-A15. O motivo pelo qual esta plataforma foi escolhida é devido ao seu poder de processamento gráfico, visto que apresenta 192 núcleos gráficos, sendo assim adequada para aplicações envolvendo processamento de imagens. A tabela \ref{jetson_tk1_tab} apresenta as especificações da plataforma.
+A segunda plataforma a ser utilizada e estudada é a plataforma Jetson TK1 produzida pela NVIDIA, figura \ref{jetson_tk1}. Essa plataforma conta com um processador de 32-bits Tegra K1 baseado na tecnologia ARM Cortex-A15. O motivo pelo qual esta plataforma foi escolhida é devido ao seu poder de processamento gráfico, visto que apresenta 192 núcleos gráficos, sendo assim adequada para aplicações envolvendo processamento de imagens. A tabela \ref{jetson_tk1_tab} apresenta as especificações da plataforma.
 
 \begin{table}[]
 \centering
@@ -145,35 +145,71 @@ A motivação deste trabalho é a sua utilização em veículos aéreos. Por conta diss
 %------------------------------------ Métodos -------------------------------------------------------
 \section{Métodos}
 
-\section{Cenários}
-\subsection{Cenário 1}
+Nesta seção serão apresentados os cenários e os métodos utilizado para o desenvolvimento do algoritmo para a detecção de obstáculos.
+
+\subsection{Cenários}
+
+O algoritmo de detecção de obstáculos desenvolvido tenta contornar todas as adversidades propostas pelos seguintes cenários. Propôs-se que ele deve ser flexível à variações na luminosidade, capaz de detectar obstáculos estáticos e móveis, e ser imune à vibrações. Deste modo, dois cenários em ambiente confinado e um em ambiente aberto foram analisados. Deseja-se a navegação autônoma ocorra até mesmo em casos que o sinal do Sistema de Posicionamento Global (GPS) seja perdido, por conta disso escolheu-se a utilização dos ambientes confinados. O ambiente externo foi escolhido devido a quantidade de fatores que poderiam atrapalhar e tornar o algoritmo mais robusto.
+
+\subsubsection{Cenário 1}
+
+O cenário da figura \ref{thumb_video10_l} foi utilizado para estudo das condições de ambiente externo, o qual está sujeito grandes variações de luminosidade e um número menor de movimentos, o que permite uma análise de alcances maiores. O principal  obstáculo deste cenário é uma árvore. 
 
 \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.10]{./Resources/thumb_video10_l.png}
- 	\caption{Cenário 1 - }
+ 	\includegraphics[scale=0.50]{./Resources/thumb_video10_l.png}
+ 	\caption{Cenário 1 - Ambiente Externo - Árvore}
  	\label{thumb_video10_l}
 \end{figure}
 
-\subsection{Cenário 2}
+\subsubsection{Cenário 2}
+
+O cenário da figura \ref{thumb_video12_l} foi utilizado para estudo das condições de ambiente interno, o qual também apresenta certa variação de luminosidade, porém apresenta um número maior de movimentos, permitindo uma análise de objetos estáticos à curta e média distância. Os principais obstáculos deste cenário são uma mesa, uma cadeira e duas estantes.
 
 \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.10]{./Resources/thumb_video12_l.png}
- 	\caption{Cenário 2 - }
+ 	\includegraphics[scale=0.50]{./Resources/thumb_video12_l.png}
+ 	\caption{Cenário 2 - Ambiente Interno - Mesa/Cadeira/Estantes}
  	\label{thumb_video12_l}
 \end{figure}
 
-\subsection{Cenário 3}
+\subsubsection{Cenário 3}
+
+O cenário da figura \ref{thumb_video15} foi utilizado para estudo das condições de ambiente interno, o qual também apresenta certa variação de luminosidade, apresenta um número muito maior de movimentos e permite a análise de objetos móveis à curto e médio alcance. Os principais obstáculos deste cenário  é uma bancada e um outro quadricóptero no campo de visão do veículo pilotado.
 
 \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.10]{./Resources/thumb_video15.png}
- 	\caption{Cenário 3 - }
+ 	\includegraphics[scale=0.50]{./Resources/thumb_video15.png}
+ 	\caption{Cenário 3 - Bancada/Quadricóptero}
  	\label{thumb_video15}
 \end{figure}
 
-Explicar as abordagens utilizando BM e SGBM
 
+\subsection{Processamento de Imagem}
 
+Nessa seção será apresentado o processamento de imagens utilizado para a identificação de obstáculos. Como pode ser visto na figura \ref{stereo_processor_steps}, todo o processo conta com seis etapas.
 
+\textbf{Câmeras:} O primeiro passo do processo é a captura das imagens da câmera estereoscópica. Idealmente, as imagens deve ser capturadas ao mesmo instante e as lentes não apresentarem distorções.   
+
+\textbf{Calibração e Retificação:} Na prática, as lentes apresentam distorção. Com base nos parâmetros obtidos após a calibração das câmeras é possível retificá-las. 
+
+\textbf{Correspondência Estéreo:} Aplica-se os métodos para encontrar as correspondências entre as duas câmeras, gerando assim o mapa de disparidades.
+
+\textbf{Pré-filtragem:} Este passo, pode ser aplicado tanto nas imagens retificados ou no mapa de disparidades. Atualmente, aplica-se a operação morfológica de abertura e um filtro de Mediana sobre o mapa de disparidades. 
+
+\textbf{Limiarização por Distância:} Visto que a disparidade apresenta uma relação com a distância, aplica-se uma operação de limiarização. Deste modo, apenas os obstáculos a uma certa distância são segmentados.
+
+\textbf{Identificação de Obstáculos:} Após o passo anterior, o objeto é identificado e sua posição é rastreada. Essa informação pode ser utilizada pelo sistema de controle da aeronave para manter distância do obstáculo identificado.
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.50]{./Resources/stereo_processor_steps.png}
+ 	\caption{Etapas do Processamento de Imagens}
+ 	\label{stereo_processor_steps}
+\end{figure}
+
+%\subsection{Métodos Estéreo }
+%
+%\subsubsection{Método Estéreo Local - \textit{Block Matching}}
+%
+%\subsubsection{Método Estéreo Semi-global - \textit{Semi-global Block Matching}}

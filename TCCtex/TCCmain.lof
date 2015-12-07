@@ -1,27 +1,28 @@
 \select@language {brazil}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Modelo Idealizado de um sistema de Vis\~ao Est\'ereo(Bradski,2008)}}{30}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Caminh\~ao Aut\^onomo desenvolvido pelo Laborat\'orio de Rob\'otica M\'ovel - LRM - ICMC/USP em parceria com a Scania}}{31}{figure.2.2}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Plataformas experimentais de aeronaves com o Sistema Est\'ereo - FPGA (frente) e o Sistema Est\'ereo - Pushbroom (tr\'as). C\^amaras s\~ao montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas c\'elulas.}}{31}{figure.2.3}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Ve\IeC {\'\i }culo Submarino Aut\^onomo - Girona 500}}{32}{figure.2.4}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Modelo Idealizado de um sistema de Vis\~ao Est\'ereo}}{32}{figure.3.1}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Caminh\~ao Aut\^onomo desenvolvido pelo Laborat\'orio de Rob\'otica M\'ovel - LRM - ICMC/USP em parceria com a Scania}}{34}{figure.3.2}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Plataformas experimentais de aeronaves com o Sistema Est\'ereo - FPGA (frente) e o Sistema Est\'ereo - Pushbroom (tr\'as). C\^amaras s\~ao montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas c\'elulas.}}{34}{figure.3.3}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces 3D Webcam Minoru}}{34}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces C\^amera Digital Fujifilm FinePix Real 3D W3}}{35}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Plataforma de Desenvolvimento - BeagleBone Black}}{36}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Plataforma de Desenvolvimento - Jetson TK1}}{36}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Padr\~ao de Calibra\c c\~ao}}{37}{figure.3.5}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Quadric\'optero 3DR X8 com suporte para a C\^amera 3D}}{38}{figure.3.6}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Cen\'ario 1 - Ambiente Externo - \'Arvore}}{39}{figure.3.7}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Cen\'ario 2 - Ambiente Interno - Mesa/Cadeira/Estantes}}{40}{figure.3.8}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Cen\'ario 3 - Bancada/Quadric\'optero}}{41}{figure.3.9}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Etapas do Processamento de Imagens}}{42}{figure.3.10}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces 3D Webcam Minoru}}{36}{figure.4.1}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces C\^amera Digital Fujifilm FinePix Real 3D W3}}{37}{figure.4.2}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Plataforma de Desenvolvimento - BeagleBone Black}}{38}{figure.4.3}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Plataforma de Desenvolvimento - Jetson TK1}}{38}{figure.4.4}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Padr\~ao de Calibra\c c\~ao}}{39}{figure.4.5}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Quadric\'optero 3DR X8 com suporte para a C\^amera 3D}}{40}{figure.4.6}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Cen\'ario 1 - }}{40}{figure.4.7}
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Cen\'ario 2 - }}{40}{figure.4.8}
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Cen\'ario 3 - }}{41}{figure.4.9}
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao simult\^anea dos quadros das c\^ameras esquerda e direita}}{44}{figure.5.1}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao dos Mapa de disparidade em Escala de Cinza e RGB}}{44}{figure.5.2}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao dos Mapa de disparidade em Escala de Cinza e RGB}}{45}{figure.5.3}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da Imagem da C\^amera Esquerda com o indicador de objeto rastreado e da Imagem bin\'aria resultante da limiariza\c c\~ao por dist\^ancia}}{46}{figure.5.4}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da imagem resultante do processo de detec\c c\~ao de movimentos e imagem resultante do processo de detec\c c\~ao de movimentos limiarizada por dist\^ancia}}{47}{figure.5.5}
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da Imagem resultante da adi\c c\~ao da imagem \`a direita com a Imagem da C\^amera Esquerda e Imagem resultante do processo de realce das bordas dos objetos em movimento pr\'oximos ao ve\IeC {\'\i }culo}}{48}{figure.5.6}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao simult\^anea dos quadros das c\^ameras esquerda e direita}}{44}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao dos Mapa de disparidade em Escala de Cinza e RGB}}{44}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao dos Mapa de disparidade em Escala de Cinza e RGB}}{45}{figure.4.3}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da Imagem da C\^amera Esquerda com o indicador de objeto rastreado e da Imagem bin\'aria resultante da limiariza\c c\~ao por dist\^ancia}}{46}{figure.4.4}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da imagem resultante do processo de detec\c c\~ao de movimentos e imagem resultante do processo de detec\c c\~ao de movimentos limiarizada por dist\^ancia}}{47}{figure.4.5}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Interface Gr\'afica - Visualiza\c c\~ao da Imagem resultante da adi\c c\~ao da imagem \`a direita com a Imagem da C\^amera Esquerda e Imagem resultante do processo de realce das bordas dos objetos em movimento pr\'oximos ao ve\IeC {\'\i }culo}}{48}{figure.4.6}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

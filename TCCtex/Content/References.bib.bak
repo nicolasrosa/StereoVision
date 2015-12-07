@@ -77,18 +77,20 @@ title = {{FPGA vs . Pushbroom Stereo Vision for MAVs}},
 year = {2015}
 }
 
-@article{Breivik2010,
-abstract = {Submarine oil and gas pipeline inspection is a highly time and cost consuming task. Using an autonomous underwater vehicle (AUV) for such applications represents a great saving potential. However, the AUV navigation system requires reliable localization and stable tracking of the pipeline position. We present a method for robust pipeline localization relative to the AUV in 3D based on stereo vision and echo sounder depth data. When the pipe is present in both camera images, a standard stereo vision approach is used for localization. Enhanced localization continuity is ensured using a second approach when the pipe is segmented out in only one of the images. This method is based on a combination of one camera with depth information from the echo sounder mounted on the AUV. In the algorithm, the plane spanned by the pipe in the camera image is intersected with the plane spanned by the sea floor, to give the pipe position in 3D relative to the AUV. Closed water recordings show that the proposed method localizes the pipe with an accuracy comparable to that of the stereo vision method. Furthermore, the introduction of a second pipe localization method increases the true positive pipe localization rate by a factor of four.},
-author = {Breivik, G M and Fjerdingen, S A and Skotheim, O},
-doi = {Artn 75390b$\backslash$nDoi 10.1117/12.839962},
-isbn = {0277-786X},
-journal = {Intelligent Robots and Computer Vision Xxvii: Algorithms and Techniques},
-keywords = {autonomous underwater vehicle,auv,cable tracker,echo sounder,pipe inspection,robot vision,robust localization,scene analysis,stereo vision},
+@article{Nagappa2013,
+abstract = {This paper considers the application of feature- based simultaneous localisation and mapping (SLAM) using a random finite sets (RFS) framework for an autonomous underwater vehicle. SLAM allows for reduction in localisation error by tracking features which provide a fixed external reference. The SLAM problem is addressed here using a single- cluster probability hypothesis density (PHD) filter. The filter uses a particle approximation for the vehicle position with a conditional Gaussian mixture PHD for the feature map. Map features are selected as unique point features generated from a stereo camera on-board the vehicle. We demonstrate the improvement in localisation applying the algorithm to a dataset obtained in an indoor test tank. I.},
+author = {Nagappa, Sharad and Palomeras, Narc{\'{\i}}s and Lee, Chee Sing and Gracias, Nuno and Clark, Daniel E. and Salvi, Joaquim},
+doi = {10.1109/OCEANS-Bergen.2013.6608107},
+file = {:media/nicolas/Documentos/Google Drive/TCC/Books/Artigos/Nagappa13{\_}oceans{\_}130118-113.pdf:pdf},
+isbn = {978-1-4799-0001-5},
+journal = {2013 MTS/IEEE OCEANS-Bergen},
+keywords = {SLAM,underwater,vision},
 mendeley-groups = {TCC},
-title = {{Robust Pipeline Localization for an Autonomous Underwater Vehicle using Stereo Vision and Echo Sounder Data}},
-url = {<Go to ISI>://WOS:000283489200009},
-volume = {7539},
-year = {2010}
+number = {Ref 288273},
+pages = {1--9},
+title = {{Single cluster PHD SLAM: Application to autonomous underwater vehicles using stereo vision}},
+url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6608107},
+year = {2013}
 }
 
 @misc{UEDA2011,

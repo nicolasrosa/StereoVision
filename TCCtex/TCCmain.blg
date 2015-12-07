@@ -4,47 +4,48 @@ The top-level auxiliary file: TCCmain.aux
 The style file: unsrt.bst
 Database file #1: ./Content/References.bib
 Warning--empty journal in Shah2014
-Warning--empty year in ShinzatoP
 Warning--empty publisher in Bradski2008
+Warning--empty year in ShinzatoP
+Warning--there's a number but no volume in Nagappa2013
 You've used 12 entries,
             1791 wiz_defined-function locations,
-            519 strings with 5664 characters,
-and the built_in function-call counts, 2192 in all, are:
-= -- 176
-> -- 102
+            519 strings with 5682 characters,
+and the built_in function-call counts, 2286 in all, are:
+= -- 183
+> -- 111
 < -- 3
-+ -- 40
-- -- 28
-* -- 119
-:= -- 350
++ -- 43
+- -- 31
+* -- 135
+:= -- 364
 add.period$ -- 31
 call.type$ -- 12
 change.case$ -- 11
 chr.to.int$ -- 0
-cite$ -- 15
-duplicate$ -- 100
-empty$ -- 229
-format.name$ -- 28
-if$ -- 486
+cite$ -- 16
+duplicate$ -- 101
+empty$ -- 235
+format.name$ -- 31
+if$ -- 503
 int.to.chr$ -- 0
 int.to.str$ -- 12
 missing$ -- 9
 newline$ -- 58
 num.names$ -- 11
-pop$ -- 52
+pop$ -- 53
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 57
+skip$ -- 54
 stack$ -- 0
-substring$ -- 85
+substring$ -- 98
 swap$ -- 22
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 3
-while$ -- 21
+warning$ -- 4
+while$ -- 23
 width$ -- 14
 write$ -- 114
-(There were 3 warnings)
+(There were 4 warnings)
