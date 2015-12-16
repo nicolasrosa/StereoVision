@@ -28,7 +28,7 @@ public:
     bool isAlreadyShowing;
 
 signals:
-    void valuesChanged(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff);
+    //void valuesChanged(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff);
 private slots:
     /* Sliders */
     void on_preFilterSize_slider_valueChanged(int value);

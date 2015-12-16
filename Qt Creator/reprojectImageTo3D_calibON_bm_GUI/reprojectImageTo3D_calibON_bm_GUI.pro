@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     StereoDiff.cpp \
     StereoConfig.cpp \
     StereoCalib.cpp \
-    StereoDisparityMap.cpp
+    StereoDisparityMap.cpp \
+    StereoUtils.cpp
 
 HEADERS  += mainwindow.h \
     reprojectImageTo3D.h \
@@ -38,7 +39,8 @@ HEADERS  += mainwindow.h \
     StereoDiff.h \
     StereoConfig.h \
     StereoCalib.h \
-    StereoDisparityMap.h
+    StereoDisparityMap.h \
+    StereoUtils.h
 
 FORMS    += mainwindow.ui \
     setstereoparams.ui
