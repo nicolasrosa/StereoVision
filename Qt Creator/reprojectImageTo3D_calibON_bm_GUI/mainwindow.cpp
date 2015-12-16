@@ -73,6 +73,7 @@ void MainWindow::StereoVisionProcessInit(){
     cerr << "Arrumar o Constructor da classe StereoDisparityMap para Alocação de Memória das variáveis: disp_16S,disp_8U,disp_BGR" << endl;
     cerr << "Arrumar o tipo de execução da Stereo Param Setup, fazer com que a execução da main não pause." << endl;
     cerr << "Arrumar a funcionalidade do Botão Pause/Resume, não está funcionando." << endl;
+    cerr << "Arrumar a função openSourceImages: Declarar dentro da Class StereoProcessor" << endl;
 
     printHelp();
 
@@ -147,14 +148,13 @@ void MainWindow::StereoVisionProcessInit(){
 
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
     //Local Variables
-    char key=0;
+    //char key=0;
 
-    //Timing
-    int frameCounter=0;
-    int fps,lastTime = clock();
+    stereo->utils.startClock();
 
     //(6) Rendering Loop
-    while(key!='q'){
+    //while(key!='q'){
+    while(1){
         if(isVideoFile){
             stereo->capL >> stereo->imageL[0];
             stereo->capR >> stereo->imageR[0];
@@ -305,62 +305,59 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //            isStereoParamSetupTrackbarsCreated=false;
         //        }
 
+
+
         //(10)Shortcuts
-        key = waitKey(1);
-        if(key=='`')
-            printHelp();
+        //key = waitKey(1);
+        //if(key=='`')
+        //      printHelp();
         //        if(key=='1')
         //            showInputImages = !showInputImages;
         //        if(key=='2')
         //            showDisparityMap = !showDisparityMap;
         //        if(key=='3')
         //            show3Dreconstruction = !show3Dreconstruction;
-        if(key=='4')
-            stereo->flags.showXYZ = !stereo->flags.showXYZ;
-        if(key=='5')
-            stereo->flags.showFPS = !stereo->flags.showFPS;
-        if(key=='6')
-            stereo->flags.showStereoParamValues = !stereo->flags.showStereoParamValues;
-        if(key=='7')
-            stereo->flags.showDiffImage = !stereo->flags.showDiffImage;
+        //if(key=='4')
+        //  stereo->flags.showXYZ = !stereo->flags.showXYZ;
+        //if(key=='5')
+        //  stereo->flags.showFPS = !stereo->flags.showFPS;
+        //if(key=='6')
+        //  stereo->flags.showStereoParamValues = !stereo->flags.showStereoParamValues;
+        //if(key=='7')
+        //  stereo->flags.showDiffImage = !stereo->flags.showDiffImage;
 
-        if(key=='f')
-            stereo->view3D.isSub=stereo->view3D.isSub?false:true;
-        if(key=='h')
-            stereo->view3D.viewpoint.x+=stereo->view3D.step;
-        if(key=='g')
-            stereo->view3D.viewpoint.x-=stereo->view3D.step;
-        if(key=='l')
-            stereo->view3D.viewpoint.y+=stereo->view3D.step;
-        if(key=='k')
-            stereo->view3D.viewpoint.y-=stereo->view3D.step;
-        if(key=='n')
-            stereo->view3D.viewpoint.z+=stereo->view3D.step;
-        if(key=='m')
-            stereo->view3D.viewpoint.z-=stereo->view3D.step;
+        //if(key=='f')
+        //  stereo->view3D.isSub=stereo->view3D.isSub?false:true;
+        //if(key=='h')
+        //  stereo->view3D.viewpoint.x+=stereo->view3D.step;
+        //if(key=='g')
+        //  stereo->view3D.viewpoint.x-=stereo->view3D.step;
+        //if(key=='l')
+        //  stereo->view3D.viewpoint.y+=stereo->view3D.step;
+        //if(key=='k')
+        //  stereo->view3D.viewpoint.y-=stereo->view3D.step;
+        //if(key=='n')
+        //  stereo->view3D.viewpoint.z+=stereo->view3D.step;
+        //if(key=='m')
+        //  stereo->view3D.viewpoint.z-=stereo->view3D.step;
+        //if(key=='q')
+        //  break;
 
-        if(key=='q')
-            break;
+//        //(11)Video Loop - If the last frame is reached, reset the capture and the frameCounter
+//        frameCounter += 1;
 
-        //(11)Video Loop - If the last frame is reached, reset the capture and the frameCounter
-        frameCounter += 1;
+//        if(frameCounter == stereo->capR.get(CV_CAP_PROP_FRAME_COUNT)){
+//            frameCounter = 0;
+//            stereo->capL.set(CV_CAP_PROP_POS_FRAMES,0);
+//            stereo->capR.set(CV_CAP_PROP_POS_FRAMES,0);
+//        }
 
-        if(frameCounter == stereo->capR.get(CV_CAP_PROP_FRAME_COUNT)){
-            frameCounter = 0;
-            stereo->capL.set(CV_CAP_PROP_POS_FRAMES,0);
-            stereo->capR.set(CV_CAP_PROP_POS_FRAMES,0);
-        }
+        stereo->videoLooper();
 
-        if(1){
-        //if(stereo->flags.showFPS){
-            //cout << "Frames: " << frameCounter << "/" << capR.get(CV_CAP_PROP_FRAME_COUNT) << endl;
-            //cout << "Current time(s): " << current_time << endl;
-            //cout << "FPS: " << (frameCounter/current_time) << endl;
-            fps = (int) (1000/((clock()/1000) - lastTime)); // time stuff
-            lastTime = clock()/1000;
-            //cout << clock() << endl;
-            cout << "FPS: " << fps << endl;
-        }
+        stereo->utils.stopClock();
+        stereo->utils.showFPS();
+
+        waitKey(0); // It will display the window infinitely until any keypress (it is suitable for image display)
     }
     cout << "END" << endl;
 
@@ -558,8 +555,7 @@ void MainWindow::on_btnShowDiffImage_2_clicked(){
 
 QImage MainWindow::putImage(const Mat& mat){
     // 8-bits unsigned, NO. OF CHANNELS=1
-    if(mat.type()==CV_8UC1)
-    {
+    if(mat.type()==CV_8UC1){
         // Set the color table (used to translate colour indexes to qRgb values)
         QVector<QRgb> colorTable;
         for (int i=0; i<256; i++)
@@ -571,35 +567,30 @@ QImage MainWindow::putImage(const Mat& mat){
         img.setColorTable(colorTable);
         return img;
     }
+
     // 8-bits unsigned, NO. OF CHANNELS=3
-    if(mat.type()==CV_8UC3)
-    {
+    if(mat.type()==CV_8UC3){
         // Copy input Mat
         const uchar *qImageBuffer = (const uchar*)mat.data;
         // Create QImage with same dimensions as input Mat
         QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
         return img.rgbSwapped();
     }
-    else
-    {
+    else{
         qDebug() << "ERROR: Mat could not be converted to QImage.";
         return QImage();
     }
 }
 
-void writeMatToFile(cv::Mat& m, const char* filename)
-{
+void writeMatToFile(cv::Mat& m, const char* filename){
     ofstream fout(filename);
 
-    if(!fout)
-    {
+    if(!fout){
         cout<<"File Not Opened"<<endl;  return;
     }
 
-    for(int i=0; i<m.rows; i++)
-    {
-        for(int j=0; j<m.cols; j++)
-        {
+    for(int i=0; i<m.rows; i++){
+        for(int j=0; j<m.cols; j++){
             fout<<m.at<float>(i,j)<<"\t";
         }
         fout<<endl;
@@ -607,41 +598,6 @@ void writeMatToFile(cv::Mat& m, const char* filename)
 
     fout.close();
 }
-
-void MainWindow::createTrackbars(){ //Create Window for trackbars
-    char TrackbarName[50];
-
-    // Create TrackBars Window
-    namedWindow(trackbarWindowName,0);
-
-    // Create memory to store Trackbar name on window
-    sprintf( TrackbarName, "preFilterSize");
-    sprintf( TrackbarName, "preFilterCap");
-    sprintf( TrackbarName, "SADWindowSize");
-    sprintf( TrackbarName, "minDisparity");
-    sprintf( TrackbarName, "numberOfDisparities");
-    sprintf( TrackbarName, "textureThreshold");
-    sprintf( TrackbarName, "uniquenessRatio");
-    sprintf( TrackbarName, "speckleWindowSize");
-    sprintf( TrackbarName, "speckleRange");
-    sprintf( TrackbarName, "disp12MaxDiff");
-
-    //Create Trackbars and insert them into window
-
-
-    createTrackbar( "preFilterSize", trackbarWindowName, &this->stereo->stereocfg.preFilterSize, preFilterSize_MAX, on_trackbar );
-    createTrackbar( "preFilterCap", trackbarWindowName, &this->stereo->stereocfg.preFilterCap, preFilterCap_MAX, on_trackbar );
-    createTrackbar( "SADWindowSize", trackbarWindowName, &this->stereo->stereocfg.SADWindowSize, SADWindowSize_MAX, on_trackbar );
-    createTrackbar( "minDisparity", trackbarWindowName, &this->stereo->stereocfg.minDisparity, minDisparity_MAX, on_trackbar );
-    createTrackbar( "numberOfDisparities", trackbarWindowName, &this->stereo->stereocfg.numberOfDisparities, numberOfDisparities_MAX, on_trackbar );
-    createTrackbar( "textureThreshold", trackbarWindowName, &this->stereo->stereocfg.textureThreshold, textureThreshold_MAX, on_trackbar );
-    createTrackbar( "uniquenessRatio", trackbarWindowName, &this->stereo->stereocfg.uniquenessRatio, uniquenessRatio_MAX, on_trackbar );
-    createTrackbar( "speckleWindowSize", trackbarWindowName, &this->stereo->stereocfg.speckleWindowSize, speckleWindowSize_MAX, on_trackbar );
-    createTrackbar( "speckleRange", trackbarWindowName, &this->stereo->stereocfg.speckleRange, speckleRange_MAX, on_trackbar );
-    createTrackbar( "disp12MaxDiff", trackbarWindowName, &this->stereo->stereocfg.disp12MaxDiff, disp12MaxDiff_MAX, on_trackbar );
-}
-
-void on_trackbar(int,void*){}; //This function gets called whenever a trackbar position is changed
 
 void resizeFrames(Mat* frame1,Mat* frame2){
     if(frame1->cols != 0 || !frame2->cols != 0){
@@ -686,17 +642,6 @@ void change_resolution(VideoCapture* capL,VideoCapture* capR){
 
     cout << "Camera 1 Resolution: " << capL->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
     cout << "Camera 2 Resolution: " << capR->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capR->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
-}
-
-void imageProcessing1(Mat Image, Mat MedianImage, Mat MedianImageBGR){
-
-    // Apply Median Filter
-    medianBlur(Image,MedianImage,5);
-    applyColorMap(MedianImage,MedianImageBGR, COLORMAP_JET);
-
-    // Output
-    imshow("Disparity Map Median Filter 3x3",MedianImage);
-    imshow("Disparity Map Median Filter 3x3 - RGB",MedianImageBGR);
 }
 
 void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
