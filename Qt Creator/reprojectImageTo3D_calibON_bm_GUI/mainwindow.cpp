@@ -305,64 +305,12 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //            isStereoParamSetupTrackbarsCreated=false;
         //        }
 
-<<<<<<< HEAD
         //(10) Shortcuts
 
         //(11) Video Loop - If the last frame is reached, reset the capture and the frameCounter
         stereo->videoLooper();
 
         //(12) Performance Measurement - FPS
-=======
-
-
-        //(10)Shortcuts
-        //key = waitKey(1);
-        //if(key=='`')
-        //      printHelp();
-        //        if(key=='1')
-        //            showInputImages = !showInputImages;
-        //        if(key=='2')
-        //            showDisparityMap = !showDisparityMap;
-        //        if(key=='3')
-        //            show3Dreconstruction = !show3Dreconstruction;
-        //if(key=='4')
-        //  stereo->flags.showXYZ = !stereo->flags.showXYZ;
-        //if(key=='5')
-        //  stereo->flags.showFPS = !stereo->flags.showFPS;
-        //if(key=='6')
-        //  stereo->flags.showStereoParamValues = !stereo->flags.showStereoParamValues;
-        //if(key=='7')
-        //  stereo->flags.showDiffImage = !stereo->flags.showDiffImage;
-
-        //if(key=='f')
-        //  stereo->view3D.isSub=stereo->view3D.isSub?false:true;
-        //if(key=='h')
-        //  stereo->view3D.viewpoint.x+=stereo->view3D.step;
-        //if(key=='g')
-        //  stereo->view3D.viewpoint.x-=stereo->view3D.step;
-        //if(key=='l')
-        //  stereo->view3D.viewpoint.y+=stereo->view3D.step;
-        //if(key=='k')
-        //  stereo->view3D.viewpoint.y-=stereo->view3D.step;
-        //if(key=='n')
-        //  stereo->view3D.viewpoint.z+=stereo->view3D.step;
-        //if(key=='m')
-        //  stereo->view3D.viewpoint.z-=stereo->view3D.step;
-        //if(key=='q')
-        //  break;
-
-//        //(11)Video Loop - If the last frame is reached, reset the capture and the frameCounter
-//        frameCounter += 1;
-
-//        if(frameCounter == stereo->capR.get(CV_CAP_PROP_FRAME_COUNT)){
-//            frameCounter = 0;
-//            stereo->capL.set(CV_CAP_PROP_POS_FRAMES,0);
-//            stereo->capR.set(CV_CAP_PROP_POS_FRAMES,0);
-//        }
-
-        stereo->videoLooper();
-
->>>>>>> 9e273ad455669bf7a81721c911d1d186455ad6bb
         stereo->utils.stopClock();
         stereo->utils.showFPS();
 

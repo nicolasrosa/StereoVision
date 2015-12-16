@@ -379,9 +379,7 @@ void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFee
     applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
 
     // Thresholding
-    //adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_MEAN_C,THRESH_BINARY,11,-1);
-    //adaptiveThreshold(imgEDMedian,imgThreshold,255,ADAPTIVE_THRESH_GAUSSIAN_C,THRESH_BINARY,11,0);
-    threshold(imgEDMedian, imgThreshold, THRESH_VALUE, 255,THRESH_BINARY);
+    threshold(imgEDMedian, imgThreshold, 0, 255, THRESH_BINARY | THRESH_OTSU);
     erode(imgThreshold,imgThreshold,erosionElement);
     dilate(imgThreshold,imgThreshold,dilationElement);
 
