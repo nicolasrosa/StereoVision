@@ -44,6 +44,8 @@ void MainWindow::StereoVisionProcessInit(){
     cerr << "Arrumar a funcionalidade do Botão Pause/Resume, não está funcionando." << endl;
     cerr << "Arrumar a função openSourceImages: Declarar dentro da Class StereoProcessor" << endl;
     cerr << "Arrumar a declaração dos Destrutores de todas as classes" << endl;
+    cerr << "Arrumar a inicialização e separar as variáveis 'Stereocfg' para os métodos BM e SGBM" << endl;
+    cerr << "Arrumar o erro que ocorre quando clica-se no Botão Warning Edges antes do botão DiffImage. Possível Causa: No Data diffImage na linha stereo->diff.createResAND(stereo->diff.diffImage,stereo->imgThreshold);" << endl;
 
     printHelp();
 
@@ -148,9 +150,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             }
         }
 
-        //Setting StereoBM Parameters
-        //stereo->setStereoParams();
-
         // Convert BGR to Grey Scale
         cvtColor(stereo->imageL[0],stereo->imageL_grey[0],CV_BGR2GRAY);
         cvtColor(stereo->imageR[0],stereo->imageR_grey[0],CV_BGR2GRAY);
@@ -169,7 +168,8 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         /* Image Processing */
         Mat disp_8Ueroded;Mat disp_8U_eroded_dilated;
 
-        stereo->imageProcessing(stereo->disp.disp_8U,disp_8Ueroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
+        if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage)
+            stereo->imageProcessing(stereo->disp.disp_8U,disp_8Ueroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
 
         //(7) Projecting 3D point cloud to image
         if(stereo->flags.show3Dreconstruction){
@@ -190,14 +190,10 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
             stereo->view3D.t=stereo->view3D.Rotation*stereo->view3D.t;
 
-            //projectImagefromXYZ(imageL[0],disp3Dviewer,disp,disp3D,xyz,Rotation,t,K,dist,isSub);
             stereo->view3D.projectImagefromXYZ(stereo->disp.disp_BGR,stereo->view3D.disp3D_BGR,stereo->disp.disp_16S,stereo->view3D.disp3D,xyz,stereo->view3D.Rotation,stereo->view3D.t,stereo->calib.K,stereo->view3D.dist,stereo->view3D.isSub);
 
             // GUI Output
             stereo->view3D.disp3D.convertTo(stereo->view3D.disp3D_8U,CV_8U,0.5);
-            //imshow("3D Depth",disp3D);
-            //imshow("3D Viewer",disp3Dviewer);
-            //imshow("3D Depth RGB",disp3DBGR);
 
             QImage qimageL = putImage(stereo->view3D.disp3D_8U);
             QImage qimageR = putImage(stereo->view3D.disp3D_BGR);
@@ -206,7 +202,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
         }
 
-        //(8)Movement Difference between Frames
+        //(8) Movement Difference between Frames
         //if(stereo->diff.StartDiff){
         if(stereo->flags.showDiffImage || stereo->flags.showWarningLines){
             if(stereo->diff.StartDiff){
@@ -230,7 +226,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             }
         }
 
-        //(9)OpenCV and GUI Output
+        //(9) GUI Output
         if(stereo->flags.showInputImages){
             QImage qimageL = putImage(stereo->imageL[0]);
             QImage qimageR = putImage(stereo->imageR[0]);
@@ -279,6 +275,9 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         //(12) Performance Measurement - FPS
         stereo->utils.stopClock();
         stereo->utils.showFPS();
+
+        //stereo->utils.calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
+        //stereo->utils.calculateHist(stereo->imageL[0],"Left Image Histogram");
 
         waitKey(0); // It will display the window infinitely until any keypress (it is suitable for image display)
     }

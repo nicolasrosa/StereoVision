@@ -12,8 +12,6 @@
 #include <fstream>
 #include <time.h>
 
-//#include "reprojectImageTo3D.h"
-
 /* Resolution */
 //#define RESOLUTION_320x240
 #define RESOLUTION_640x480
@@ -26,10 +24,11 @@ class StereoUtils{
 public:
     /* Constructor */
     StereoUtils();
-    void resizeFrames(Mat* frame1,Mat* frame2);
+    void resizeFrames(Mat *frame1,Mat *frame2);
     void change_resolution(VideoCapture* capL,VideoCapture* capR);
     void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
-    void writeMatToFile(cv::Mat& m, const char* filename);
+    void writeMatToFile(Mat &m, const char* filename);
+    void calculateHist(Mat &src, const string histName);
 
     /* Timing */
     void startClock();
