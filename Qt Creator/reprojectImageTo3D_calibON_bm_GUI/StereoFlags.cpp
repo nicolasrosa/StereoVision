@@ -19,4 +19,7 @@ StereoFlags::StereoFlags(){
     showTrackingObjectView=false;
     showDiffImage=false;
     showWarningLines=false;
+
+    methodBM = true;
+    methodSGBM = false;
 }

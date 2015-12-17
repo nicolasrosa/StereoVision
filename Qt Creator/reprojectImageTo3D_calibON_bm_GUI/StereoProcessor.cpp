@@ -155,41 +155,41 @@ void StereoProcessor::readStereoConfigFile(){
         return;
     }
 
-    fs["preFilterSize"] >> this->stereocfg.preFilterSize;
-    fs["preFilterCap"] >> this->stereocfg.preFilterCap;
-    fs["SADWindowSize"] >> this->stereocfg.SADWindowSize;
-    fs["minDisparity"] >> this->stereocfg.minDisparity;
-    fs["numberOfDisparities"] >> this->stereocfg.numberOfDisparities;
-    fs["textureThreshold"] >> this->stereocfg.textureThreshold;
-    fs["uniquenessRatio"] >> this->stereocfg.uniquenessRatio;
-    fs["speckleWindowSize"] >> this->stereocfg.speckleWindowSize;
-    fs["speckleRange"] >> this->stereocfg.speckleRange;
-    fs["disp12MaxDiff"] >> this->stereocfg.disp12MaxDiff;
+    fs["preFilterSize"] >> this->stereoBMcfg.preFilterSize;
+    fs["preFilterCap"] >> this->stereoBMcfg.preFilterCap;
+    fs["SADWindowSize"] >> this->stereoBMcfg.SADWindowSize;
+    fs["minDisparity"] >> this->stereoBMcfg.minDisparity;
+    fs["numberOfDisparities"] >> this->stereoBMcfg.numberOfDisparities;
+    fs["textureThreshold"] >> this->stereoBMcfg.textureThreshold;
+    fs["uniquenessRatio"] >> this->stereoBMcfg.uniquenessRatio;
+    fs["speckleWindowSize"] >> this->stereoBMcfg.speckleWindowSize;
+    fs["speckleRange"] >> this->stereoBMcfg.speckleRange;
+    fs["disp12MaxDiff"] >> this->stereoBMcfg.disp12MaxDiff;
 
     fs.release();
 
     // Display
     cout << "------------------------------StereoConfig----------------------------" << endl;
-    cout << "preFilterSize: "       << this->stereocfg.preFilterSize          << endl;
-    cout << "preFilterCap: "        << this->stereocfg.preFilterCap           << endl;
-    cout << "SADWindowSize: "       << this->stereocfg.SADWindowSize          << endl;
-    cout << "minDisparity: "        << this->stereocfg.minDisparity           << endl;
-    cout << "numberOfDisparities: " << this->stereocfg.numberOfDisparities    << endl;
-    cout << "textureThreshold: "    << this->stereocfg.textureThreshold       << endl;
-    cout << "uniquenessRatio: "     << this->stereocfg.uniquenessRatio        << endl;
-    cout << "speckleWindowSize: "   << this->stereocfg.speckleWindowSize      << endl;
-    cout << "speckleRange: "        << this->stereocfg.speckleRange           << endl;
-    cout << "disp12MaxDiff: "       << this->stereocfg.disp12MaxDiff          << endl;
+    cout << "preFilterSize: "       << this->stereoBMcfg.preFilterSize          << endl;
+    cout << "preFilterCap: "        << this->stereoBMcfg.preFilterCap           << endl;
+    cout << "SADWindowSize: "       << this->stereoBMcfg.SADWindowSize          << endl;
+    cout << "minDisparity: "        << this->stereoBMcfg.minDisparity           << endl;
+    cout << "numberOfDisparities: " << this->stereoBMcfg.numberOfDisparities    << endl;
+    cout << "textureThreshold: "    << this->stereoBMcfg.textureThreshold       << endl;
+    cout << "uniquenessRatio: "     << this->stereoBMcfg.uniquenessRatio        << endl;
+    cout << "speckleWindowSize: "   << this->stereoBMcfg.speckleWindowSize      << endl;
+    cout << "speckleRange: "        << this->stereoBMcfg.speckleRange           << endl;
+    cout << "disp12MaxDiff: "       << this->stereoBMcfg.disp12MaxDiff          << endl;
     cout << "stereo.yml Read Successfully."  << endl << endl;
     cout << "----------------------------------------------------------------------" << endl << endl;
 }
 
-/*** Stereo Initialization function
+/*** StereoBM Initialization function
   ** Description: Executes the PreSetup of parameters of the StereoBM object
   ** @param StereoBM bm: Correspondence Object
   ** Returns:     Nothing
   ***/
-void StereoProcessor::stereoInit(){
+void StereoProcessor::stereoBM_Init(){
     this->bm->setPreFilterCap(31);
     this->bm->setBlockSize(25 > 0 ? 25 : 9);
     this->bm->setMinDisparity(0);
@@ -199,6 +199,17 @@ void StereoProcessor::stereoInit(){
     this->bm->setSpeckleWindowSize(100);
     this->bm->setSpeckleRange(32);
     this->bm->setDisp12MaxDiff(1);
+}
+
+void StereoProcessor::stereoSGBM_Init(){
+    this->sgbm->setPreFilterCap(50);
+    this->sgbm->setBlockSize(1);
+    this->sgbm->setMinDisparity(50);
+    this->sgbm->setNumDisparities(16);
+    this->sgbm->setUniquenessRatio(0);
+    this->sgbm->setSpeckleWindowSize(100);
+    this->sgbm->setSpeckleRange(0);
+    this->sgbm->setDisp12MaxDiff(1);
 }
 
 /*** Stereo Calibration function
@@ -260,7 +271,7 @@ void StereoProcessor::stereoCalib(){
     cout << "----------------------------------------------------------------------" << endl << endl;
 }
 
-/*** Stereo Parameters Configuration function
+/*** StereoBM Parameters Configuration function
   ** Description: Executes the setup of parameters of the StereoBM object by changing the trackbars
   ** @param rect roi1: Region of Interest 1
   ** @param rect roi2: Region of Interest 2
@@ -269,19 +280,19 @@ void StereoProcessor::stereoCalib(){
   ** @param bool showStereoBMparams
   ** Returns:     Nothing
   ***/
-void StereoProcessor::setStereoParams(){
+void StereoProcessor::setStereoBM_Params(){
     int trackbarsAux[10];
 
-    trackbarsAux[0] = this->stereocfg.preFilterSize*2.5+5;
-    trackbarsAux[1] = this->stereocfg.preFilterCap*0.625+1;
-    trackbarsAux[2] = this->stereocfg.SADWindowSize*2.5+5;
-    trackbarsAux[3] = this->stereocfg.minDisparity*2.0-100;
-    trackbarsAux[4] = this->stereocfg.numberOfDisparities*16;
-    trackbarsAux[5] = this->stereocfg.textureThreshold*320;
-    trackbarsAux[6] = this->stereocfg.uniquenessRatio*2.555;
-    trackbarsAux[7] = this->stereocfg.speckleWindowSize*1.0;
-    trackbarsAux[8] = this->stereocfg.speckleRange*1.0;
-    trackbarsAux[9] = this->stereocfg.disp12MaxDiff*1.0;
+    trackbarsAux[0] = this->stereoBMcfg.preFilterSize*2.5+5;
+    trackbarsAux[1] = this->stereoBMcfg.preFilterCap*0.625+1;
+    trackbarsAux[2] = this->stereoBMcfg.SADWindowSize*2.5+5;
+    trackbarsAux[3] = this->stereoBMcfg.minDisparity*2.0-100;
+    trackbarsAux[4] = this->stereoBMcfg.numberOfDisparities*16;
+    trackbarsAux[5] = this->stereoBMcfg.textureThreshold*320;
+    trackbarsAux[6] = this->stereoBMcfg.uniquenessRatio*2.555;
+    trackbarsAux[7] = this->stereoBMcfg.speckleWindowSize*1.0;
+    trackbarsAux[8] = this->stereoBMcfg.speckleRange*1.0;
+    trackbarsAux[9] = this->stereoBMcfg.disp12MaxDiff*1.0;
 
     this->bm->setROI1(this->calib.roi1);
     this->bm->setROI1(this->calib.roi2);
@@ -338,7 +349,100 @@ void StereoProcessor::setStereoParams(){
         bm->setDisp12MaxDiff(trackbarsAux[9]);
     }
 
-    if(showStereoParamsValues){
+    if(this->flags.showStereoBMParamsValues){
+        cout << getTrackbarPos("preFilterSize",trackbarWindowName)			<< "\t" << trackbarsAux[0] << endl;
+        cout << getTrackbarPos("preFilterCap",trackbarWindowName)			<< "\t" << trackbarsAux[1] << endl;
+        cout << getTrackbarPos("SADWindowSize",trackbarWindowName)			<< "\t" << trackbarsAux[2] << endl;
+        cout << getTrackbarPos("minDisparity",trackbarWindowName)			<< "\t" << trackbarsAux[3] << endl;
+        cout << getTrackbarPos("numberOfDisparities",trackbarWindowName)	<< "\t" << trackbarsAux[4] << endl;
+        cout << getTrackbarPos("textureThreshold",trackbarWindowName)		<< "\t" << trackbarsAux[5] << endl;
+        cout << getTrackbarPos("uniquenessRatio",trackbarWindowName)		<< "\t" << trackbarsAux[6] << endl;
+        cout << getTrackbarPos("speckleWindowSize",trackbarWindowName)		<< "\t" << trackbarsAux[7] << endl;
+        cout << getTrackbarPos("speckleRange",trackbarWindowName)			<< "\t" << trackbarsAux[8] << endl;
+        cout << getTrackbarPos("disp12MaxDiff",trackbarWindowName)			<< "\t" << trackbarsAux[9] << endl;
+    }
+}
+
+void StereoProcessor::setStereoSGBM_Params(){
+    int trackbarsAux[10];
+
+    trackbarsAux[0] = this->stereoSGBMcfg.preFilterSize*2.5+5;
+    trackbarsAux[1] = this->stereoSGBMcfg.preFilterCap*0.625+1;
+    trackbarsAux[2] = this->stereoSGBMcfg.SADWindowSize*2.5+5;
+    trackbarsAux[3] = this->stereoSGBMcfg.minDisparity*2.0-100;
+    trackbarsAux[4] = this->stereoSGBMcfg.numberOfDisparities*16;
+    trackbarsAux[5] = this->stereoSGBMcfg.textureThreshold*320;
+    trackbarsAux[6] = this->stereoSGBMcfg.uniquenessRatio*2.555;
+    trackbarsAux[7] = this->stereoSGBMcfg.speckleWindowSize*1.0;
+    trackbarsAux[8] = this->stereoSGBMcfg.speckleRange*1.0;
+    trackbarsAux[9] = this->stereoSGBMcfg.disp12MaxDiff*1.0;
+
+    this->numChannels = imageL[0].channels();
+
+    //sgbm->setPreFilterCap(63);
+    //int sgbmWinSize = SADWindowSize > 0 ? SADWindowSize : 3;
+    //sgbm->setBlockSize(SADWindowSize);
+    sgbm->setP1(8*numChannels*trackbarsAux[2]*trackbarsAux[2]);
+    sgbm->setP2(32*numChannels*trackbarsAux[2]*trackbarsAux[2]);
+    //sgbm->setMinDisparity(0);
+    //sgbm->setNumDisparities(numberOfDisparities);
+    //sgbm->setUniquenessRatio(10);
+    //sgbm->setSpeckleWindowSize(100);
+    //sgbm->setSpeckleRange(32);
+    //sgbm->setDisp12MaxDiff(1);
+    sgbm->setMode(StereoSGBM::MODE_SGBM);
+
+    //	if(trackbarsAux[0]%2==1 && trackbarsAux[0]>=5 && trackbarsAux[0]<=255){
+    //		//bm.state->preFilterSize = trackbarsAux[0];
+    //		bm->setPreFilterSize(trackbarsAux[0]);
+    //	}
+
+    if(trackbarsAux[1]>=1 && trackbarsAux[1]<=63){
+        //bm.state->preFilterCap = trackbarsAux[1];
+        sgbm->setPreFilterCap(trackbarsAux[1]);
+    }
+
+    if(trackbarsAux[2]%2==1 && trackbarsAux[2]>=5  && trackbarsAux[2]<=255 && trackbarsAux[2]<=numRows){
+        //bm.state->SADWindowSize = trackbarsAux[2];
+        sgbm->setBlockSize(trackbarsAux[2]);
+    }
+
+    if(trackbarsAux[3]>=-100 && trackbarsAux[3]<=100){
+        //bm.state->minDisparity = trackbarsAux[3];
+        sgbm->setMinDisparity(trackbarsAux[3]);
+    }
+
+    if(trackbarsAux[4]%16==0 && trackbarsAux[4]>=16 && trackbarsAux[4]<=256){
+        //bm.state->numberOfDisparities = trackbarsAux[4];
+        sgbm->setNumDisparities(trackbarsAux[4]);
+    }
+
+//	if(trackbarsAux[5]>=0 && trackbarsAux[5]<=32000){
+//		//bm.state->textureThreshold = trackbarsAux[5];
+//		sgbm->setTextureThreshold(trackbarsAux[5]);
+//	}
+
+    if(trackbarsAux[6]>=0 && trackbarsAux[6]<=255){
+        //bm.state->uniquenessRatio = trackbarsAux[6];
+        sgbm->setUniquenessRatio(trackbarsAux[6]);
+    }
+
+    if(trackbarsAux[7]>=0 && trackbarsAux[7]<=100){
+        //bm.state->speckleWindowSize = trackbarsAux[7];
+        sgbm->setSpeckleWindowSize(trackbarsAux[7]);
+    }
+
+    if(trackbarsAux[8]>=0 && trackbarsAux[8]<=100){
+        //bm.state->speckleRange = trackbarsAux[8];
+        sgbm->setSpeckleRange(trackbarsAux[8]);
+    }
+
+    if(trackbarsAux[9]>=0 && trackbarsAux[9]<=100){
+        //bm.state->disp12MaxDiff = trackbarsAux[9];
+        sgbm->setDisp12MaxDiff(trackbarsAux[9]);
+    }
+
+    if(this->flags.showStereoSGBMParamsValues){
         cout << getTrackbarPos("preFilterSize",trackbarWindowName)			<< "\t" << trackbarsAux[0] << endl;
         cout << getTrackbarPos("preFilterCap",trackbarWindowName)			<< "\t" << trackbarsAux[1] << endl;
         cout << getTrackbarPos("SADWindowSize",trackbarWindowName)			<< "\t" << trackbarsAux[2] << endl;
@@ -431,16 +535,27 @@ void StereoProcessor::saveLastFrames(){
 }
 
 void StereoProcessor::setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff) {
-    stereocfg.preFilterSize = preFilterSize;
-    stereocfg.preFilterCap = preFilterCap;
-    stereocfg.SADWindowSize = sadWindowSize;
-    stereocfg.minDisparity = minDisparity;
-    stereocfg.numberOfDisparities = numOfDisparities;
-    stereocfg.textureThreshold = textureThreshold;
-    stereocfg.uniquenessRatio = uniquenessRatio;
-    stereocfg.speckleRange = speckleWindowRange;
-    stereocfg.speckleWindowSize = speckleWindowSize;
-    stereocfg.disp12MaxDiff = disp12MaxDiff;
+    stereoBMcfg.preFilterSize = preFilterSize;
+    stereoBMcfg.preFilterCap = preFilterCap;
+    stereoBMcfg.SADWindowSize = sadWindowSize;
+    stereoBMcfg.minDisparity = minDisparity;
+    stereoBMcfg.numberOfDisparities = numOfDisparities;
+    stereoBMcfg.textureThreshold = textureThreshold;
+    stereoBMcfg.uniquenessRatio = uniquenessRatio;
+    stereoBMcfg.speckleRange = speckleWindowRange;
+    stereoBMcfg.speckleWindowSize = speckleWindowSize;
+    stereoBMcfg.disp12MaxDiff = disp12MaxDiff;
+
+    stereoSGBMcfg.preFilterSize = preFilterSize;
+    stereoSGBMcfg.preFilterCap = preFilterCap;
+    stereoSGBMcfg.SADWindowSize = sadWindowSize;
+    stereoSGBMcfg.minDisparity = minDisparity;
+    stereoSGBMcfg.numberOfDisparities = numOfDisparities;
+    stereoSGBMcfg.textureThreshold = textureThreshold;
+    stereoSGBMcfg.uniquenessRatio = uniquenessRatio;
+    stereoSGBMcfg.speckleRange = speckleWindowRange;
+    stereoSGBMcfg.speckleWindowSize = speckleWindowSize;
+    stereoSGBMcfg.disp12MaxDiff = disp12MaxDiff;
 
     std::cout << "SET VALUES!\n";
 }

@@ -35,9 +35,12 @@ public:
     void readConfigFile();
     void readStereoConfigFile();
 
-    void stereoInit();
+    void stereoBM_Init();
+    void stereoSGBM_Init();
     void stereoCalib();
-    void setStereoParams();
+    void setStereoBM_Params();
+    void setStereoSGBM_Params();
+
     void setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff);
 
     void imageProcessing(Mat src, Mat imgE, Mat imgED,Mat trackingView,bool isTrackingObjects);
@@ -51,8 +54,11 @@ public:
     VideoCapture capL,capR;
 
     Ptr<StereoBM> bm;
+    Ptr<StereoSGBM> sgbm;
+
     StereoCalib calib;
-    StereoConfig stereocfg;
+    StereoConfig stereoBMcfg;
+    StereoConfig stereoSGBMcfg;
     StereoDisparityMap disp;
     Reconstruction3D view3D;
     StereoDiff diff;
@@ -60,13 +66,12 @@ public:
     StereoUtils utils;
     Size imageSize;
     int numRows;
+    int numChannels;
     int frameCounter;
 
     /* Results */
     Mat imgThreshold;
     Mat trackingView;
-
-    bool showStereoParamsValues;
 
 private:
     int inputNum;

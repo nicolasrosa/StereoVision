@@ -22,6 +22,12 @@ public:
     bool showTrackingObjectView;
     bool showDiffImage;
     bool showWarningLines;
+
+    bool methodBM;
+    bool methodSGBM;
+
+    bool showStereoBMParamsValues;
+    bool showStereoSGBMParamsValues;
 };
 
 #endif // STEREOFLAGS_H

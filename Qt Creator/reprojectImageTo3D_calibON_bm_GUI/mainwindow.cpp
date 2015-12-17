@@ -75,7 +75,10 @@ void MainWindow::StereoVisionProcessInit(){
 
     //(3) Stereo Initialization
     stereo->bm = StereoBM::create(16,9);
-    stereo->stereoInit();
+    stereo->stereoBM_Init();
+
+    stereo->sgbm = StereoSGBM::create(0,16,3);
+    stereo->stereoSGBM_Init();
 
     //(4) Stereo Calibration
     if(needCalibration){
@@ -105,8 +108,9 @@ void MainWindow::StereoVisionProcessInit(){
         //stereo->createKMatrix();
     }
 
-    //Setting StereoBM Parameters
-    stereo->setStereoParams();
+    //Setting Stereo Parameters
+    stereo->setStereoBM_Params();
+    stereo->setStereoSGBM_Params();
 
     //(5) Point Cloud Initialization
     stereo->view3D.PointCloudInit(stereo->calib.baseline/10,true);
@@ -151,7 +155,12 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         cvtColor(stereo->imageL[0],stereo->imageL_grey[0],CV_BGR2GRAY);
         cvtColor(stereo->imageR[0],stereo->imageR_grey[0],CV_BGR2GRAY);
 
-        stereo->bm->compute(stereo->imageL_grey[0],stereo->imageR_grey[0],stereo->disp.disp_16S);
+        if(stereo->flags.methodBM)
+            stereo->bm->compute(stereo->imageL_grey[0],stereo->imageR_grey[0],stereo->disp.disp_16S);
+
+        if(stereo->flags.methodSGBM)
+            stereo->sgbm->compute(stereo->imageL[0],stereo->imageR[0],stereo->disp.disp_16S);
+
         //fillOcclusion(disp,16,false);
 
         normalize(stereo->disp.disp_16S, stereo->disp.disp_8U, 0, 255, CV_MINMAX, CV_8U);
@@ -483,16 +492,31 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
     stereoParamsSetupWindow = new SetStereoParams(this, stereo);
 
     cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
-    this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->stereocfg.preFilterSize,
-                                                      stereo->stereocfg.preFilterCap,
-                                                      stereo->stereocfg.SADWindowSize,
-                                                      stereo->stereocfg.minDisparity,
-                                                      stereo->stereocfg.numberOfDisparities,
-                                                      stereo->stereocfg.textureThreshold,
-                                                      stereo->stereocfg.uniquenessRatio,
-                                                      stereo->stereocfg.speckleWindowSize,
-                                                      stereo->stereocfg.speckleRange,
-                                                      stereo->stereocfg.disp12MaxDiff);
+
+    if(stereo->flags.methodBM)
+        this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->stereoBMcfg.preFilterSize,
+                                                          stereo->stereoBMcfg.preFilterCap,
+                                                          stereo->stereoBMcfg.SADWindowSize,
+                                                          stereo->stereoBMcfg.minDisparity,
+                                                          stereo->stereoBMcfg.numberOfDisparities,
+                                                          stereo->stereoBMcfg.textureThreshold,
+                                                          stereo->stereoBMcfg.uniquenessRatio,
+                                                          stereo->stereoBMcfg.speckleWindowSize,
+                                                          stereo->stereoBMcfg.speckleRange,
+                                                          stereo->stereoBMcfg.disp12MaxDiff);
+    if(stereo->flags.methodSGBM)
+        this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->stereoSGBMcfg.preFilterSize,
+                                                          stereo->stereoSGBMcfg.preFilterCap,
+                                                          stereo->stereoSGBMcfg.SADWindowSize,
+                                                          stereo->stereoSGBMcfg.minDisparity,
+                                                          stereo->stereoSGBMcfg.numberOfDisparities,
+                                                          stereo->stereoSGBMcfg.textureThreshold,
+                                                          stereo->stereoSGBMcfg.uniquenessRatio,
+                                                          stereo->stereoSGBMcfg.speckleWindowSize,
+                                                          stereo->stereoSGBMcfg.speckleRange,
+                                                          stereo->stereoSGBMcfg.disp12MaxDiff);
+
+
     stereoParamsSetupWindow->show();
 }
 
@@ -523,4 +547,19 @@ QImage MainWindow::putImage(const Mat& mat){
         qDebug() << "ERROR: Mat could not be converted to QImage.";
         return QImage();
     }
+}
+
+void MainWindow::on_comboBox_activated(int index){
+    switch(index){
+    case 0:
+        cout << "Chose Method: BM" <<endl;
+        stereo->flags.methodBM = true;
+        stereo->flags.methodSGBM = false;
+        break;
+    case 1:
+        cout << "Chose Method: SGBM" <<endl;
+        stereo->flags.methodBM = false;
+        stereo->flags.methodSGBM = true;
+        break;
+      }
 }

@@ -207,6 +207,10 @@ void SetStereoParams::updateValues() {
                       ui->speckleRange_slider->value(),
                       ui->disp12MaxDiff_slider->value());
 
-    this->stereo->setStereoParams();
+    if(this->stereo->flags.methodBM)
+        this->stereo->setStereoBM_Params();
+
+    if(this->stereo->flags.methodSGBM)
+        this->stereo->setStereoSGBM_Params();
 }
 
