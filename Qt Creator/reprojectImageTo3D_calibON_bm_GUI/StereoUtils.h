@@ -9,14 +9,27 @@
 #define STEREOUTILS_H
 
 #include <opencv2/opencv.hpp>
-#include "time.h"
+#include <fstream>
+#include <time.h>
+
+//#include "reprojectImageTo3D.h"
+
+/* Resolution */
+//#define RESOLUTION_320x240
+#define RESOLUTION_640x480
+//#define RESOLUTION_1280x720
 
 using namespace cv;
 using namespace std;
 
 class StereoUtils{
 public:
-    StereoUtils(); //Constructor
+    /* Constructor */
+    StereoUtils();
+    void resizeFrames(Mat* frame1,Mat* frame2);
+    void change_resolution(VideoCapture* capL,VideoCapture* capR);
+    void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
+    void writeMatToFile(cv::Mat& m, const char* filename);
 
     /* Timing */
     void startClock();

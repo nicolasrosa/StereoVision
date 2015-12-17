@@ -20,9 +20,7 @@
 using namespace cv;
 using namespace std;
 
-void writeMatToFile(cv::Mat& m, const char* filename);
-
-//MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow),stereo(new StereoProcessor(6)){
+/* Constructor */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
@@ -38,35 +36,6 @@ MainWindow::~MainWindow(){
     delete ui;
 }
 
-void MainWindow::on_btnPauseOrResume_clicked(){
-    if(tmrTimer->isActive() == true){
-        tmrTimer->stop();
-        cout << "Paused!" << endl;
-        ui->btnPauseOrResume->setText("Resume");
-    }else{
-        tmrTimer->start(20);
-        cout << "Resumed!" << endl;
-        ui->btnPauseOrResume->setText("Pause");
-    }
-}
-
-void MainWindow::on_btnShowStereoParamSetup_clicked(){
-    stereoParamsSetupWindow = new SetStereoParams(this, stereo);
-
-    cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
-    this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->stereocfg.preFilterSize,
-                                                      stereo->stereocfg.preFilterCap,
-                                                      stereo->stereocfg.SADWindowSize,
-                                                      stereo->stereocfg.minDisparity,
-                                                      stereo->stereocfg.numberOfDisparities,
-                                                      stereo->stereocfg.textureThreshold,
-                                                      stereo->stereocfg.uniquenessRatio,
-                                                      stereo->stereocfg.speckleWindowSize,
-                                                      stereo->stereocfg.speckleRange,
-                                                      stereo->stereocfg.disp12MaxDiff);
-    stereoParamsSetupWindow->show();
-}
-
 void MainWindow::StereoVisionProcessInit(){
     cerr << "Arrumar a Matrix K, os valores das últimas colunas estão errados." << endl;
     cerr << "Arrumar a função StereoProcessor::calculateQMatrix()." << endl;
@@ -74,6 +43,7 @@ void MainWindow::StereoVisionProcessInit(){
     cerr << "Arrumar o tipo de execução da Stereo Param Setup, fazer com que a execução da main não pause." << endl;
     cerr << "Arrumar a funcionalidade do Botão Pause/Resume, não está funcionando." << endl;
     cerr << "Arrumar a função openSourceImages: Declarar dentro da Class StereoProcessor" << endl;
+    cerr << "Arrumar a declaração dos Destrutores de todas as classes" << endl;
 
     printHelp();
 
@@ -147,19 +117,16 @@ void MainWindow::StereoVisionProcessInit(){
 }
 
 void MainWindow::StereoVisionProcessAndUpdateGUI(){
-    //Local Variables
-    //char key=0;
 
     stereo->utils.startClock();
 
     //(6) Rendering Loop
-    //while(key!='q'){
     while(1){
         if(isVideoFile){
             stereo->capL >> stereo->imageL[0];
             stereo->capR >> stereo->imageR[0];
 
-            resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
+            stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
 
             if(needCalibration){
                 stereo->imageSize = stereo->imageL[0].size();
@@ -295,16 +262,6 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
         }
 
-        //       // if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
-        //       if(showStereoParam && !isStereoParamSetupTrackbarsCreated){
-        //           isStereoParamSetupTrackbarsCreated=true;
-        //           createTrackbars();
-        //            cout << "oi" << endl;
-        //        }else{
-        //            destroyWindow(trackbarWindowName);
-        //            isStereoParamSetupTrackbarsCreated=false;
-        //        }
-
         //(10) Shortcuts
 
         //(11) Video Loop - If the last frame is reached, reset the capture and the frameCounter
@@ -322,7 +279,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 }
 
 void MainWindow::printHelp(){
-    //Console Output
+    /* Console Output */
     cout << "-----------------Help Menu-----------------\n"
          << "Run command line: ./reprojectImageTo3D\n"
          << "Keys:\n"
@@ -337,7 +294,7 @@ void MainWindow::printHelp(){
          << "-------------------------------------------\n"
          << "\n\n";
 
-    //GUI
+    /* GUI */
     ui->txtOutputBox->appendPlainText
             (QString("-----------------Help Menu-----------------\n")+
              QString("Run command line: ./reprojectImageTo3D\n")+
@@ -510,6 +467,35 @@ void MainWindow::on_btnShowDiffImage_2_clicked(){
     this->stereo->flags.showWarningLines = true;
 }
 
+void MainWindow::on_btnPauseOrResume_clicked(){
+    if(tmrTimer->isActive() == true){
+        tmrTimer->stop();
+        cout << "Paused!" << endl;
+        ui->btnPauseOrResume->setText("Resume");
+    }else{
+        tmrTimer->start(20);
+        cout << "Resumed!" << endl;
+        ui->btnPauseOrResume->setText("Pause");
+    }
+}
+
+void MainWindow::on_btnShowStereoParamSetup_clicked(){
+    stereoParamsSetupWindow = new SetStereoParams(this, stereo);
+
+    cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
+    this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->stereocfg.preFilterSize,
+                                                      stereo->stereocfg.preFilterCap,
+                                                      stereo->stereocfg.SADWindowSize,
+                                                      stereo->stereocfg.minDisparity,
+                                                      stereo->stereocfg.numberOfDisparities,
+                                                      stereo->stereocfg.textureThreshold,
+                                                      stereo->stereocfg.uniquenessRatio,
+                                                      stereo->stereocfg.speckleWindowSize,
+                                                      stereo->stereocfg.speckleRange,
+                                                      stereo->stereocfg.disp12MaxDiff);
+    stereoParamsSetupWindow->show();
+}
+
 QImage MainWindow::putImage(const Mat& mat){
     // 8-bits unsigned, NO. OF CHANNELS=1
     if(mat.type()==CV_8UC1){
@@ -536,79 +522,5 @@ QImage MainWindow::putImage(const Mat& mat){
     else{
         qDebug() << "ERROR: Mat could not be converted to QImage.";
         return QImage();
-    }
-}
-
-void writeMatToFile(cv::Mat& m, const char* filename){
-    ofstream fout(filename);
-
-    if(!fout){
-        cout<<"File Not Opened"<<endl;  return;
-    }
-
-    for(int i=0; i<m.rows; i++){
-        for(int j=0; j<m.cols; j++){
-            fout<<m.at<float>(i,j)<<"\t";
-        }
-        fout<<endl;
-    }
-
-    fout.close();
-}
-
-void resizeFrames(Mat* frame1,Mat* frame2){
-    if(frame1->cols != 0 || !frame2->cols != 0){
-#ifdef RESOLUTION_320x240
-        resize(*frame1, *frame1, Size(320,240), 0, 0, INTER_CUBIC);
-        resize(*frame2, *frame2, Size(320,240), 0, 0, INTER_CUBIC);
-#endif
-
-#ifdef RESOLUTION_640x480
-        resize(*frame1, *frame1, Size(640,480), 0, 0, INTER_CUBIC);
-        resize(*frame2, *frame2, Size(640,480), 0, 0, INTER_CUBIC);
-#endif
-
-#ifdef RESOLUTION_1280x720
-        resize(*frame1, *frame1, Size(1280,720), 0, 0, INTER_CUBIC);
-        resize(*frame2, *frame2, Size(1280,720), 0, 0, INTER_CUBIC);
-#endif
-    }
-}
-
-void change_resolution(VideoCapture* capL,VideoCapture* capR){
-#ifdef RESOLUTION_320x240
-    capL->set(CV_CAP_PROP_FRAME_WIDTH, 320);
-    capL->set(CV_CAP_PROP_FRAME_HEIGHT,240);
-    capR->set(CV_CAP_PROP_FRAME_WIDTH, 320);
-    capR->set(CV_CAP_PROP_FRAME_HEIGHT,240);
-#endif
-
-#ifdef RESOLUTION_640x480
-    capL->set(CV_CAP_PROP_FRAME_WIDTH, 640);
-    capL->set(CV_CAP_PROP_FRAME_HEIGHT,480);
-    capR->set(CV_CAP_PROP_FRAME_WIDTH, 640);
-    capR->set(CV_CAP_PROP_FRAME_HEIGHT,480);
-#endif
-
-#ifdef RESOLUTION_1280x960
-    capL->set(CV_CAP_PROP_FRAME_WIDTH,1280);
-    capL->set(CV_CAP_PROP_FRAME_HEIGHT,720);
-    capR->set(CV_CAP_PROP_FRAME_WIDTH,1280);
-    capR->set(CV_CAP_PROP_FRAME_HEIGHT,720);
-#endif
-
-    cout << "Camera 1 Resolution: " << capL->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
-    cout << "Camera 2 Resolution: " << capR->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capR->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
-}
-
-void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
-    //Contrast and Brightness. Do the operation: new_image(i,j) = alpha*image(i,j) + beta
-    for( int y = 0; y < left.rows; y++ ){
-        for( int x = 0; x < left.cols; x++ ){
-            for( int c = 0; c < 3; c++ ){
-                left .at<Vec3b>(y,x)[c] = saturate_cast<uchar>( alpha*( left .at<Vec3b>(y,x)[c] ) + beta );
-                right.at<Vec3b>(y,x)[c] = saturate_cast<uchar>( alpha*( right.at<Vec3b>(y,x)[c] ) + beta );
-            }
-        }
     }
 }
