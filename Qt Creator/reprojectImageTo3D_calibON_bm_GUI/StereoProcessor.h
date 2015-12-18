@@ -20,7 +20,7 @@
 #include "StereoFlags.h"
 #include "StereoUtils.h"
 
-#include "3DReconstruction.h"
+#include "Reconstruction3D.h"
 #include "mainwindow.h"
 
 using namespace cv;
@@ -33,7 +33,8 @@ public:
     void openStereoSource(int inputNum);
 
     void readConfigFile();
-    void readStereoConfigFile();
+    void readStereoBMConfigFile();
+    void readStereoSGBMConfigFile();
 
     void stereoBM_Init();
     void stereoSGBM_Init();
@@ -57,8 +58,8 @@ public:
     Ptr<StereoSGBM> sgbm;
 
     StereoCalib calib;
-    StereoConfig stereoBMcfg;
-    StereoConfig stereoSGBMcfg;
+    StereoConfig BMcfg;
+    StereoConfig SGBMcfg;
     StereoDisparityMap disp;
     Reconstruction3D view3D;
     StereoDiff diff;

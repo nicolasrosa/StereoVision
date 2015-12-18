@@ -25,9 +25,6 @@ public:
 
     bool methodBM;
     bool methodSGBM;
-
-    bool showStereoBMParamsValues;
-    bool showStereoSGBMParamsValues;
 };
 
 #endif // STEREOFLAGS_H

@@ -24,7 +24,7 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(1);
+    this->stereo = new StereoProcessor(2);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -46,13 +46,15 @@ void MainWindow::StereoVisionProcessInit(){
     cerr << "Arrumar a declaração dos Destrutores de todas as classes" << endl;
     cerr << "Arrumar a inicialização e separar as variáveis 'Stereocfg' para os métodos BM e SGBM" << endl;
     cerr << "Arrumar o erro que ocorre quando clica-se no Botão Warning Edges antes do botão DiffImage. Possível Causa: No Data diffImage na linha stereo->diff.createResAND(stereo->diff.diffImage,stereo->imgThreshold);" << endl;
+    cerr << "Arrumar os valores de inicialização dos Métodos BM e SGBM" << endl;
 
     printHelp();
 
     //(1) Open Image Source
     openStereoSource(stereo->getInputNum());
     stereo->readConfigFile();
-    stereo->readStereoConfigFile();
+    stereo->readStereoBMConfigFile();
+    stereo->readStereoSGBMConfigFile();
 
     //(2) Camera Setting
 
@@ -80,7 +82,11 @@ void MainWindow::StereoVisionProcessInit(){
     stereo->stereoBM_Init();
 
     stereo->sgbm = StereoSGBM::create(0,16,3);
-    stereo->stereoSGBM_Init();
+    //stereo->stereoSGBM_Init();
+
+    //Setting Stereo Parameters
+    stereo->setStereoBM_Params();
+    stereo->setStereoSGBM_Params();
 
     //(4) Stereo Calibration
     if(needCalibration){
@@ -109,10 +115,6 @@ void MainWindow::StereoVisionProcessInit(){
         //stereo->readQMatrix(); //true=640x480 false=others
         //stereo->createKMatrix();
     }
-
-    //Setting Stereo Parameters
-    stereo->setStereoBM_Params();
-    stereo->setStereoSGBM_Params();
 
     //(5) Point Cloud Initialization
     stereo->view3D.PointCloudInit(stereo->calib.baseline/10,true);
@@ -492,29 +494,36 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
 
     cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
 
-    if(stereo->flags.methodBM)
-        this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->stereoBMcfg.preFilterSize,
-                                                          stereo->stereoBMcfg.preFilterCap,
-                                                          stereo->stereoBMcfg.SADWindowSize,
-                                                          stereo->stereoBMcfg.minDisparity,
-                                                          stereo->stereoBMcfg.numberOfDisparities,
-                                                          stereo->stereoBMcfg.textureThreshold,
-                                                          stereo->stereoBMcfg.uniquenessRatio,
-                                                          stereo->stereoBMcfg.speckleWindowSize,
-                                                          stereo->stereoBMcfg.speckleRange,
-                                                          stereo->stereoBMcfg.disp12MaxDiff);
-    if(stereo->flags.methodSGBM)
-        this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->stereoSGBMcfg.preFilterSize,
-                                                          stereo->stereoSGBMcfg.preFilterCap,
-                                                          stereo->stereoSGBMcfg.SADWindowSize,
-                                                          stereo->stereoSGBMcfg.minDisparity,
-                                                          stereo->stereoSGBMcfg.numberOfDisparities,
-                                                          stereo->stereoSGBMcfg.textureThreshold,
-                                                          stereo->stereoSGBMcfg.uniquenessRatio,
-                                                          stereo->stereoSGBMcfg.speckleWindowSize,
-                                                          stereo->stereoSGBMcfg.speckleRange,
-                                                          stereo->stereoSGBMcfg.disp12MaxDiff);
+    if(stereo->flags.methodBM){
+        this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->BMcfg.preFilterSize,
+                                                          stereo->BMcfg.preFilterCap,
+                                                          stereo->BMcfg.SADWindowSize,
+                                                          stereo->BMcfg.minDisparity,
+                                                          stereo->BMcfg.numberOfDisparities,
+                                                          stereo->BMcfg.textureThreshold,
+                                                          stereo->BMcfg.uniquenessRatio,
+                                                          stereo->BMcfg.speckleWindowSize,
+                                                          stereo->BMcfg.speckleRange,
+                                                          stereo->BMcfg.disp12MaxDiff);
+        // Debug
+        stereo->BMcfg.showConfigValues();
+    }
 
+
+    if(stereo->flags.methodSGBM){
+        this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->SGBMcfg.preFilterSize,
+                                                          stereo->SGBMcfg.preFilterCap,
+                                                          stereo->SGBMcfg.SADWindowSize,
+                                                          stereo->SGBMcfg.minDisparity,
+                                                          stereo->SGBMcfg.numberOfDisparities,
+                                                          stereo->SGBMcfg.textureThreshold,
+                                                          stereo->SGBMcfg.uniquenessRatio,
+                                                          stereo->SGBMcfg.speckleWindowSize,
+                                                          stereo->SGBMcfg.speckleRange,
+                                                          stereo->SGBMcfg.disp12MaxDiff);
+        // Debug
+        stereo->SGBMcfg.showConfigValues();
+    }
 
     stereoParamsSetupWindow->show();
 }

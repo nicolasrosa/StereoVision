@@ -44,10 +44,6 @@ SetStereoParams::SetStereoParams(QWidget *parent, StereoProcessor *stereo) : QDi
     connect(ui->disp12MaxDiff_spinBox, SIGNAL(valueChanged(int)),ui->disp12MaxDiff_slider,SLOT(setValue(int)));
 }
 
-//Ui::SetStereoParams* SetStereoParams::getUi(){
-//    return(this->ui);
-//}
-
 void SetStereoParams::loadStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff){
     this->ui->preFilterSize_slider->setValue(preFilterSize);
     this->ui->preFilterSize_spinBox->setValue(preFilterSize);
@@ -86,103 +82,103 @@ SetStereoParams::~SetStereoParams(){
 
 /* Sliders */
 void SetStereoParams::on_preFilterSize_slider_valueChanged(int value){
-    cout << "Bar1: " << value << endl;
+    //cout << "Bar1: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_preFilterCap_slider_valueChanged(int value){
-    cout << "Bar2: " << value << endl;
+    //cout << "Bar2: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_SADWindowSize_slider_valueChanged(int value){
-    cout << "Bar3: " << value << endl;
+    //cout << "Bar3: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_minDisparity_slider_valueChanged(int value){
-    cout << "Bar4: " << value << endl;
+    //cout << "Bar4: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_numberOfDisparities_slider_valueChanged(int value){
-    cout << "Bar5: " << value << endl;
+    //cout << "Bar5: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_textureThreshold_slider_valueChanged(int value){
-    cout << "Bar6: " << value << endl;
+    //cout << "Bar6: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_uniquenessRatio_slider_valueChanged(int value){
-    cout << "Bar7: " << value << endl;
+    //cout << "Bar7: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_speckleWindowSize_slider_valueChanged(int value){
-    cout << "Bar8: " << value << endl;
+    //cout << "Bar8: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_speckleRange_slider_valueChanged(int value){
-    cout << "Bar9: " << value << endl;
+    //cout << "Bar9: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_disp12MaxDiff_slider_valueChanged(int value){
-    cout << "Bar10: " << value << endl;
+    //cout << "Bar10: " << value << endl;
     updateValues();
 }
 
 /* SpinBoxes */
 void SetStereoParams::on_preFilterSize_spinBox_valueChanged(int value){
-    cout << "Spin1: " << value << endl;
+    //cout << "Spin1: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_preFilterCap_spinBox_valueChanged(int value){
-    cout << "Spin2: " << value << endl;
+    //cout << "Spin2: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_SADWindowSize_spinBox_valueChanged(int value){
-    cout << "Spin3: " << value << endl;
+    //cout << "Spin3: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_minDisparity_spinBox_valueChanged(int value){
-    cout << "Spin4: " << value << endl;
+    //cout << "Spin4: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_numberOfDisparities_spinBox_valueChanged(int value){
-    cout << "Spin5: " << value << endl;
+    //cout << "Spin5: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_textureThreshold_spinBox_valueChanged(int value){
-    cout << "Spin6: " << value << endl;
+    //cout << "Spin6: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_uniquenessRatio_spinBox_valueChanged(int value){
-    cout << "Spin7: " << value << endl;
+    //cout << "Spin7: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_speckleWindowSize_spinBox_valueChanged(int value){
-    cout << "Spin8: " << value << endl;
+    //cout << "Spin8: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_speckleRange_spinBox_valueChanged(int value){
-    cout << "Spin9: " << value << endl;
+    //cout << "Spin9: " << value << endl;
     updateValues();
 }
 
 void SetStereoParams::on_disp12MaxDiff_spinBox_valueChanged(int value){
-    cout << "Spin10: " << value << endl;
+    //cout << "Spin10: " << value << endl;
     updateValues();
 }
 
@@ -195,7 +191,7 @@ void SetStereoParams::on_buttonBox_rejected(){
 }
 
 void SetStereoParams::updateValues() {
-    std::cout << "Update Values!\n";
+    //std::cout << "Update Values!\n";
     stereo->setValues(ui->preFilterSize_slider->value(),
                       ui->preFilterCap_slider->value(),
                       ui->SADWindowSize_slider->value(),

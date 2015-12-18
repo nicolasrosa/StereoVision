@@ -1,10 +1,11 @@
 %YAML:1.0
+methodName: "StereoSGBM"
 preFilterSize: 50
 preFilterCap: 100
-SADWindowSize: 25
+SADWindowSize: 1
 minDisparity: 50
 numberOfDisparities: 1
-textureThreshold: 30
+textureThreshold: 0
 uniquenessRatio: 0
 speckleWindowSize: 0
 speckleRange: 0

@@ -5,7 +5,7 @@
  *      Author: nicolasrosa
  */
 
-#include "3DReconstruction.h"
+#include "Reconstruction3D.h"
 
 /* Constructor */
 Reconstruction3D::Reconstruction3D(){}

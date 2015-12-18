@@ -8,11 +8,19 @@
 #ifndef STEREOCONFIG_H
 #define STEREOCONFIG_H
 
+/* Libraries */
+#include <string>
+#include <iostream>
+
+//using namespace cv;
+using namespace std;
+
 class StereoConfig{
 public:
     StereoConfig(); //Constructor
-    //StereoConfig getConfig();
+    void showConfigValues();
 
+    string methodName;
     int preFilterSize;
     int preFilterCap;
     int SADWindowSize;

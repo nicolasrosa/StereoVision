@@ -1,5 +1,6 @@
 %YAML:1.0
-Intrinsics Path: "/home/nicolas/workspace/data/calib/calib5_640_480/intrinsics.yml"
-Extrinsics Path: "/home/nicolas/workspace/data/calib/calib5_640_480/extrinsics.yml"
-Q Matrix Path: "/home/nicolas/workspace/data/calib/calib5_640_480/Q.yml"
-Stereo Parameters Path: "/home/nicolas/workspace/data/calib/calib5_640_480/stereo.yml"
+Intrinsics Path: "/home/nicolas/repository/StereoVision/Qt Creator/reprojectImageTo3D_calibON_bm_GUI/intrinsics.yml"
+Extrinsics Path: "/home/nicolas/repository/StereoVision/Qt Creator/reprojectImageTo3D_calibON_bm_GUI/extrinsics.yml"
+Q Matrix Path: "/home/nicolas/repository/StereoVision/Qt Creator/reprojectImageTo3D_calibON_bm_GUI/Q.yml"
+StereoBM Parameters Path: "/home/nicolas/repository/StereoVision/Qt Creator/reprojectImageTo3D_calibON_bm_GUI/stereoBM.yml"
+StereoSGBM Parameters Path: "/home/nicolas/repository/StereoVision/Qt Creator/reprojectImageTo3D_calibON_bm_GUI/stereoSGBM.yml"

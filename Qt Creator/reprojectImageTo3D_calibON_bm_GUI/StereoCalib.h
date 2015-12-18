@@ -25,7 +25,8 @@ public:
     string intrinsicsFileName;
     string extrinsicsFileName;
     string QmatrixFileName;
-    string StereoParamFileName;
+    string StereoBMConfigFileName;
+    string StereoSGBMConfigFileName;
 
     Point2d imageCenter;
 

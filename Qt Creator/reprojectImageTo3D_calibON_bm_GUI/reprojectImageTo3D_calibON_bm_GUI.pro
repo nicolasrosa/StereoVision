@@ -18,32 +18,37 @@ SOURCES += main.cpp\
         mainwindow.cpp \
         trackObject.cpp \
     StereoProcessor.cpp \
-    3DReconstruction.cpp \
     setstereoparams.cpp \
     StereoCustom.cpp \
     StereoFlags.cpp \
     StereoDiff.cpp \
-    StereoConfig.cpp \
     StereoCalib.cpp \
     StereoDisparityMap.cpp \
-    StereoUtils.cpp
+    StereoUtils.cpp \
+    Reconstruction3D.cpp \
+    StereoConfig.cpp
 
 HEADERS  += mainwindow.h \
     reprojectImageTo3D.h \
     trackObject.h \
     StereoProcessor.h \
-    3DReconstruction.h \
     setstereoparams.h \
     StereoCustom.h \
     StereoFlags.h \
     StereoDiff.h \
-    StereoConfig.h \
     StereoCalib.h \
     StereoDisparityMap.h \
-    StereoUtils.h
+    StereoUtils.h \
+    Reconstruction3D.h \
+    StereoConfig.h
 
 FORMS    += mainwindow.ui \
     setstereoparams.ui
 
 OTHER_FILES += \
-    config.yml
+    config.yml \
+    stereoBM.yml \
+    intrinsics.yml \
+    extrinsics.yml \
+    Q.yml \
+    stereoSGBM.yml
