@@ -1,6 +1,13 @@
 # StereoVision
 
+This repository contents the developed files for my Senior Design Project.
+Keywords: Stereo Vision, Obstacle Detection, Embedded Systems, Unmanned aerial
+
+The following video shows some of the developed functionalities for the User Interface. 
+
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/rQD2ZYkTkWA/0.jpg)](https://www.youtube.com/watch?v=rQD2ZYkTkWA)
+
+Link: https://www.youtube.com/watch?v=rQD2ZYkTkWA
 
 # Description
 ## Eclipse
@@ -25,3 +32,7 @@ This folder contents are the developing files for GUI of the StereoVision Projec
 # Others
 ## Markdown Basics:
 Link: https://help.github.com/articles/markdown-basics/
+
+# Credits: 
+Nícolas dos Santos Rosa
+Electronic Engineering Student @ University of São Paulo-USP, São Carlos, Brazil-SP.
