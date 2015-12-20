@@ -1,7 +1,6 @@
 # StereoVision
 
-oi
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rQD2ZYkTkWA" frameborder="0" allowfullscreen></iframe>
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/rQD2ZYkTkWA/0.jpg)](https://www.youtube.com/watch?v=rQD2ZYkTkWA)
 
 # Description
 ## Eclipse
