@@ -24,7 +24,7 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(2);
+    this->stereo = new StereoProcessor(1);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -46,7 +46,6 @@ void MainWindow::StereoVisionProcessInit(){
     cerr << "Arrumar a declaração dos Destrutores de todas as classes" << endl;
     cerr << "Arrumar a inicialização e separar as variáveis 'Stereocfg' para os métodos BM e SGBM" << endl;
     cerr << "Arrumar o erro que ocorre quando clica-se no Botão Warning Edges antes do botão DiffImage. Possível Causa: No Data diffImage na linha stereo->diff.createResAND(stereo->diff.diffImage,stereo->imgThreshold);" << endl;
-    cerr << "Arrumar os valores de inicialização dos Métodos BM e SGBM" << endl;
 
     printHelp();
 
@@ -568,6 +567,9 @@ void MainWindow::on_comboBox_activated(int index){
         cout << "Chose Method: SGBM" <<endl;
         stereo->flags.methodBM = false;
         stereo->flags.methodSGBM = true;
+
+        this->stereo->SGBMcfg.showConfigValues();
+
         break;
       }
 }

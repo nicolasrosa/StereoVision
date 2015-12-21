@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
+    <width>459</width>
     <height>473</height>
    </rect>
   </property>
@@ -38,11 +38,14 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>5</number>
+   </property>
    <property name="maximum">
-    <number>100</number>
+    <number>255</number>
    </property>
    <property name="singleStep">
-    <number>1</number>
+    <number>2</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -53,12 +56,18 @@
     <rect>
      <x>380</x>
      <y>10</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>5</number>
+   </property>
    <property name="maximum">
-    <number>100</number>
+    <number>255</number>
+   </property>
+   <property name="singleStep">
+    <number>2</number>
    </property>
   </widget>
   <widget class="QSlider" name="preFilterCap_slider">
@@ -70,8 +79,14 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
    <property name="maximum">
-    <number>100</number>
+    <number>63</number>
+   </property>
+   <property name="singleStep">
+    <number>1</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -82,12 +97,15 @@
     <rect>
      <x>380</x>
      <y>50</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
    <property name="maximum">
-    <number>100</number>
+    <number>63</number>
    </property>
   </widget>
   <widget class="QLabel" name="preFilterSize_label">
@@ -138,8 +156,14 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>5</number>
+   </property>
    <property name="maximum">
-    <number>100</number>
+    <number>255</number>
+   </property>
+   <property name="singleStep">
+    <number>2</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -150,12 +174,18 @@
     <rect>
      <x>380</x>
      <y>90</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>5</number>
+   </property>
    <property name="maximum">
-    <number>100</number>
+    <number>255</number>
+   </property>
+   <property name="singleStep">
+    <number>2</number>
    </property>
   </widget>
   <widget class="QLabel" name="minDisparity_label">
@@ -180,6 +210,9 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>-100</number>
+   </property>
    <property name="maximum">
     <number>100</number>
    </property>
@@ -192,9 +225,12 @@
     <rect>
      <x>380</x>
      <y>130</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="minimum">
+    <number>-100</number>
    </property>
    <property name="maximum">
     <number>100</number>
@@ -222,8 +258,14 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>16</number>
+   </property>
    <property name="maximum">
-    <number>100</number>
+    <number>256</number>
+   </property>
+   <property name="singleStep">
+    <number>16</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -234,12 +276,18 @@
     <rect>
      <x>380</x>
      <y>170</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>16</number>
+   </property>
    <property name="maximum">
-    <number>100</number>
+    <number>256</number>
+   </property>
+   <property name="singleStep">
+    <number>16</number>
    </property>
   </widget>
   <widget class="QLabel" name="textureThreshold_label">
@@ -265,7 +313,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>100</number>
+    <number>32000</number>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -276,12 +324,12 @@
     <rect>
      <x>380</x>
      <y>210</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
    </property>
    <property name="maximum">
-    <number>100</number>
+    <number>32000</number>
    </property>
   </widget>
   <widget class="QLabel" name="uniquenessRatio_label">
@@ -318,12 +366,12 @@
     <rect>
      <x>380</x>
      <y>250</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
    </property>
    <property name="maximum">
-    <number>100</number>
+    <number>255</number>
    </property>
   </widget>
   <widget class="QLabel" name="speckleWindowSize_label">
@@ -360,7 +408,7 @@
     <rect>
      <x>380</x>
      <y>290</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
    </property>
@@ -402,7 +450,7 @@
     <rect>
      <x>380</x>
      <y>330</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
    </property>
@@ -444,7 +492,7 @@
     <rect>
      <x>380</x>
      <y>370</y>
-     <width>51</width>
+     <width>71</width>
      <height>27</height>
     </rect>
    </property>

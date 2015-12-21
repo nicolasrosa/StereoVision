@@ -210,15 +210,16 @@ void StereoProcessor::readStereoSGBMConfigFile(){
   ** Returns:     Nothing
   ***/
 void StereoProcessor::stereoBM_Init(){
-    this->bm->setPreFilterCap(31);
-    this->bm->setBlockSize(25 > 0 ? 25 : 9);
-    this->bm->setMinDisparity(0);
-    this->bm->setNumDisparities(3);
-    this->bm->setTextureThreshold(10);
-    this->bm->setUniquenessRatio(15);
-    this->bm->setSpeckleWindowSize(100);
-    this->bm->setSpeckleRange(32);
-    this->bm->setDisp12MaxDiff(1);
+    this->bm->setPreFilterSize(this->BMcfg.preFilterSize);
+    this->bm->setPreFilterCap(this->BMcfg.preFilterCap);
+    this->bm->setBlockSize(this->BMcfg.SADWindowSize);
+    this->bm->setMinDisparity(this->BMcfg.minDisparity);
+    this->bm->setNumDisparities(this->BMcfg.numberOfDisparities);
+    this->bm->setTextureThreshold(this->BMcfg.textureThreshold);
+    this->bm->setUniquenessRatio(this->BMcfg.uniquenessRatio);
+    this->bm->setSpeckleWindowSize(this->BMcfg.speckleWindowSize);
+    this->bm->setSpeckleRange(this->BMcfg.speckleRange);
+    this->bm->setDisp12MaxDiff(this->disp12MaxDiff);
 }
 
 void StereoProcessor::stereoSGBM_Init(){
@@ -301,153 +302,92 @@ void StereoProcessor::stereoCalib(){
   ** Returns:     Nothing
   ***/
 void StereoProcessor::setStereoBM_Params(){
-    int trackbarsAux[10];
-
-    trackbarsAux[0] = this->BMcfg.preFilterSize*2.5+5;
-    trackbarsAux[1] = this->BMcfg.preFilterCap*0.625+1;
-    trackbarsAux[2] = this->BMcfg.SADWindowSize*2.5+5;
-    trackbarsAux[3] = this->BMcfg.minDisparity*2.0-100;
-    trackbarsAux[4] = this->BMcfg.numberOfDisparities*16;
-    trackbarsAux[5] = this->BMcfg.textureThreshold*320;
-    trackbarsAux[6] = this->BMcfg.uniquenessRatio*2.555;
-    trackbarsAux[7] = this->BMcfg.speckleWindowSize*1.0;
-    trackbarsAux[8] = this->BMcfg.speckleRange*1.0;
-    trackbarsAux[9] = this->BMcfg.disp12MaxDiff*1.0;
-
     this->bm->setROI1(this->calib.roi1);
     this->bm->setROI1(this->calib.roi2);
 
     this->numRows = imageL[0].rows;
 
-    if(trackbarsAux[0]%2==1 && trackbarsAux[0]>=5 && trackbarsAux[0]<=255){
-        //bm.state->preFilterSize = trackbarsAux[0];
-        bm->setPreFilterSize(trackbarsAux[0]);
+    if(this->BMcfg.preFilterSize%2==1){
+        bm->setPreFilterSize(this->BMcfg.preFilterSize);
     }
 
-    if(trackbarsAux[1]>=1 && trackbarsAux[1]<=63){
-        //bm.state->preFilterCap = trackbarsAux[1];
-        bm->setPreFilterCap(trackbarsAux[1]);
+    bm->setPreFilterCap(this->BMcfg.preFilterCap);
+
+    if(this->BMcfg.SADWindowSize%2==1 && this->BMcfg.SADWindowSize<=numRows){
+        bm->setBlockSize(this->BMcfg.SADWindowSize);
     }
 
-    if(trackbarsAux[2]%2==1 && trackbarsAux[2]>=5  && trackbarsAux[2]<=255 && trackbarsAux[2]<=numRows){
-        //bm.state->SADWindowSize = trackbarsAux[2];
-        bm->setBlockSize(trackbarsAux[2]);
+    bm->setMinDisparity(this->BMcfg.minDisparity);
+
+    if(this->BMcfg.numberOfDisparities%16==0){
+        bm->setNumDisparities(this->BMcfg.numberOfDisparities);
     }
 
-    if(trackbarsAux[3]>=-100 && trackbarsAux[3]<=100){
-        //bm.state->minDisparity = trackbarsAux[3];
-        bm->setMinDisparity(trackbarsAux[3]);
-    }
-
-    if(trackbarsAux[4]%16==0 && trackbarsAux[4]>=16 && trackbarsAux[4]<=256){
-        //bm.state->numberOfDisparities = trackbarsAux[4];
-        bm->setNumDisparities(trackbarsAux[4]);
-    }
-
-    if(trackbarsAux[5]>=0 && trackbarsAux[5]<=32000){
-        //bm.state->textureThreshold = trackbarsAux[5];
-        bm->setTextureThreshold(trackbarsAux[5]);
-    }
-
-    if(trackbarsAux[6]>=0 && trackbarsAux[6]<=255){
-        //bm.state->uniquenessRatio = trackbarsAux[6];
-        bm->setUniquenessRatio(trackbarsAux[6]);
-    }
-
-    if(trackbarsAux[7]>=0 && trackbarsAux[7]<=100){
-        //bm.state->speckleWindowSize = trackbarsAux[7];
-        bm->setSpeckleWindowSize(trackbarsAux[7]);
-    }
-
-    if(trackbarsAux[8]>=0 && trackbarsAux[8]<=100){
-        //bm.state->speckleRange = trackbarsAux[8];
-        bm->setSpeckleRange(trackbarsAux[8]);
-    }
-
-    if(trackbarsAux[9]>=0 && trackbarsAux[9]<=100){
-        //bm.state->disp12MaxDiff = trackbarsAux[9];
-        bm->setDisp12MaxDiff(trackbarsAux[9]);
-    }
+    bm->setTextureThreshold(this->BMcfg.textureThreshold);
+    bm->setUniquenessRatio( this->BMcfg.uniquenessRatio);
+    bm->setSpeckleWindowSize(this->BMcfg.speckleWindowSize);
+    bm->setSpeckleRange(this->BMcfg.speckleRange);
+    bm->setDisp12MaxDiff(this->BMcfg.disp12MaxDiff);
 }
 
 void StereoProcessor::setStereoSGBM_Params(){
-    int trackbarsAux[10];
+    //int trackbarsAux[10];
 
-    trackbarsAux[0] = this->SGBMcfg.preFilterSize*2.5+5;
-    trackbarsAux[1] = this->SGBMcfg.preFilterCap*0.625+1;
-    trackbarsAux[2] = this->SGBMcfg.SADWindowSize*2.5+5;
-    trackbarsAux[3] = this->SGBMcfg.minDisparity*2.0-100;
-    trackbarsAux[4] = this->SGBMcfg.numberOfDisparities*16;
-    trackbarsAux[5] = this->SGBMcfg.textureThreshold*320;
-    trackbarsAux[6] = this->SGBMcfg.uniquenessRatio*2.555;
-    trackbarsAux[7] = this->SGBMcfg.speckleWindowSize*1.0;
-    trackbarsAux[8] = this->SGBMcfg.speckleRange*1.0;
-    trackbarsAux[9] = this->SGBMcfg.disp12MaxDiff*1.0;
+//    trackbarsAux[0] = this->SGBMcfg.preFilterSize*2.5+5;
+//    trackbarsAux[1] = this->SGBMcfg.preFilterCap*0.625+1;
+//    trackbarsAux[2] = this->SGBMcfg.SADWindowSize*2.5+5;
+//    trackbarsAux[3] = this->SGBMcfg.minDisparity*2.0-100;
+//    trackbarsAux[4] = this->SGBMcfg.numberOfDisparities*16;
+//    trackbarsAux[5] = this->SGBMcfg.textureThreshold*320;
+//    trackbarsAux[6] = this->SGBMcfg.uniquenessRatio*2.555;
+//    trackbarsAux[7] = this->SGBMcfg.speckleWindowSize*1.0;
+//    trackbarsAux[8] = this->SGBMcfg.speckleRange*1.0;
+//    trackbarsAux[9] = this->SGBMcfg.disp12MaxDiff*1.0;
+
+//    trackbarsAux[0] = this->SGBMcfg.preFilterSize;
+//    trackbarsAux[1] = this->SGBMcfg.preFilterCap;
+//    trackbarsAux[2] = this->SGBMcfg.SADWindowSize;
+//    trackbarsAux[3] = this->SGBMcfg.minDisparity;
+//    trackbarsAux[4] = this->SGBMcfg.numberOfDisparities;
+//    trackbarsAux[5] = this->SGBMcfg.textureThreshold;
+//    trackbarsAux[6] = this->SGBMcfg.uniquenessRatio;
+//    trackbarsAux[7] = this->SGBMcfg.speckleWindowSize;
+//    trackbarsAux[8] = this->SGBMcfg.speckleRange;
+//    trackbarsAux[9] = this->SGBMcfg.disp12MaxDiff;
+
+//    cout << "0: " << trackbarsAux[0] << endl;
+//    cout << "1: " << trackbarsAux[1] << endl;
+//    cout << "2: " << trackbarsAux[2] << endl;
+//    cout << "3: " << trackbarsAux[3] << endl;
+//    cout << "4: " << trackbarsAux[4] << endl;
+//    cout << "5: " << trackbarsAux[5] << endl;
+//    cout << "6: " << trackbarsAux[6] << endl;
+//    cout << "7: " << trackbarsAux[7] << endl;
+//    cout << "8: " << trackbarsAux[8] << endl;
+//    cout << "9: " << trackbarsAux[9] << endl;
 
     this->numChannels = imageL[0].channels();
 
-    //sgbm->setPreFilterCap(63);
-    //int sgbmWinSize = SADWindowSize > 0 ? SADWindowSize : 3;
-    //sgbm->setBlockSize(SADWindowSize);
-    sgbm->setP1(8*numChannels*trackbarsAux[2]*trackbarsAux[2]);
-    sgbm->setP2(32*numChannels*trackbarsAux[2]*trackbarsAux[2]);
-    //sgbm->setMinDisparity(0);
-    //sgbm->setNumDisparities(numberOfDisparities);
-    //sgbm->setUniquenessRatio(10);
-    //sgbm->setSpeckleWindowSize(100);
-    //sgbm->setSpeckleRange(32);
-    //sgbm->setDisp12MaxDiff(1);
+    sgbm->setP1(8*numChannels*this->SGBMcfg.SADWindowSize*this->SGBMcfg.SADWindowSize);
+    sgbm->setP2(32*numChannels*this->SGBMcfg.SADWindowSize*this->SGBMcfg.SADWindowSize);
     sgbm->setMode(StereoSGBM::MODE_SGBM);
 
-    //	if(trackbarsAux[0]%2==1 && trackbarsAux[0]>=5 && trackbarsAux[0]<=255){
-    //		//bm.state->preFilterSize = trackbarsAux[0];
-    //		bm->setPreFilterSize(trackbarsAux[0]);
-    //	}
+    sgbm->setPreFilterCap(this->SGBMcfg.preFilterCap);
 
-    if(trackbarsAux[1]>=1 && trackbarsAux[1]<=63){
-        //bm.state->preFilterCap = trackbarsAux[1];
-        sgbm->setPreFilterCap(trackbarsAux[1]);
+    if( this->SGBMcfg.SADWindowSize%2==1 &&  this->SGBMcfg.SADWindowSize<=numRows){
+        sgbm->setBlockSize( this->SGBMcfg.SADWindowSize);
     }
 
-    if(trackbarsAux[2]%2==1 && trackbarsAux[2]>=5  && trackbarsAux[2]<=255 && trackbarsAux[2]<=numRows){
-        //bm.state->SADWindowSize = trackbarsAux[2];
-        sgbm->setBlockSize(trackbarsAux[2]);
+    sgbm->setMinDisparity(this->SGBMcfg.minDisparity);
+
+    if(this->SGBMcfg.numberOfDisparities%16==0){
+        sgbm->setNumDisparities(this->SGBMcfg.numberOfDisparities);
     }
 
-    if(trackbarsAux[3]>=-100 && trackbarsAux[3]<=100){
-        //bm.state->minDisparity = trackbarsAux[3];
-        sgbm->setMinDisparity(trackbarsAux[3]);
-    }
-
-    if(trackbarsAux[4]%16==0 && trackbarsAux[4]>=16 && trackbarsAux[4]<=256){
-        //bm.state->numberOfDisparities = trackbarsAux[4];
-        sgbm->setNumDisparities(trackbarsAux[4]);
-    }
-
-//	if(trackbarsAux[5]>=0 && trackbarsAux[5]<=32000){
-//		//bm.state->textureThreshold = trackbarsAux[5];
-//		sgbm->setTextureThreshold(trackbarsAux[5]);
-//	}
-
-    if(trackbarsAux[6]>=0 && trackbarsAux[6]<=255){
-        //bm.state->uniquenessRatio = trackbarsAux[6];
-        sgbm->setUniquenessRatio(trackbarsAux[6]);
-    }
-
-    if(trackbarsAux[7]>=0 && trackbarsAux[7]<=100){
-        //bm.state->speckleWindowSize = trackbarsAux[7];
-        sgbm->setSpeckleWindowSize(trackbarsAux[7]);
-    }
-
-    if(trackbarsAux[8]>=0 && trackbarsAux[8]<=100){
-        //bm.state->speckleRange = trackbarsAux[8];
-        sgbm->setSpeckleRange(trackbarsAux[8]);
-    }
-
-    if(trackbarsAux[9]>=0 && trackbarsAux[9]<=100){
-        //bm.state->disp12MaxDiff = trackbarsAux[9];
-        sgbm->setDisp12MaxDiff(trackbarsAux[9]);
-    }
+    sgbm->setUniquenessRatio(this->SGBMcfg.uniquenessRatio);
+    sgbm->setSpeckleWindowSize(this->SGBMcfg.speckleWindowSize);
+    sgbm->setSpeckleRange(this->SGBMcfg.speckleRange);
+    sgbm->setDisp12MaxDiff(this->SGBMcfg.disp12MaxDiff);
 }
 
 void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects){
