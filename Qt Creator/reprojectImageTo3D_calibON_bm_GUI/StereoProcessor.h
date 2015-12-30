@@ -65,7 +65,6 @@ public:
     StereoDiff diff;
     StereoFlags flags;
     StereoUtils utils;
-    Size imageSize;
     int numRows;
     int numChannels;
     int frameCounter;

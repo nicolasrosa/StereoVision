@@ -28,14 +28,17 @@ public:
     string StereoBMConfigFileName;
     string StereoSGBMConfigFileName;
 
+    Size imageSize;
+    Size imageSizeDesired;
+
     Point2d imageCenter;
 
     Mat K,Q;
     double focalLength;
     double baseline;
-    bool is320x240;
-    bool is640x480;
-    bool is1280x720;
+//    bool is320x240;
+//    bool is640x480;
+//    bool is1280x720;
 
     Mat M1,D1,M2,D2;
     Mat R,T,R1,P1,R2,P2;

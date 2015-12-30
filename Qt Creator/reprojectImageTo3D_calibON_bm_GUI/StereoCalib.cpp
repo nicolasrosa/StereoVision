@@ -35,7 +35,7 @@ void StereoCalib::createKMatrix(){
 void StereoCalib::readQMatrix(){
     FileStorage fs(this->QmatrixFileName, FileStorage::READ);
 
-    if(this->is640x480){
+    if(this->imageSizeDesired.width == 640 && this->imageSizeDesired.height == 480){
         if(!fs.isOpened()){
             cerr << "Failed to open Q.yml file" << endl;
             return;

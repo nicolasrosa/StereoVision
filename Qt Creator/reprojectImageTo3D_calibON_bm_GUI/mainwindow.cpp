@@ -24,7 +24,7 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(1);
+    this->stereo = new StereoProcessor(7);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -58,22 +58,26 @@ void MainWindow::StereoVisionProcessInit(){
     //(2) Camera Setting
 
     // Checking Resolution
-    stereo->calib.is320x240  = false;
-    stereo->calib.is640x480  = true;
-    stereo->calib.is1280x720 = false;
+    stereo->calib.imageSizeDesired.width = 640;
+    stereo->calib.imageSizeDesired.height = 480;
 
     if(isVideoFile){
-        stereo->imageSize.width = stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH);
-        stereo->imageSize.height = stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT);
+        stereo->calib.imageSize.width = stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH);
+        stereo->calib.imageSize.height = stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT);
     }else{
-        stereo->imageSize.width = stereo->imageL[0].cols;
-        stereo->imageSize.height = stereo->imageL[0].rows;
+        stereo->calib.imageSize.width = stereo->imageL[0].cols;
+        stereo->calib.imageSize.height = stereo->imageL[0].rows;
     }
 
-    if(stereo->imageSize.width==0 && stereo->imageSize.height==0){
+    if(stereo->calib.imageSize.width==0 && stereo->calib.imageSize.height==0){
         cerr << "Number of Cols and Number of Rows equal to ZERO!" << endl;
     }else{
-        cout << "Input Resolution(Width,Height): (" << stereo->imageSize.width << "," << stereo->imageSize.height << ")" << endl << endl;
+        cout << "Input Resolution(Width,Height): (" << stereo->calib.imageSize.width << "," << stereo->calib.imageSize.height << ")" << endl;
+        cout << "Desired Resolution(Width,Height): (" << stereo->calib.imageSizeDesired.width << "," << stereo->calib.imageSizeDesired.height << ")" << endl << endl;
+    }
+
+    if(!isVideoFile && (stereo->calib.imageSize.width != stereo->calib.imageSizeDesired.width)){
+        stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
     }
 
     //(3) Stereo Initialization
@@ -136,12 +140,12 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
             stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
 
             if(needCalibration){
-                stereo->imageSize = stereo->imageL[0].size();
-                stereoRectify(stereo->calib.M1,stereo->calib.D1,stereo->calib.M2,stereo->calib.D2,stereo->imageSize,stereo->calib.R,stereo->calib.T,stereo->calib.R1,stereo->calib.R2,stereo->calib.P1,stereo->calib.P2,stereo->calib.Q,CALIB_ZERO_DISPARITY,-1,stereo->imageSize,&stereo->calib.roi1,&stereo->calib.roi2);
+                stereo->calib.imageSize = stereo->imageL[0].size();
+                stereoRectify(stereo->calib.M1,stereo->calib.D1,stereo->calib.M2,stereo->calib.D2,stereo->calib.imageSize,stereo->calib.R,stereo->calib.T,stereo->calib.R1,stereo->calib.R2,stereo->calib.P1,stereo->calib.P2,stereo->calib.Q,CALIB_ZERO_DISPARITY,-1,stereo->calib.imageSize,&stereo->calib.roi1,&stereo->calib.roi2);
                 Mat rmap[2][2];
 
-                initUndistortRectifyMap(stereo->calib.M1, stereo->calib.D1, stereo->calib.R1, stereo->calib.P1, stereo->imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
-                initUndistortRectifyMap(stereo->calib.M2, stereo->calib.D2, stereo->calib.R2, stereo->calib.P2, stereo->imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+                initUndistortRectifyMap(stereo->calib.M1, stereo->calib.D1, stereo->calib.R1, stereo->calib.P1, stereo->calib.imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
+                initUndistortRectifyMap(stereo->calib.M2, stereo->calib.D2, stereo->calib.R2, stereo->calib.P2, stereo->calib.imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
                 Mat imageLr, imageRr;
                 remap(stereo->imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
                 remap(stereo->imageR[0], imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
@@ -344,8 +348,8 @@ void MainWindow::openStereoSource(int inputNum){
         //ui->txtOutputBox->appendPlainText(QString( "video0.avi"));
         break;
     case 3:
-        imageL_filename = "../data/left/video1.avi";
-        imageR_filename = "../data/right/video1.avi";
+        imageL_filename = "../../workspace/data/dataset/Piano-perfect/im0.png";
+        imageR_filename = "../../workspace/data/dataset/Piano-perfect/im1.png";
         needCalibration=true;
         //ui->txtOutputBox->appendPlainText(QString( "video1.avi"));
         break;
@@ -567,8 +571,6 @@ void MainWindow::on_comboBox_activated(int index){
         cout << "Chose Method: SGBM" <<endl;
         stereo->flags.methodBM = false;
         stereo->flags.methodSGBM = true;
-
-        this->stereo->SGBMcfg.showConfigValues();
 
         break;
       }
