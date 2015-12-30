@@ -24,7 +24,7 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(7);
+    this->stereo = new StereoProcessor(3);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
