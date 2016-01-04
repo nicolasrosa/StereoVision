@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
-    connect(tmrTimer,SIGNAL(timeout()),this,SLOT(StereoVisionProcessAndUpdateGUI()));
+    connect(tmrTimer,SIGNAL(timeout()),this,SLOT(StereoVisionProcess_UpdateGUI()));
     tmrTimer->start(20);
 }
 
@@ -61,7 +61,7 @@ void MainWindow::StereoVisionProcessInit(){
     stereo->calib.imageSizeDesired.width = 640;
     stereo->calib.imageSizeDesired.height = 480;
 
-    if(isVideoFile){
+    if(stereo->isVideoFile){
         stereo->calib.imageSize.width = stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH);
         stereo->calib.imageSize.height = stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT);
     }else{
@@ -76,7 +76,7 @@ void MainWindow::StereoVisionProcessInit(){
         cout << "Desired Resolution(Width,Height): (" << stereo->calib.imageSizeDesired.width << "," << stereo->calib.imageSizeDesired.height << ")" << endl << endl;
     }
 
-    if(!isVideoFile && (stereo->calib.imageSize.width != stereo->calib.imageSizeDesired.width)){
+    if(stereo->isImageFile && (stereo->calib.imageSize.width != stereo->calib.imageSizeDesired.width)){
         stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
     }
 
@@ -127,13 +127,13 @@ void MainWindow::StereoVisionProcessInit(){
 
 }
 
-void MainWindow::StereoVisionProcessAndUpdateGUI(){
+void MainWindow::StereoVisionProcess_UpdateGUI(){
 
     stereo->utils.startClock();
 
     //(6) Rendering Loop
     while(1){
-        if(isVideoFile){
+        if(stereo->isVideoFile){
             stereo->capL >> stereo->imageL[0];
             stereo->capR >> stereo->imageR[0];
 
@@ -171,10 +171,10 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
         applyColorMap(stereo->disp.disp_8U,stereo->disp.disp_BGR, COLORMAP_JET);
 
         /* Image Processing */
-        Mat disp_8Ueroded;Mat disp_8U_eroded_dilated;
+        Mat disp_8U_eroded;Mat disp_8U_eroded_dilated;
 
         if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage)
-            stereo->imageProcessing(stereo->disp.disp_8U,disp_8Ueroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
+            stereo->imageProcessing(stereo->disp.disp_8U,disp_8U_eroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
 
         //(7) Projecting 3D point cloud to image
         if(stereo->flags.show3Dreconstruction){
@@ -209,7 +209,7 @@ void MainWindow::StereoVisionProcessAndUpdateGUI(){
 
         //(8) Movement Difference between Frames
         //if(stereo->diff.StartDiff){
-        if(stereo->flags.showDiffImage || stereo->flags.showWarningLines){
+        if((stereo->flags.showDiffImage || stereo->flags.showWarningLines) && stereo->isVideoFile){
             if(stereo->diff.StartDiff){
                 stereo->diff.createDiffImage(stereo->imageL_grey[0],stereo->imageL_grey[1]);
 
@@ -389,7 +389,7 @@ void MainWindow::openStereoSource(int inputNum){
     if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "avi"){
         cout << "It's a Video file" << endl;
         ui->txtOutputBox->appendPlainText(QString("It's a Video file"));
-        isVideoFile=true;
+        this->stereo->isVideoFile=true;
 
         stereo->capL.open(imageL_filename);
         stereo->capR.open(imageR_filename);
@@ -410,7 +410,7 @@ void MainWindow::openStereoSource(int inputNum){
         if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "jpg" || imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "png"){
             cout << "It's a Image file" << endl;
             ui->txtOutputBox->appendPlainText(QString( "It's a Image file"));
-            isImageFile=true;
+            this->stereo->isImageFile=true;
 
             stereo->imageL[0] = imread(imageL_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
             stereo->imageR[0] = imread(imageR_filename, CV_LOAD_IMAGE_COLOR);	// Read the file

@@ -44,7 +44,7 @@ private:
     QTimer* tmrTimer;
 
 public slots:
-    void StereoVisionProcessAndUpdateGUI();
+    void StereoVisionProcess_UpdateGUI();
 
 private slots:
     void on_btnPauseOrResume_clicked();

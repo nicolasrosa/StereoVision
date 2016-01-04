@@ -14,6 +14,8 @@
 StereoProcessor::StereoProcessor(int number) {
     inputNum=number;
     frameCounter=0;
+    isVideoFile=false;
+    isImageFile=false;
 }
 
 //void StereoProcessor::openStereoSource(int inputNum){
@@ -455,8 +457,10 @@ void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFee
     // Tracking Object
     if(isTrackingObjects){
         cameraFeedL.copyTo(trackingView);
-        trackFilteredObject(x,y,imgThreshold,trackingView);
-        //imshow("Tracking Object",trackingView);
+        if(isVideoFile){
+            trackFilteredObject(x,y,imgThreshold,trackingView);
+            //imshow("Tracking Object",trackingView);
+        }
     }
 }
 
