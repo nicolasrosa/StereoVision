@@ -392,6 +392,37 @@ void StereoProcessor::setStereoSGBM_Params(){
     sgbm->setDisp12MaxDiff(this->SGBMcfg.disp12MaxDiff);
 }
 
+void StereoProcessor::applyRectification(){
+    this->calib.imageSize = this->imageL[0].size();
+    stereoRectify(this->calib.M1,this->calib.D1,this->calib.M2,this->calib.D2,this->calib.imageSize,this->calib.R,this->calib.T,this->calib.R1,this->calib.R2,this->calib.P1,this->calib.P2,this->calib.Q,CALIB_ZERO_DISPARITY,-1,this->calib.imageSize,&this->calib.roi1,&this->calib.roi2);
+
+    Mat rmap[2][2];
+    initUndistortRectifyMap(this->calib.M1, this->calib.D1, this->calib.R1, this->calib.P1, this->calib.imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
+    initUndistortRectifyMap(this->calib.M2, this->calib.D2, this->calib.R2, this->calib.P2, this->calib.imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+
+    Mat imageLr, imageRr;
+    remap(this->imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
+    remap(this->imageR[0], imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
+
+    this->imageL[0] = imageLr;
+    this->imageR[0] = imageRr;
+}
+
+void StereoProcessor::calculateDisparities(){
+    // Convert BGR to Grey Scale
+    cvtColor(this->imageL[0],this->imageL_grey[0],CV_BGR2GRAY);
+    cvtColor(this->imageR[0],this->imageR_grey[0],CV_BGR2GRAY);
+
+    if(this->flags.methodBM)
+        this->bm->compute(this->imageL_grey[0],this->imageR_grey[0],this->disp.disp_16S);
+
+    if(this->flags.methodSGBM)
+        this->sgbm->compute(this->imageL[0],this->imageR[0],this->disp.disp_16S);
+
+    normalize(this->disp.disp_16S, this->disp.disp_8U, 0, 255, CV_MINMAX, CV_8U);
+    applyColorMap(this->disp.disp_8U,this->disp.disp_BGR, COLORMAP_JET);
+}
+
 void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects){
     Mat erosionElement = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
     Mat dilationElement = getStructuringElement( MORPH_RECT,Size( 2*DILATION_SIZE + 1, 2*DILATION_SIZE+1 ),Point( DILATION_SIZE, DILATION_SIZE ) );

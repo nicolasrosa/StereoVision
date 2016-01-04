@@ -24,7 +24,7 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(3);
+    this->stereo = new StereoProcessor(2);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -124,7 +124,6 @@ void MainWindow::StereoVisionProcessInit(){
 
     stereo->view3D.setViewPoint(20.0,20.0,-stereo->calib.baseline*10);
     stereo->view3D.setLookAtPoint(22.0,16.0,stereo->calib.baseline*10.0);
-
 }
 
 void MainWindow::StereoVisionProcess_UpdateGUI(){
@@ -140,48 +139,21 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
             stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
 
             if(needCalibration){
-                stereo->calib.imageSize = stereo->imageL[0].size();
-                stereoRectify(stereo->calib.M1,stereo->calib.D1,stereo->calib.M2,stereo->calib.D2,stereo->calib.imageSize,stereo->calib.R,stereo->calib.T,stereo->calib.R1,stereo->calib.R2,stereo->calib.P1,stereo->calib.P2,stereo->calib.Q,CALIB_ZERO_DISPARITY,-1,stereo->calib.imageSize,&stereo->calib.roi1,&stereo->calib.roi2);
-                Mat rmap[2][2];
-
-                initUndistortRectifyMap(stereo->calib.M1, stereo->calib.D1, stereo->calib.R1, stereo->calib.P1, stereo->calib.imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
-                initUndistortRectifyMap(stereo->calib.M2, stereo->calib.D2, stereo->calib.R2, stereo->calib.P2, stereo->calib.imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
-                Mat imageLr, imageRr;
-                remap(stereo->imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
-                remap(stereo->imageR[0], imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
-
-                stereo->imageL[0] = imageLr;
-                stereo->imageR[0] = imageRr;
+                stereo->applyRectification();
             }
         }
 
-        // Convert BGR to Grey Scale
-        cvtColor(stereo->imageL[0],stereo->imageL_grey[0],CV_BGR2GRAY);
-        cvtColor(stereo->imageR[0],stereo->imageR_grey[0],CV_BGR2GRAY);
-
-        if(stereo->flags.methodBM)
-            stereo->bm->compute(stereo->imageL_grey[0],stereo->imageR_grey[0],stereo->disp.disp_16S);
-
-        if(stereo->flags.methodSGBM)
-            stereo->sgbm->compute(stereo->imageL[0],stereo->imageR[0],stereo->disp.disp_16S);
-
+        if(stereo->flags.showDisparityMap || stereo->flags.show3Dreconstruction || stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage || stereo->flags.showWarningLines){
+            stereo->calculateDisparities();
+        }
+        //(7) Projecting 3D point cloud to image
         //fillOcclusion(disp,16,false);
 
-        normalize(stereo->disp.disp_16S, stereo->disp.disp_8U, 0, 255, CV_MINMAX, CV_8U);
-        applyColorMap(stereo->disp.disp_8U,stereo->disp.disp_BGR, COLORMAP_JET);
-
-        /* Image Processing */
-        Mat disp_8U_eroded;Mat disp_8U_eroded_dilated;
-
-        if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage)
-            stereo->imageProcessing(stereo->disp.disp_8U,disp_8U_eroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
-
-        //(7) Projecting 3D point cloud to image
         if(stereo->flags.show3Dreconstruction){
             cv::reprojectImageTo3D(stereo->disp.disp_16S,stereo->view3D.depth,stereo->calib.Q);
             Mat xyz = stereo->view3D.depth.reshape(3,stereo->view3D.depth.size().area());
 
-            stereo->view3D.lookat(stereo->view3D.viewpoint, stereo->view3D.lookatpoint , stereo->view3D.Rotation);
+            stereo->view3D.lookat(stereo->view3D.viewpoint,stereo->view3D.lookatpoint,stereo->view3D.Rotation);
             stereo->view3D.t.at<double>(0,0)=stereo->view3D.viewpoint.x;
             stereo->view3D.t.at<double>(1,0)=stereo->view3D.viewpoint.y;
             stereo->view3D.t.at<double>(2,0)=stereo->view3D.viewpoint.z;
@@ -197,37 +169,46 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
 
             stereo->view3D.projectImagefromXYZ(stereo->disp.disp_BGR,stereo->view3D.disp3D_BGR,stereo->disp.disp_16S,stereo->view3D.disp3D,xyz,stereo->view3D.Rotation,stereo->view3D.t,stereo->calib.K,stereo->view3D.dist,stereo->view3D.isSub);
 
-            // GUI Output
             stereo->view3D.disp3D.convertTo(stereo->view3D.disp3D_8U,CV_8U,0.5);
+        }
 
-            QImage qimageL = putImage(stereo->view3D.disp3D_8U);
-            QImage qimageR = putImage(stereo->view3D.disp3D_BGR);
+        /* Image Processing */
+        Mat disp_8U_eroded;Mat disp_8U_eroded_dilated;
 
-            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
-            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+        if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage){
+            if(stereo->isVideoFile){
+                stereo->imageProcessing(stereo->disp.disp_8U,disp_8U_eroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
+            }
+
+            if(stereo->isImageFile){
+                ui->txtOutputBox->appendPlainText(QString("This feature is not supported, because of the Input file type (Image File).1"));
+            }
         }
 
         //(8) Movement Difference between Frames
         //if(stereo->diff.StartDiff){
-        if((stereo->flags.showDiffImage || stereo->flags.showWarningLines) && stereo->isVideoFile){
-            if(stereo->diff.StartDiff){
-                stereo->diff.createDiffImage(stereo->imageL_grey[0],stereo->imageL_grey[1]);
 
-                if(stereo->diff.diffImage.data){
-                    stereo->diff.createResAND(stereo->diff.diffImage,stereo->imgThreshold);
-                    stereo->diff.convertToBGR();
-                    stereo->imageL[0].copyTo(stereo->diff.imageL);
-                    stereo->diff.addRedLines();
+        if(stereo->flags.showDiffImage || stereo->flags.showWarningLines){
+            if(stereo->isVideoFile){
+                if(stereo->diff.StartDiff){
+                    stereo->diff.createDiffImage(stereo->imageL_grey[0],stereo->imageL_grey[1]);
 
-                    //imshow("imgThreshold",stereo->imgThreshold);
-                    //imshow("DiffImage",stereo->diff.diffImage);
-                    //imshow("Bitwise_AND",stereo->diff.res_AND);
+                    if(stereo->diff.diffImage.data){
+                        stereo->diff.createResAND(stereo->diff.diffImage,stereo->imgThreshold);
+                        stereo->diff.convertToBGR();
+                        stereo->imageL[0].copyTo(stereo->diff.imageL);
+                        stereo->diff.addRedLines();
+                    }
+
+                    stereo->saveLastFrames();
+                }else{
+                    stereo->saveLastFrames();
+                    stereo->diff.StartDiff=1;
                 }
+            }
 
-                stereo->saveLastFrames();
-            }else{
-                stereo->saveLastFrames();
-                stereo->diff.StartDiff=1;
+            if(stereo->isImageFile){
+                ui->txtOutputBox->appendPlainText(QString("This feature is not supported, because of the Input file type (Image File).2"));
             }
         }
 
@@ -243,6 +224,14 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
         if(stereo->flags.showDisparityMap){
             QImage qimageL = putImage(stereo->disp.disp_8U);
             QImage qimageR = putImage(stereo->disp.disp_BGR);
+
+            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
+            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+        }
+
+        if(stereo->flags.show3Dreconstruction){
+            QImage qimageL = putImage(stereo->view3D.disp3D_8U);
+            QImage qimageR = putImage(stereo->view3D.disp3D_BGR);
 
             ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
             ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
@@ -573,5 +562,5 @@ void MainWindow::on_comboBox_activated(int index){
         stereo->flags.methodSGBM = true;
 
         break;
-      }
+    }
 }
