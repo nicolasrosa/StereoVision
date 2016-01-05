@@ -11,6 +11,8 @@
 /* Libraries */
 #include <QMainWindow>
 #include <opencv2/opencv.hpp>
+#include <QCloseEvent>
+#include <QMessageBox>
 
 /* Custom Libraries */
 #include "StereoProcessor.h"
@@ -30,7 +32,7 @@ public:
     void StereoVisionProcessInit();
     void printHelp();
     void openStereoSource(int inputNum);
-    void createTrackbars();
+
     QImage putImage(const Mat& mat);
     ~MainWindow();
 
@@ -40,8 +42,9 @@ private:
     SetStereoParams *stereoParamsSetupWindow;
 
     QImage qimageL,qimageR;
-
     QTimer* tmrTimer;
+
+    bool closeEventOccured;
 
 public slots:
     void StereoVisionProcess_UpdateGUI();
@@ -56,6 +59,7 @@ private slots:
     void on_btnShowDiffImage_clicked();
     void on_btnShowDiffImage_2_clicked();
     void on_comboBox_activated(int index);
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // MAINWINDOW_H

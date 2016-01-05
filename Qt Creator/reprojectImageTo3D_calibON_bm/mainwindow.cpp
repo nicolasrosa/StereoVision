@@ -563,7 +563,7 @@ void stereoSetparams(Rect* roi1,Rect* roi2,StereoBM* bm,int numRows,bool showSte
   ** Returns:     Nothing
   ***/
 void stereoCalib(Mat &M1,Mat &D1,Mat &M2,Mat &D2,Mat &R,Mat &T){
-    FileStorage fs("intrinsics.yml", FileStorage::READ);
+    FileStorage fs("/home/nicolas/workspace/data/calib/calib5_640_480/intrinsics.yml", FileStorage::READ);
 
     if(!fs.isOpened()){
         printf("Failed to open file intrinsics.yml\n");
@@ -724,7 +724,7 @@ void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
 
 void readQMatrix(Mat &Q,double* focalLength,double* baseline){
 #ifdef RESOLUTION_640x480
-    FileStorage fs("Q.yml", FileStorage::READ);
+    FileStorage fs("/home/nicolas/workspace/data/calib/calib5_640_480/Q.yml", FileStorage::READ);
 #endif
 
     if(!fs.isOpened()){

@@ -17,38 +17,38 @@ LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_photo -lopenc
 SOURCES += main.cpp\
         mainwindow.cpp \
         trackObject.cpp \
-    StereoProcessor.cpp \
-    setstereoparams.cpp \
-    StereoCustom.cpp \
-    StereoFlags.cpp \
-    StereoDiff.cpp \
-    StereoCalib.cpp \
-    StereoDisparityMap.cpp \
-    StereoUtils.cpp \
-    Reconstruction3D.cpp \
-    StereoConfig.cpp
+        StereoProcessor.cpp \
+        setstereoparams.cpp \
+        StereoCustom.cpp \
+        StereoFlags.cpp \
+        StereoDiff.cpp \
+        StereoCalib.cpp \
+        StereoDisparityMap.cpp \
+        StereoUtils.cpp \
+        Reconstruction3D.cpp \
+        StereoConfig.cpp
 
-HEADERS  += mainwindow.h \
-    reprojectImageTo3D.h \
-    trackObject.h \
-    StereoProcessor.h \
-    setstereoparams.h \
-    StereoCustom.h \
-    StereoFlags.h \
-    StereoDiff.h \
-    StereoCalib.h \
-    StereoDisparityMap.h \
-    StereoUtils.h \
-    Reconstruction3D.h \
-    StereoConfig.h
+HEADERS += mainwindow.h \
+        reprojectImageTo3D.h \
+        trackObject.h \
+        StereoProcessor.h \
+        setstereoparams.h \
+        StereoCustom.h \
+        StereoFlags.h \
+        StereoDiff.h \
+        StereoCalib.h \
+        StereoDisparityMap.h \
+        StereoUtils.h \
+        Reconstruction3D.h \
+        StereoConfig.h
 
-FORMS    += mainwindow.ui \
-    setstereoparams.ui
+FORMS   += mainwindow.ui \
+        setstereoparams.ui
 
 OTHER_FILES += \
-    config.yml \
-    stereoBM.yml \
-    intrinsics.yml \
-    extrinsics.yml \
-    Q.yml \
-    stereoSGBM.yml
+        config.yml \
+        stereoBM.yml \
+        intrinsics.yml \
+        extrinsics.yml \
+        Q.yml \
+        stereoSGBM.yml

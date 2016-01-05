@@ -29,15 +29,16 @@ public:
     void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
     void writeMatToFile(Mat &m, const char* filename);
     void calculateHist(Mat &src, const string histName);
+    void setDisplayFPS();
 
     /* Timing */
     void startClock();
     void stopClock();
     void showFPS();
+    int getFPS();
 
 private:
-    int currentTime;
-    int lastTime;
+    struct timespec start,end;
     int fps;
 };
 

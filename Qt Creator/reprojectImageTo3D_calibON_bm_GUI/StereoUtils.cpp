@@ -8,25 +8,31 @@
 #include "StereoUtils.h"
 
 /* Constructor */
-StereoUtils::StereoUtils(){
-    currentTime=0;
-    lastTime=0;
-    fps=0;
-}
+StereoUtils::StereoUtils(){}
 
 void StereoUtils::startClock(){
-    lastTime = clock();
+    //lastTime = clock();
+    clock_gettime(CLOCK_REALTIME,&start);
 }
 
 void StereoUtils::stopClock(){
-    currentTime = clock();
+    //currentTime = clock();
+    clock_gettime(CLOCK_REALTIME,&end);
 }
 
 void StereoUtils::showFPS(){
-    fps = (int) (1000/((currentTime/1000) - lastTime)); // time stuff
-    lastTime = currentTime/1000;
+    cout << "FPS: " << getFPS() << endl;
+}
 
-    cout << "FPS: " << fps << endl;
+int StereoUtils::getFPS(){
+    //fps = (int) (1000/((currentTime/1000) - lastTime)); // time stuff
+    //lastTime = currentTime/1000;
+    //cout << "FPS: " << fps << endl;
+
+    double difference = (end.tv_sec - start.tv_sec) + (double)(end.tv_nsec - start.tv_nsec)/1000000000.0d;
+    fps = (int) 1/difference;
+
+    return fps;
 }
 
 void StereoUtils::writeMatToFile(cv::Mat& m, const char* filename){

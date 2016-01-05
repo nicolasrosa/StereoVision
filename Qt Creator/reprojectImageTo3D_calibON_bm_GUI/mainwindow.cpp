@@ -30,10 +30,22 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     tmrTimer = new QTimer(this);
     connect(tmrTimer,SIGNAL(timeout()),this,SLOT(StereoVisionProcess_UpdateGUI()));
     tmrTimer->start(20);
+
+    closeEventOccured = false;
 }
 
+//static MainWindow& getUi()
+//{
+//    static MainWindow myUi;
+//    return myUi;
+//}
+
 MainWindow::~MainWindow(){
+    delete stereo;
     delete ui;
+
+    tmrTimer->stop();
+    closeEventOccured = true;
 }
 
 void MainWindow::StereoVisionProcessInit(){
@@ -127,11 +139,10 @@ void MainWindow::StereoVisionProcessInit(){
 }
 
 void MainWindow::StereoVisionProcess_UpdateGUI(){
-
-    stereo->utils.startClock();
-
     //(6) Rendering Loop
     while(1){
+        stereo->utils.startClock();
+
         if(stereo->isVideoFile){
             stereo->capL >> stereo->imageL[0];
             stereo->capR >> stereo->imageR[0];
@@ -268,14 +279,18 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
 
         //(12) Performance Measurement - FPS
         stereo->utils.stopClock();
-        stereo->utils.showFPS();
+        //stereo->utils.showFPS();
+        ui->lcdNumber->display(this->stereo->utils.getFPS());
 
         //stereo->utils.calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
         //stereo->utils.calculateHist(stereo->imageL[0],"Left Image Histogram");
 
         waitKey(0); // It will display the window infinitely until any keypress (it is suitable for image display)
+        if(closeEventOccured)
+            break;
     }
-    cout << "END" << endl;
+
+    cout << "----------------------------- END ------------------------------------" << endl;
 
     //return 0;
 }
@@ -562,5 +577,18 @@ void MainWindow::on_comboBox_activated(int index){
         stereo->flags.methodSGBM = true;
 
         break;
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event){
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Exit",
+                                                                tr("Are you sure?\n"),
+                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+                                                                QMessageBox::Yes);
+    if (resBtn != QMessageBox::Yes){
+        event->ignore();
+    } else {
+        event->accept();
+        this->~MainWindow();
     }
 }
