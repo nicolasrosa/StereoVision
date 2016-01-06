@@ -24,7 +24,7 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(2);
+    this->stereo = new StereoProcessor(3);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -61,18 +61,15 @@ void MainWindow::StereoVisionProcessInit(){
 
     printHelp();
 
-    //(1) Open Image Source
+    /* (1) Open Image Source */
     openStereoSource(stereo->getInputNum());
     stereo->readConfigFile();
     stereo->readStereoBMConfigFile();
     stereo->readStereoSGBMConfigFile();
 
-    //(2) Camera Setting
+    /* (2) Camera Setting */
 
-    // Checking Resolution
-    stereo->calib.imageSizeDesired.width = 640;
-    stereo->calib.imageSizeDesired.height = 480;
-
+    /* Getting Input Resolution*/
     if(stereo->isVideoFile){
         stereo->calib.imageSize.width = stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH);
         stereo->calib.imageSize.height = stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT);
@@ -81,29 +78,39 @@ void MainWindow::StereoVisionProcessInit(){
         stereo->calib.imageSize.height = stereo->imageL[0].rows;
     }
 
+    /* Setting Desired Resolution */
+    stereo->calib.imageSizeDesired.width = 640;
+    stereo->calib.imageSizeDesired.height = 480;
+
+    /* Checking Invalid Input Size */
     if(stereo->calib.imageSize.width==0 && stereo->calib.imageSize.height==0){
         cerr << "Number of Cols and Number of Rows equal to ZERO!" << endl;
     }else{
+        /* Console Output */
         cout << "Input Resolution(Width,Height): (" << stereo->calib.imageSize.width << "," << stereo->calib.imageSize.height << ")" << endl;
         cout << "Desired Resolution(Width,Height): (" << stereo->calib.imageSizeDesired.width << "," << stereo->calib.imageSizeDesired.height << ")" << endl << endl;
+
+        /* GUI */
+        ui->txtOutputBox->appendPlainText(QString("Input Resolution(Width,Height): (")+QString::number(stereo->calib.imageSize.width)+QString(",")+QString::number(stereo->calib.imageSize.height)+QString(")"));
+        ui->txtOutputBox->appendPlainText(QString("Desired Resolution(Width,Height): (")+QString::number(stereo->calib.imageSizeDesired.width)+QString(",")+QString::number(stereo->calib.imageSizeDesired.height)+QString(")"));
     }
 
+    /* Resizing the Input Resolution to the Desired Resolution*/
     if(stereo->isImageFile && (stereo->calib.imageSize.width != stereo->calib.imageSizeDesired.width)){
         stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
     }
 
-    //(3) Stereo Initialization
-    stereo->bm = StereoBM::create(16,9);
+    /* (3) Stereo Initialization */
+
+    /* Initializing Stereo Matching Methods */
     stereo->stereoBM_Init();
+    stereo->stereoSGBM_Init();
 
-    stereo->sgbm = StereoSGBM::create(0,16,3);
-    //stereo->stereoSGBM_Init();
-
-    //Setting Stereo Parameters
+    /* Setting Stereo Parameters */
     stereo->setStereoBM_Params();
     stereo->setStereoSGBM_Params();
 
-    //(4) Stereo Calibration
+    /* (4) Stereo Calibration */
     if(needCalibration){
         cout << "Calibration: ON" << endl;
         stereo->stereoCalib();
@@ -332,12 +339,14 @@ void MainWindow::openStereoSource(int inputNum){
     string imageL_filename;
     string imageR_filename;
 
-    // Create an object that decodes the input Video stream.
+    /* Create an object that decodes the input Video stream. */
     cout << "Enter Video Number(1,2,3,4,5,6,7,8,9): " << endl;
-    ui->txtOutputBox->appendPlainText(QString("Enter Video Number(1,2,3,4,5,6,7,8,9): "));
-    //	scanf("%d",&inputNum);
     cout << "Input File: " << inputNum << endl;
+
+    //	scanf("%d",&inputNum);
+    ui->txtOutputBox->appendPlainText(QString("Enter Video Number(1,2,3,4,5,6,7,8,9): "));
     ui->txtOutputBox->appendPlainText(QString("Input File: ")+QString::number(inputNum));
+
     switch(inputNum){
     case 1:
         imageL_filename = "../../workspace/data/video10_l.avi";
@@ -390,22 +399,26 @@ void MainWindow::openStereoSource(int inputNum){
         break;
     }
 
+    /* Identify the type of the input file. */
     if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "avi"){
-        cout << "It's a Video file" << endl;
-        ui->txtOutputBox->appendPlainText(QString("It's a Video file"));
         this->stereo->isVideoFile=true;
 
         stereo->capL.open(imageL_filename);
         stereo->capR.open(imageR_filename);
 
-        if(!stereo->capL.isOpened() || !stereo->capR.isOpened()){		// Check if we succeeded
+        if(!stereo->capL.isOpened() || !stereo->capR.isOpened()){		// Check if it succeeded
             cerr <<  "Could not open or find the input videos!" << endl ;
             ui->txtOutputBox->appendPlainText(QString( "Could not open or find the input videos!"));
             //return -1;
         }
 
+        /* Console Output */
+        cout << "It's a Video file" << endl;
         cout << "Input 1 Resolution: " << stereo->capR.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << stereo->capR.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
         cout << "Input 2 Resolution: " << stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT) << endl << endl;
+
+        /* GUI */
+        ui->txtOutputBox->appendPlainText(QString("It's a Video file"));
         ui->txtOutputBox->appendPlainText(QString("Input 1 Resolution: ") + QString::number(stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT)));
         ui->txtOutputBox->appendPlainText(QString("Input 2 Resolution: ") + QString::number(stereo->capR.get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(stereo->capR.get(CV_CAP_PROP_FRAME_HEIGHT)));
     }else{
@@ -416,10 +429,10 @@ void MainWindow::openStereoSource(int inputNum){
             ui->txtOutputBox->appendPlainText(QString( "It's a Image file"));
             this->stereo->isImageFile=true;
 
-            stereo->imageL[0] = imread(imageL_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
-            stereo->imageR[0] = imread(imageR_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
+            stereo->imageL[0] = imread(imageL_filename, CV_LOAD_IMAGE_COLOR);
+            stereo->imageR[0] = imread(imageR_filename, CV_LOAD_IMAGE_COLOR);
 
-            if(!stereo->imageL[0].data || !stereo->imageR[0].data){                     // Check for invalid input
+            if(!stereo->imageL[0].data || !stereo->imageR[0].data){      // Check if it succeeded
                 ui->txtOutputBox->appendPlainText(QString("Could not open or find the input images!"));
                 return;
             }
@@ -475,7 +488,7 @@ void MainWindow::on_btnShowDiffImage_clicked(){
     this->stereo->flags.showWarningLines = false;
 }
 
-void MainWindow::on_btnShowDiffImage_2_clicked(){
+void MainWindow::on_btnShowWarningLines_clicked(){
     this->stereo->flags.showInputImages = false;
     this->stereo->flags.showDisparityMap = false;
     this->stereo->flags.show3Dreconstruction = false;
@@ -513,7 +526,7 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
                                                           stereo->BMcfg.speckleRange,
                                                           stereo->BMcfg.disp12MaxDiff);
         // Debug
-        stereo->BMcfg.showConfigValues();
+        //stereo->BMcfg.showConfigValues();
     }
 
 
@@ -529,39 +542,10 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
                                                           stereo->SGBMcfg.speckleRange,
                                                           stereo->SGBMcfg.disp12MaxDiff);
         // Debug
-        stereo->SGBMcfg.showConfigValues();
+        //stereo->SGBMcfg.showConfigValues();
     }
 
     stereoParamsSetupWindow->show();
-}
-
-QImage MainWindow::putImage(const Mat& mat){
-    // 8-bits unsigned, NO. OF CHANNELS=1
-    if(mat.type()==CV_8UC1){
-        // Set the color table (used to translate colour indexes to qRgb values)
-        QVector<QRgb> colorTable;
-        for (int i=0; i<256; i++)
-            colorTable.push_back(qRgb(i,i,i));
-        // Copy input Mat
-        const uchar *qImageBuffer = (const uchar*)mat.data;
-        // Create QImage with same dimensions as input Mat
-        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_Indexed8);
-        img.setColorTable(colorTable);
-        return img;
-    }
-
-    // 8-bits unsigned, NO. OF CHANNELS=3
-    if(mat.type()==CV_8UC3){
-        // Copy input Mat
-        const uchar *qImageBuffer = (const uchar*)mat.data;
-        // Create QImage with same dimensions as input Mat
-        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
-        return img.rgbSwapped();
-    }
-    else{
-        qDebug() << "ERROR: Mat could not be converted to QImage.";
-        return QImage();
-    }
 }
 
 void MainWindow::on_comboBox_activated(int index){
@@ -590,5 +574,34 @@ void MainWindow::closeEvent(QCloseEvent *event){
     } else {
         event->accept();
         this->~MainWindow();
+    }
+}
+
+QImage MainWindow::putImage(const Mat& mat){
+    // 8-bits unsigned, NO. OF CHANNELS=1
+    if(mat.type()==CV_8UC1){
+        // Set the color table (used to translate colour indexes to qRgb values)
+        QVector<QRgb> colorTable;
+        for (int i=0; i<256; i++)
+            colorTable.push_back(qRgb(i,i,i));
+        // Copy input Mat
+        const uchar *qImageBuffer = (const uchar*)mat.data;
+        // Create QImage with same dimensions as input Mat
+        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_Indexed8);
+        img.setColorTable(colorTable);
+        return img;
+    }
+
+    // 8-bits unsigned, NO. OF CHANNELS=3
+    if(mat.type()==CV_8UC3){
+        // Copy input Mat
+        const uchar *qImageBuffer = (const uchar*)mat.data;
+        // Create QImage with same dimensions as input Mat
+        QImage img(qImageBuffer, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
+        return img.rgbSwapped();
+    }
+    else{
+        qDebug() << "ERROR: Mat could not be converted to QImage.";
+        return QImage();
     }
 }

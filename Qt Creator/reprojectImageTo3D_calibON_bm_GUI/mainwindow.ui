@@ -153,7 +153,7 @@
      <string>Show DiffImage</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnShowDiffImage_2">
+   <widget class="QPushButton" name="btnShowWarningLines">
     <property name="geometry">
      <rect>
       <x>390</x>

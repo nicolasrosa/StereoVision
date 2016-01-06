@@ -212,6 +212,10 @@ void StereoProcessor::readStereoSGBMConfigFile(){
   ** Returns:     Nothing
   ***/
 void StereoProcessor::stereoBM_Init(){
+    /* Creating Stereo Block Matching Object */
+    this->bm = StereoBM::create(16,9);
+
+    /* Initializing Stereo Block Matching Object */
     this->bm->setPreFilterSize(this->BMcfg.preFilterSize);
     this->bm->setPreFilterCap(this->BMcfg.preFilterCap);
     this->bm->setBlockSize(this->BMcfg.SADWindowSize);
@@ -225,6 +229,10 @@ void StereoProcessor::stereoBM_Init(){
 }
 
 void StereoProcessor::stereoSGBM_Init(){
+    /* Creating Stereo Semi-Global Block-Matching Object */
+    this->sgbm = StereoSGBM::create(0,16,3);
+
+    /* Initializing Stereo Semi-Global Block-Matching Object */
     this->sgbm->setPreFilterCap(50);
     this->sgbm->setBlockSize(1);
     this->sgbm->setMinDisparity(50);

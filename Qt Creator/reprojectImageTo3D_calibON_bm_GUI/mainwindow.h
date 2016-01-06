@@ -57,7 +57,7 @@ private slots:
     void on_btnShowInputImages_clicked();
     void on_btnShowTrackingObjectView_clicked();
     void on_btnShowDiffImage_clicked();
-    void on_btnShowDiffImage_2_clicked();
+    void on_btnShowWarningLines_clicked();
     void on_comboBox_activated(int index);
     void closeEvent(QCloseEvent *event);
 };
