@@ -243,65 +243,6 @@ void StereoProcessor::stereoSGBM_Init(){
     this->sgbm->setDisp12MaxDiff(1);
 }
 
-/*** Stereo Calibration function
-  ** Description: Reads the Calibrations in *.yml files
-  ** Receives:    Matrices Addresses for storage
-  ** @param Mat M1,M2: Intrinsic Matrices from camera 1 and 2
-  ** @param Mat D1,D2: Distortion Coefficients from camera 1 and 2
-  ** @param Mat R: Rotation Matrix
-  ** @param Mat t: Translation Vector
-  ** Returns:     Nothing
-  ***/
-void StereoProcessor::stereoCalib(){
-    FileStorage fs(this->calib.intrinsicsFileName, FileStorage::READ);
-    if(!fs.isOpened()){
-        cerr << "Failed to open intrinsics.yml file!" << endl;
-        return;
-    }
-
-    fs["M1"] >> this->calib.M1;
-    fs["D1"] >> this->calib.D1;
-    fs["M2"] >> this->calib.M2;
-    fs["D2"] >> this->calib.D2;
-
-    fs.release();
-
-    float scale = 1.f;
-    this->calib.M1 *= scale;
-    this->calib.M2 *= scale;
-
-    fs.open(this->calib.extrinsicsFileName, FileStorage::READ);
-    if(!fs.isOpened()){
-        cerr << "Failed to open extrinsics.yml file!" << endl;
-        return;
-    }
-
-    fs["R"] >> this->calib.R;
-    fs["T"] >> this->calib.T;
-
-    fs.release();
-
-    // Check
-    if(!this->calib.M1.data || !this->calib.D1.data || !this->calib.M2.data || !this->calib.D2.data || !this->calib.R.data || !this->calib.T.data){
-        cerr << "Check instrinsics and extrinsics Matrixes content!" << endl;
-        return;
-    }
-
-    // Display
-    cout << "------------------------------Intrinsics------------------------------" << endl;
-    cout << "M1: " << endl << this->calib.M1 << endl;
-    cout << "D1: " << endl << this->calib.D1 << endl;
-    cout << "M2: " << endl << this->calib.M2 << endl;
-    cout << "D2: " << endl << this->calib.D2 << endl << endl;
-    cout << "intrinsics.yml Read Successfully."  << endl << endl;
-
-    cout << "------------------------------Extrinsics------------------------------" << endl;
-    cout << "R: " << endl << this->calib.R << endl;
-    cout << "T: " << endl << this->calib.T << endl << endl;
-    cout << "extrinsics.yml Read Successfully."  << endl;
-    cout << "----------------------------------------------------------------------" << endl << endl;
-}
-
 /*** StereoBM Parameters Configuration function
   ** Description: Executes the setup of parameters of the StereoBM object by changing the trackbars
   ** @param rect roi1: Region of Interest 1
@@ -398,6 +339,15 @@ void StereoProcessor::setStereoSGBM_Params(){
     sgbm->setSpeckleWindowSize(this->SGBMcfg.speckleWindowSize);
     sgbm->setSpeckleRange(this->SGBMcfg.speckleRange);
     sgbm->setDisp12MaxDiff(this->SGBMcfg.disp12MaxDiff);
+}
+
+void StereoProcessor::captureFrames(){
+    /* Capture Frames from the VideoCap Object */
+    this->capL >> this->imageL[0];
+    this->capR >> this->imageR[0];
+
+    /* Resizing the Input Resolution to the Desired Resolution */
+    this->utils.resizeFrames(&this->imageL[0],&this->imageR[0]);
 }
 
 void StereoProcessor::applyRectification(){

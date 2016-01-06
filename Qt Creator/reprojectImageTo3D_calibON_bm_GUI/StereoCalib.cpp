@@ -10,6 +10,74 @@
 /* Constructor */
 StereoCalib::StereoCalib(){}
 
+/*** Stereo Calibration function
+  ** Description: Reads the Calibrations in *.yml files
+  ** Receives:    Matrices Addresses for storage
+  ** @param Mat M1,M2: Intrinsic Matrices from camera 1 and 2
+  ** @param Mat D1,D2: Distortion Coefficients from camera 1 and 2
+  ** @param Mat R: Rotation Matrix
+  ** @param Mat t: Translation Vector
+  ** Returns:     Nothing
+  ***/
+void StereoCalib::readCalibrationFiles(){
+    cout << "Calibration: ON" << endl;
+
+    readIntrinsicsFile();
+    readExtrinsicsFile();
+
+    /* Checking if the Reading Process was Successful */
+    if(!this->M1.data || !this->D1.data || !this->M2.data || !this->D2.data || !this->R.data || !this->T.data){
+        cerr << "Check instrinsics and extrinsics Matrixes content!" << endl;
+        return;
+    }
+
+    /* Console Output */
+    cout << "------------------------------Intrinsics------------------------------" << endl;
+    cout << "M1: " << endl << this->M1 << endl;
+    cout << "D1: " << endl << this->D1 << endl;
+    cout << "M2: " << endl << this->M2 << endl;
+    cout << "D2: " << endl << this->D2 << endl << endl;
+    cout << "intrinsics.yml Read Successfully."  << endl << endl;
+
+    cout << "------------------------------Extrinsics------------------------------" << endl;
+    cout << "R: " << endl << this->R << endl;
+    cout << "T: " << endl << this->T << endl << endl;
+    cout << "extrinsics.yml Read Successfully."  << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
+}
+
+void StereoCalib::readIntrinsicsFile(){
+    FileStorage fs(this->intrinsicsFileName, FileStorage::READ);
+    if(!fs.isOpened()){
+        cerr << "Failed to open intrinsics.yml file!" << endl;
+        return;
+    }
+
+    fs["M1"] >> this->M1;
+    fs["D1"] >> this->D1;
+    fs["M2"] >> this->M2;
+    fs["D2"] >> this->D2;
+
+    fs.release();
+
+    float scale = 1.f;
+    this->M1 *= scale;
+    this->M2 *= scale;
+}
+
+void StereoCalib::readExtrinsicsFile(){
+    FileStorage fs(this->extrinsicsFileName, FileStorage::READ);
+    if(!fs.isOpened()){
+        cerr << "Failed to open extrinsics.yml file!" << endl;
+        return;
+    }
+
+    fs["R"] >> this->R;
+    fs["T"] >> this->T;
+
+    fs.release();
+}
+
 void StereoCalib::createKMatrix(){
     this->K=Mat::eye(3,3,CV_64F);
     this->K.at<double>(0,0)=this->focalLength;
@@ -40,15 +108,15 @@ void StereoCalib::readQMatrix(){
             cerr << "Failed to open Q.yml file" << endl;
             return;
         }
-
         fs["Q"] >> this->Q;
-        // Check
+
+        /* Checking if the Reading Process was Successful */
         if(!this->Q.data){
             cerr << "Check Q Matrix Content!" << endl;
             return;
         }
 
-        // Display
+        /* Console Output */
         cout << "Q:" << endl << this->Q << endl;
 
         this->focalLength = this->Q.at<double>(2,3);  cout << "f:" << this->focalLength << endl;

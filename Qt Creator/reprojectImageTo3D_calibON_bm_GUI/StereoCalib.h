@@ -18,6 +18,10 @@ using namespace std;
 class StereoCalib{
 public:
     StereoCalib(); //Constructor
+
+    void readCalibrationFiles();
+    void readIntrinsicsFile();
+    void readExtrinsicsFile();
     void readQMatrix();
     void calculateQMatrix();
     void createKMatrix();

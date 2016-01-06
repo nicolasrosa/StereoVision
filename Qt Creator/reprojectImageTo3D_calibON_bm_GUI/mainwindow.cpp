@@ -24,7 +24,7 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    this->stereo = new StereoProcessor(3);
+    this->stereo = new StereoProcessor(2);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -112,16 +112,16 @@ void MainWindow::StereoVisionProcessInit(){
 
     /* (4) Stereo Calibration */
     if(needCalibration){
-        cout << "Calibration: ON" << endl;
-        stereo->stereoCalib();
+        /* Read Calibration Files */
+        stereo->calib.readCalibrationFiles();
 
-        // Compute the Q Matrix
+        /* Read/Calculate the Q Matrix */
         stereo->calib.readQMatrix(); //true=640x480 false=others
 
         //Point2d imageCenter = Point2d((imageL[0].cols-1.0)/2.0,(imageL[0].rows-1.0)/2.0);
-        //calculateQMatrix();
+        //stereo->calib.calculateQMatrix();
 
-        // Compute the K Matrix
+        /* Calculate the K Matrix */
         ////        // Checking Intrinsic Matrix
         ////        if(stereo->calib.isKcreated){
         ////           cout << "The Intrinsic Matrix is already Created." << endl << endl;
@@ -138,23 +138,17 @@ void MainWindow::StereoVisionProcessInit(){
         //stereo->createKMatrix();
     }
 
-    //(5) Point Cloud Initialization
-    stereo->view3D.PointCloudInit(stereo->calib.baseline/10,true);
-
-    stereo->view3D.setViewPoint(20.0,20.0,-stereo->calib.baseline*10);
-    stereo->view3D.setLookAtPoint(22.0,16.0,stereo->calib.baseline*10.0);
+    /* (5) Point Cloud Initialization */
+    stereo->view3D.PointCloudInit(stereo->calib.baseline,true);
 }
 
 void MainWindow::StereoVisionProcess_UpdateGUI(){
-    //(6) Rendering Loop
+    /* (6) Rendering Loop */
     while(1){
         stereo->utils.startClock();
 
         if(stereo->isVideoFile){
-            stereo->capL >> stereo->imageL[0];
-            stereo->capR >> stereo->imageR[0];
-
-            stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
+            stereo->captureFrames();
 
             if(needCalibration){
                 stereo->applyRectification();
