@@ -47,11 +47,11 @@ public:
     Point3d viewpoint;
     Point3d lookatpoint;
 
-
     Mat dist;
     Mat Rotation;
     Mat t;
 
+    Mat xyz;
     Mat depth;
 
     double step;

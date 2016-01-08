@@ -26,6 +26,8 @@ public:
     void calculateQMatrix();
     void createKMatrix();
 
+    bool needCalibration;
+
     string intrinsicsFileName;
     string extrinsicsFileName;
     string QmatrixFileName;

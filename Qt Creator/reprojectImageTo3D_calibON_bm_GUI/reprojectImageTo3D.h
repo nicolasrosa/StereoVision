@@ -28,7 +28,6 @@ void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTracki
 //void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
 
 /* Global Variables */
-bool needCalibration=false;
 bool isStereoParamSetupTrackbarsCreated=false;
 bool isTrackingObjects=true;
 

@@ -8,7 +8,9 @@
 #include "StereoCalib.h"
 
 /* Constructor */
-StereoCalib::StereoCalib(){}
+StereoCalib::StereoCalib(){
+    needCalibration=false;
+}
 
 /*** Stereo Calibration function
   ** Description: Reads the Calibrations in *.yml files

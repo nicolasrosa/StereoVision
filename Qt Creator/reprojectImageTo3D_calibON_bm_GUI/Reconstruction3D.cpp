@@ -257,7 +257,7 @@ static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, Mat& des
     }
 }
 
-void fillOcclusion(Mat& src, int invalidvalue, bool isInv){
+void Reconstruction3D::fillOcclusion(Mat& src, int invalidvalue, bool isInv){
     if(isInv){
         if(src.type()==CV_8U){
             fillOcclusionInv_<uchar>(src, (uchar)invalidvalue);

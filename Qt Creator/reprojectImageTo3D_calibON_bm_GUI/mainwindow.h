@@ -33,7 +33,9 @@ public:
     void printHelp();
     void openStereoSource(int inputNum);
 
-    QImage putImage(const Mat& mat);
+    QImage Mat2QImage(const Mat& mat);
+    void putImageL(const Mat& src);
+    void putImageR(const Mat& src);
     ~MainWindow();
 
 private:

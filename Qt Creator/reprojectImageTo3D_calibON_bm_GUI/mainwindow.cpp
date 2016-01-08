@@ -111,7 +111,7 @@ void MainWindow::StereoVisionProcessInit(){
     stereo->setStereoSGBM_Params();
 
     /* (4) Stereo Calibration */
-    if(needCalibration){
+    if(stereo->calib.needCalibration){
         /* Read Calibration Files */
         stereo->calib.readCalibrationFiles();
 
@@ -148,22 +148,26 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
         stereo->utils.startClock();
 
         if(stereo->isVideoFile){
+            /* (7) Frames Capture */
             stereo->captureFrames();
 
-            if(needCalibration){
+            /* (8) Camera Retification */
+            if(stereo->calib.needCalibration){
                 stereo->applyRectification();
             }
         }
 
+        /* (9) Disparities Calculation */
         if(stereo->flags.showDisparityMap || stereo->flags.show3Dreconstruction || stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage || stereo->flags.showWarningLines){
             stereo->calculateDisparities();
         }
-        //(7) Projecting 3D point cloud to image
-        //fillOcclusion(disp,16,false);
 
+        /* (10) Projecting 3D point cloud to image */
         if(stereo->flags.show3Dreconstruction){
+            //stereo->view3D.fillOcclusion(stereo->disp.disp_16S,16,false);
+
             cv::reprojectImageTo3D(stereo->disp.disp_16S,stereo->view3D.depth,stereo->calib.Q);
-            Mat xyz = stereo->view3D.depth.reshape(3,stereo->view3D.depth.size().area());
+            stereo->view3D.xyz = stereo->view3D.depth.reshape(3,stereo->view3D.depth.size().area());
 
             stereo->view3D.lookat(stereo->view3D.viewpoint,stereo->view3D.lookatpoint,stereo->view3D.Rotation);
             stereo->view3D.t.at<double>(0,0)=stereo->view3D.viewpoint.x;
@@ -179,17 +183,15 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
 
             stereo->view3D.t=stereo->view3D.Rotation*stereo->view3D.t;
 
-            stereo->view3D.projectImagefromXYZ(stereo->disp.disp_BGR,stereo->view3D.disp3D_BGR,stereo->disp.disp_16S,stereo->view3D.disp3D,xyz,stereo->view3D.Rotation,stereo->view3D.t,stereo->calib.K,stereo->view3D.dist,stereo->view3D.isSub);
+            stereo->view3D.projectImagefromXYZ(stereo->disp.disp_BGR,stereo->view3D.disp3D_BGR,stereo->disp.disp_16S,stereo->view3D.disp3D,stereo->view3D.xyz,stereo->view3D.Rotation,stereo->view3D.t,stereo->calib.K,stereo->view3D.dist,stereo->view3D.isSub);
 
             stereo->view3D.disp3D.convertTo(stereo->view3D.disp3D_8U,CV_8U,0.5);
         }
 
-        /* Image Processing */
-        Mat disp_8U_eroded;Mat disp_8U_eroded_dilated;
-
+        /* (11) Image Processing */
         if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage){
             if(stereo->isVideoFile){
-                stereo->imageProcessing(stereo->disp.disp_8U,disp_8U_eroded,disp_8U_eroded_dilated,stereo->imageL[0],true);
+                stereo->imageProcessing(stereo->disp.disp_8U,stereo->disp.disp_8U_eroded,stereo->disp.disp_8U_eroded_dilated,stereo->imageL[0],true);
             }
 
             if(stereo->isImageFile){
@@ -197,9 +199,10 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
             }
         }
 
-        //(8) Movement Difference between Frames
-        //if(stereo->diff.StartDiff){
+        //stereo->utils.calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
+        //stereo->utils.calculateHist(stereo->imageL[0],"Left Image Histogram");
 
+        /* (12) Movement Difference between Frames */
         if(stereo->flags.showDiffImage || stereo->flags.showWarningLines){
             if(stereo->isVideoFile){
                 if(stereo->diff.StartDiff){
@@ -224,73 +227,51 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
             }
         }
 
-        //(9) GUI Output
+        /* (13) GUI Output */
         if(stereo->flags.showInputImages){
-            QImage qimageL = putImage(stereo->imageL[0]);
-            QImage qimageR = putImage(stereo->imageR[0]);
-
-            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
-            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+            this->putImageL(stereo->imageL[0]);
+            this->putImageR(stereo->imageR[0]);
         }
 
         if(stereo->flags.showDisparityMap){
-            QImage qimageL = putImage(stereo->disp.disp_8U);
-            QImage qimageR = putImage(stereo->disp.disp_BGR);
-
-            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
-            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+            this->putImageL(stereo->disp.disp_8U);
+            this->putImageR(stereo->disp.disp_BGR);
         }
 
         if(stereo->flags.show3Dreconstruction){
-            QImage qimageL = putImage(stereo->view3D.disp3D_8U);
-            QImage qimageR = putImage(stereo->view3D.disp3D_BGR);
-
-            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
-            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+            this->putImageL(stereo->view3D.disp3D_8U);
+            this->putImageR(stereo->view3D.disp3D_BGR);
         }
 
         if(stereo->flags.showTrackingObjectView){
-            QImage qimageL = putImage(stereo->trackingView);
-            QImage qimageR = putImage(stereo->imgThreshold);
-
-            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
-            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+            this->putImageL(stereo->trackingView);
+            this->putImageR(stereo->imgThreshold);
         }
 
         if(stereo->flags.showDiffImage && stereo->diff.StartDiff){
-            this->qimageL = putImage(stereo->diff.diffImage);
-            this->qimageR = putImage(stereo->diff.res_AND);
-
-            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
-            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+            this->putImageL(stereo->diff.diffImage);
+            this->putImageR(stereo->diff.res_AND);
         }
 
         if(stereo->flags.showWarningLines && stereo->diff.StartDiff){
-            this->qimageL = putImage(stereo->diff.res_ADD);
-            this->qimageR = putImage(stereo->diff.res_AND_BGR);
-
-            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
-            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+            this->putImageL(stereo->diff.res_ADD);
+            this->putImageR(stereo->diff.res_AND_BGR);
         }
 
-        //(10) Shortcuts
-
-        //(11) Video Loop - If the last frame is reached, reset the capture and the frameCounter
+        /* (14) Video Loop - If the last frame is reached, reset the capture and the frameCounter */
         stereo->videoLooper();
 
-        //(12) Performance Measurement - FPS
+        /* (15) Performance Measurement - FPS */
         stereo->utils.stopClock();
         //stereo->utils.showFPS();
         ui->lcdNumber->display(this->stereo->utils.getFPS());
 
-        //stereo->utils.calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
-        //stereo->utils.calculateHist(stereo->imageL[0],"Left Image Histogram");
+        /* (16) Shortcuts */
 
         waitKey(0); // It will display the window infinitely until any keypress (it is suitable for image display)
         if(closeEventOccured)
             break;
     }
-
     cout << "----------------------------- END ------------------------------------" << endl;
 
     //return 0;
@@ -345,51 +326,50 @@ void MainWindow::openStereoSource(int inputNum){
     case 1:
         imageL_filename = "../../workspace/data/video10_l.avi";
         imageR_filename = "../../workspace/data/video10_r.avi";
-        needCalibration=true;
+        stereo->calib.needCalibration=true;
         //ui->txtOutputBox->appendPlainText(QString("video2_denoised_long.avi"));
         break;
     case 2:
         imageL_filename = "../../workspace/data/video12_l.avi";
         imageR_filename = "../../workspace/data/video12_r.avi";
-        needCalibration=true;
+        stereo->calib.needCalibration=true;
         //ui->txtOutputBox->appendPlainText(QString( "video0.avi"));
         break;
     case 3:
         imageL_filename = "../../workspace/data/dataset/Piano-perfect/im0.png";
         imageR_filename = "../../workspace/data/dataset/Piano-perfect/im1.png";
-        needCalibration=true;
+        stereo->calib.needCalibration=true;
         //ui->txtOutputBox->appendPlainText(QString( "video1.avi"));
         break;
     case 4:
-        imageL_filename = "../data/left/video2_noised.avi";
-        imageR_filename = "../data/right/video2_noised.avi";
-        needCalibration=true;
-        //ui->txtOutputBox->appendPlainText(QString( "video2_noised.avi"));
+        imageL_filename = "../../workspace/data/dataset/Chair/20004_l.avi";
+        imageR_filename = "../../workspace/data/dataset/Chair/20004_r.avi";
+        stereo->calib.needCalibration=true;
         break;
     case 5:
-        imageL_filename = "../data/left/20004.avi";
-        imageR_filename = "../data/right/30004.avi";
-        needCalibration=false;
+        imageL_filename = "../../workspace/data/teddy_l.png";
+        imageR_filename = "../../workspace/data/teddy_r.png";
+        stereo->calib.needCalibration=true;
         break;
     case 6:
         imageL_filename = "../../workspace/data/left/video15.avi";
         imageR_filename = "../../workspace/data/right/video15.avi";
-        needCalibration=true;
+        stereo->calib.needCalibration=true;
         break;
     case 7:
         imageL_filename = "../../workspace/data/left/left1.png";
         imageR_filename = "../../workspace/data/right/right1.png";
-        needCalibration=false;
+        stereo->calib.needCalibration=false;
         break;
     case 8:
         imageL_filename = "../data/left/left2.png";
         imageR_filename = "../data/right/right2.png";
-        needCalibration=false;
+        stereo->calib.needCalibration=false;
         break;
     case 9:
         imageL_filename = "../data/left/left3.png";
         imageR_filename = "../data/right/right3.png";
-        needCalibration=false;
+        stereo->calib.needCalibration=false;
         break;
     }
 
@@ -553,7 +533,6 @@ void MainWindow::on_comboBox_activated(int index){
         cout << "Chose Method: SGBM" <<endl;
         stereo->flags.methodBM = false;
         stereo->flags.methodSGBM = true;
-
         break;
     }
 }
@@ -571,7 +550,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
     }
 }
 
-QImage MainWindow::putImage(const Mat& mat){
+QImage MainWindow::Mat2QImage(const Mat& mat){
     // 8-bits unsigned, NO. OF CHANNELS=1
     if(mat.type()==CV_8UC1){
         // Set the color table (used to translate colour indexes to qRgb values)
@@ -599,3 +578,14 @@ QImage MainWindow::putImage(const Mat& mat){
         return QImage();
     }
 }
+
+void MainWindow::putImageL(const Mat& src){
+    qimageL = Mat2QImage(src);
+    ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
+}
+
+void MainWindow::putImageR(const Mat& src){
+    qimageR = Mat2QImage(src);
+    ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+}
+
