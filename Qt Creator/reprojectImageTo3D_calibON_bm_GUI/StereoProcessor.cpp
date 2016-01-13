@@ -408,7 +408,7 @@ void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFee
     applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
 
     // Thresholding
-    threshold(imgEDMedian, imgThreshold, 0, 255, THRESH_BINARY | THRESH_OTSU);
+    int T_Otsu = threshold(imgEDMedian, imgThreshold, 0, 255, THRESH_BINARY | THRESH_OTSU);
     erode(imgThreshold,imgThreshold,erosionElement);
     dilate(imgThreshold,imgThreshold,dilationElement);
 
@@ -451,6 +451,9 @@ void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFee
             //imshow("Tracking Object",trackingView);
         }
     }
+
+    imgThreshold.copyTo(imgThresholdDraw);
+    putText(imgThresholdDraw,"T: "+intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
 }
 
 //Saving Previous Frame

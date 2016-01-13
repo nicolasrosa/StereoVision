@@ -62,6 +62,7 @@ private slots:
     void on_btnShowWarningLines_clicked();
     void on_comboBox_activated(int index);
     void closeEvent(QCloseEvent *event);
+    void on_toggleButtonHist1_clicked(bool checked);
 };
 
 #endif // MAINWINDOW_H

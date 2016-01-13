@@ -22,6 +22,7 @@ public:
     bool showTrackingObjectView;
     bool showDiffImage;
     bool showWarningLines;
+    bool showHistograms;
 
     bool methodBM;
     bool methodSGBM;

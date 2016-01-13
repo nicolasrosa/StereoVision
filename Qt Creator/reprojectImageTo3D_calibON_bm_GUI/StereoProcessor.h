@@ -75,6 +75,7 @@ public:
 
     /* Results */
     Mat imgThreshold;
+    Mat imgThresholdDraw;
     Mat trackingView;
 
 private:

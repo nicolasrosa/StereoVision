@@ -23,6 +23,7 @@ using namespace std;
 /* Constructor */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
+    ui->setupUi_Custom();
 
     this->stereo = new StereoProcessor(2);
     StereoVisionProcessInit();
@@ -199,8 +200,13 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
             }
         }
 
-        //stereo->utils.calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
-        //stereo->utils.calculateHist(stereo->imageL[0],"Left Image Histogram");
+        if(stereo->flags.showHistograms){
+            stereo->utils.calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
+            stereo->utils.calculateHist(stereo->imageL[0],"Left Image Histogram");
+        }else{
+            destroyWindow("Disparity Map Histogram");
+            destroyWindow("Left Image Histogram");
+        }
 
         /* (12) Movement Difference between Frames */
         if(stereo->flags.showDiffImage || stereo->flags.showWarningLines){
@@ -245,7 +251,7 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
 
         if(stereo->flags.showTrackingObjectView){
             this->putImageL(stereo->trackingView);
-            this->putImageR(stereo->imgThreshold);
+            this->putImageR(stereo->imgThresholdDraw);
         }
 
         if(stereo->flags.showDiffImage && stereo->diff.StartDiff){
@@ -268,7 +274,7 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
 
         /* (16) Shortcuts */
 
-        waitKey(0); // It will display the window infinitely until any keypress (it is suitable for image display)
+        waitKey(1); // It will display the window infinitely until any keypress (it is suitable for image display)
         if(closeEventOccured)
             break;
     }
@@ -342,8 +348,8 @@ void MainWindow::openStereoSource(int inputNum){
         //ui->txtOutputBox->appendPlainText(QString( "video1.avi"));
         break;
     case 4:
-        imageL_filename = "../../workspace/data/dataset/Chair/20004_l.avi";
-        imageR_filename = "../../workspace/data/dataset/Chair/20004_r.avi";
+        imageL_filename = "../../workspace/data/20004.avi";
+        imageR_filename = "../../workspace/data/30004.avi";
         stereo->calib.needCalibration=true;
         break;
     case 5:
@@ -357,8 +363,8 @@ void MainWindow::openStereoSource(int inputNum){
         stereo->calib.needCalibration=true;
         break;
     case 7:
-        imageL_filename = "../../workspace/data/left/left1.png";
-        imageR_filename = "../../workspace/data/right/right1.png";
+        imageL_filename = "../../workspace/data/20011.avi";
+        imageR_filename = "../../workspace/data/30011.avi";
         stereo->calib.needCalibration=false;
         break;
     case 8:
@@ -484,6 +490,7 @@ void MainWindow::on_btnPauseOrResume_clicked(){
 }
 
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
+    /* Creates  stereoParamsSetupWindow Object */
     stereoParamsSetupWindow = new SetStereoParams(this, stereo);
 
     cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
@@ -502,7 +509,6 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
         // Debug
         //stereo->BMcfg.showConfigValues();
     }
-
 
     if(stereo->flags.methodSGBM){
         this->stereoParamsSetupWindow->loadStereoParamsUi(stereo->SGBMcfg.preFilterSize,
@@ -589,3 +595,12 @@ void MainWindow::putImageR(const Mat& src){
     ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
 }
 
+void MainWindow::on_toggleButtonHist1_clicked(bool checked){
+    if(checked){
+        cout << "Show Hist 1: On" << endl;
+        stereo->flags.showHistograms = true;
+    }else{
+        cout << "Show Hist 2: Off" << endl;
+        stereo->flags.showHistograms = false;
+    }
+}
