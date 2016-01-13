@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow{
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void setupUi_Custom();
     void StereoVisionProcessInit();
     void printHelp();
     void openStereoSource(int inputNum);

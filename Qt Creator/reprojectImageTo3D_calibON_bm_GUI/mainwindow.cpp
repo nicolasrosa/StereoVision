@@ -3,9 +3,11 @@
  *
  *  Created on: June, 2015
  *      Author: nicolasrosa
- *
- * // Credits: http://opencv.jp/opencv2-x-samples/point-cloud-rendering
- * // Credits: Kyle Hounslow - https://www.youtube.com/watch?v=bSeFrPrqZ2A
+ *  Credits to:
+ * Anonymous Author: Credits: http://opencv.jp/opencv2-x-samples/point-cloud-rendering
+ * Kyle Hounslow - https://www.youtube.com/watch?v=bSeFrPrqZ2A
+ * helicopters*.png - Icons made by Freepik from www.flaticon.com - Link: http://www.flaticon.com/free-icon/drone_90894#term=drone&page=1&position=11
+ * spydrone*.png - Icon made by Aha-Soft from Noun Project
  */
 
 /* Libraries */
@@ -23,7 +25,7 @@ using namespace std;
 /* Constructor */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
-    ui->setupUi_Custom();
+    setupUi_Custom();
 
     this->stereo = new StereoProcessor(2);
     StereoVisionProcessInit();
@@ -35,12 +37,6 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     closeEventOccured = false;
 }
 
-//static MainWindow& getUi()
-//{
-//    static MainWindow myUi;
-//    return myUi;
-//}
-
 MainWindow::~MainWindow(){
     delete stereo;
     delete ui;
@@ -49,16 +45,27 @@ MainWindow::~MainWindow(){
     closeEventOccured = true;
 }
 
+//static MainWindow& getUi()
+//{
+//    static MainWindow myUi;
+//    return myUi;
+//}
+
+void MainWindow::setupUi_Custom(){
+    setWindowIcon(QIcon(":/icons/icon/spydrone_black.png"));
+
+    /* Allows the 'Hist' pushButton to toggle - A non-checkable button never emits the toggled(bool) signal. */
+    ui->toggleButtonHist1->setCheckable(true);
+}
+
 void MainWindow::StereoVisionProcessInit(){
     cerr << "Arrumar a Matrix K, os valores das últimas colunas estão errados." << endl;
     cerr << "Arrumar a função StereoProcessor::calculateQMatrix()." << endl;
     cerr << "Arrumar o Constructor da classe StereoDisparityMap para Alocação de Memória das variáveis: disp_16S,disp_8U,disp_BGR" << endl;
     cerr << "Arrumar o tipo de execução da Stereo Param Setup, fazer com que a execução da main não pause." << endl;
-    cerr << "Arrumar a funcionalidade do Botão Pause/Resume, não está funcionando." << endl;
     cerr << "Arrumar a função openSourceImages: Declarar dentro da Class StereoProcessor" << endl;
     cerr << "Arrumar a declaração dos Destrutores de todas as classes" << endl;
     cerr << "Arrumar a inicialização e separar as variáveis 'Stereocfg' para os métodos BM e SGBM" << endl;
-    cerr << "Arrumar o erro que ocorre quando clica-se no Botão Warning Edges antes do botão DiffImage. Possível Causa: No Data diffImage na linha stereo->diff.createResAND(stereo->diff.diffImage,stereo->imgThreshold);" << endl;
 
     printHelp();
 
@@ -145,7 +152,7 @@ void MainWindow::StereoVisionProcessInit(){
 
 void MainWindow::StereoVisionProcess_UpdateGUI(){
     /* (6) Rendering Loop */
-    while(1){
+    //while(1){
         stereo->utils.startClock();
 
         if(stereo->isVideoFile){
@@ -190,7 +197,7 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
         }
 
         /* (11) Image Processing */
-        if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage){
+        if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage || stereo->flags.showWarningLines){
             if(stereo->isVideoFile){
                 stereo->imageProcessing(stereo->disp.disp_8U,stereo->disp.disp_8U_eroded,stereo->disp.disp_8U_eroded_dilated,stereo->imageL[0],true);
             }
@@ -275,12 +282,10 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
         /* (16) Shortcuts */
 
         waitKey(1); // It will display the window infinitely until any keypress (it is suitable for image display)
-        if(closeEventOccured)
-            break;
-    }
-    cout << "----------------------------- END ------------------------------------" << endl;
-
-    //return 0;
+        if(closeEventOccured){
+            cout << "----------------------------- END ------------------------------------" << endl;
+            return;
+        }
 }
 
 void MainWindow::printHelp(){
@@ -488,6 +493,7 @@ void MainWindow::on_btnPauseOrResume_clicked(){
         ui->btnPauseOrResume->setText("Pause");
     }
 }
+
 
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
     /* Creates  stereoParamsSetupWindow Object */

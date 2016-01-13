@@ -52,3 +52,6 @@ OTHER_FILES += \
         extrinsics.yml \
         Q.yml \
         stereoSGBM.yml
+
+RESOURCES += \
+    icon_resource.qrc
