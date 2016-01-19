@@ -16,111 +16,10 @@ StereoProcessor::StereoProcessor(int number) {
     frameCounter=0;
     isVideoFile=false;
     isImageFile=false;
+
+    x=0;
+    y=0;
 }
-
-//void StereoProcessor::openStereoSource(int inputNum){
-//    string imageL_filename;
-//    string imageR_filename;
-
-//    new ui = MainWindow::ui;
-
-//    // Create an object that decodes the input Video stream.
-//    cout << "Enter Video Number(1,2,3,4,5,6,7,8,9): " << endl;
-//    ui->txtOutputBox->appendPlainText(QString("Enter Video Number(1,2,3,4,5,6,7,8,9): "));
-//    //	scanf("%d",&inputNum);
-//    cout << "Input File: " << inputNum << endl;
-//    ui->txtOutputBox->appendPlainText(QString("Input File: ")+QString::number(inputNum));
-//    switch(inputNum){
-//    case 1:
-//        imageL_filename = "../../workspace/data/video10_l.avi";
-//        imageR_filename = "../../workspace/data/video10_r.avi";
-//        needCalibration=true;
-//        //ui->txtOutputBox->appendPlainText(QString("video2_denoised_long.avi"));
-//        break;
-//    case 2:
-//        imageL_filename = "../../workspace/data/video12_l.avi";
-//        imageR_filename = "../../workspace/data/video12_r.avi";
-//        needCalibration=true;
-//        //ui->txtOutputBox->appendPlainText(QString( "video0.avi"));
-//        break;
-//    case 3:
-//        imageL_filename = "../data/left/video1.avi";
-//        imageR_filename = "../data/right/video1.avi";
-//        needCalibration=true;
-//        //ui->txtOutputBox->appendPlainText(QString( "video1.avi"));
-//        break;
-//    case 4:
-//        imageL_filename = "../data/left/video2_noised.avi";
-//        imageR_filename = "../data/right/video2_noised.avi";
-//        needCalibration=true;
-//        //ui->txtOutputBox->appendPlainText(QString( "video2_noised.avi"));
-//        break;
-//    case 5:
-//        imageL_filename = "../data/left/20004.avi";
-//        imageR_filename = "../data/right/30004.avi";
-//        needCalibration=false;
-//        break;
-//    case 6:
-//        imageL_filename = "../../workspace/data/left/video15.avi";
-//        imageR_filename = "../../workspace/data/right/video15.avi";
-//        needCalibration=true;
-//        break;
-//    case 7:
-//        imageL_filename = "../../workspace/data/left/left1.png";
-//        imageR_filename = "../../workspace/data/right/right1.png";
-//        needCalibration=false;
-//        break;
-//    case 8:
-//        imageL_filename = "../data/left/left2.png";
-//        imageR_filename = "../data/right/right2.png";
-//        needCalibration=false;
-//        break;
-//    case 9:
-//        imageL_filename = "../data/left/left3.png";
-//        imageR_filename = "../data/right/right3.png";
-//        needCalibration=false;
-//        break;
-//    }
-
-//    if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "avi"){
-//        cout << "It's a Video file" << endl;
-//        ui->txtOutputBox->appendPlainText(QString("It's a Video file"));
-//        isVideoFile=true;
-
-//        stereo->capL.open(imageL_filename);
-//        stereo->capR.open(imageR_filename);
-
-//        if(!stereo->capL.isOpened() || !stereo->capR.isOpened()){		// Check if we succeeded
-//            cerr <<  "Could not open or find the input videos!" << endl ;
-//            ui->txtOutputBox->appendPlainText(QString( "Could not open or find the input videos!"));
-//            //return -1;
-//        }
-
-//        cout << "Input 1 Resolution: " << stereo->capR.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << stereo->capR.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
-//        cout << "Input 2 Resolution: " << stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT) << endl << endl;
-//        ui->txtOutputBox->appendPlainText(QString("Input 1 Resolution: ") + QString::number(stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT)));
-//        ui->txtOutputBox->appendPlainText(QString("Input 2 Resolution: ") + QString::number(stereo->capR.get(CV_CAP_PROP_FRAME_WIDTH)) + QString("x") + QString::number(stereo->capR.get(CV_CAP_PROP_FRAME_HEIGHT)));
-//    }else{
-//        cout << "It is not a Video file" << endl;
-//        ui->txtOutputBox->appendPlainText(QString( "It is not a Video file"));
-//        if(imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "jpg" || imageL_filename.substr(imageL_filename.find_last_of(".") + 1) == "png"){
-//            cout << "It's a Image file" << endl;
-//            ui->txtOutputBox->appendPlainText(QString( "It's a Image file"));
-//            isImageFile=true;
-
-//            stereo->imageL[0] = imread(imageL_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
-//            stereo->imageR[0] = imread(imageR_filename, CV_LOAD_IMAGE_COLOR);	// Read the file
-
-//            if(!stereo->imageL[0].data || !stereo->imageR[0].data){                     // Check for invalid input
-//                ui->txtOutputBox->appendPlainText(QString("Could not open or find the input images!"));
-//                return;
-//            }
-//        }else{
-//            cout << "It is not a Image file" << endl;
-//            ui->txtOutputBox->appendPlainText(QString( "It is not a Image file"));
-//        }
-//    }
-//}
 
 int StereoProcessor::getInputNum(){
     return inputNum;
@@ -378,7 +277,45 @@ void StereoProcessor::calculateDisparities(){
         this->sgbm->compute(this->imageL[0],this->imageR[0],this->disp.disp_16S);
 
     normalize(this->disp.disp_16S, this->disp.disp_8U, 0, 255, CV_MINMAX, CV_8U);
+    //this->disp.disp_16S.convertTo(this->disp.disp_8U, CV_8U, 255/(this->BMcfg.numberOfDisparities*16.));
+
     applyColorMap(this->disp.disp_8U,this->disp.disp_BGR, COLORMAP_JET);
+
+    if(flags.showDispDepth){
+        /* Forces the initialization of the 3DReconstruction Method for obtaining the Depth Values */
+        this->calculate3DReconstruction();
+
+        float disparity = this->disp.disp_16S.at<uchar>(y,x);
+        float depth = view3D.depth.at<Vec3f>(y,x)[2];
+
+        cout << "P(" << x << "," << y << ")"<< "\t" << "Disparity: " << disparity << "\t" << "Depth: " << depth << endl;
+    }
+}
+
+void StereoProcessor::calculate3DReconstruction(){
+    //view3D.fillOcclusion(disp.disp_16S,16,false);
+
+    cv::reprojectImageTo3D(disp.disp_16S,view3D.depth,calib.Q);
+    view3D.xyz = view3D.depth.reshape(3,view3D.depth.size().area());
+
+    view3D.lookat(view3D.viewpoint,view3D.lookatpoint,view3D.Rotation);
+    view3D.t.at<double>(0,0)=view3D.viewpoint.x;
+    view3D.t.at<double>(1,0)=view3D.viewpoint.y;
+    view3D.t.at<double>(2,0)=view3D.viewpoint.z;
+
+    if(flags.showXYZ){
+        //cout<< view3D.t <<endl;
+
+        cout << "x: " << view3D.t.at<double>(0,0) << endl;
+        cout << "y: " << view3D.t.at<double>(1,0) << endl;
+        cout << "z: " << view3D.t.at<double>(2,0) << endl;
+    }
+
+    view3D.t=view3D.Rotation*view3D.t;
+
+    view3D.projectImagefromXYZ(disp.disp_BGR,view3D.disp3D_BGR,disp.disp_16S,view3D.disp3D,view3D.xyz,view3D.Rotation,view3D.t,calib.K,view3D.dist,view3D.isSub);
+
+    view3D.disp3D.convertTo(view3D.disp3D_8U,CV_8U,0.5);
 }
 
 void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects){
@@ -499,6 +436,5 @@ void StereoProcessor::videoLooper(){
         capR.set(CV_CAP_PROP_POS_FRAMES,0);
     }
 }
-
 
 

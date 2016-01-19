@@ -47,9 +47,13 @@ public:
     void captureFrames();
     void applyRectification();
     void calculateDisparities();
+    void calculate3DReconstruction();
     void imageProcessing(Mat src, Mat imgE, Mat imgED,Mat trackingView,bool isTrackingObjects);
     void saveLastFrames();
     void videoLooper();
+
+    string imageL_filename;
+    string imageR_filename;
 
     bool isVideoFile;
     bool isImageFile;
@@ -72,6 +76,9 @@ public:
     int numRows;
     int numChannels;
     int frameCounter;
+
+    /* Mouse Coordinates */
+    int x,y;
 
     /* Results */
     Mat imgThreshold;

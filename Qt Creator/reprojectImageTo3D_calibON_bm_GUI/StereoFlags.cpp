@@ -20,6 +20,7 @@ StereoFlags::StereoFlags(){
     showDiffImage=false;
     showWarningLines=false;
     showHistograms=false;
+    showDispDepth=false;
 
     methodBM = true;
     methodSGBM = false;

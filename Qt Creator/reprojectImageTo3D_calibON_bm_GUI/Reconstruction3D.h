@@ -38,7 +38,6 @@ public:
     void projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, Mat &destdisp, Mat &xyz, Mat &R, Mat &t, Mat &K, Mat &dist, bool isSub);
     void fillOcclusion(Mat& src, int invalidvalue, bool isInv);
 
-
     Mat disp3Dviewer;
     Mat disp3D;
     Mat disp3D_8U;

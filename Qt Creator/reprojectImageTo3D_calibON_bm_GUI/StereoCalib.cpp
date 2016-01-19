@@ -84,10 +84,10 @@ void StereoCalib::createKMatrix(){
     this->K=Mat::eye(3,3,CV_64F);
     this->K.at<double>(0,0)=this->focalLength;
     this->K.at<double>(1,1)=this->focalLength;
-    //this->K.at<double>(0,2)=(this->imageSize.width-1.0)/2.0;
-    //this->K.at<double>(1,2)=(this->imageSize.height-1.0)/2.0;
-    this->K.at<double>(0,2)=(0-1.0)/2.0;
-    this->K.at<double>(1,2)=(0-1.0)/2.0;
+    this->K.at<double>(0,2)=(this->imageSize.width-1.0)/2.0;
+    this->K.at<double>(1,2)=(this->imageSize.height-1.0)/2.0;
+    //this->K.at<double>(0,2)=(0-1.0)/2.0;
+    //this->K.at<double>(1,2)=(0-1.0)/2.0;
     cout << "K:" << endl << this->K << endl;
 }
 

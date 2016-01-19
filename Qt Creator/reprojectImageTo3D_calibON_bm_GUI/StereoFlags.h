@@ -23,6 +23,7 @@ public:
     bool showDiffImage;
     bool showWarningLines;
     bool showHistograms;
+    bool showDispDepth;
 
     bool methodBM;
     bool methodSGBM;

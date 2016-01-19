@@ -30,7 +30,7 @@ void Reconstruction3D::PointCloudInit(double baseline,bool isSub){
     this->isSub = isSub;
     this->step = baseline/10;
 
-    this->setViewPoint(20.0,20.0,-baseline*10.0);
+    this->setViewPoint(30.0,30.0,-baseline*10.0);
     this->setLookAtPoint(22.0,16.0,baseline*10.0);
 }
 
