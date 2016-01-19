@@ -23,33 +23,34 @@ Idealmente, a triangulação de um Ponto P de coordenadas globais (X,Y,Z) pode ser
  	\label{stereo_image_geometric_model}
 \end{figure}
 
-%----------------------------------------------------------------------------------------------------
-\section{Geometria epipolar - \textit{Epipolar Geometry}}
+%%----------------------------------------------------------------------------------------------------
+%\section{Geometria epipolar - \textit{Epipolar Geometry}}
+%
+%%----------------------------------------------------------------------------------------------------
+%\section{Calibração \textit{Stereo Calibration}}
+%\subsection{Parâmetros intrínsecos}
+%
+%\subsection{Parâmetros extrínsecos}
+%
+%%----------------------------------------------------------------------------------------------------
+%\section{Retificação de Imagens  - \textit{Stereo Rectification}}
+%
+%%----------------------------------------------------------------------------------------------------
+%\section{Correspondência Estéreo - \textit{Stereo Correspondence}}
+%
+%%----------------------------------------------------------------------------------------------------
+%\section{Mapa de disparidades - \textit{Disparity Map}}
+%
+%%----------------------------------------------------------------------------------------------------
+%\section{Projeção Tridimensional - \textit{3D Reprojection}}
+%
+%%----------------------------------------------------------------------------------------------------
+%\section{Reconhecimento de Objeto - \textit{Object Recognition}}
+%\subsection{Segmentação - \textit{Image Segmentation}}
+%
+%\subsection{Identificação - \textit{Object Identification}}
 
 %----------------------------------------------------------------------------------------------------
-\section{Calibração \textit{Stereo Calibration}}
-\subsection{Parâmetros intrínsecos}
-
-\subsection{Parâmetros extrínsecos}
-
-%----------------------------------------------------------------------------------------------------
-\section{Retificação de Imagens  - \textit{Stereo Rectification}}
-
-%----------------------------------------------------------------------------------------------------
-\section{Correspondência Estéreo - \textit{Stereo Correspondence}}
-
-%----------------------------------------------------------------------------------------------------
-\section{Mapa de disparidades - \textit{Disparity Map}}
-
-%----------------------------------------------------------------------------------------------------
-\section{Projeção Tridimensional - \textit{3D Reprojection}}
-
-%----------------------------------------------------------------------------------------------------
-\section{Reconhecimento de Objeto - \textit{Object Recognition}}
-\subsection{Segmentação - \textit{Image Segmentation}}
-
-\subsection{Identificação - \textit{Object Identification}}
-
 \section{Aplicações em Robótica}
 
 Nesta seção, serão apresentados alguns dos trabalhos que têm como principais sensores ou utilizam câmeras estereoscópicas para a navegação autônoma em ambientes terrestre, aérea e subaquática.
