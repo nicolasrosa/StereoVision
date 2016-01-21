@@ -30,8 +30,11 @@ void Reconstruction3D::PointCloudInit(double baseline,bool isSub){
     this->isSub = isSub;
     this->step = baseline/10;
 
-    this->setViewPoint(30.0,30.0,-baseline*10.0);
-    this->setLookAtPoint(22.0,16.0,baseline*10.0);
+    //Point3d viewpoint(20.0,20.0,-baseline*10);
+    //Point3d lookatpoint(22.0,16.0,baseline*10.0);
+
+    this->setViewPoint(10,10,-2*baseline*10);
+    this->setLookAtPoint(0,0,-baseline*10);
 }
 
 void Reconstruction3D::eular2rot(double yaw,double pitch, double roll,Mat& dest){

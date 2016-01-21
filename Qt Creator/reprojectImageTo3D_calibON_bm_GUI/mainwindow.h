@@ -21,7 +21,7 @@
 using namespace cv;
 
 namespace Ui{
-    class MainWindow;
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow{
@@ -67,6 +67,9 @@ private slots:
     void mousePressEvent(QMouseEvent *e);
     void on_toggleBtnShowXYZ_toggled(bool checked);
     void on_toggleBtnShowDispDepth_toggled(bool checked);
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // MAINWINDOW_H

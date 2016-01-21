@@ -18,6 +18,7 @@
 #include "reprojectImageTo3D.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "QShortcut"
 
 using namespace cv;
 using namespace std;
@@ -27,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
     setupUi_Custom();
 
-    this->stereo = new StereoProcessor(2);
+    this->stereo = new StereoProcessor(1);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -64,6 +65,10 @@ void MainWindow::setupUi_Custom(){
     ui->toggleBtnShowDispDepth->hide();
 
     ui->statusBar->showMessage("Running...");
+
+    /* */
+    //QShortcut *shortcut = new QShortcut(QKeySequence(""), parent);
+    //QObject::connect(shortcut, SIGNAL(activated()), receiver, SLOT(yourSlotHere()));
 }
 
 void MainWindow::StereoVisionProcessInit(){
@@ -306,9 +311,9 @@ void MainWindow::printHelp(){
          << "'2' -\tShow Disparity Map\t\t'5' -\tShow FPS\n"
          << "'3' -\tShow 3D Reconstruction\t'6' -\tShow Stereo Parameters\n"
          << "\n3D Viewer Navigation:\n"
-         << "x-axis:\t'g'/'h' -> +x,-x\n"
-         << "y-axis:\t'l'/'k' -> +y,-y\n"
-         << "z-axis:\t'n'/'m' -> +z,-z\n"
+         << "x-axis:\t'Key_Right'/'Key_Left' -> +x,-x\n"
+         << "y-axis:\t'Key_Up'/'Key_Down' -> +y,-y\n"
+         << "z-axis:\t'Key_Plus'/'Key_Minus' -> +z,-z\n"
          << "-------------------------------------------\n"
          << "\n\n";
 
@@ -322,9 +327,9 @@ void MainWindow::printHelp(){
              QString("'2' -\tShow Disparity Map\t\t'5' -\tShow FPS\n")+
              QString("'3' -\tShow 3D Reconstruction\t'6' -\tShow Stereo Parameters\n")+
              QString("\n3D Viewer Navigation:\n")+
-             QString("x-axis:\t'g'/'h' -> +x,-x\n")+
-             QString("y-axis:\t'l'/'k' -> +y,-y\n")+
-             QString("z-axis:\t'n'/'m' -> +z,-z\n")+
+             QString("x-axis:\t'Key_Right'/'Key_Left' -> +x,-x\n")+
+             QString("y-axis:\t'Key_Up'/'Key_Down' -> +y,-y\n")+
+             QString("z-axis:\t'Key_Plus'/'Key_Minus' -> +z,-z\n")+
              QString("-------------------------------------------\n")+
              QString("\n\n"));
 }
@@ -667,5 +672,28 @@ void MainWindow::mousePressEvent(QMouseEvent *e){
             //cout << "y: " << stereo->y << endl;
         }
 
+    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event){
+    switch(event->key()){
+    case Qt::Key_Left:
+        stereo->view3D.viewpoint.x-= stereo->view3D.step;
+        break;
+    case Qt::Key_Right:
+        stereo->view3D.viewpoint.x+= stereo->view3D.step;
+        break;
+    case Qt::Key_Up:
+        stereo->view3D.viewpoint.y+= stereo->view3D.step;
+        break;
+    case Qt::Key_Down:
+        stereo->view3D.viewpoint.y-= stereo->view3D.step;
+        break;
+    case Qt::Key_Plus:
+        stereo->view3D.viewpoint.z+= stereo->view3D.step;
+        break;
+    case Qt::Key_Minus:
+        stereo->view3D.viewpoint.z-= stereo->view3D.step;
+        break;
     }
 }

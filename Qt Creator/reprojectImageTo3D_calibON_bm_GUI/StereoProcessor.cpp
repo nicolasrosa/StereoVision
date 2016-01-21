@@ -283,7 +283,7 @@ void StereoProcessor::calculateDisparities(){
 
     if(flags.showDispDepth){
         /* Forces the initialization of the 3DReconstruction Method for obtaining the Depth Values */
-        this->calculate3DReconstruction();
+        cv::reprojectImageTo3D(disp.disp_16S,view3D.depth,calib.Q);
 
         float disparity = this->disp.disp_16S.at<uchar>(y,x);
         float depth = view3D.depth.at<Vec3f>(y,x)[2];
