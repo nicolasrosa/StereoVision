@@ -61,7 +61,7 @@ private slots:
     void on_btnShowTrackingObjectView_clicked();
     void on_btnShowDiffImage_clicked();
     void on_btnShowWarningLines_clicked();
-    void on_comboBox_activated(int index);
+    void on_methodSelector_activated(int index);
     void closeEvent(QCloseEvent *event);
     void on_toggleBtnShowHist_clicked(bool checked);
     void mousePressEvent(QMouseEvent *e);

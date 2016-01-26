@@ -26,7 +26,10 @@ public:
     void calculateQMatrix();
     void createKMatrix();
 
+    bool isVideoFile;
+    bool isImageFile;
     bool needCalibration;
+    bool hasQMatrix;
 
     string intrinsicsFileName;
     string extrinsicsFileName;

@@ -30,7 +30,6 @@ class StereoProcessor : public StereoConfig{
 public:
     StereoProcessor(int inputNum); //Constructor
     int getInputNum();
-    void openStereoSource(int inputNum);
 
     void readConfigFile();
     void readStereoBMConfigFile();
@@ -55,9 +54,6 @@ public:
     string imageL_filename;
     string imageR_filename;
 
-    bool isVideoFile;
-    bool isImageFile;
-
     Mat imageL[2],imageR[2];
     Mat	imageL_grey[2],imageR_grey[2];
     VideoCapture capL,capR;
@@ -73,6 +69,7 @@ public:
     StereoDiff diff;
     StereoFlags flags;
     StereoUtils utils;
+
     int numRows;
     int numChannels;
     int frameCounter;
