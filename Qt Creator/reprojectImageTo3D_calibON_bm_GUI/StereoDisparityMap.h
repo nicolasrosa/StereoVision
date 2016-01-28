@@ -23,6 +23,9 @@ public:
     Mat disp_8U;
     Mat disp_BGR;
 
+    Mat disp_8U_last;
+    Mat disp_8U_diff;
+
     /* Image Processing Results */
     Mat disp_8U_eroded;
     Mat disp_8U_eroded_dilated;

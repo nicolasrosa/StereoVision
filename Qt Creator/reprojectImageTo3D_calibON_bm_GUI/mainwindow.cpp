@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
     setupUi_Custom();
 
-    stereo = new StereoProcessor(2);
+    stereo = new StereoProcessor(1);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -68,12 +68,11 @@ void MainWindow::setupUi_Custom(){
 }
 
 void MainWindow::StereoVisionProcessInit(){
-    cerr << "Arrumar a Matrix K, os valores das últimas colunas estão errados." << endl;
-    cerr << "Arrumar o ComboBox que seleciona os métodos BM e SGBM" << endl;
-    cerr << "Arrumar a função StereoProcessor::calculateQMatrix()." << endl;
-    cerr << "Arrumar o Constructor da classe StereoDisparityMap para Alocação de Memória das variáveis: disp_16S,disp_8U,disp_BGR" << endl;
-    cerr << "Arrumar a declaração dos Destrutores de todas as classes" << endl;
-    cerr << "Arrumar a inicialização e separar as variáveis 'Stereocfg' para os métodos BM e SGBM" << endl;
+    //TODO: Arrumar a Matrix K, os valores das últimas colunas estão errados.
+    //TODO: Arrumar a função StereoProcessor::calculateQMatrix().
+    //TODO: Arrumar o Constructor da classe StereoDisparityMap para Alocação de Memória das variáveis: disp_16S,disp_8U,disp_BGR
+    //TODO: Arrumar a declaração dos Destrutores de todas as classes
+    //TODO: Arrumar a inicialização e separar as variáveis 'Stereocfg' para os métodos BM e SGBM
 
     printHelp();
 
@@ -210,6 +209,53 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
             if(stereo->diff.StartDiff){
                 stereo->diff.createDiffImage(stereo->imageL_grey[0],stereo->imageL_grey[1]);
 
+                //TODO: Disp_diff
+                absdiff(stereo->disp.disp_8U,stereo->disp.disp_8U_last,stereo->disp.disp_8U_diff);
+                Mat disp_diff_th;
+                threshold(stereo->disp.disp_8U_diff,disp_diff_th, 10, 255, THRESH_BINARY);
+
+                Mat disp_sum;
+                addWeighted(stereo->disp.disp_8U, 1, disp_diff_th, 1, 0.0, disp_sum);
+
+                vector<vector<Point> > contours;
+                vector<Vec4i> hierarchy;
+                Mat disp_countours = Mat::zeros(disp_diff_th.rows, disp_diff_th.cols, CV_8UC3);
+                Scalar white = CV_RGB( 255, 255, 255 );
+                //                Scalar color( rand()&255, rand()&255, rand()&255 );
+
+                findContours( disp_diff_th, contours, hierarchy,
+                              CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
+
+                // iterate through all the top-level contours,
+                // draw each connected component with its own random color
+                int idx = 0;
+                for( ; idx >= 0; idx = hierarchy[idx][0] )
+                {
+                    //drawContours( disp_countours, contours, idx, color, CV_FILLED, 8, hierarchy );
+                    drawContours( disp_countours, contours, idx, white, CV_FILLED);
+                }
+
+                namedWindow( "Components", 1 );
+
+
+                  cv::Mat holes=disp_diff_th.clone();
+                    cv::floodFill(holes,cv::Point2i(0,0),cv::Scalar(1));
+                    for(int i=0;i<disp_diff_th.rows*disp_diff_th.cols;i++)
+                    {
+                        if(holes.data[i]==0)
+                            disp_diff_th.data[i]=1;
+                    }
+
+                  imshow( "holes", holes );
+                imshow( "Components", disp_countours );
+
+
+                //imshow("Disp",stereo->disp.disp_8U);
+                //imshow("Disp_last",stereo->disp.disp_8U_last);
+                imshow("Disp_diff",stereo->disp.disp_8U_diff);
+                imshow("Disp_diff_th",disp_diff_th);
+                imshow("Disp_sum",disp_sum);
+
                 if(stereo->diff.diffImage.data){
                     stereo->diff.createResAND(stereo->diff.diffImage,stereo->imgThreshold);
                     stereo->diff.convertToBGR();
@@ -220,7 +266,7 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
                 stereo->saveLastFrames();
             }else{
                 stereo->saveLastFrames();
-                stereo->diff.StartDiff=1;
+                stereo->diff.StartDiff=true;
             }
         }
 
@@ -291,8 +337,6 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
     stereo->utils.stopClock();
     //stereo->utils.showFPS();
     ui->lcdNumber->display(stereo->utils.getFPS());
-
-    /* (16) Shortcuts */
 
     waitKey(1); // It will display the window infinitely until any keypress (it is suitable for image display)
     if(closeEventOccured){
@@ -366,13 +410,13 @@ void MainWindow::openStereoSource(int inputNum){
         stereo->imageL_filename = "../../workspace/data/20004.avi";
         stereo->imageR_filename = "../../workspace/data/30004.avi";
         stereo->calib.needCalibration=true;
-         stereo->calib.hasQMatrix=false;
+        stereo->calib.hasQMatrix=false;
         break;
     case 5:
         stereo->imageL_filename = "../../workspace/data/teddy_l.png";
         stereo->imageR_filename = "../../workspace/data/teddy_r.png";
         stereo->calib.needCalibration=true;
-         stereo->calib.hasQMatrix=false;
+        stereo->calib.hasQMatrix=false;
         break;
     case 6:
         stereo->imageL_filename = "../../workspace/data/left/video15.avi";
@@ -529,30 +573,30 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
 
     if(stereo->flags.methodBM){
         stereoParamsSetupWindow->loadStereoParamsUi(stereo->BMcfg.preFilterSize,
-                                                          stereo->BMcfg.preFilterCap,
-                                                          stereo->BMcfg.SADWindowSize,
-                                                          stereo->BMcfg.minDisparity,
-                                                          stereo->BMcfg.numberOfDisparities,
-                                                          stereo->BMcfg.textureThreshold,
-                                                          stereo->BMcfg.uniquenessRatio,
-                                                          stereo->BMcfg.speckleWindowSize,
-                                                          stereo->BMcfg.speckleRange,
-                                                          stereo->BMcfg.disp12MaxDiff);
+                                                    stereo->BMcfg.preFilterCap,
+                                                    stereo->BMcfg.SADWindowSize,
+                                                    stereo->BMcfg.minDisparity,
+                                                    stereo->BMcfg.numberOfDisparities,
+                                                    stereo->BMcfg.textureThreshold,
+                                                    stereo->BMcfg.uniquenessRatio,
+                                                    stereo->BMcfg.speckleWindowSize,
+                                                    stereo->BMcfg.speckleRange,
+                                                    stereo->BMcfg.disp12MaxDiff);
         // Debug
         //stereo->BMcfg.showConfigValues();
     }
 
     if(stereo->flags.methodSGBM){
         stereoParamsSetupWindow->loadStereoParamsUi(stereo->SGBMcfg.preFilterSize,
-                                                          stereo->SGBMcfg.preFilterCap,
-                                                          stereo->SGBMcfg.SADWindowSize,
-                                                          stereo->SGBMcfg.minDisparity,
-                                                          stereo->SGBMcfg.numberOfDisparities,
-                                                          stereo->SGBMcfg.textureThreshold,
-                                                          stereo->SGBMcfg.uniquenessRatio,
-                                                          stereo->SGBMcfg.speckleWindowSize,
-                                                          stereo->SGBMcfg.speckleRange,
-                                                          stereo->SGBMcfg.disp12MaxDiff);
+                                                    stereo->SGBMcfg.preFilterCap,
+                                                    stereo->SGBMcfg.SADWindowSize,
+                                                    stereo->SGBMcfg.minDisparity,
+                                                    stereo->SGBMcfg.numberOfDisparities,
+                                                    stereo->SGBMcfg.textureThreshold,
+                                                    stereo->SGBMcfg.uniquenessRatio,
+                                                    stereo->SGBMcfg.speckleWindowSize,
+                                                    stereo->SGBMcfg.speckleRange,
+                                                    stereo->SGBMcfg.disp12MaxDiff);
         // Debug
         //stereo->SGBMcfg.showConfigValues();
     }

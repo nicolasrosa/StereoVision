@@ -18,6 +18,8 @@
 #include "StereoProcessor.h"
 #include "setstereoparams.h"
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+
 using namespace cv;
 
 namespace Ui{

@@ -347,7 +347,7 @@ void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFee
     erode(imgThreshold,imgThreshold,erosionElement);
     dilate(imgThreshold,imgThreshold,dilationElement);
 
-    // Solving Lighting Noise Problem
+    //TODO: Solving Lighting Noise Problem
     nPixels = sum(imgThreshold)[0]/255;
     nTotal = imgThreshold.total();
 
@@ -397,6 +397,7 @@ void StereoProcessor::saveLastFrames(){
     imageR[0].copyTo(imageR[1]);
     imageL_grey[0].copyTo(imageL_grey[1]);
     imageR_grey[0].copyTo(imageR_grey[1]);
+    disp.disp_8U.copyTo(disp.disp_8U_last);
 }
 
 void StereoProcessor::setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff) {
