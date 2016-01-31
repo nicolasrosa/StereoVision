@@ -9,13 +9,32 @@
 
 using namespace cv;
 
+#define VIDEO_INPUT
+//#define IMAGE_INPUT
+
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    cv::Mat imageInput = imread("/home/nicolas/workspace/data/images/bear.jpg");
-    cv::imshow("Display Image",imageInput);
+#ifdef IMAGE_INPUT
+    cv::Mat imageInput = imread("/home/nicolas/workspace/eclipse/data/teddy_l.png");
 
-//    QImage qimageInput((uchar*)imageInput.data,imageInput.cols,imageInput.step,QImage::Format_RGB888);
+     cv::imshow("Display Image",imageInput);
+#endif
+
+#ifdef VIDEO_INPUT
+     VideoCapture cap;
+     Mat img;
+
+     cap.open(0);
+
+     while(1){
+         cap >> img;
+         cv::imshow("Video",img);
+
+         waitKey(1);
+     }
+#endif
+
 
 }
 
