@@ -12,13 +12,14 @@
 
 /* Libraries */
 #include <QtCore>
+#include <QShortcut>
+#include <QMessageBox>
 #include <opencv2/imgproc/imgproc.hpp>
 
 /* Custom Libraries */
 #include "reprojectImageTo3D.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "QShortcut"
 
 using namespace cv;
 using namespace std;
@@ -198,9 +199,6 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
     if(stereo->flags.showHistograms){
         stereo->utils.calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
         stereo->utils.calculateHist(stereo->imageL[0],"Left Image Histogram");
-    }else{
-        destroyWindow("Disparity Map Histogram");
-        destroyWindow("Left Image Histogram");
     }
 
     /* (12) Movement Difference between Frames */
@@ -678,6 +676,8 @@ void MainWindow::on_toggleBtnShowHist_clicked(bool checked){
     }else{
         cout << "Show Hist 2: Off" << endl;
         stereo->flags.showHistograms = false;
+        destroyWindow("Disparity Map Histogram");
+        destroyWindow("Left Image Histogram");
     }
 }
 

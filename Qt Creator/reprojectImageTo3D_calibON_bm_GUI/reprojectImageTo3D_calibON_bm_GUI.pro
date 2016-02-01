@@ -28,7 +28,7 @@ SOURCES += main.cpp\
         Reconstruction3D.cpp \
         StereoConfig.cpp
 
-HEADERS += \
+HEADERS += mainwindow.h \
         reprojectImageTo3D.h \
         trackObject.h \
         StereoProcessor.h \
@@ -41,7 +41,6 @@ HEADERS += \
         StereoUtils.h \
         Reconstruction3D.h \
         StereoConfig.h \
-    mainwindow.h
 
 FORMS   += mainwindow.ui \
         setstereoparams.ui
