@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
     setupUi_Custom();
 
-    stereo = new StereoProcessor(4);
+    stereo = new StereoProcessor(1);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -199,8 +199,8 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
         stereo->utils.calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
         stereo->utils.calculateHist(stereo->imageL[0],"Left Image Histogram");
     }else{
-        //destroyWindow("Disparity Map Histogram");
-        //destroyWindow("Left Image Histogram");
+        destroyWindow("Disparity Map Histogram");
+        destroyWindow("Left Image Histogram");
     }
 
     /* (12) Movement Difference between Frames */
