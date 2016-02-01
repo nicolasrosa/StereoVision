@@ -567,7 +567,7 @@ void MainWindow::on_btnPauseOrResume_clicked(){
 
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
     /* Creates  stereoParamsSetupWindow Object */
-    stereoParamsSetupWindow = new SetStereoParams(this, stereo);
+    stereoParamsSetupWindow = new SetStereoParams(this,stereo);
 
     cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
 
