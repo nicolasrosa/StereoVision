@@ -10,9 +10,9 @@
 
 /* Libraries */
 #include <QMainWindow>
-#include <opencv2/opencv.hpp>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <opencv2/opencv.hpp>
 
 /* Custom Libraries */
 #include "StereoProcessor.h"
