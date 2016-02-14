@@ -45,8 +45,8 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../../testOpencvBBB/main.cpp 
-OBJECTS       = main.o
+SOURCES       = ../../testOpencvBBB/testOpencvBBB.cpp 
+OBJECTS       = testOpencvBBB.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -281,8 +281,8 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../../testOpencvBBB/main.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../testOpencvBBB/main.cpp
+testOpencvBBB.o: ../../testOpencvBBB/testOpencvBBB.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testOpencvBBB.o ../../testOpencvBBB/testOpencvBBB.cpp
 
 ####### Install
 

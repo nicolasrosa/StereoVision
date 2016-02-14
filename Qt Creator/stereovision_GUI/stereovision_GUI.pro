@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = reprojectImageTo3D_calibON_bm_GUI
+TARGET = stereovision_GUI
 TEMPLATE = app
 
 INCLUDEPATH += /usr/local/include/opencv
