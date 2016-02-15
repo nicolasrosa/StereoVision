@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
     setupUi_Custom();
 
-    stereo = new StereoProcessor(1);
+    stereo = new StereoProcessor(4);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -393,38 +393,38 @@ void MainWindow::openStereoSource(int inputNum){
         stereo->calib.hasQMatrix=true;
         break;
     case 2:
-        stereo->imageL_filename = "../../workspace/data/video12_l.avi";
-        stereo->imageR_filename = "../../workspace/data/video12_r.avi";
+        stereo->imageL_filename = "/home/nicolas/workspace/data/video12_l.avi";
+        stereo->imageR_filename = "/home/nicolas/workspace/data/video12_r.avi";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=true;
         break;
     case 3:
-        stereo->imageL_filename = "../../workspace/data/dataset/Piano-perfect/im0.png";
-        stereo->imageR_filename = "../../workspace/data/dataset/Piano-perfect/im1.png";
+        stereo->imageL_filename = "/home/nicolas/workspace/data/dataset/Piano-perfect/im0.png";
+        stereo->imageR_filename = "/home/nicolas/workspace/data/dataset/Piano-perfect/im1.png";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
     case 4:
-        stereo->imageL_filename = "../../workspace/data/20004.avi";
-        stereo->imageR_filename = "../../workspace/data/30004.avi";
-        stereo->calib.needCalibration=true;
+        stereo->imageL_filename = "/home/nicolas/workspace/data/20004.avi";
+        stereo->imageR_filename = "/home/nicolas/workspace/data/30004.avi";
+        stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
     case 5:
-        stereo->imageL_filename = "../../workspace/data/teddy_l.png";
-        stereo->imageR_filename = "../../workspace/data/teddy_r.png";
+        stereo->imageL_filename = "/home/nicolas/workspace/data/teddy_l.png";
+        stereo->imageR_filename = "/home/nicolas/workspace/data/teddy_r.png";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
     case 6:
-        stereo->imageL_filename = "../../workspace/data/left/video15.avi";
-        stereo->imageR_filename = "../../workspace/data/right/video15.avi";
+        stereo->imageL_filename = "/home/nicolas/workspace/data/left/video15.avi";
+        stereo->imageR_filename = "/home/nicolas/workspace/data/right/video15.avi";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
     case 7:
-        stereo->imageL_filename = "../../workspace/data/20011.avi";
-        stereo->imageR_filename = "../../workspace/data/30011.avi";
+        stereo->imageL_filename = "/home/nicolas/workspace/data/20011.avi";
+        stereo->imageR_filename = "/home/nicolas/workspace/data/30011.avi";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
