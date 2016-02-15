@@ -1,228 +1,306 @@
-    // BBB Test OpenCV
-// Nicolas Rosa, April 2015.
+/*
+ * stereoARM.cpp
+ *
+ *  Created on: Feb 14, 2016
+ *      Author: nicolasrosa
+ */
 
-//#include <iostream> //for cout and cin
-//#include <stdio.h> //for printf
-// Include OpenCV
-//#define CV_NO_BACKWARD_COMPATIBILITY
-//#include <opencv.hpp>
-//#include <highgui/highgui.hpp>
-//#include <unistd.h>
-
+/* Libraries */
 #include "stdio.h"
 #include "opencv2/opencv.hpp"
 
-//#include "core.hpp"
-//#include "highgui/highgui.hpp"
+#define STEREO_BM
+//#define STEREO_SGBM
 
 #define RESOLUTION_320x240
 //#define RESOLUTION_640x480
 //#define RESOLUTION_1280x960
-#define SHOW_VIDEO_STREAMING
+
 #define EROSION_SIZE 3  //SAR
 #define DILATE_SIZE 5  //SAR
 
 using namespace cv;
 using namespace std;
 
-//Initial value and MAX StereoBM Parameters.
-//These will be changed using trackbars
-int preFilterSize			 = 0;	const int preFilterSize_MAX		 	= 100;
-int preFilterCap			 = 19;	const int preFilterCap_MAX		 	= 100;
-int SADWindowSize			 = 6;	const int SADWindowSize_MAX		 	= 100;
-int minDisparity			 = 50;	const int minDisparity_MAX		 	= 100;
-int numberOfDisparities		 = 4;	const int numberOfDisparities_MAX 	= 16;
-int textureThreshold		 = 0;	const int textureThreshold_MAX		= 100;
-int uniquenessRatio			 = 12;	const int uniquenessRatio_MAX		= 100;
-int speckleWindowSize		 = 0;	const int speckleWindowSize_MAX	 	= 100;
-int speckleRange			 = 18;	const int speckleRange_MAX		 	= 100;
-int disp12MaxDiff			 = 1;	const int disp12MaxDiff_MAX		 	= 1;
+/* Classes */
+class StereoProcessor{
+public:
+    StereoProcessor(); //Constructor
+    void createBM();
+    void open();
+    void getImageSize();
+    void resize();
+    void readCalibrationFiles();
+    void readIntrinsicsFile();
+    void readExtrinsicsFile();
+    void setParametersBM();
 
-const string trackbarWindowName = "Trackbars";
+    void captureFrames();
+    void applyRectification();
+    void calculateDisparities();
+    void applyMorphology();
+    void videoLooper();
 
-//Scope
-void on_trackbar( int, void* ){}//This function gets called whenever a trackbar position is changed
-void createTrackbars();
+    string imageL_filename;
+    string imageR_filename;
 
-int main(int, char**){
-    //Matrix to store each left and right frame of the video_l.avi and video_r.avi
-    Mat img1, img2,leftImage,rightImage,Q,result,result_bgr;
+    Mat imageL,imageR;
+    Mat imageL_grey,imageR_grey;
+    VideoCapture capL,capR;
+
+    Ptr<StereoBM> bm;
+    Ptr<StereoSGBM> sgbm;
+
+    Size imageSize;
+    Size imageSizeDesired;
+
+    /* BM Configuration Variables */
+    Mat M1,D1,M2,D2;
+    Mat R,T,R1,P1,R2,P2;
     Rect roi1, roi2;
-    //int temp;
+    Mat Q;
 
-    int ndisparities = 64;
-    int SADWindowSize = 31;
-    Ptr<StereoBM> bm = StereoBM::create(ndisparities,SADWindowSize);
+    int ndisparities;
+    int SADWindowSize;
 
-    //StereoBM bm;
 
-    //create slider bars for HSV filtering
-    //createTrackbars();
+    /* Results */
+    Mat disp_16S;
+    Mat disp_8U;
+    Mat disp_BGR;
 
-    //VideoCapture cap_r(0);
-    //VideoCapture cap_l(1);
+private:
+    int inputNum;
+};
 
-    VideoCapture cap_r("../data/20004.avi");
-    VideoCapture cap_l("../data/30004.avi");
+StereoProcessor::StereoProcessor(){
+    ndisparities = 64;
+    SADWindowSize = 31;
+}
 
-    if(!cap_r.isOpened()){ 					// Check if we succeeded
+void StereoProcessor::createBM(){
+    bm = StereoBM::create(ndisparities,SADWindowSize);
+}
+
+void StereoProcessor::open(){
+//    capR.open(0);
+//    capL.open(1);
+
+    capR.open("../data/20004.avi");
+    capL.open("../data/30004.avi");
+
+    if(!capR.isOpened()){ 					// Check if we succeeded
         cout << "Open Video Left Failed!" << endl;
-        return -1;
+        //return -1;
     }
 
-    if(!cap_l.isOpened()){ 					// Check if we succeeded
+    if(!capL.isOpened()){ 					// Check if we succeeded
         cout << "Open Video Right Failed!" << endl;
-        return -1;
+        //return -1;
     }
+}
 
+void StereoProcessor::getImageSize(){
+    imageSize.width = capR.get(CV_CAP_PROP_FRAME_WIDTH);
+    imageSize.height = capR.get(CV_CAP_PROP_FRAME_HEIGHT);
+
+    cout << "Camera 1 Resolution: " << capR.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capR.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+    cout << "Camera 2 Resolution: " << capL.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+}
+
+void StereoProcessor::resize(){
+    /* Defines the Desired Resolution */
     #ifdef RESOLUTION_320x240
-        cap_r.set(CV_CAP_PROP_FRAME_WIDTH, 320);
-        cap_r.set(CV_CAP_PROP_FRAME_HEIGHT,240);
-        cap_l.set(CV_CAP_PROP_FRAME_WIDTH, 320);
-        cap_l.set(CV_CAP_PROP_FRAME_HEIGHT,240);
+        imageSizeDesired = Size(320,240);
     #endif
 
     #ifdef RESOLUTION_640x480
-        cap_r.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-        cap_r.set(CV_CAP_PROP_FRAME_HEIGHT,480);
-        cap_l.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-        cap_l.set(CV_CAP_PROP_FRAME_HEIGHT,480);
+        imageSizeDesired = Size(640,480;
     #endif
 
     #ifdef RESOLUTION_1280x960
-        cap_r.set(CV_CAP_PROP_FRAME_WIDTH,1280);
-        cap_r.set(CV_CAP_PROP_FRAME_HEIGHT,960);
-        cap_l.set(CV_CAP_PROP_FRAME_WIDTH,1280);
-        cap_l.set(CV_CAP_PROP_FRAME_HEIGHT,960);
+        imageSizeDesired. = Size(1280,960);
     #endif
 
-    #ifdef SHOW_VIDEO_STREAMING
-        //namedWindow("Left",1);
-        //namedWindow("Right",1);
-    #endif
-    //namedWindow("DepthImage", 1);
+    /* Resizes the VideoCapture Object */
+    capL.set(CV_CAP_PROP_FRAME_WIDTH, imageSizeDesired.width);
+    capL.set(CV_CAP_PROP_FRAME_HEIGHT,imageSizeDesired.height);
+    capR.set(CV_CAP_PROP_FRAME_WIDTH, imageSizeDesired.width);
+    capR.set(CV_CAP_PROP_FRAME_HEIGHT,imageSizeDesired.height);
 
-    cout << "Camera 1 Resolution: " << cap_r.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << cap_r.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
-    cout << "Camera 2 Resolution: " << cap_l.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << cap_l.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+    /* Memory Allocation for Disparities Matrices */
+    disp_16S = Mat(imageSizeDesired.height,imageSizeDesired.width, CV_16S );
+    disp_8U = Mat(imageSizeDesired.height,imageSizeDesired.width, CV_8UC1 );
+}
+
+/*** Stereo Calibration function
+  ** Description: Reads the Calibrations in *.yml files
+  ** Receives:    Matrices Addresses for storage
+  ** @param Mat M1,M2: Intrinsic Matrices from camera 1 and 2
+  ** @param Mat D1,D2: Distortion Coefficients from camera 1 and 2
+  ** @param Mat R: Rotation Matrix
+  ** @param Mat t: Translation Vector
+  ** Returns:     Nothing
+  ***/
+void StereoProcessor::readCalibrationFiles(){
+    cout << "Calibration: ON" << endl;
+
+    readIntrinsicsFile();
+    readExtrinsicsFile();
+
+    /* Checking if the Reading Process was Successful */
+    if(!this->M1.data || !this->D1.data || !this->M2.data || !this->D2.data || !this->R.data || !this->T.data){
+        cerr << "Check instrinsics and extrinsics Matrixes content!" << endl;
+        return;
+    }
+
+    /* Console Output */
+    cout << "------------------------------Intrinsics------------------------------" << endl;
+    cout << "M1: " << endl << this->M1 << endl;
+    cout << "D1: " << endl << this->D1 << endl;
+    cout << "M2: " << endl << this->M2 << endl;
+    cout << "D2: " << endl << this->D2 << endl << endl;
+    cout << "intrinsics.yml Read Successfully."  << endl << endl;
+
+    cout << "------------------------------Extrinsics------------------------------" << endl;
+    cout << "R: " << endl << this->R << endl;
+    cout << "T: " << endl << this->T << endl << endl;
+    cout << "extrinsics.yml Read Successfully."  << endl;
+    cout << "----------------------------------------------------------------------" << endl << endl;
+}
+
+void StereoProcessor::readIntrinsicsFile(){
+    FileStorage fs("intrinsics.yml", FileStorage::READ);
+    if(!fs.isOpened()){
+        cerr << "Failed to open intrinsics.yml file!" << endl;
+        return;
+    }
+
+    fs["M1"] >> this->M1;
+    fs["D1"] >> this->D1;
+    fs["M2"] >> this->M2;
+    fs["D2"] >> this->D2;
+
+    fs.release();
+
+    float scale = 1.f;
+    this->M1 *= scale;
+    this->M2 *= scale;
+}
+
+void StereoProcessor::readExtrinsicsFile(){
+    FileStorage fs("extrinsics.yml", FileStorage::READ);
+    if(!fs.isOpened()){
+        cerr << "Failed to open extrinsics.yml file!" << endl;
+        return;
+    }
+
+    fs["R"] >> this->R;
+    fs["T"] >> this->T;
+
+    fs.release();
+}
+
+void StereoProcessor::captureFrames(){
+    cout << "Taking New Frame..." << endl;
+
+    capL >> imageL;
+    capR >> imageR;
+}
+
+void StereoProcessor::applyRectification(){
+    imageSize = imageL.size();
+    stereoRectify(M1,D1,M2,D2,imageSize,R,T,R1,R2,P1,P2,Q,CALIB_ZERO_DISPARITY,-1,imageSize,&roi1,&roi2);
+
+    Mat rmap[2][2];
+    initUndistortRectifyMap(M1, D1, R1, P1, imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
+    initUndistortRectifyMap(M2, D2, R2, P2, imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+
+    Mat imageLr, imageRr;
+    remap(imageL, imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
+    remap(imageR, imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
+
+    imageL = imageLr;
+    imageR = imageRr;
+}
+
+void StereoProcessor::calculateDisparities(){
+    cout << "Calculating Disparity..." << endl;
+
+    // Convert BGR to Grey Scale
+    cvtColor(imageL,imageL_grey,CV_BGR2GRAY);
+    cvtColor(imageR,imageR_grey,CV_BGR2GRAY);
+
+#ifdef STEREO_BM
+        bm->compute(imageL_grey,imageR_grey,disp_16S);
+#endif
+
+#ifdef STEREO_SGBM
+        sgbm->compute(imageL,imageR,disp.disp_16S);
+#endif
+
+    cout << "Computing Stereo Matching..." << endl;
+    //bm(leftImage,rightImage,imgDisparity16S,CV_16S);
+    bm->compute(imageL_grey,imageR_grey,disp_16S);
+
+    normalize(disp_16S, disp_8U, 0, 255, CV_MINMAX, CV_8U);
+    //disp.disp_16S.convertTo(disp.disp_8U, CV_8U, 255/(BMcfg.numberOfDisparities*16.));
+
+    cout << "oi" << endl;
+    //applyColorMap(disp_8U,disp_BGR, COLORMAP_JET);
+    cout << "oi2" << endl;
+}
+
+void StereoProcessor::setParametersBM(){
+    cout << "Setting StereoBM Parameters..." << endl;
+
+    bm->setPreFilterSize(131);
+    bm->setPreFilterCap(61);
+    bm->setBlockSize(67);
+    bm->setMinDisparity(0);
+    bm->setNumDisparities(16);
+    bm->setTextureThreshold(9600);
+    bm->setUniquenessRatio(0);
+    bm->setSpeckleWindowSize(0);
+    bm->setSpeckleRange(0);
+    bm->setDisp12MaxDiff(1);
+
+}
+
+void StereoProcessor::applyMorphology(){
+    //Erode the images
+    /*Mat element(1,1,CV_8U,Scalar(1));
+    erode(imgDisparity8U,result,element,Point(-1,-1),3);*/
+
+    //SAR Erode and Dilate to take out spurious noise
+    Mat element_erode = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),
+                                                   Point( EROSION_SIZE, EROSION_SIZE ));
+    Mat element_dilate = getStructuringElement( MORPH_RECT,Size( 2*DILATE_SIZE + 1, 2*DILATE_SIZE+1 ),
+                                                   Point( DILATE_SIZE, DILATE_SIZE ));
+    cout << "Eroding and Dilating Result..." << endl;
+    erode(disp_8U,disp_8U,element_erode);
+    dilate(disp_8U,disp_8U,element_dilate);
+}
+
+int main(){
+    //Matrix to store each left and right frame of the video_l.avi and video_r.avi
+    StereoProcessor stereo;
+
+    stereo.createBM();
+    stereo.open();
+    stereo.getImageSize();
+    stereo.resize();
+    stereo.readCalibrationFiles();
+    stereo.setParametersBM();
 
     while(1){
-        cout << "Taking New Frame..." << endl;
-        cap_r >> img1;
-        cap_l >> img2;
+        stereo.captureFrames();
+        stereo.applyRectification();
 
-        cout << "Calculating Disparity..." << endl;
-        Mat imgDisparity16S = Mat( img2.rows, img2.cols, CV_16S );
-        Mat imgDisparity8U = Mat( img1.rows, img1.cols, CV_8UC1 );
+        stereo.calculateDisparities();
+        //stereo.applyMorphology();
 
-        cout << "Color Space Conversion..." << endl;
-        cvtColor(img2, leftImage,CV_BGR2GRAY);
-        cvtColor(img1,rightImage,CV_BGR2GRAY);
 
-        //Setting StereoBM Parameters
-        /*temp= getTrackbarPos("preFilterSize",trackbarWindowName)*2.5+5;
-        if(temp%2==1 && temp>=5 && temp<=255){
-            bm.state->preFilterSize = temp;
-            cout << getTrackbarPos("preFilterSize",trackbarWindowName) << "\t" <<temp << endl;
-        }
-
-        temp= getTrackbarPos("preFilterCap",trackbarWindowName)*0.625+1;
-        if(temp>=1 && temp<=63){
-            bm.state->preFilterCap = temp;
-            cout << getTrackbarPos("preFilterCap",trackbarWindowName) << "\t" <<temp << endl;
-        }
-
-        temp= getTrackbarPos("SADWindowSize",trackbarWindowName)*2.5+5;
-        if(temp%2==1 && temp>=5 && temp<=255 && temp<=cap_r.get(CV_CAP_PROP_FRAME_HEIGHT)){
-            bm.state->SADWindowSize = temp;
-            cout << getTrackbarPos("SADWindowSize",trackbarWindowName) << "\t" <<temp << endl;
-        }
-
-        temp= getTrackbarPos("minDisparity",trackbarWindowName)*2.0-100;
-        if(temp>=-100 && temp<=100){
-            bm.state->minDisparity = temp;
-            cout << getTrackbarPos("minDisparity",trackbarWindowName) << "\t" <<temp << endl;
-        }
-
-        temp= getTrackbarPos("numberOfDisparities",trackbarWindowName)*16;
-        if(temp%16==0 && temp>=16 && temp<=256){
-            bm.state->numberOfDisparities = temp;
-            cout << getTrackbarPos("numberOfDisparities",trackbarWindowName) << "\t" <<temp << endl;
-        }
-
-        temp= getTrackbarPos("textureThreshold",trackbarWindowName)*320;
-        if(temp>=0 && temp<=32000){
-            bm.state->textureThreshold = temp;
-            cout << getTrackbarPos("textureThreshold",trackbarWindowName) << "\t" <<temp << endl;
-        }
-
-        temp= getTrackbarPos("uniquenessRatio",trackbarWindowName)*2.555;
-        if(temp>=0 && temp<=255){
-            bm.state->uniquenessRatio = temp;
-            cout << getTrackbarPos("uniquenessRatio",trackbarWindowName) << "\t" <<temp << endl;
-        }
-
-        temp= getTrackbarPos("speckleWindowSize",trackbarWindowName)*1.0;
-        if(temp>=0 && temp<=100){
-            bm.state->speckleWindowSize = temp;
-            cout << getTrackbarPos("speckleWindowSize",trackbarWindowName) << "\t" <<temp << endl;
-        }
-
-        temp= getTrackbarPos("speckleRange",trackbarWindowName)*1.0;
-        if(temp>=0 && temp<=100){
-            bm.state->speckleRange = temp;
-            cout << getTrackbarPos("speckleRange",trackbarWindowName) << "\t" <<temp << endl;
-        }
-
-        temp= getTrackbarPos("disp12MaxDiff",trackbarWindowName)*1.0;
-        if(temp>=0 && temp<=100){
-            bm.state->disp12MaxDiff = temp;
-            cout << getTrackbarPos("disp12MaxDiff",trackbarWindowName) << "\t" <<temp << endl;
-        }*/
-
-        cout << "Setting StereoBM Parameters..." << endl;
-//        bm.state->preFilterSize = 5;
-//        bm.state->preFilterCap = 18;
-//        bm.state->SADWindowSize = 31;
-//        bm.state->minDisparity = 0;
-//        bm.state->numberOfDisparities = 64;
-//        bm.state->textureThreshold = 0;
-//        bm.state->uniquenessRatio = 0;
-//        bm.state->speckleWindowSize = 0;
-//        bm.state->speckleRange = 0;
-//        bm.state->disp12MaxDiff = 1;
-
-        bm->setPreFilterSize(5);
-        bm->setPreFilterCap(18);
-        bm->setBlockSize(31);
-        bm->setMinDisparity(0);
-        bm->setNumDisparities(64);
-        bm->setTextureThreshold(0);
-        bm->setUniquenessRatio(0);
-        bm->setSpeckleWindowSize(0);
-        bm->setSpeckleRange(0);
-        bm->setDisp12MaxDiff(1);
-
-        cout << "Computing Stereo Matching..." << endl;
-        //bm(leftImage,rightImage,imgDisparity16S,CV_16S);
-        bm->compute(leftImage,rightImage,imgDisparity16S);
-
-        double minVal; double maxVal;
-
-        minMaxLoc( imgDisparity16S, &minVal, &maxVal );
-        imgDisparity16S.convertTo( imgDisparity8U, CV_8UC1, 255/(maxVal - minVal));
-
-        //Erode the images
-        /*Mat element(1,1,CV_8U,Scalar(1));
-        erode(imgDisparity8U,result,element,Point(-1,-1),3);*/
-
-        //SAR Erode and Dilate to take out spurious noise
-        Mat element_erode = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),
-                                                       Point( EROSION_SIZE, EROSION_SIZE ));
-        Mat element_dilate = getStructuringElement( MORPH_RECT,Size( 2*DILATE_SIZE + 1, 2*DILATE_SIZE+1 ),
-                                                       Point( DILATE_SIZE, DILATE_SIZE ));
-        cout << "Eroding and Dilating Result..." << endl;
-        erode(imgDisparity8U,result,element_erode);
-        dilate(result,result,element_dilate);
 
         //DepthMap GreyScale to RGB
         //    cvtColor(imgDisparity8U,result_bgr,CV_GRAY2BGR);
@@ -249,7 +327,7 @@ int main(int, char**){
 
             #if defined(RESOLUTION_320x240) || defined(RESOLUTION_640x480)
                 //moveWindow("Left" ,0,0);
-                //moveWindow("Right",cap_r.get(CV_CAP_PROP_FRAME_WIDTH)+100,0);
+                //moveWindow("Right",capR.get(CV_CAP_PROP_FRAME_WIDTH)+100,0);
             #endif
         #endif
 
@@ -259,49 +337,20 @@ int main(int, char**){
 
 
         #if defined(RESOLUTION_320x240) || defined(RESOLUTION_640x480)
-            //moveWindow("DepthImage",0,cap_r.get(CV_CAP_PROP_FRAME_HEIGHT)+100);
-            //moveWindow("Eroded Image",cap_r.get(CV_CAP_PROP_FRAME_WIDTH)+100,cap_r.get(CV_CAP_PROP_FRAME_HEIGHT)+100);
-            //moveWindow("DepthImage RGB",cap_r.get(CV_CAP_PROP_FRAME_WIDTH)*2+150,cap_r.get(CV_CAP_PROP_FRAME_HEIGHT)+100);
-            //moveWindow(trackbarWindowName,cap_r.get(CV_CAP_PROP_FRAME_WIDTH)*3+250,0);
+            //moveWindow("DepthImage",0,capR.get(CV_CAP_PROP_FRAME_HEIGHT)+100);
+            //moveWindow("Eroded Image",capR.get(CV_CAP_PROP_FRAME_WIDTH)+100,capR.get(CV_CAP_PROP_FRAME_HEIGHT)+100);
+            //moveWindow("DepthImage RGB",capR.get(CV_CAP_PROP_FRAME_WIDTH)*2+150,capR.get(CV_CAP_PROP_FRAME_HEIGHT)+100);
+            //moveWindow(trackbarWindowName,capR.get(CV_CAP_PROP_FRAME_WIDTH)*3+250,0);
         #endif
 
         cout << "DONE..." << endl;
 
+        // Save the result
+        imwrite("disp_8U.jpg", stereo.disp_8U);
 
         if(waitKey(30) >= 0) break;
     }
     // The camera will be closed automatically in VideoCapture Destructor
     cout << "END" << endl;
     return 0;
-}
-
-void createTrackbars(){ //Create window for trackbars
-    char TrackbarName[50];
-
-    // Create TrackBars Window
-    namedWindow("Trackbars",0);
-
-    // Create memory to store Trackbar name on window
-    sprintf( TrackbarName, "preFilterSize");
-    sprintf( TrackbarName, "preFilterCap");
-    sprintf( TrackbarName, "SADWindowSize");
-    sprintf( TrackbarName, "minDisparity");
-    sprintf( TrackbarName, "numberOfDisparities");
-    sprintf( TrackbarName, "textureThreshold");
-    sprintf( TrackbarName, "uniquenessRatio");
-    sprintf( TrackbarName, "speckleWindowSize");
-    sprintf( TrackbarName, "speckleRange");
-    sprintf( TrackbarName, "disp12MaxDiff");
-
-    //Create Trackbars and insert them into window
-    createTrackbar( "preFilterSize", trackbarWindowName, &preFilterSize, preFilterSize_MAX, on_trackbar );
-    createTrackbar( "preFilterCap", trackbarWindowName, &preFilterCap, preFilterCap_MAX, on_trackbar );
-    createTrackbar( "SADWindowSize", trackbarWindowName, &SADWindowSize, SADWindowSize_MAX, on_trackbar );
-    createTrackbar( "minDisparity", trackbarWindowName, &minDisparity, minDisparity_MAX, on_trackbar );
-    createTrackbar( "numberOfDisparities", trackbarWindowName, &numberOfDisparities, numberOfDisparities_MAX, on_trackbar );
-    createTrackbar( "textureThreshold", trackbarWindowName, &textureThreshold, textureThreshold_MAX, on_trackbar );
-    createTrackbar( "uniquenessRatio", trackbarWindowName, &uniquenessRatio, uniquenessRatio_MAX, on_trackbar );
-    createTrackbar( "speckleWindowSize", trackbarWindowName, &speckleWindowSize, speckleWindowSize_MAX, on_trackbar );
-    createTrackbar( "speckleRange", trackbarWindowName, &speckleRange, speckleRange_MAX, on_trackbar );
-    createTrackbar( "disp12MaxDiff", trackbarWindowName, &disp12MaxDiff, disp12MaxDiff_MAX, on_trackbar );
 }

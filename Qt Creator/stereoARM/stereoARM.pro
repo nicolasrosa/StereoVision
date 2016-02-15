@@ -9,3 +9,7 @@ LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_photo -lopenc
 SOURCES += \
     stereoARM.cpp
 
+OTHER_FILES += \
+    extrinsics.yml \
+    intrinsics.yml
+

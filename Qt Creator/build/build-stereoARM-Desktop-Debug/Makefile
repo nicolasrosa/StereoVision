@@ -281,9 +281,7 @@ compiler_clean:
 
 ####### Compile
 
-stereoARM.o: ../../stereoARM/stereoARM.cpp /usr/local/include/opencv/cv.h \
-		/usr/local/include/opencv/highgui.h \
-		/usr/local/include/opencv/cvaux.h
+stereoARM.o: ../../stereoARM/stereoARM.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereoARM.o ../../stereoARM/stereoARM.cpp
 
 ####### Install
