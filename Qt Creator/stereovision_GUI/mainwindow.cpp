@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
     setupUi_Custom();
 
-    stereo = new StereoProcessor(4);
+    stereo = new StereoProcessor(2);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
