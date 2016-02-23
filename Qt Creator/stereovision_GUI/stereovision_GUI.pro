@@ -8,7 +8,9 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+DESTDIR = bin
 TARGET = stereovision_GUI
+
 TEMPLATE = app
 
 INCLUDEPATH += /usr/local/include/opencv
