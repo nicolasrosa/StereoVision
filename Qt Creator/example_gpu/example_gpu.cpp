@@ -1,17 +1,16 @@
 #include <iostream>
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 
 using namespace std;
 using namespace cv;
 
-#include "opencv2/gpu/gpu.hpp"
+#include <opencv2/gpu/gpu.hpp>
+#include <opencv2/gpu/gpumat.hpp>
+
+int main (int argc, char* argv[]){
 
 
-
-int main (int argc, char* argv[])
-{
-    try
-    {
+    try{
         cv::Mat src_host = cv::imread("file.png", CV_LOAD_IMAGE_GRAYSCALE);
         cv::gpu::GpuMat dst,src;
         src.upload(src_host);

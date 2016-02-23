@@ -18,7 +18,7 @@ CXXFLAGS      = -m64 -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I../../stereovision_GUI -I/usr/local/include/opencv -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I. -I. -I.
 LINK          = g++
 LFLAGS        = -m64
-LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_photo -lopencv_superres -lopencv_ts -lopencv_videoio -lopencv_videostab -lopencv_shape -lopencv_stitching -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_flann -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 `pkg-config --cflags --libs opencv` -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
@@ -335,12 +335,12 @@ compiler_rcc_make_all: qrc_icon_resource.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_icon_resource.cpp
 qrc_icon_resource.cpp: ../../stereovision_GUI/icon_resource.qrc \
-		../../stereovision_GUI/icon/helicopter_green.png \
-		../../stereovision_GUI/icon/helicopter_orange.png \
-		../../stereovision_GUI/icon/spydrone_black.png \
+		../../stereovision_GUI/icon/helicopter_cyan.png \
 		../../stereovision_GUI/icon/helicopter_white.png \
+		../../stereovision_GUI/icon/spydrone_black.png \
+		../../stereovision_GUI/icon/helicopter_orange.png \
 		../../stereovision_GUI/icon/helicopter_black.png \
-		../../stereovision_GUI/icon/helicopter_cyan.png
+		../../stereovision_GUI/icon/helicopter_green.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name icon_resource ../../stereovision_GUI/icon_resource.qrc -o qrc_icon_resource.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_setstereoparams.cpp
