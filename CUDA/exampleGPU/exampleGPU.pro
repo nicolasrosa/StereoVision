@@ -4,7 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 DESTDIR = bin
-TARGET = houghlines
+TARGET = exampleGPU
 
 # Temporary dirs
 OBJECTS_DIR = tmp/obj
@@ -16,5 +16,10 @@ INCLUDEPATH += /usr/local/include/opencv
 LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu -lopencv_features2d
 
 SOURCES += \
-    houghlines.cpp
+    exampleGPU.cpp
+
+OTHER_FILES += \
+    bin/teddy_l.png
+
+HEADERS +=
 
