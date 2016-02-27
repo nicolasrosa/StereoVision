@@ -10,7 +10,6 @@ int main( int argc, char *argv[] )
 {
     // CUDA device count
     int nDeviceCount = 0;
-    cout << "oi" << endl;
     nDeviceCount = cuda::getCudaEnabledDeviceCount();
 
     // CUDA device index
@@ -183,7 +182,7 @@ int main( int argc, char *argv[] )
 
     // print the results
     cout << "CUDA Enabled Device Count: " << nDeviceCount << endl;
-    cout << "CUDA Deivce Index: " << nCurrentDeviceIndex << endl;
+    cout << "CUDA Device Index: " << nCurrentDeviceIndex << endl;
     cout << "Device Name: " << deviceName << endl;
     cout << "Device Toal Global Memory: " << deviceTotalGlobMem << endl;
     cout << "Device Shared Memory Per Block: " << deviceSharedMemPerBlock << endl;

@@ -9,7 +9,9 @@ int main (int argc, char* argv[]){
 
     try{
         /* Check CUDA Compability */
-        if(cuda::DeviceInfo::isCompatible()){
+        cuda::DeviceInfo deviceinfo;
+
+        if(deviceinfo.cuda::DeviceInfo::isCompatible()){
             cout << "The CUDA module can be run on this specified device: Ok" << endl;
         }else{
             cout << "The CUDA module can't be run on this specified devide: Failed" << endl;
