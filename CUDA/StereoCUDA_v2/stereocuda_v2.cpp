@@ -11,10 +11,11 @@
 using namespace cv;
 using namespace std;
 
+#define RESOLUTION_640x480
+
 bool help_showed = false;
 
-struct Params
-{
+struct Params{
     Params();
     static Params read(int argc, char** argv);
 
@@ -36,23 +37,25 @@ struct Params
 };
 
 
-struct App
-{
+struct App{
     App(const Params& p);
     void run();
     void handleKey(char key);
     void printParams() const;
+    void open();
+    void resizeFrames(Mat* frame1,Mat* frame2);
+    void videoLooper();
+    void workBegin(){
+        work_begin = getTickCount();
+    }
 
-    void workBegin() { work_begin = getTickCount(); }
-    void workEnd()
-    {
+    void workEnd(){
         int64 d = getTickCount() - work_begin;
         double f = getTickFrequency();
         work_fps = f / d;
     }
 
-    string text() const
-    {
+    string text() const{
         stringstream ss;
         ss << "(" << p.method_str() << ") FPS: " << setiosflags(ios::left)
            << setprecision(4) << work_fps;
@@ -60,11 +63,17 @@ struct App
     }
 private:
     Params p;
+    int frameCounter;
     bool running;
+    bool isVideoFile;
+    bool isImageFile;
 
-    Mat left_src, right_src;
-    Mat left, right;
-    cuda::GpuMat d_left, d_right;
+    VideoCapture capR;
+    VideoCapture capL;
+
+    Mat imageL_src, imageR_src;
+    Mat imageL, imageR;
+    cuda::GpuMat d_imageL, d_imageR;
 
     Ptr<cuda::StereoBM> bm;
     Ptr<cuda::StereoBeliefPropagation> bp;
@@ -74,8 +83,7 @@ private:
     double work_fps;
 };
 
-static void printHelp()
-{
+static void printHelp(){
     cout << "Usage: stereo_match_gpu\n"
          << "\t--left <left_view> --right <right_view> # must be rectified\n"
          << "\t--method <stereo_match_method> # BM | BP | CSBP\n"
@@ -83,46 +91,41 @@ static void printHelp()
     help_showed = true;
 }
 
-int main(int argc, char** argv)
-{
-    try
-    {
-        if (argc < 2)
-        {
+
+int main(int argc, char** argv){
+    try{
+        if(argc < 2){
             printHelp();
             return 1;
         }
+
         Params args = Params::read(argc, argv);
         if (help_showed)
             return -1;
         App app(args);
         app.run();
     }
-    catch (const exception& e)
-    {
+    catch(const exception& e){
         cout << "error: " << e.what() << endl;
     }
     return 0;
 }
 
 
-Params::Params()
-{
+Params::Params(){
     method = BM;
     ndisp = 64;
 }
 
 
-Params Params::read(int argc, char** argv)
-{
+Params Params::read(int argc, char** argv){
     Params p;
 
-    for (int i = 1; i < argc; i++)
-    {
+    for (int i = 1; i < argc; i++){
         if (string(argv[i]) == "--left") p.left = argv[++i];
-        else if (string(argv[i]) == "--right") p.right = argv[++i];
-        else if (string(argv[i]) == "--method")
-        {
+        else if (string(argv[i]) == "--right")
+            p.right = argv[++i];
+        else if (string(argv[i]) == "--method"){
             if (string(argv[i + 1]) == "BM") p.method = BM;
             else if (string(argv[i + 1]) == "BP") p.method = BP;
             else if (string(argv[i + 1]) == "CSBP") p.method = CSBP;
@@ -138,10 +141,12 @@ Params Params::read(int argc, char** argv)
 }
 
 
-App::App(const Params& params)
-    : p(params), running(false)
-{
-//    cv::cuda::printShortCudaDeviceInfo(cv::cuda::getDevice());
+App::App(const Params& params) : p(params), running(false){
+    isVideoFile=false;
+    isImageFile=false;
+    frameCounter=0;
+
+    cv::cuda::printShortCudaDeviceInfo(cv::cuda::getDevice());
 
     cout << "stereo_match_gpu sample\n";
     cout << "\nControls:\n"
@@ -157,77 +162,120 @@ App::App(const Params& params)
 }
 
 
-void App::run()
-{
-    // Load images
-    left_src = imread(p.left);
-    right_src = imread(p.right);
-    if (left_src.empty()) throw runtime_error("can't open file \"" + p.left + "\"");
-    if (right_src.empty()) throw runtime_error("can't open file \"" + p.right + "\"");
-    cvtColor(left_src, left, COLOR_BGR2GRAY);
-    cvtColor(right_src, right, COLOR_BGR2GRAY);
-    d_left.upload(left);
-    d_right.upload(right);
+void App::run(){
+    App::open();
 
-    imshow("left", left);
-    imshow("right", right);
+    cout << "oi" << endl;
+
+    if(isVideoFile){
+
+    }else{
+        cvtColor(imageL_src, imageL, COLOR_BGR2GRAY);
+        cvtColor(imageR_src, imageR, COLOR_BGR2GRAY);
+        d_imageL.upload(imageL);
+        d_imageR.upload(imageR);
+
+        imshow("left", imageL);
+        imshow("right", imageR);
+    }
 
     // Set common parameters
     bm = cuda::createStereoBM(p.ndisp);
+
+//    bm->setPreFilterSize(127);
+//    bm->setPreFilterCap(61);
+    bm->setBlockSize(15);
+//    bm->setMinDisparity(0);
+//    bm->setNumDisparities(16);
+    bm->setTextureThreshold(4);
+//    bm->setUniquenessRatio(0);
+//    bm->setSpeckleWindowSize(0);
+//    bm->setSpeckleRange(0);
+//    bm->setDisp12MaxDiff(1);
+
     bp = cuda::createStereoBeliefPropagation(p.ndisp);
     csbp = cv::cuda::createStereoConstantSpaceBP(p.ndisp);
 
     // Prepare disparity map of specified type
-    Mat disp(left.size(), CV_8U);
-    cuda::GpuMat d_disp(left.size(), CV_8U);
+    Mat disp(imageL.size(), CV_8U);
+    cuda::GpuMat d_disp(imageL.size(), CV_8U);
 
     cout << endl;
     printParams();
 
     running = true;
-    while (running)
-    {
+    while (running){
         workBegin();
-        switch (p.method)
-        {
+        switch (p.method){
         case Params::BM:
-            if (d_left.channels() > 1 || d_right.channels() > 1)
-            {
+            if (d_imageL.channels() > 1 || d_imageR.channels() > 1){
                 cout << "BM doesn't support color images\n";
-                cvtColor(left_src, left, COLOR_BGR2GRAY);
-                cvtColor(right_src, right, COLOR_BGR2GRAY);
-                cout << "image_channels: " << left.channels() << endl;
-                d_left.upload(left);
-                d_right.upload(right);
-                imshow("left", left);
-                imshow("right", right);
+                cvtColor(imageL_src, imageL, COLOR_BGR2GRAY);
+                cvtColor(imageR_src, imageR, COLOR_BGR2GRAY);
+                cout << "image_channels: " << imageL.channels() << endl;
+                d_imageL.upload(imageL);
+                d_imageR.upload(imageR);
+                imshow("left", imageL);
+                imshow("right", imageR);
             }
-            bm->compute(d_left, d_right, d_disp);
+
+            if(isVideoFile){
+                capL >> imageL;
+                capR >> imageR;
+
+                resizeFrames(&imageL,&imageR);
+
+                /* Converts the new frames to grey */
+                cvtColor(imageL, imageL, COLOR_BGR2GRAY);
+                cvtColor(imageR, imageR, COLOR_BGR2GRAY);
+
+                d_imageL.upload(imageL);
+                d_imageR.upload(imageR);
+
+                imshow("left", imageL);
+                imshow("right", imageR);
+            }
+
+            bm->compute(d_imageL, d_imageR, d_disp);
             break;
-        case Params::BP: bp->compute(d_left, d_right, d_disp); break;
-        case Params::CSBP: csbp->compute(d_left, d_right, d_disp); break;
+        case Params::BP: bp->compute(d_imageL, d_imageR, d_disp); break;
+        case Params::CSBP: csbp->compute(d_imageL, d_imageR, d_disp); break;
         }
         workEnd();
 
         // Show results
         d_disp.download(disp);
-        putText(disp, text(), Point(5, 25), FONT_HERSHEY_SIMPLEX, 1.0, Scalar::all(255));
-        imshow("disparity", disp);
+
+        /* TODO: Descomentar Trecho Original */
+        //putText(disp, text(), Point(5, 25), FONT_HERSHEY_SIMPLEX, 1.0, Scalar::all(255));
+        //imshow("disparity", disp);
+
+        /* TODO: Remover Depois */
+        Mat disp8U,dispBGR;
+
+        normalize(disp, disp8U, 0, 255, CV_MINMAX, CV_8U);
+        applyColorMap(disp8U,dispBGR, COLORMAP_JET);
+
+        putText(disp8U, text(), Point(5, 25), FONT_HERSHEY_SIMPLEX, 1.0, Scalar::all(255));
+
+        putText(disp8U, text(), Point(5, 25), FONT_HERSHEY_SIMPLEX, 1.0, Scalar::all(255));
+        imshow("disp", disp8U);
+        imshow("dispBGR",dispBGR);
+
+        videoLooper();
 
         handleKey((char)waitKey(3));
     }
 }
 
 
-void App::printParams() const
-{
+void App::printParams() const{
     cout << "--- Parameters ---\n";
-    cout << "image_size: (" << left.cols << ", " << left.rows << ")\n";
-    cout << "image_channels: " << left.channels() << endl;
+    cout << "image_size: (" << imageL.cols << ", " << imageL.rows << ")\n";
+    cout << "image_channels: " << imageL.channels() << endl;
     cout << "method: " << p.method_str() << endl
          << "ndisp: " << p.ndisp << endl;
-    switch (p.method)
-    {
+    switch (p.method){
     case Params::BM:
         cout << "win_size: " << bm->getBlockSize() << endl;
         cout << "prefilter_sobel: " << bm->getPreFilterType() << endl;
@@ -245,10 +293,8 @@ void App::printParams() const
 }
 
 
-void App::handleKey(char key)
-{
-    switch (key)
-    {
+void App::handleKey(char key){
+    switch (key){
     case 27:
         running = false;
         break;
@@ -256,25 +302,22 @@ void App::handleKey(char key)
         printParams();
         break;
     case 'g': case 'G':
-        if (left.channels() == 1 && p.method != Params::BM)
-        {
-            left = left_src;
-            right = right_src;
+        if (imageL.channels() == 1 && p.method != Params::BM){
+            imageL = imageL_src;
+            imageR = imageR_src;
         }
-        else
-        {
-            cvtColor(left_src, left, COLOR_BGR2GRAY);
-            cvtColor(right_src, right, COLOR_BGR2GRAY);
+        else{
+            cvtColor(imageL_src, imageL, COLOR_BGR2GRAY);
+            cvtColor(imageR_src, imageR, COLOR_BGR2GRAY);
         }
-        d_left.upload(left);
-        d_right.upload(right);
-        cout << "image_channels: " << left.channels() << endl;
-        imshow("left", left);
-        imshow("right", right);
+        d_imageL.upload(imageL);
+        d_imageR.upload(imageR);
+        cout << "image_channels: " << imageL.channels() << endl;
+        imshow("left", imageL);
+        imshow("right", imageR);
         break;
     case 'm': case 'M':
-        switch (p.method)
-        {
+        switch (p.method){
         case Params::BM:
             p.method = Params::BP;
             break;
@@ -288,10 +331,8 @@ void App::handleKey(char key)
         cout << "method: " << p.method_str() << endl;
         break;
     case 's': case 'S':
-        if (p.method == Params::BM)
-        {
-            switch (bm->getPreFilterType())
-            {
+        if (p.method == Params::BM){
+            switch (bm->getPreFilterType()){
             case 0:
                 bm->setPreFilterType(cv::StereoBM::PREFILTER_XSOBEL);
                 break;
@@ -317,69 +358,131 @@ void App::handleKey(char key)
         csbp->setNumDisparities(p.ndisp);
         break;
     case '2':
-        if (p.method == Params::BM)
-        {
+        if (p.method == Params::BM){
             bm->setBlockSize(min(bm->getBlockSize() + 1, 51));
             cout << "win_size: " << bm->getBlockSize() << endl;
         }
         break;
     case 'w': case 'W':
-        if (p.method == Params::BM)
-        {
+        if (p.method == Params::BM){
             bm->setBlockSize(max(bm->getBlockSize() - 1, 2));
             cout << "win_size: " << bm->getBlockSize() << endl;
         }
         break;
     case '3':
-        if (p.method == Params::BP)
-        {
+        if (p.method == Params::BP){
             bp->setNumIters(bp->getNumIters() + 1);
             cout << "iter_count: " << bp->getNumIters() << endl;
         }
-        else if (p.method == Params::CSBP)
-        {
+        else if (p.method == Params::CSBP){
             csbp->setNumIters(csbp->getNumIters() + 1);
             cout << "iter_count: " << csbp->getNumIters() << endl;
         }
         break;
     case 'e': case 'E':
-        if (p.method == Params::BP)
-        {
+        if (p.method == Params::BP){
             bp->setNumIters(max(bp->getNumIters() - 1, 1));
             cout << "iter_count: " << bp->getNumIters() << endl;
         }
-        else if (p.method == Params::CSBP)
-        {
+        else if (p.method == Params::CSBP){
             csbp->setNumIters(max(csbp->getNumIters() - 1, 1));
             cout << "iter_count: " << csbp->getNumIters() << endl;
         }
         break;
     case '4':
-        if (p.method == Params::BP)
-        {
+        if (p.method == Params::BP){
             bp->setNumLevels(bp->getNumLevels() + 1);
             cout << "level_count: " << bp->getNumLevels() << endl;
         }
-        else if (p.method == Params::CSBP)
-        {
+        else if (p.method == Params::CSBP){
             csbp->setNumLevels(csbp->getNumLevels() + 1);
             cout << "level_count: " << csbp->getNumLevels() << endl;
         }
         break;
     case 'r': case 'R':
-        if (p.method == Params::BP)
-        {
+        if (p.method == Params::BP){
             bp->setNumLevels(max(bp->getNumLevels() - 1, 1));
             cout << "level_count: " << bp->getNumLevels() << endl;
         }
-        else if (p.method == Params::CSBP)
-        {
+        else if (p.method == Params::CSBP){
             csbp->setNumLevels(max(csbp->getNumLevels() - 1, 1));
             cout << "level_count: " << csbp->getNumLevels() << endl;
         }
         break;
     }
 }
+
+void App::open(){
+    /* Identify the type of the input file. */
+    if(p.left.substr(p.left.find_last_of(".") + 1) == "avi"){
+        isVideoFile=true;
+        capL.open(p.left);
+        capR.open(p.right);
+
+        if(!capL.isOpened() || !capR.isOpened()){		// Check if it succeeded
+            cerr <<  "Could not open or find the input videos!" << endl ;
+            //return -1;
+        }
+
+        /* Console Output */
+        cout << "It's a Video file" << endl;
+        cout << "Input 1 Resolution: " << capR.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capR.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+        cout << "Input 2 Resolution: " << capL.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL.get(CV_CAP_PROP_FRAME_HEIGHT) << endl << endl;
+
+    }else{
+        cout << "It is not a Video file" << endl;
+        if(p.left.substr(p.left.find_last_of(".") + 1) == "jpg" || p.left.substr(p.left.find_last_of(".") + 1) == "png"){
+            cout << "It's a Image file" << endl;
+            isImageFile=true;
+
+            imageL_src = imread(p.left);
+            imageR_src = imread(p.right);
+
+            //if (imageL_src.empty()) throw runtime_error("can't open file \"" + p.left + "\"");
+            //if (imageR_src.empty()) throw runtime_error("can't open file \"" + p.right + "\"");
+
+            if(!imageL.data || !imageR.data){      // Check if it succeeded
+                cout << "Could not open or find the input images!" << endl;
+                //return -1;
+            }
+        }else{
+            cout << "It is not a Image file" << endl;
+        }
+    }
+}
+
+void App::resizeFrames(Mat* frame1,Mat* frame2){
+    if(frame1->cols != 0 || !frame2->cols != 0){
+#ifdef RESOLUTION_320x240
+        resize(*frame1, *frame1, Size(320,240), 0, 0, INTER_CUBIC);
+        resize(*frame2, *frame2, Size(320,240), 0, 0, INTER_CUBIC);
+#endif
+
+#ifdef RESOLUTION_640x480
+        resize(*frame1, *frame1, Size(640,480), 0, 0, INTER_CUBIC);
+        resize(*frame2, *frame2, Size(640,480), 0, 0, INTER_CUBIC);
+#endif
+
+#ifdef RESOLUTION_1280x720
+        resize(*frame1, *frame1, Size(1280,720), 0, 0, INTER_CUBIC);
+        resize(*frame2, *frame2, Size(1280,720), 0, 0, INTER_CUBIC);
+#endif
+    }
+}
+
+void App::videoLooper(){
+    frameCounter += 1;
+
+    //Debug
+    //cout << "Frames: " << frameCounter << "/" << capL.get(CV_CAP_PROP_FRAME_COUNT) << endl;
+
+    if(frameCounter == capL.get(CV_CAP_PROP_FRAME_COUNT)){
+        frameCounter = 0;
+        capL.set(CV_CAP_PROP_POS_FRAMES,0);
+        capR.set(CV_CAP_PROP_POS_FRAMES,0);
+    }
+}
+
 
 //int main(){
 //    Mat img1, img2;

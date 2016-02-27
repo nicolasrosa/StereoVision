@@ -429,7 +429,10 @@ void StereoProcessor::setValues(int preFilterSize, int preFilterCap, int sadWind
 void StereoProcessor::videoLooper(){
     frameCounter += 1;
 
-    if(frameCounter == capR.get(CV_CAP_PROP_FRAME_COUNT)){
+    //Debug
+    //cout << "Frames: " << frameCounter << "/" << capL.get(CV_CAP_PROP_FRAME_COUNT) << endl;
+
+    if(frameCounter == capL.get(CV_CAP_PROP_FRAME_COUNT)){
         frameCounter = 0;
         capL.set(CV_CAP_PROP_POS_FRAMES,0);
         capR.set(CV_CAP_PROP_POS_FRAMES,0);
