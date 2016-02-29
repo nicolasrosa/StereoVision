@@ -1,20 +1,30 @@
+# App Configuration
 TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
+# Libraries
+INCLUDEPATH += /usr/local/include/opencv
+LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu
+
+# Sources
+SOURCES += \
+    stereoARM.cpp
+
+# Binaries Location
 DESTDIR = bin
 TARGET = stereoARM
 
-INCLUDEPATH += /usr/local/include/opencv
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_photo -lopencv_superres -lopencv_ts -lopencv_videoio -lopencv_videostab -lopencv_shape -lopencv_stitching -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_flann
+# Temporary directories
+OBJECTS_DIR = tmp/obj
+MOC_DIR = tmp/moc
+UI_DIR = tmp/moc
+RCC_DIR = tmp/rc
 
-SOURCES += \
-    stereoARM.cpp
 
 OTHER_FILES += \
     extrinsics.yml \
     intrinsics.yml
 
 HEADERS +=
-

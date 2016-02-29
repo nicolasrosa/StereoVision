@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <opencv2/core/utility.hpp>
 #include "opencv2/cudastereo.hpp"
+#include "opencv2/cudaarithm.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
 
@@ -45,12 +46,12 @@ struct App{
     void open();
     void resizeFrames(Mat* frame1,Mat* frame2);
     void videoLooper();
-    void workBegin(){
-        work_begin = getTickCount();
+    void startClock(){
+        clockInitial = getTickCount();
     }
 
-    void workEnd(){
-        int64 d = getTickCount() - work_begin;
+    void stopClock(){
+        int64 d = getTickCount() - clockInitial;
         double f = getTickFrequency();
         work_fps = f / d;
     }
@@ -75,11 +76,11 @@ private:
     Mat imageL, imageR;
     cuda::GpuMat d_imageL, d_imageR;
 
-    Ptr<cuda::StereoBM> bm;
-    Ptr<cuda::StereoBeliefPropagation> bp;
-    Ptr<cuda::StereoConstantSpaceBP> csbp;
+    Ptr<cuda::StereoBM> bmCU;
+    Ptr<cuda::StereoBeliefPropagation> bpCU;
+    Ptr<cuda::StereoConstantSpaceBP> csbpCU;
 
-    int64 work_begin;
+    int64 clockInitial;
     double work_fps;
 };
 
@@ -146,7 +147,7 @@ App::App(const Params& params) : p(params), running(false){
     isImageFile=false;
     frameCounter=0;
 
-    cv::cuda::printShortCudaDeviceInfo(cv::cuda::getDevice());
+    cuda::printShortCudaDeviceInfo(cuda::getDevice());
 
     cout << "stereo_match_gpu sample\n";
     cout << "\nControls:\n"
@@ -165,8 +166,6 @@ App::App(const Params& params) : p(params), running(false){
 void App::run(){
     App::open();
 
-    cout << "oi" << endl;
-
     if(isVideoFile){
 
     }else{
@@ -180,32 +179,32 @@ void App::run(){
     }
 
     // Set common parameters
-    bm = cuda::createStereoBM(p.ndisp);
+    bmCU = cuda::createStereoBM(p.ndisp);
 
 //    bm->setPreFilterSize(127);
 //    bm->setPreFilterCap(61);
-    bm->setBlockSize(15);
+    bmCU->setBlockSize(15);
 //    bm->setMinDisparity(0);
 //    bm->setNumDisparities(16);
-    bm->setTextureThreshold(4);
+    bmCU->setTextureThreshold(4);
 //    bm->setUniquenessRatio(0);
 //    bm->setSpeckleWindowSize(0);
 //    bm->setSpeckleRange(0);
 //    bm->setDisp12MaxDiff(1);
 
-    bp = cuda::createStereoBeliefPropagation(p.ndisp);
-    csbp = cv::cuda::createStereoConstantSpaceBP(p.ndisp);
+    bpCU = cuda::createStereoBeliefPropagation(p.ndisp);
+    csbpCU = cuda::createStereoConstantSpaceBP(p.ndisp);
 
-    // Prepare disparity map of specified type
+    /* Prepare disparity map of specified type */
     Mat disp(imageL.size(), CV_8U);
-    cuda::GpuMat d_disp(imageL.size(), CV_8U);
+    cuda::GpuMat d_disp(imageL.size(), CV_16S);
 
     cout << endl;
     printParams();
 
     running = true;
     while (running){
-        workBegin();
+        startClock();
         switch (p.method){
         case Params::BM:
             if (d_imageL.channels() > 1 || d_imageR.channels() > 1){
@@ -236,12 +235,12 @@ void App::run(){
                 imshow("right", imageR);
             }
 
-            bm->compute(d_imageL, d_imageR, d_disp);
+            bmCU->compute(d_imageL, d_imageR, d_disp);
             break;
-        case Params::BP: bp->compute(d_imageL, d_imageR, d_disp); break;
-        case Params::CSBP: csbp->compute(d_imageL, d_imageR, d_disp); break;
+        case Params::BP: bpCU->compute(d_imageL, d_imageR, d_disp); break;
+        case Params::CSBP: csbpCU->compute(d_imageL, d_imageR, d_disp); break;
         }
-        workEnd();
+        stopClock();
 
         // Show results
         d_disp.download(disp);
@@ -251,9 +250,14 @@ void App::run(){
         //imshow("disparity", disp);
 
         /* TODO: Remover Depois */
-        Mat disp8U,dispBGR;
+        cuda::GpuMat d_disp8U(imageL.size(),CV_8U);
+        Mat disp8U(imageL.size(),CV_8U),dispBGR;
 
-        normalize(disp, disp8U, 0, 255, CV_MINMAX, CV_8U);
+        normalize(disp, disp8U, 0, 255, CV_MINMAX,CV_8U);
+        //cuda::normalize(d_disp,d_disp8U,1,0,NORM_MINMAX,-1);
+        //cuda::normalize(d_disp, d_disp8U, 1, 0, NORM_MINMAX, -1, Mat() );
+        //d_disp8U.download(disp8U);
+
         applyColorMap(disp8U,dispBGR, COLORMAP_JET);
 
         putText(disp8U, text(), Point(5, 25), FONT_HERSHEY_SIMPLEX, 1.0, Scalar::all(255));
@@ -277,16 +281,16 @@ void App::printParams() const{
          << "ndisp: " << p.ndisp << endl;
     switch (p.method){
     case Params::BM:
-        cout << "win_size: " << bm->getBlockSize() << endl;
-        cout << "prefilter_sobel: " << bm->getPreFilterType() << endl;
+        cout << "win_size: " << bmCU->getBlockSize() << endl;
+        cout << "prefilter_sobel: " << bmCU->getPreFilterType() << endl;
         break;
     case Params::BP:
-        cout << "iter_count: " << bp->getNumIters() << endl;
-        cout << "level_count: " << bp->getNumLevels() << endl;
+        cout << "iter_count: " << bpCU->getNumIters() << endl;
+        cout << "level_count: " << bpCU->getNumLevels() << endl;
         break;
     case Params::CSBP:
-        cout << "iter_count: " << csbp->getNumIters() << endl;
-        cout << "level_count: " << csbp->getNumLevels() << endl;
+        cout << "iter_count: " << csbpCU->getNumIters() << endl;
+        cout << "level_count: " << csbpCU->getNumLevels() << endl;
         break;
     }
     cout << endl;
@@ -332,81 +336,81 @@ void App::handleKey(char key){
         break;
     case 's': case 'S':
         if (p.method == Params::BM){
-            switch (bm->getPreFilterType()){
+            switch (bmCU->getPreFilterType()){
             case 0:
-                bm->setPreFilterType(cv::StereoBM::PREFILTER_XSOBEL);
+                bmCU->setPreFilterType(StereoBM::PREFILTER_XSOBEL);
                 break;
-            case cv::StereoBM::PREFILTER_XSOBEL:
-                bm->setPreFilterType(0);
+            case StereoBM::PREFILTER_XSOBEL:
+                bmCU->setPreFilterType(0);
                 break;
             }
-            cout << "prefilter_sobel: " << bm->getPreFilterType() << endl;
+            cout << "prefilter_sobel: " << bmCU->getPreFilterType() << endl;
         }
         break;
     case '1':
         p.ndisp = p.ndisp == 1 ? 8 : p.ndisp + 8;
         cout << "ndisp: " << p.ndisp << endl;
-        bm->setNumDisparities(p.ndisp);
-        bp->setNumDisparities(p.ndisp);
-        csbp->setNumDisparities(p.ndisp);
+        bmCU->setNumDisparities(p.ndisp);
+        bpCU->setNumDisparities(p.ndisp);
+        csbpCU->setNumDisparities(p.ndisp);
         break;
     case 'q': case 'Q':
         p.ndisp = max(p.ndisp - 8, 1);
         cout << "ndisp: " << p.ndisp << endl;
-        bm->setNumDisparities(p.ndisp);
-        bp->setNumDisparities(p.ndisp);
-        csbp->setNumDisparities(p.ndisp);
+        bmCU->setNumDisparities(p.ndisp);
+        bpCU->setNumDisparities(p.ndisp);
+        csbpCU->setNumDisparities(p.ndisp);
         break;
     case '2':
         if (p.method == Params::BM){
-            bm->setBlockSize(min(bm->getBlockSize() + 1, 51));
-            cout << "win_size: " << bm->getBlockSize() << endl;
+            bmCU->setBlockSize(min(bmCU->getBlockSize() + 1, 51));
+            cout << "win_size: " << bmCU->getBlockSize() << endl;
         }
         break;
     case 'w': case 'W':
         if (p.method == Params::BM){
-            bm->setBlockSize(max(bm->getBlockSize() - 1, 2));
-            cout << "win_size: " << bm->getBlockSize() << endl;
+            bmCU->setBlockSize(max(bmCU->getBlockSize() - 1, 2));
+            cout << "win_size: " << bmCU->getBlockSize() << endl;
         }
         break;
     case '3':
         if (p.method == Params::BP){
-            bp->setNumIters(bp->getNumIters() + 1);
-            cout << "iter_count: " << bp->getNumIters() << endl;
+            bpCU->setNumIters(bpCU->getNumIters() + 1);
+            cout << "iter_count: " << bpCU->getNumIters() << endl;
         }
         else if (p.method == Params::CSBP){
-            csbp->setNumIters(csbp->getNumIters() + 1);
-            cout << "iter_count: " << csbp->getNumIters() << endl;
+            csbpCU->setNumIters(csbpCU->getNumIters() + 1);
+            cout << "iter_count: " << csbpCU->getNumIters() << endl;
         }
         break;
     case 'e': case 'E':
         if (p.method == Params::BP){
-            bp->setNumIters(max(bp->getNumIters() - 1, 1));
-            cout << "iter_count: " << bp->getNumIters() << endl;
+            bpCU->setNumIters(max(bpCU->getNumIters() - 1, 1));
+            cout << "iter_count: " << bpCU->getNumIters() << endl;
         }
         else if (p.method == Params::CSBP){
-            csbp->setNumIters(max(csbp->getNumIters() - 1, 1));
-            cout << "iter_count: " << csbp->getNumIters() << endl;
+            csbpCU->setNumIters(max(csbpCU->getNumIters() - 1, 1));
+            cout << "iter_count: " << csbpCU->getNumIters() << endl;
         }
         break;
     case '4':
         if (p.method == Params::BP){
-            bp->setNumLevels(bp->getNumLevels() + 1);
-            cout << "level_count: " << bp->getNumLevels() << endl;
+            bpCU->setNumLevels(bpCU->getNumLevels() + 1);
+            cout << "level_count: " << bpCU->getNumLevels() << endl;
         }
         else if (p.method == Params::CSBP){
-            csbp->setNumLevels(csbp->getNumLevels() + 1);
-            cout << "level_count: " << csbp->getNumLevels() << endl;
+            csbpCU->setNumLevels(csbpCU->getNumLevels() + 1);
+            cout << "level_count: " << csbpCU->getNumLevels() << endl;
         }
         break;
     case 'r': case 'R':
         if (p.method == Params::BP){
-            bp->setNumLevels(max(bp->getNumLevels() - 1, 1));
-            cout << "level_count: " << bp->getNumLevels() << endl;
+            bpCU->setNumLevels(max(bpCU->getNumLevels() - 1, 1));
+            cout << "level_count: " << bpCU->getNumLevels() << endl;
         }
         else if (p.method == Params::CSBP){
-            csbp->setNumLevels(max(csbp->getNumLevels() - 1, 1));
-            cout << "level_count: " << csbp->getNumLevels() << endl;
+            csbpCU->setNumLevels(max(csbpCU->getNumLevels() - 1, 1));
+            cout << "level_count: " << csbpCU->getNumLevels() << endl;
         }
         break;
     }

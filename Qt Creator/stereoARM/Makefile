@@ -18,7 +18,7 @@ CXXFLAGS      = -m64 -pipe -g -Wall -W -fPIE $(DEFINES)
 INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -I/usr/local/include/opencv
 LINK          = g++
 LFLAGS        = -m64
-LIBS          = $(SUBLIBS) -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_photo -lopencv_superres -lopencv_ts -lopencv_videoio -lopencv_videostab -lopencv_shape -lopencv_stitching -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_flann 
+LIBS          = $(SUBLIBS) `pkg-config --cflags --libs opencv` -lopencv_gpu 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
@@ -41,12 +41,12 @@ MKDIR         = mkdir -p
 
 ####### Output directory
 
-OBJECTS_DIR   = ./
+OBJECTS_DIR   = tmp/obj/
 
 ####### Files
 
 SOURCES       = stereoARM.cpp 
-OBJECTS       = stereoARM.o
+OBJECTS       = tmp/obj/stereoARM.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -254,8 +254,8 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist: 
-	@test -d .tmp/stereoARM1.0.0 || mkdir -p .tmp/stereoARM1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/stereoARM1.0.0/ && (cd `dirname .tmp/stereoARM1.0.0` && $(TAR) stereoARM1.0.0.tar stereoARM1.0.0 && $(COMPRESS) stereoARM1.0.0.tar) && $(MOVE) `dirname .tmp/stereoARM1.0.0`/stereoARM1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/stereoARM1.0.0
+	@test -d tmp/obj/stereoARM1.0.0 || mkdir -p tmp/obj/stereoARM1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) tmp/obj/stereoARM1.0.0/ && (cd `dirname tmp/obj/stereoARM1.0.0` && $(TAR) stereoARM1.0.0.tar stereoARM1.0.0 && $(COMPRESS) stereoARM1.0.0.tar) && $(MOVE) `dirname tmp/obj/stereoARM1.0.0`/stereoARM1.0.0.tar.gz . && $(DEL_FILE) -r tmp/obj/stereoARM1.0.0
 
 
 clean:compiler_clean 
@@ -282,8 +282,8 @@ compiler_clean:
 
 ####### Compile
 
-stereoARM.o: stereoARM.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stereoARM.o stereoARM.cpp
+tmp/obj/stereoARM.o: stereoARM.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/stereoARM.o stereoARM.cpp
 
 ####### Install
 
