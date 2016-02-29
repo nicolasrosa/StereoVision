@@ -30,6 +30,7 @@ public:
     void writeMatToFile(Mat &m, const char* filename);
     void calculateHist(Mat &src, const string histName);
     void setDisplayFPS();
+    string intToString(int number);
 
     /* Timing */
     void startClock();

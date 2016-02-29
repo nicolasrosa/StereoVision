@@ -5,7 +5,7 @@
  *      Author: nicolasrosa
  */
 
-#include "trackObject.h"
+#include "inc/trackObject.h"
 
 void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed){
 
@@ -80,6 +80,7 @@ void drawObject(int x, int y,Mat &frame){
 
 string intToString(int number){
     stringstream ss;
-	ss << number;
-	return ss.str();
+    ss << number;
+    return ss.str();
 }
+

@@ -17,12 +17,6 @@ using namespace std;
 const string trackbarWindowName = "Stereo Param Setup";
 //bool isVideoFile=false,isImageFile=false,needCalibration=false,isStereoParamSetupTrackbarsCreated=false,isTrackingObjects=true;;
 
-/* Threshold, Erosion, Dilation and Blur Constants */
-#define THRESH_VALUE   100
-#define EROSION_SIZE     5
-#define DILATION_SIZE    5
-#define BLUR_SIZE        3
-
 /* Trackbars Variables
  * Initial min and max BM Parameters values.These will be changed using trackbars
  */

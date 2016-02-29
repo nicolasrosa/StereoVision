@@ -5,14 +5,15 @@
  *      Author: nicolasrosa
  */
 
-#include "setstereoparams.h"
-#include "ui_setstereoparams.h"
-#include "iostream"
-#include "StereoProcessor.h"
-
 #include <QHBoxLayout>
 #include <QSlider>
 #include <QSpinBox>
+#include "ui_setstereoparams.h"
+
+#include <iostream>
+
+#include "inc/setstereoparams.h"
+#include "inc/StereoProcessor.h"
 
 //using namespace cv;
 using namespace std;

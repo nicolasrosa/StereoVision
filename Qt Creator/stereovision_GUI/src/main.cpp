@@ -5,7 +5,7 @@
  *      Author: nicolasrosa
  */
 
-#include "mainwindow.h"
+#include "inc/mainwindow.h"
 #include <QApplication>
 
 int main(int argc, char *argv[]){

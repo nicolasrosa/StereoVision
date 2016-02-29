@@ -15,10 +15,10 @@ CXX           = g++
 DEFINES       = -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m64 -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 CXXFLAGS      = -m64 -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -I/usr/local/include/opencv -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I. -I.
+INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -I/usr/local/include/opencv -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -Itmp/moc -Itmp/moc
 LINK          = g++
 LFLAGS        = -m64
-LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 `pkg-config --cflags --libs opencv` -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 `pkg-config --cflags --libs opencv` -lopencv_gpu -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
@@ -41,41 +41,43 @@ MKDIR         = mkdir -p
 
 ####### Output directory
 
-OBJECTS_DIR   = ./
+OBJECTS_DIR   = tmp/obj/
 
 ####### Files
 
-SOURCES       = main.cpp \
-		mainwindow.cpp \
-		trackObject.cpp \
-		StereoProcessor.cpp \
-		setstereoparams.cpp \
-		StereoCustom.cpp \
-		StereoFlags.cpp \
-		StereoDiff.cpp \
-		StereoCalib.cpp \
-		StereoDisparityMap.cpp \
-		StereoUtils.cpp \
-		Reconstruction3D.cpp \
-		StereoConfig.cpp qrc_icon_resource.cpp \
-		moc_mainwindow.cpp \
-		moc_setstereoparams.cpp
-OBJECTS       = main.o \
-		mainwindow.o \
-		trackObject.o \
-		StereoProcessor.o \
-		setstereoparams.o \
-		StereoCustom.o \
-		StereoFlags.o \
-		StereoDiff.o \
-		StereoCalib.o \
-		StereoDisparityMap.o \
-		StereoUtils.o \
-		Reconstruction3D.o \
-		StereoConfig.o \
-		qrc_icon_resource.o \
-		moc_mainwindow.o \
-		moc_setstereoparams.o
+SOURCES       = src/main.cpp \
+		src/mainwindow.cpp \
+		src/trackObject.cpp \
+		src/StereoProcessor.cpp \
+		src/setstereoparams.cpp \
+		src/StereoCustom.cpp \
+		src/StereoFlags.cpp \
+		src/StereoDiff.cpp \
+		src/StereoCalib.cpp \
+		src/StereoDisparityMap.cpp \
+		src/StereoUtils.cpp \
+		src/Reconstruction3D.cpp \
+		src/StereoConfig.cpp \
+		src/StereoMorphology.cpp tmp/rc/qrc_icon_resource.cpp \
+		tmp/moc/moc_mainwindow.cpp \
+		tmp/moc/moc_setstereoparams.cpp
+OBJECTS       = tmp/obj/main.o \
+		tmp/obj/mainwindow.o \
+		tmp/obj/trackObject.o \
+		tmp/obj/StereoProcessor.o \
+		tmp/obj/setstereoparams.o \
+		tmp/obj/StereoCustom.o \
+		tmp/obj/StereoFlags.o \
+		tmp/obj/StereoDiff.o \
+		tmp/obj/StereoCalib.o \
+		tmp/obj/StereoDisparityMap.o \
+		tmp/obj/StereoUtils.o \
+		tmp/obj/Reconstruction3D.o \
+		tmp/obj/StereoConfig.o \
+		tmp/obj/StereoMorphology.o \
+		tmp/obj/qrc_icon_resource.o \
+		tmp/obj/moc_mainwindow.o \
+		tmp/obj/moc_setstereoparams.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -137,7 +139,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		stereovision_GUI.pro \
-		icon_resource.qrc \
+		res/icon_resource.qrc \
 		stereovision_GUI.pro
 QMAKE_TARGET  = stereovision_GUI
 DESTDIR       = bin/#avoid trailing-slash linebreak
@@ -168,7 +170,7 @@ first: all
 
 all: Makefile $(TARGET)
 
-$(TARGET): ui_mainwindow.h ui_setstereoparams.h $(OBJECTS)  
+$(TARGET): tmp/moc/ui_mainwindow.h tmp/moc/ui_setstereoparams.h $(OBJECTS)  
 	@test -d bin/ || mkdir -p bin/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 	{ test -n "$(DESTDIR)" && DESTDIR="$(DESTDIR)" || DESTDIR=.; } && test $$(gdb --version | sed -e 's,[^0-9][^0-9]*\([0-9]\)\.\([0-9]\).*,\1\2,;q') -gt 72 && gdb --nx --batch --quiet -ex 'set confirm off' -ex "save gdb-index $$DESTDIR" -ex quit '$(TARGET)' && test -f $(TARGET).gdb-index && objcopy --add-section '.gdb_index=$(TARGET).gdb-index' --set-section-flags '.gdb_index=readonly' '$(TARGET)' '$(TARGET)' && rm -f $(TARGET).gdb-index || true
@@ -234,7 +236,7 @@ Makefile: stereovision_GUI.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-6
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		stereovision_GUI.pro \
-		icon_resource.qrc \
+		res/icon_resource.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt5Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Gui.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Core.prl
@@ -300,7 +302,7 @@ Makefile: stereovision_GUI.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-6
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 stereovision_GUI.pro:
-icon_resource.qrc:
+res/icon_resource.qrc:
 /usr/lib/x86_64-linux-gnu/libQt5Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Gui.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Core.prl:
@@ -310,8 +312,8 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist: 
-	@test -d .tmp/stereovision_GUI1.0.0 || mkdir -p .tmp/stereovision_GUI1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents icon_resource.qrc .tmp/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents mainwindow.h reprojectImageTo3D.h trackObject.h StereoProcessor.h setstereoparams.h StereoCustom.h StereoFlags.h StereoDiff.h StereoCalib.h StereoDisparityMap.h StereoUtils.h Reconstruction3D.h StereoConfig.h .tmp/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents main.cpp mainwindow.cpp trackObject.cpp StereoProcessor.cpp setstereoparams.cpp StereoCustom.cpp StereoFlags.cpp StereoDiff.cpp StereoCalib.cpp StereoDisparityMap.cpp StereoUtils.cpp Reconstruction3D.cpp StereoConfig.cpp .tmp/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents mainwindow.ui setstereoparams.ui .tmp/stereovision_GUI1.0.0/ && (cd `dirname .tmp/stereovision_GUI1.0.0` && $(TAR) stereovision_GUI1.0.0.tar stereovision_GUI1.0.0 && $(COMPRESS) stereovision_GUI1.0.0.tar) && $(MOVE) `dirname .tmp/stereovision_GUI1.0.0`/stereovision_GUI1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/stereovision_GUI1.0.0
+	@test -d tmp/obj/stereovision_GUI1.0.0 || mkdir -p tmp/obj/stereovision_GUI1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents res/icon_resource.qrc tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents inc/mainwindow.h inc/reprojectImageTo3D.h inc/trackObject.h inc/StereoProcessor.h inc/setstereoparams.h inc/StereoCustom.h inc/StereoFlags.h inc/StereoDiff.h inc/StereoCalib.h inc/StereoDisparityMap.h inc/StereoUtils.h inc/Reconstruction3D.h inc/StereoConfig.h inc/StereoMorphology.h tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents src/main.cpp src/mainwindow.cpp src/trackObject.cpp src/StereoProcessor.cpp src/setstereoparams.cpp src/StereoCustom.cpp src/StereoFlags.cpp src/StereoDiff.cpp src/StereoCalib.cpp src/StereoDisparityMap.cpp src/StereoUtils.cpp src/Reconstruction3D.cpp src/StereoConfig.cpp src/StereoMorphology.cpp tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents forms/mainwindow.ui forms/setstereoparams.ui tmp/obj/stereovision_GUI1.0.0/ && (cd `dirname tmp/obj/stereovision_GUI1.0.0` && $(TAR) stereovision_GUI1.0.0.tar stereovision_GUI1.0.0 && $(COMPRESS) stereovision_GUI1.0.0.tar) && $(MOVE) `dirname tmp/obj/stereovision_GUI1.0.0`/stereovision_GUI1.0.0.tar.gz . && $(DEL_FILE) -r tmp/obj/stereovision_GUI1.0.0
 
 
 clean:compiler_clean 
@@ -332,22 +334,22 @@ mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 
 check: first
 
-compiler_rcc_make_all: qrc_icon_resource.cpp
+compiler_rcc_make_all: tmp/rc/qrc_icon_resource.cpp
 compiler_rcc_clean:
-	-$(DEL_FILE) qrc_icon_resource.cpp
-qrc_icon_resource.cpp: icon_resource.qrc \
-		icon/spydrone_black.png \
-		icon/helicopter_cyan.png \
-		icon/helicopter_orange.png \
-		icon/helicopter_white.png \
-		icon/helicopter_black.png \
-		icon/helicopter_green.png
-	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name icon_resource icon_resource.qrc -o qrc_icon_resource.cpp
+	-$(DEL_FILE) tmp/rc/qrc_icon_resource.cpp
+tmp/rc/qrc_icon_resource.cpp: res/icon_resource.qrc \
+		res/icon/helicopter_orange.png \
+		res/icon/helicopter_white.png \
+		res/icon/helicopter_black.png \
+		res/icon/helicopter_cyan.png \
+		res/icon/helicopter_green.png \
+		res/icon/spydrone_black.png
+	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name icon_resource res/icon_resource.qrc -o tmp/rc/qrc_icon_resource.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_setstereoparams.cpp
+compiler_moc_header_make_all: tmp/moc/moc_mainwindow.cpp tmp/moc/moc_setstereoparams.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_setstereoparams.cpp
-moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
+	-$(DEL_FILE) tmp/moc/moc_mainwindow.cpp tmp/moc/moc_setstereoparams.cpp
+tmp/moc/moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtWidgets/qwidget.h \
 		/usr/include/qt5/QtGui/qwindowdefs.h \
@@ -462,22 +464,22 @@ moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/QMessageBox \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtWidgets/qdialog.h \
-		StereoProcessor.h \
-		StereoCalib.h \
-		StereoCustom.h \
-		StereoConfig.h \
-		StereoDiff.h \
-		StereoDisparityMap.h \
-		StereoFlags.h \
-		StereoUtils.h \
-		Reconstruction3D.h \
-		mainwindow.h \
-		setstereoparams.h \
+		inc/StereoProcessor.h \
+		inc/StereoCalib.h \
+		inc/StereoCustom.h \
+		inc/StereoConfig.h \
+		inc/StereoDiff.h \
+		inc/StereoDisparityMap.h \
+		inc/StereoFlags.h \
+		inc/StereoUtils.h \
+		inc/Reconstruction3D.h \
+		inc/mainwindow.h \
+		inc/setstereoparams.h \
 		/usr/include/qt5/QtWidgets/QDialog \
-		mainwindow.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+		inc/mainwindow.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include inc/mainwindow.h -o tmp/moc/moc_mainwindow.cpp
 
-moc_setstereoparams.cpp: /usr/include/qt5/QtWidgets/QDialog \
+tmp/moc/moc_setstereoparams.cpp: /usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtWidgets/qwidget.h \
 		/usr/include/qt5/QtGui/qwindowdefs.h \
@@ -586,19 +588,19 @@ moc_setstereoparams.cpp: /usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtCore/qfiledevice.h \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
-		setstereoparams.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include setstereoparams.h -o moc_setstereoparams.cpp
+		inc/setstereoparams.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include inc/setstereoparams.h -o tmp/moc/moc_setstereoparams.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_setstereoparams.h
+compiler_uic_make_all: tmp/moc/ui_mainwindow.h tmp/moc/ui_setstereoparams.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_setstereoparams.h
-ui_mainwindow.h: mainwindow.ui
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic mainwindow.ui -o ui_mainwindow.h
+	-$(DEL_FILE) tmp/moc/ui_mainwindow.h tmp/moc/ui_setstereoparams.h
+tmp/moc/ui_mainwindow.h: forms/mainwindow.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/mainwindow.ui -o tmp/moc/ui_mainwindow.h
 
-ui_setstereoparams.h: setstereoparams.ui
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic setstereoparams.ui -o ui_setstereoparams.h
+tmp/moc/ui_setstereoparams.h: forms/setstereoparams.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic forms/setstereoparams.ui -o tmp/moc/ui_setstereoparams.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -610,7 +612,7 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: main.cpp mainwindow.h \
+tmp/obj/main.o: src/main.cpp inc/mainwindow.h \
 		/usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtWidgets/qwidget.h \
@@ -726,16 +728,16 @@ main.o: main.cpp mainwindow.h \
 		/usr/include/qt5/QtWidgets/QMessageBox \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtWidgets/qdialog.h \
-		StereoProcessor.h \
-		StereoCalib.h \
-		StereoCustom.h \
-		StereoConfig.h \
-		StereoDiff.h \
-		StereoDisparityMap.h \
-		StereoFlags.h \
-		StereoUtils.h \
-		Reconstruction3D.h \
-		setstereoparams.h \
+		inc/StereoProcessor.h \
+		inc/StereoCalib.h \
+		inc/StereoCustom.h \
+		inc/StereoConfig.h \
+		inc/StereoDiff.h \
+		inc/StereoDisparityMap.h \
+		inc/StereoFlags.h \
+		inc/StereoUtils.h \
+		inc/Reconstruction3D.h \
+		inc/setstereoparams.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qapplication.h \
@@ -744,9 +746,9 @@ main.o: main.cpp mainwindow.h \
 		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
 		/usr/include/qt5/QtGui/qguiapplication.h \
 		/usr/include/qt5/QtGui/qinputmethod.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/main.o src/main.cpp
 
-mainwindow.o: mainwindow.cpp /usr/include/qt5/QtCore/QtCore \
+tmp/obj/mainwindow.o: src/mainwindow.cpp /usr/include/qt5/QtCore/QtCore \
 		/usr/include/qt5/QtCore/QtCoreDepends \
 		/usr/include/qt5/QtCore/qabstractanimation.h \
 		/usr/include/qt5/QtCore/qobject.h \
@@ -967,25 +969,25 @@ mainwindow.o: mainwindow.cpp /usr/include/qt5/QtCore/QtCore \
 		/usr/include/qt5/QtWidgets/QMessageBox \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtWidgets/qdialog.h \
-		reprojectImageTo3D.h \
-		mainwindow.h \
+		inc/reprojectImageTo3D.h \
+		inc/mainwindow.h \
 		/usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtWidgets/qtabwidget.h \
 		/usr/include/qt5/QtGui/qicon.h \
 		/usr/include/qt5/QtGui/QCloseEvent \
-		StereoProcessor.h \
-		StereoCalib.h \
-		StereoCustom.h \
-		StereoConfig.h \
-		StereoDiff.h \
-		StereoDisparityMap.h \
-		StereoFlags.h \
-		StereoUtils.h \
-		Reconstruction3D.h \
-		setstereoparams.h \
+		inc/StereoProcessor.h \
+		inc/StereoCalib.h \
+		inc/StereoCustom.h \
+		inc/StereoConfig.h \
+		inc/StereoDiff.h \
+		inc/StereoDisparityMap.h \
+		inc/StereoFlags.h \
+		inc/StereoUtils.h \
+		inc/Reconstruction3D.h \
+		inc/setstereoparams.h \
 		/usr/include/qt5/QtWidgets/QDialog \
-		ui_mainwindow.h \
+		tmp/moc/ui_mainwindow.h \
 		/usr/include/qt5/QtCore/QVariant \
 		/usr/include/qt5/QtWidgets/QAction \
 		/usr/include/qt5/QtWidgets/qaction.h \
@@ -1039,13 +1041,13 @@ mainwindow.o: mainwindow.cpp /usr/include/qt5/QtCore/QtCore \
 		/usr/include/qt5/QtWidgets/QStatusBar \
 		/usr/include/qt5/QtWidgets/qstatusbar.h \
 		/usr/include/qt5/QtWidgets/QWidget
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/mainwindow.o src/mainwindow.cpp
 
-trackObject.o: trackObject.cpp trackObject.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o trackObject.o trackObject.cpp
+tmp/obj/trackObject.o: src/trackObject.cpp inc/trackObject.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/trackObject.o src/trackObject.cpp
 
-StereoProcessor.o: StereoProcessor.cpp trackObject.h \
-		mainwindow.h \
+tmp/obj/StereoProcessor.o: src/StereoProcessor.cpp inc/trackObject.h \
+		inc/mainwindow.h \
 		/usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtWidgets/qwidget.h \
@@ -1161,24 +1163,25 @@ StereoProcessor.o: StereoProcessor.cpp trackObject.h \
 		/usr/include/qt5/QtWidgets/QMessageBox \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtWidgets/qdialog.h \
-		StereoProcessor.h \
-		StereoCalib.h \
-		StereoCustom.h \
-		StereoConfig.h \
-		StereoDiff.h \
-		StereoDisparityMap.h \
-		StereoFlags.h \
-		StereoUtils.h \
-		Reconstruction3D.h \
-		setstereoparams.h \
+		inc/StereoProcessor.h \
+		inc/StereoCalib.h \
+		inc/StereoCustom.h \
+		inc/StereoConfig.h \
+		inc/StereoDiff.h \
+		inc/StereoDisparityMap.h \
+		inc/StereoFlags.h \
+		inc/StereoUtils.h \
+		inc/Reconstruction3D.h \
+		inc/setstereoparams.h \
 		/usr/include/qt5/QtWidgets/QDialog
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoProcessor.o StereoProcessor.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoProcessor.o src/StereoProcessor.cpp
 
-setstereoparams.o: setstereoparams.cpp setstereoparams.h \
-		/usr/include/qt5/QtWidgets/QDialog \
-		/usr/include/qt5/QtWidgets/qdialog.h \
-		/usr/include/qt5/QtWidgets/qwidget.h \
-		/usr/include/qt5/QtGui/qwindowdefs.h \
+tmp/obj/setstereoparams.o: src/setstereoparams.cpp /usr/include/qt5/QtWidgets/QHBoxLayout \
+		/usr/include/qt5/QtWidgets/qboxlayout.h \
+		/usr/include/qt5/QtWidgets/qlayout.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
 		/usr/include/qt5/QtCore/qglobal.h \
 		/usr/include/qt5/QtCore/qconfig.h \
 		/usr/include/qt5/QtCore/qfeatures.h \
@@ -1215,11 +1218,7 @@ setstereoparams.o: setstereoparams.cpp setstereoparams.h \
 		/usr/include/qt5/QtCore/qtypeinfo.h \
 		/usr/include/qt5/QtCore/qtypetraits.h \
 		/usr/include/qt5/QtCore/qsysinfo.h \
-		/usr/include/qt5/QtCore/qobjectdefs.h \
-		/usr/include/qt5/QtCore/qnamespace.h \
 		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
-		/usr/include/qt5/QtGui/qwindowdefs_win.h \
-		/usr/include/qt5/QtCore/qobject.h \
 		/usr/include/qt5/QtCore/qstring.h \
 		/usr/include/qt5/QtCore/qchar.h \
 		/usr/include/qt5/QtCore/qbytearray.h \
@@ -1236,10 +1235,16 @@ setstereoparams.o: setstereoparams.cpp setstereoparams.h \
 		/usr/include/qt5/QtCore/qcontainerfwd.h \
 		/usr/include/qt5/QtCore/qisenum.h \
 		/usr/include/qt5/QtCore/qobject_impl.h \
-		/usr/include/qt5/QtCore/qmargins.h \
+		/usr/include/qt5/QtWidgets/qlayoutitem.h \
+		/usr/include/qt5/QtWidgets/qsizepolicy.h \
 		/usr/include/qt5/QtCore/qrect.h \
 		/usr/include/qt5/QtCore/qsize.h \
 		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qmargins.h \
+		/usr/include/qt5/QtWidgets/qgridlayout.h \
+		/usr/include/qt5/QtWidgets/qwidget.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
 		/usr/include/qt5/QtGui/qpaintdevice.h \
 		/usr/include/qt5/QtGui/qpalette.h \
 		/usr/include/qt5/QtGui/qcolor.h \
@@ -1267,7 +1272,6 @@ setstereoparams.o: setstereoparams.cpp setstereoparams.h \
 		/usr/include/qt5/QtGui/qfont.h \
 		/usr/include/qt5/QtGui/qfontmetrics.h \
 		/usr/include/qt5/QtGui/qfontinfo.h \
-		/usr/include/qt5/QtWidgets/qsizepolicy.h \
 		/usr/include/qt5/QtGui/qcursor.h \
 		/usr/include/qt5/QtGui/qkeysequence.h \
 		/usr/include/qt5/QtGui/qevent.h \
@@ -1284,7 +1288,15 @@ setstereoparams.o: setstereoparams.cpp setstereoparams.h \
 		/usr/include/qt5/QtCore/qfiledevice.h \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
-		ui_setstereoparams.h \
+		/usr/include/qt5/QtWidgets/QSlider \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/QSpinBox \
+		/usr/include/qt5/QtWidgets/qspinbox.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		tmp/moc/ui_setstereoparams.h \
 		/usr/include/qt5/QtCore/QVariant \
 		/usr/include/qt5/QtWidgets/QAction \
 		/usr/include/qt5/QtWidgets/qaction.h \
@@ -1299,6 +1311,8 @@ setstereoparams.o: setstereoparams.cpp setstereoparams.h \
 		/usr/include/qt5/QtGui/qinputmethod.h \
 		/usr/include/qt5/QtWidgets/QButtonGroup \
 		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QDialog \
+		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtWidgets/QDialogButtonBox \
 		/usr/include/qt5/QtWidgets/qdialogbuttonbox.h \
 		/usr/include/qt5/QtWidgets/QHeaderView \
@@ -1310,74 +1324,65 @@ setstereoparams.o: setstereoparams.cpp setstereoparams.h \
 		/usr/include/qt5/QtCore/qitemselectionmodel.h \
 		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
 		/usr/include/qt5/QtWidgets/qstyleoption.h \
-		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
-		/usr/include/qt5/QtGui/qvalidator.h \
-		/usr/include/qt5/QtCore/qregularexpression.h \
-		/usr/include/qt5/QtWidgets/qslider.h \
-		/usr/include/qt5/QtWidgets/qabstractslider.h \
 		/usr/include/qt5/QtWidgets/qstyle.h \
 		/usr/include/qt5/QtWidgets/qtabbar.h \
 		/usr/include/qt5/QtWidgets/qtabwidget.h \
 		/usr/include/qt5/QtWidgets/qrubberband.h \
 		/usr/include/qt5/QtWidgets/QLabel \
 		/usr/include/qt5/QtWidgets/qlabel.h \
-		/usr/include/qt5/QtWidgets/QSlider \
-		/usr/include/qt5/QtWidgets/QSpinBox \
-		/usr/include/qt5/QtWidgets/qspinbox.h \
-		StereoProcessor.h \
-		StereoCalib.h \
-		StereoCustom.h \
-		StereoConfig.h \
-		StereoDiff.h \
-		StereoDisparityMap.h \
-		StereoFlags.h \
-		StereoUtils.h \
-		Reconstruction3D.h \
-		mainwindow.h \
+		inc/setstereoparams.h \
+		inc/StereoProcessor.h \
+		inc/StereoCalib.h \
+		inc/StereoCustom.h \
+		inc/StereoConfig.h \
+		inc/StereoDiff.h \
+		inc/StereoDisparityMap.h \
+		inc/StereoFlags.h \
+		inc/StereoUtils.h \
+		inc/Reconstruction3D.h \
+		inc/mainwindow.h \
 		/usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtGui/QCloseEvent \
 		/usr/include/qt5/QtWidgets/QMessageBox \
-		/usr/include/qt5/QtWidgets/qmessagebox.h \
-		/usr/include/qt5/QtWidgets/QHBoxLayout \
-		/usr/include/qt5/QtWidgets/qboxlayout.h \
-		/usr/include/qt5/QtWidgets/qlayout.h \
-		/usr/include/qt5/QtWidgets/qlayoutitem.h \
-		/usr/include/qt5/QtWidgets/qgridlayout.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o setstereoparams.o setstereoparams.cpp
+		/usr/include/qt5/QtWidgets/qmessagebox.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/setstereoparams.o src/setstereoparams.cpp
 
-StereoCustom.o: StereoCustom.cpp StereoCustom.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoCustom.o StereoCustom.cpp
+tmp/obj/StereoCustom.o: src/StereoCustom.cpp inc/StereoCustom.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoCustom.o src/StereoCustom.cpp
 
-StereoFlags.o: StereoFlags.cpp StereoFlags.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoFlags.o StereoFlags.cpp
+tmp/obj/StereoFlags.o: src/StereoFlags.cpp inc/StereoFlags.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoFlags.o src/StereoFlags.cpp
 
-StereoDiff.o: StereoDiff.cpp StereoDiff.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoDiff.o StereoDiff.cpp
+tmp/obj/StereoDiff.o: src/StereoDiff.cpp inc/StereoDiff.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoDiff.o src/StereoDiff.cpp
 
-StereoCalib.o: StereoCalib.cpp StereoCalib.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoCalib.o StereoCalib.cpp
+tmp/obj/StereoCalib.o: src/StereoCalib.cpp inc/StereoCalib.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoCalib.o src/StereoCalib.cpp
 
-StereoDisparityMap.o: StereoDisparityMap.cpp StereoDisparityMap.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoDisparityMap.o StereoDisparityMap.cpp
+tmp/obj/StereoDisparityMap.o: src/StereoDisparityMap.cpp inc/StereoDisparityMap.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoDisparityMap.o src/StereoDisparityMap.cpp
 
-StereoUtils.o: StereoUtils.cpp StereoUtils.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoUtils.o StereoUtils.cpp
+tmp/obj/StereoUtils.o: src/StereoUtils.cpp inc/StereoUtils.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoUtils.o src/StereoUtils.cpp
 
-Reconstruction3D.o: Reconstruction3D.cpp Reconstruction3D.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Reconstruction3D.o Reconstruction3D.cpp
+tmp/obj/Reconstruction3D.o: src/Reconstruction3D.cpp inc/Reconstruction3D.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/Reconstruction3D.o src/Reconstruction3D.cpp
 
-StereoConfig.o: StereoConfig.cpp StereoConfig.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StereoConfig.o StereoConfig.cpp
+tmp/obj/StereoConfig.o: src/StereoConfig.cpp inc/StereoConfig.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoConfig.o src/StereoConfig.cpp
 
-qrc_icon_resource.o: qrc_icon_resource.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_icon_resource.o qrc_icon_resource.cpp
+tmp/obj/StereoMorphology.o: src/StereoMorphology.cpp inc/StereoMorphology.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoMorphology.o src/StereoMorphology.cpp
 
-moc_mainwindow.o: moc_mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+tmp/obj/qrc_icon_resource.o: tmp/rc/qrc_icon_resource.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/qrc_icon_resource.o tmp/rc/qrc_icon_resource.cpp
 
-moc_setstereoparams.o: moc_setstereoparams.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_setstereoparams.o moc_setstereoparams.cpp
+tmp/obj/moc_mainwindow.o: tmp/moc/moc_mainwindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/moc_mainwindow.o tmp/moc/moc_mainwindow.cpp
+
+tmp/obj/moc_setstereoparams.o: tmp/moc/moc_setstereoparams.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/moc_setstereoparams.o tmp/moc/moc_setstereoparams.cpp
 
 ####### Install
 

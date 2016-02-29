@@ -5,7 +5,7 @@
  *      Author: nicolasrosa
  */
 
-#include "StereoFlags.h"
+#include "inc/StereoFlags.h"
 
 /* Constructor */
 StereoFlags::StereoFlags(){

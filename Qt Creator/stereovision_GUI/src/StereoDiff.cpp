@@ -5,7 +5,7 @@
  *      Author: nicolasrosa
  */
 
-#include "StereoDiff.h"
+#include "inc/StereoDiff.h"
 
 /* Constructor */
 StereoDiff::StereoDiff(){

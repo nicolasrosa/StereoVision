@@ -1,6 +1,0 @@
-%YAML:1.0
-Intrinsics Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/intrinsics.yml"
-Extrinsics Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/extrinsics.yml"
-Q Matrix Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/Q.yml"
-StereoBM Parameters Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/stereoBM.yml"
-StereoSGBM Parameters Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/stereoSGBM.yml"

@@ -4,56 +4,67 @@
 #
 #-------------------------------------------------
 
+# App Configuration
+TEMPLATE = app
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+# Libraries
+INCLUDEPATH += /usr/local/include/opencv
+LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu
+
+# Sources
+SOURCES += src/main.cpp\
+        src/mainwindow.cpp \
+        src/trackObject.cpp \
+        src/StereoProcessor.cpp \
+        src/setstereoparams.cpp \
+        src/StereoCustom.cpp \
+        src/StereoFlags.cpp \
+        src/StereoDiff.cpp \
+        src/StereoCalib.cpp \
+        src/StereoDisparityMap.cpp \
+        src/StereoUtils.cpp \
+        src/Reconstruction3D.cpp \
+        src/StereoConfig.cpp \
+        src/StereoMorphology.cpp
+
+HEADERS += inc/mainwindow.h \
+        inc/reprojectImageTo3D.h \
+        inc/trackObject.h \
+        inc/StereoProcessor.h \
+        inc/setstereoparams.h \
+        inc/StereoCustom.h \
+        inc/StereoFlags.h \
+        inc/StereoDiff.h \
+        inc/StereoCalib.h \
+        inc/StereoDisparityMap.h \
+        inc/StereoUtils.h \
+        inc/Reconstruction3D.h \
+        inc/StereoConfig.h \
+        inc/StereoMorphology.h
+
+FORMS   += forms/mainwindow.ui \
+        forms/setstereoparams.ui \
+
+# Binaries Location
 DESTDIR = bin
 TARGET = stereovision_GUI
 
-TEMPLATE = app
-
-INCLUDEPATH += /usr/local/include/opencv
-LIBS += `pkg-config --cflags --libs opencv`
-
-SOURCES += main.cpp\
-        mainwindow.cpp \
-        trackObject.cpp \
-        StereoProcessor.cpp \
-        setstereoparams.cpp \
-        StereoCustom.cpp \
-        StereoFlags.cpp \
-        StereoDiff.cpp \
-        StereoCalib.cpp \
-        StereoDisparityMap.cpp \
-        StereoUtils.cpp \
-        Reconstruction3D.cpp \
-        StereoConfig.cpp
-
-HEADERS += mainwindow.h \
-        reprojectImageTo3D.h \
-        trackObject.h \
-        StereoProcessor.h \
-        setstereoparams.h \
-        StereoCustom.h \
-        StereoFlags.h \
-        StereoDiff.h \
-        StereoCalib.h \
-        StereoDisparityMap.h \
-        StereoUtils.h \
-        Reconstruction3D.h \
-        StereoConfig.h \
-
-FORMS   += mainwindow.ui \
-        setstereoparams.ui
+# Temporary directories
+OBJECTS_DIR = tmp/obj
+MOC_DIR = tmp/moc
+UI_DIR = tmp/moc
+RCC_DIR = tmp/rc
 
 OTHER_FILES += \
-        config.yml \
-        stereoBM.yml \
-        intrinsics.yml \
-        extrinsics.yml \
-        Q.yml \
-        stereoSGBM.yml
+        config/config.yml \
+        config/stereoBM.yml \
+        config/intrinsics.yml \
+        config/extrinsics.yml \
+        config/Q.yml \
+        config/stereoSGBM.yml
 
 RESOURCES += \
-    icon_resource.qrc
+    res/icon_resource.qrc

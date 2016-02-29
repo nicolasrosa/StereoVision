@@ -5,7 +5,7 @@
  *      Author: nicolasrosa
  */
 
-#include "StereoCalib.h"
+#include "inc/StereoCalib.h"
 
 /* Constructor */
 StereoCalib::StereoCalib(){

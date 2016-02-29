@@ -19,6 +19,7 @@
 #include "StereoDisparityMap.h"
 #include "StereoFlags.h"
 #include "StereoUtils.h"
+#include "StereoMorphology.h"
 
 #include "Reconstruction3D.h"
 #include "mainwindow.h"
@@ -47,7 +48,6 @@ public:
     void applyRectification();
     void calculateDisparities();
     void calculate3DReconstruction();
-    void imageProcessing(Mat src, Mat imgE, Mat imgED,Mat trackingView,bool isTrackingObjects);
     void saveLastFrames();
     void videoLooper();
 
@@ -69,6 +69,7 @@ public:
     StereoDiff diff;
     StereoFlags flags;
     StereoUtils utils;
+    StereoMorphology morph;
 
     int numRows;
     int numChannels;
@@ -76,11 +77,6 @@ public:
 
     /* Mouse Coordinates */
     int x,y;
-
-    /* Results */
-    Mat imgThreshold;
-    Mat imgThresholdDraw;
-    Mat trackingView;
 
 private:
     int inputNum;

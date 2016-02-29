@@ -17,8 +17,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 /* Custom Libraries */
-#include "reprojectImageTo3D.h"
-#include "mainwindow.h"
+#include "inc/reprojectImageTo3D.h"
+#include "inc/mainwindow.h"
 #include "ui_mainwindow.h"
 
 using namespace cv;
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
     setupUi_Custom();
 
-    stereo = new StereoProcessor(4);
+    stereo = new StereoProcessor(1);
     StereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -69,12 +69,12 @@ void MainWindow::setupUi_Custom(){
 }
 
 void MainWindow::StereoVisionProcessInit(){
-    //TODO: Arrumar a Matrix K, os valores das últimas colunas estão errados.
-    //TODO: Arrumar a função StereoProcessor::calculateQMatrix().
-    //TODO: Arrumar o Constructor da classe StereoDisparityMap para Alocação de Memória das variáveis: disp_16S,disp_8U,disp_BGR
-    //TODO: Arrumar a declaração dos Destrutores de todas as classes
-    //TODO: Arrumar a inicialização e separar as variáveis 'Stereocfg' para os métodos BM e SGBM
-
+    //FIXME: Arrumar a Matrix K, os valores das ultimas colunas estao errados.
+    //FIXME: Arrumar a funcao StereoProcessor::calculateQMatrix().
+    //FIXME: Arrumar o Constructor da classe StereoDisparityMap para Alocacao de Memoria das variaveis: disp_16S,disp_8U,disp_BGR
+    //FIXME: Arrumar a declaracao dos Destrutores de todas as classes
+    //FIXME: Arrumar a inicializacao e separar as variaveis 'Stereocfg' para os metodos BM e SGBM
+    //FIXME: Arrumar os erros que acontecem quando clica-se nos botoes 'Track' and 'Diff' para o input 4
     printHelp();
 
     /* (1) Open Image Source */
@@ -151,7 +151,7 @@ void MainWindow::StereoVisionProcessInit(){
 
     }else{
         cout << "Calibration: OFF" << endl << endl;
-        cerr << "Warning: Couldn't generate 3D Reconstruction. Please, check Q,K Matrix." << endl;
+        cerr << "Warning: Can't generate 3D Reconstruction. Please, check Q,K Matrix." << endl;
 
         //stereo->readQMatrix(); //true=640x480 false=others
         //stereo->createKMatrix();
@@ -181,14 +181,14 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
     }
 
     /* (10) Projecting 3D point cloud to image */
-    if(stereo->flags.show3Dreconstruction){
+    if(stereo->flags.show3Dreconstruction && stereo->calib.needCalibration){
         stereo->calculate3DReconstruction();
     }
 
     /* (11) Image Processing */
     if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage || stereo->flags.showWarningLines){
         if(stereo->calib.isVideoFile){
-            stereo->imageProcessing(stereo->disp.disp_8U,stereo->disp.disp_8U_eroded,stereo->disp.disp_8U_eroded_dilated,stereo->imageL[0],true);
+            stereo->morph.imageProcessing(stereo->disp.disp_8U,stereo->disp.disp_8U_eroded,stereo->disp.disp_8U_eroded_dilated,stereo->imageL[0],true,stereo->calib.isVideoFile);
         }
 
         if(stereo->calib.isImageFile){
@@ -255,7 +255,7 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
                 imshow("Disp_sum",disp_sum);
 
                 if(stereo->diff.diffImage.data){
-                    stereo->diff.createResAND(stereo->diff.diffImage,stereo->imgThreshold);
+                    stereo->diff.createResAND(stereo->diff.diffImage,stereo->morph.imgThreshold);
                     stereo->diff.convertToBGR();
                     stereo->imageL[0].copyTo(stereo->diff.imageL);
                     stereo->diff.addRedLines();
@@ -302,8 +302,8 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
     }
 
     if(stereo->flags.showTrackingObjectView){
-        putImageL(stereo->trackingView);
-        putImageR(stereo->imgThresholdDraw);
+        putImageL(stereo->morph.trackingView);
+        putImageR(stereo->morph.imgThresholdDraw);
 
         ui->toggleBtnShowHist->hide();
         ui->toggleBtnShowXYZ->hide();

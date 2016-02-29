@@ -10,7 +10,7 @@
 
 class StereoFlags{
 public:
-    StereoFlags(); //Constructor
+    StereoFlags();
 
     bool showInputImages;
     bool showXYZ;

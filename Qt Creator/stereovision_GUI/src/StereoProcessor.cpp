@@ -5,15 +5,17 @@
  *      Author: nicolasrosa
  */
 
-#include "trackObject.h"
-#include "mainwindow.h"
+#include "inc/trackObject.h"
+#include "inc/mainwindow.h"
 
 /* Constructor */
-#include "StereoProcessor.h"
+#include "inc/StereoProcessor.h"
 
 StereoProcessor::StereoProcessor(int number) {
     inputNum=number;
     frameCounter=0;
+
+    //lastImgThreshold = Mat::zeros(this->calib.imageSizeDesired,CV_8U);
 
     x=0;
     y=0;
@@ -24,8 +26,8 @@ int StereoProcessor::getInputNum(){
 }
 
 void StereoProcessor::readConfigFile(){
-    //FileStorage fs("../stereovision_GUI/config.yml", FileStorage::READ);
-    FileStorage fs("/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config.yml", FileStorage::READ);
+    //FileStorage fs("../stereovision_GUI/config/config.yml", FileStorage::READ);
+    FileStorage fs("../config/config.yml", FileStorage::READ);
 
     if(!fs.isOpened()){
         cerr << "Failed to open config.yml file!" << endl;
@@ -314,81 +316,6 @@ void StereoProcessor::calculate3DReconstruction(){
     view3D.projectImagefromXYZ(disp.disp_BGR,view3D.disp3D_BGR,disp.disp_16S,view3D.disp3D,view3D.xyz,view3D.Rotation,view3D.t,calib.K,view3D.dist,view3D.isSub);
 
     view3D.disp3D.convertTo(view3D.disp3D_8U,CV_8U,0.5);
-}
-
-void StereoProcessor::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects){
-    Mat erosionElement = getStructuringElement( MORPH_RECT,Size( 2*EROSION_SIZE + 1, 2*EROSION_SIZE+1 ),Point( EROSION_SIZE, EROSION_SIZE ) );
-    Mat dilationElement = getStructuringElement( MORPH_RECT,Size( 2*DILATION_SIZE + 1, 2*DILATION_SIZE+1 ),Point( DILATION_SIZE, DILATION_SIZE ) );
-    Mat imgEBGR,imgEDBGR;
-    Mat imgEDMedian,imgEDMedianBGR;
-    int x,y;
-
-    //Mat imgThreshold;
-    static Mat lastimgThreshold;
-    int nPixels,nTotal;		  	//static int lastThresholdSum=0;
-
-    // Near Object Detection
-
-    //Prefiltering
-    // Apply Erosion and Dilation to take out spurious noise
-    erode(src,imgE,erosionElement);
-    dilate(imgE,imgED,erosionElement);
-
-    applyColorMap(imgE,imgEBGR, COLORMAP_JET);
-    applyColorMap(imgED,imgEDBGR, COLORMAP_JET);
-
-    // Apply Median Filter
-    //GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
-    medianBlur(imgED,imgEDMedian,5);
-    applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
-
-    // Thresholding
-    int T_Otsu = threshold(imgEDMedian, imgThreshold, 0, 255, THRESH_BINARY | THRESH_OTSU);
-    erode(imgThreshold,imgThreshold,erosionElement);
-    dilate(imgThreshold,imgThreshold,dilationElement);
-
-    //TODO: Solving Lighting Noise Problem
-    nPixels = sum(imgThreshold)[0]/255;
-    nTotal = imgThreshold.total();
-
-    //	cout << "Number of Pixels:" << nPixels << endl;
-    //	cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
-
-    if((((float)nPixels)/nTotal)>0.5){
-        //		sleep(1);
-        //		cout << "Lighting Noise!!!" << endl;
-        //		cout << "Number of Pixels:" << nPixels << endl;
-        //		cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
-
-        // Invalidates the last frame
-        imgThreshold = lastimgThreshold;
-    }else{
-        // Saves the last valid frame
-        lastimgThreshold=imgThreshold;
-        //lastThresholdSum = CurrentThresholdSum;
-    }
-
-    // Output
-    //imshow("Eroded Image",imgE);
-    //imshow("Eroded Image BGR",imgEBGR);
-    //imshow("Eroded+Dilated Image",imgED);
-    //imshow("Eroded+Dilated Image BGR",imgEDBGR);
-    //imshow("Eroded+Dilated+Median Image",imgEDMedian);
-    //imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
-
-    //imshow("Thresholded Image",imgThreshold);
-
-    // Tracking Object
-    if(isTrackingObjects){
-        cameraFeedL.copyTo(trackingView);
-        if(this->calib.isVideoFile){
-            trackFilteredObject(x,y,imgThreshold,trackingView);
-            //imshow("Tracking Object",trackingView);
-        }
-    }
-
-    imgThreshold.copyTo(imgThresholdDraw);
-    putText(imgThresholdDraw,"T: "+intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
 }
 
 //Saving Previous Frame

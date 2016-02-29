@@ -5,7 +5,7 @@
  *      Author: nicolasrosa
  */
 
-#include "StereoUtils.h"
+#include "inc/StereoUtils.h"
 
 /* Constructor */
 StereoUtils::StereoUtils(){}
@@ -186,4 +186,9 @@ void StereoUtils::calculateHist(Mat &src,const string histName){
     }
 }
 
+string StereoUtils::intToString(int number){
+    stringstream ss;
+    ss << number;
+    return ss.str();
+}
 

@@ -5,7 +5,7 @@
  *      Author: nicolasrosa
  */
 
-#include "StereoDisparityMap.h"
+#include "inc/StereoDisparityMap.h"
 
 /* Constructor */
 StereoDisparityMap::StereoDisparityMap(){
