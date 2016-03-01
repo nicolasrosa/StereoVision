@@ -13,10 +13,11 @@ StereoMorphology::StereoMorphology(){
 
 }
 
-void StereoMorphology::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects,bool isVideoFile){
+void StereoMorphology::imageProcessing(Mat src, Mat cameraFeedL,bool isTrackingObjects,bool isVideoFile){
     //FIXME: Mudar colocar a declacao dos elementos abaixo dentro da classe StereoMorphology
     Mat erosionElement  = getStructuringElement(MORPH_RECT,Size(2*EROSION_SIZE +1, 2*EROSION_SIZE+1 ),Point(EROSION_SIZE,  EROSION_SIZE ));
     Mat dilationElement = getStructuringElement(MORPH_RECT,Size(2*DILATION_SIZE+1, 2*DILATION_SIZE+1),Point(DILATION_SIZE, DILATION_SIZE));
+    Mat imgE,imgED;
     Mat imgEBGR,imgEDBGR;
     Mat imgEDMedian,imgEDMedianBGR;
     int x,y;
@@ -68,10 +69,6 @@ void StereoMorphology::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFe
         //lastThresholdSum = CurrentThresholdSum;
     }
 
-         imshow("imgThreshold",imgThreshold);
-
-
-
     // Tracking Object
     if(isTrackingObjects){
         cameraFeedL.copyTo(trackingView);
@@ -92,4 +89,51 @@ void StereoMorphology::imageProcessing(Mat src, Mat imgE, Mat imgED,Mat cameraFe
     //imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
     //imshow("Tracking Object",trackingView);
     //imshow("Thresholded Image",imgThreshold);
+}
+
+void StereoMorphology::Disp_diff(Mat disp8U,Mat disp8U_last,Mat disp8U_diff){
+    absdiff(disp8U,disp8U_last,disp8U_diff);
+    Mat disp_diff_th;
+    threshold(disp8U_diff,disp_diff_th, 10, 255, THRESH_BINARY);
+
+    Mat disp_sum;
+    addWeighted(disp8U, 1, disp_diff_th, 1, 0.0, disp_sum);
+
+    vector<vector<Point> > contours;
+    vector<Vec4i> hierarchy;
+    Mat disp_countours = Mat::zeros(disp_diff_th.rows, disp_diff_th.cols, CV_8UC3);
+    Scalar white = CV_RGB( 255, 255, 255 );
+    //                Scalar color( rand()&255, rand()&255, rand()&255 );
+
+    findContours( disp_diff_th, contours, hierarchy,
+                  CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
+
+    // iterate through all the top-level contours,
+    // draw each connected component with its own random color
+    int idx = 0;
+    for( ; idx >= 0; idx = hierarchy[idx][0] )
+    {
+        //drawContours( disp_countours, contours, idx, color, CV_FILLED, 8, hierarchy );
+        drawContours( disp_countours, contours, idx, white, CV_FILLED);
+    }
+
+    namedWindow( "Components", 1 );
+
+
+    cv::Mat holes=disp_diff_th.clone();
+    cv::floodFill(holes,cv::Point2i(0,0),cv::Scalar(1));
+    for(int i=0;i<disp_diff_th.rows*disp_diff_th.cols;i++)                {
+        if(holes.data[i]==0)
+            disp_diff_th.data[i]=1;
+    }
+
+    imshow( "holes", holes );
+    imshow( "Components", disp_countours );
+
+
+    //imshow("Disp",stereo->disp.disp_8U);
+    //imshow("Disp_last",stereo->disp.disp_8U_last);
+    imshow("Disp_diff",disp8U_diff);
+    imshow("Disp_diff_th",disp_diff_th);
+    imshow("Disp_sum",disp_sum);
 }

@@ -47,12 +47,6 @@ MainWindow::~MainWindow(){
     closeEventOccured = true;
 }
 
-//static MainWindow& getUi()
-//{
-//    static MainWindow myUi;
-//    return myUi;
-//}
-
 void MainWindow::setupUi_Custom(){
     setWindowIcon(QIcon(":/icons/icon/spydrone_black.png"));
 
@@ -85,7 +79,7 @@ void MainWindow::StereoVisionProcessInit(){
 
     /* (2) Camera Setting */
 
-    /* Getting Input Resolution*/
+    /* Getting Input Resolution */
     if(stereo->calib.isVideoFile){
         stereo->calib.imageSize.width = stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH);
         stereo->calib.imageSize.height = stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT);
@@ -188,7 +182,7 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
     /* (11) Image Processing */
     if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage || stereo->flags.showWarningLines){
         if(stereo->calib.isVideoFile){
-            stereo->morph.imageProcessing(stereo->disp.disp_8U,stereo->disp.disp_8U_eroded,stereo->disp.disp_8U_eroded_dilated,stereo->imageL[0],true,stereo->calib.isVideoFile);
+            stereo->morph.imageProcessing(stereo->disp.disp_8U,stereo->imageL[0],true,stereo->calib.isVideoFile);
         }
 
         if(stereo->calib.isImageFile){
@@ -207,52 +201,8 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
             if(stereo->diff.StartDiff){
                 stereo->diff.createDiffImage(stereo->imageL_grey[0],stereo->imageL_grey[1]);
 
-                //TODO: Disp_diff
-                absdiff(stereo->disp.disp_8U,stereo->disp.disp_8U_last,stereo->disp.disp_8U_diff);
-                Mat disp_diff_th;
-                threshold(stereo->disp.disp_8U_diff,disp_diff_th, 10, 255, THRESH_BINARY);
-
-                Mat disp_sum;
-                addWeighted(stereo->disp.disp_8U, 1, disp_diff_th, 1, 0.0, disp_sum);
-
-                vector<vector<Point> > contours;
-                vector<Vec4i> hierarchy;
-                Mat disp_countours = Mat::zeros(disp_diff_th.rows, disp_diff_th.cols, CV_8UC3);
-                Scalar white = CV_RGB( 255, 255, 255 );
-                //                Scalar color( rand()&255, rand()&255, rand()&255 );
-
-                findContours( disp_diff_th, contours, hierarchy,
-                              CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
-
-                // iterate through all the top-level contours,
-                // draw each connected component with its own random color
-                int idx = 0;
-                for( ; idx >= 0; idx = hierarchy[idx][0] )
-                {
-                    //drawContours( disp_countours, contours, idx, color, CV_FILLED, 8, hierarchy );
-                    drawContours( disp_countours, contours, idx, white, CV_FILLED);
-                }
-
-                namedWindow( "Components", 1 );
-
-
-                  cv::Mat holes=disp_diff_th.clone();
-                    cv::floodFill(holes,cv::Point2i(0,0),cv::Scalar(1));
-                    for(int i=0;i<disp_diff_th.rows*disp_diff_th.cols;i++)
-                    {
-                        if(holes.data[i]==0)
-                            disp_diff_th.data[i]=1;
-                    }
-
-                  imshow( "holes", holes );
-                imshow( "Components", disp_countours );
-
-
-                //imshow("Disp",stereo->disp.disp_8U);
-                //imshow("Disp_last",stereo->disp.disp_8U_last);
-                imshow("Disp_diff",stereo->disp.disp_8U_diff);
-                imshow("Disp_diff_th",disp_diff_th);
-                imshow("Disp_sum",disp_sum);
+                //TODO: Terminar a funcao Disp_diff
+                //stereo->morph.Disp_diff(stereo->disp.disp_8U,stereo->disp.disp_8U_last,stereo->disp.disp_8U_diff);
 
                 if(stereo->diff.diffImage.data){
                     stereo->diff.createResAND(stereo->diff.diffImage,stereo->morph.imgThreshold);

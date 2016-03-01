@@ -27,8 +27,8 @@ public:
     Mat disp_8U_diff;
 
     /* Image Processing Results */
-    Mat disp_8U_eroded;
-    Mat disp_8U_eroded_dilated;
+    //Mat disp_8U_eroded;
+    //Mat disp_8U_eroded_dilated;
 };
 
 #endif // STEREODISPARITYMAP_H

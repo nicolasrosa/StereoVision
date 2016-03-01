@@ -23,7 +23,8 @@ using namespace std;
 class StereoMorphology{
 public:
     StereoMorphology();
-    void imageProcessing(Mat src, Mat imgE, Mat imgED,Mat trackingView,bool isTrackingObjects,bool isVideoFile);
+    void imageProcessing(Mat src,Mat trackingView,bool isTrackingObjects,bool isVideoFile);
+    void Disp_diff(Mat disp8U,Mat disp87_last,Mat disp8U_diff);
 
     //Mat erosionElement;
     //Mat dilationElement;
