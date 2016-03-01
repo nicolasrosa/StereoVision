@@ -14,7 +14,7 @@
 using namespace cv;
 using namespace std;
 
-/* 3D Reconstruction Classes */
+/* Templates Declaration */
 template <class T>
 static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, Mat& destdisp, Mat& xyz, Mat& R, Mat& t, Mat& K, Mat& dist, Mat& mask, bool isSub);
 
@@ -24,7 +24,7 @@ static void fillOcclusionInv_(Mat& src, T invalidvalue);
 template <class T>
 static void fillOcclusion_(Mat& src, T invalidvalue);
 
-// 3D Reconstruction
+/* Class Declaration */
 class Reconstruction3D{
 public:
     Reconstruction3D(); //Constructor
@@ -56,6 +56,5 @@ public:
     double step;
     bool isSub;
 };
-
 
 #endif // RECONSTRUCTION_3D_H

@@ -22,7 +22,7 @@
 #include "StereoMorphology.h"
 
 #include "Reconstruction3D.h"
-#include "mainwindow.h"
+#include "MainWindow.h"
 
 using namespace cv;
 using namespace std;
