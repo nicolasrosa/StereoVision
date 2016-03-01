@@ -20,13 +20,6 @@ using namespace cv;
 /* Functions Scope */
 void on_trackbar(int,void*);
 
-void imageProcessing1(Mat img, Mat imgMedian, Mat imgMedianBGR);
-void imageProcessing2(Mat src, Mat imgE, Mat imgED,Mat cameraFeedL,bool isTrackingObjects);
-
-//void resizeFrames(Mat* frame1,Mat* frame2);
-//void changeResolution(VideoCapture* cap_l,VideoCapture* cap_r);
-//void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
-
 /* Global Variables */
 bool isStereoParamSetupTrackbarsCreated=false;
 bool isTrackingObjects=true;

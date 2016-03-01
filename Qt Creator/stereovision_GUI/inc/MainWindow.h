@@ -16,14 +16,14 @@
 
 /* Custom Libraries */
 #include "StereoProcessor.h"
-#include "setstereoparams.h"
+#include "StereoSetParamsWindow.h"
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
 using namespace cv;
 
 namespace Ui{
-class MainWindow;
+    class MainWindow;
 }
 
 class MainWindow : public QMainWindow{
@@ -42,7 +42,7 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow  *ui;
     StereoProcessor *stereo;
     SetStereoParams *stereoParamsSetupWindow;
 

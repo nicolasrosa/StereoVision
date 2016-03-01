@@ -18,7 +18,7 @@
 
 /* Custom Libraries */
 #include "inc/reprojectImageTo3D.h"
-#include "inc/mainwindow.h"
+#include "inc/MainWindow.h"
 #include "ui_mainwindow.h"
 
 using namespace cv;

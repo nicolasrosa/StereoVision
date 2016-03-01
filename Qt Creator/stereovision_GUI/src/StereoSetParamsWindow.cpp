@@ -12,7 +12,7 @@
 
 #include <iostream>
 
-#include "inc/setstereoparams.h"
+#include "inc/StereoSetParamsWindow.h"
 #include "inc/StereoProcessor.h"
 
 //using namespace cv;

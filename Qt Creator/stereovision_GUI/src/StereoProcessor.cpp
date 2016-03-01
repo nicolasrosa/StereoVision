@@ -6,7 +6,7 @@
  */
 
 #include "inc/trackObject.h"
-#include "inc/mainwindow.h"
+#include "inc/MainWindow.h"
 
 /* Constructor */
 #include "inc/StereoProcessor.h"
