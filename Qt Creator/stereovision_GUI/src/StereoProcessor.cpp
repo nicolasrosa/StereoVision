@@ -270,8 +270,12 @@ void StereoProcessor::calculateDisparities(){
     cvtColor(this->imageL[0],this->imageL_grey[0],CV_BGR2GRAY);
     cvtColor(this->imageR[0],this->imageR_grey[0],CV_BGR2GRAY);
 
+//    this->utils.startClock();
     if(this->flags.methodBM)
         this->bm->compute(this->imageL_grey[0],this->imageR_grey[0],this->disp.disp_16S);
+//    this->utils.stopClock();
+
+//    cout << "t:" << 1.0/this->utils.d << endl;
 
     if(this->flags.methodSGBM)
         this->sgbm->compute(this->imageL[0],this->imageR[0],this->disp.disp_16S);

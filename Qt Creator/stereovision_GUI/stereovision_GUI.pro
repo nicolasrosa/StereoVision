@@ -15,7 +15,8 @@ INCLUDEPATH += /usr/local/include/opencv
 LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu
 
 # Sources
-SOURCES += src/main.cpp\
+SOURCES += src/main.cpp \
+        src/MainWindow.cpp \
         src/trackObject.cpp \
         src/StereoProcessor.cpp \
         src/StereoCustom.cpp \
@@ -27,12 +28,9 @@ SOURCES += src/main.cpp\
         src/Reconstruction3D.cpp \
         src/StereoConfig.cpp \
         src/StereoMorphology.cpp \
-    src/StereoSetParamsWindow.cpp \
-    src/MainWindow.cpp
+        src/StereoSetParamsWindow.cpp
 
-HEADERS += \
-        inc/reprojectImageTo3D.h \
-        inc/trackObject.h \
+HEADERS += \ inc/MainWindow.h \
         inc/StereoProcessor.h \
         inc/StereoCustom.h \
         inc/StereoFlags.h \
@@ -40,11 +38,11 @@ HEADERS += \
         inc/StereoCalib.h \
         inc/StereoDisparityMap.h \
         inc/StereoUtils.h \
-        inc/Reconstruction3D.h \
         inc/StereoConfig.h \
         inc/StereoMorphology.h \
-    inc/StereoSetParamsWindow.h \
-    inc/MainWindow.h
+        inc/StereoSetParamsWindow.h \
+        inc/trackObject.h \
+        inc/Reconstruction3D.h
 
 FORMS   += forms/mainwindow.ui \
         forms/setstereoparams.ui \

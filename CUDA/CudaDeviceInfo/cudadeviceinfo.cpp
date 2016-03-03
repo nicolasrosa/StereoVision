@@ -184,7 +184,7 @@ int main( int argc, char *argv[] )
     cout << "CUDA Enabled Device Count: " << nDeviceCount << endl;
     cout << "CUDA Device Index: " << nCurrentDeviceIndex << endl;
     cout << "Device Name: " << deviceName << endl;
-    cout << "Device Toal Global Memory: " << deviceTotalGlobMem << endl;
+    cout << "Device Total Global Memory: " << deviceTotalGlobMem << endl;
     cout << "Device Shared Memory Per Block: " << deviceSharedMemPerBlock << endl;
     cout << "Device Registry Per BlocK: " << nDeviceegsPerBlock << endl;
     cout << "Device Warp Size: " << nDeviceWarpSize << endl;

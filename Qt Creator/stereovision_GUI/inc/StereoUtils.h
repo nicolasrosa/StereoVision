@@ -38,9 +38,17 @@ public:
     void showFPS();
     int getFPS();
 
+    int64 clockInitial;
+    int64 d;
+    double f;
+    double fps;
+
 private:
-    struct timespec start,end;
-    int fps;
+//    struct timespec start,end;
+//    int fps;
+
+
+
 };
 
 #endif // STEREOUTILS_H

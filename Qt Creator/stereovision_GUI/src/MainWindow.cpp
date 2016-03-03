@@ -11,18 +11,10 @@
  */
 
 /* Libraries */
-#include <QtCore>
-#include <QShortcut>
-#include <QMessageBox>
-#include <opencv2/imgproc/imgproc.hpp>
-
-/* Custom Libraries */
-#include "inc/reprojectImageTo3D.h"
 #include "inc/MainWindow.h"
 #include "ui_mainwindow.h"
 
-using namespace cv;
-using namespace std;
+/* Global Variables */
 
 /* Constructor */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
@@ -37,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     tmrTimer->start(20);
 
     closeEventOccured = false;
+    isStereoParamSetupTrackbarsCreated=false;
+    isTrackingObjects=true;
 }
 
 MainWindow::~MainWindow(){
@@ -284,7 +278,7 @@ void MainWindow::StereoVisionProcess_UpdateGUI(){
     /* (15) Performance Measurement - FPS */
     stereo->utils.stopClock();
     //stereo->utils.showFPS();
-    ui->lcdNumber->display(stereo->utils.getFPS());
+    ui->lcdNumber->display((int)stereo->utils.fps);
 
     waitKey(1); // It will display the window infinitely until any keypress (it is suitable for image display)
     if(closeEventOccured){

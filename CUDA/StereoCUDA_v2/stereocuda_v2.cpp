@@ -51,15 +51,15 @@ struct App{
     }
 
     void stopClock(){
-        int64 d = getTickCount() - clockInitial;
-        double f = getTickFrequency();
-        work_fps = f / d;
+        d = getTickCount() - clockInitial;
+        f = getTickFrequency();
+        fps = f / d;
     }
 
     string text() const{
         stringstream ss;
         ss << "(" << p.method_str() << ") FPS: " << setiosflags(ios::left)
-           << setprecision(4) << work_fps;
+           << setprecision(4) << fps;
         return ss.str();
     }
 private:
@@ -81,7 +81,9 @@ private:
     Ptr<cuda::StereoConstantSpaceBP> csbpCU;
 
     int64 clockInitial;
-    double work_fps;
+    int64 d;
+    double f;
+    double fps;
 };
 
 static void printHelp(){
@@ -234,8 +236,9 @@ void App::run(){
                 imshow("left", imageL);
                 imshow("right", imageR);
             }
-
+            //startClock();
             bmCU->compute(d_imageL, d_imageR, d_disp);
+            //stopClock();
             break;
         case Params::BP: bpCU->compute(d_imageL, d_imageR, d_disp); break;
         case Params::CSBP: csbpCU->compute(d_imageL, d_imageR, d_disp); break;

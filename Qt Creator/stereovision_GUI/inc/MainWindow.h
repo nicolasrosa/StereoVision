@@ -8,11 +8,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-/* Libraries */
+/* Qt Libraries */
 #include <QMainWindow>
-#include <QCloseEvent>
+#include <QtCore>
+#include <QShortcut>
 #include <QMessageBox>
+#include <QCloseEvent>
+
+/* OpenCV Libraries */
 #include <opencv2/opencv.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 /* Custom Libraries */
 #include "StereoProcessor.h"
@@ -21,6 +26,7 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
 using namespace cv;
+using namespace std;
 
 namespace Ui{
     class MainWindow;
@@ -50,6 +56,8 @@ private:
     QTimer* tmrTimer;
 
     bool closeEventOccured;
+    bool isStereoParamSetupTrackbarsCreated;
+    bool isTrackingObjects;
 
 signals:
 

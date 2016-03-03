@@ -6,7 +6,7 @@ CONFIG -= qt
 
 # Libraries
 INCLUDEPATH += /usr/local/include/opencv
-LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu
+LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu -I/usr/local/cuda/include -I/usr/local/cuda-7.5/include
 
 # Sources
 SOURCES += \
