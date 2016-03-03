@@ -5,22 +5,27 @@
  *      Author: nicolasrosa
  */
 
+/* Libraries */
 #include "inc/Reconstruction3D.h"
 
-/* Constructor */
+/* Constructor and Destructor */
 Reconstruction3D::Reconstruction3D(){}
+Reconstruction3D::~Reconstruction3D(){}
 
+/* Instance Methods */
 void Reconstruction3D::setViewPoint(double x,double y,double z){
     this->viewpoint.x = x;
     this->viewpoint.y = y;
     this->viewpoint.z = z;
 }
 
+
 void Reconstruction3D::setLookAtPoint(double x,double y,double z){
     this->lookatpoint.x = x;
     this->lookatpoint.y = y;
     this->lookatpoint.z = z;
 }
+
 
 void Reconstruction3D::PointCloudInit(double baseline,bool isSub){
     this->dist=Mat::zeros(5,1,CV_64F);
@@ -37,6 +42,7 @@ void Reconstruction3D::PointCloudInit(double baseline,bool isSub){
     this->setLookAtPoint(0,0,-baseline*10);
 }
 
+
 void Reconstruction3D::eular2rot(double yaw,double pitch, double roll,Mat& dest){
     double theta = yaw/180.0*CV_PI;
     double pusai = pitch/180.0*CV_PI;
@@ -52,6 +58,7 @@ void Reconstruction3D::eular2rot(double yaw,double pitch, double roll,Mat& dest)
     rr.copyTo(dest);
 }
 
+
 void Reconstruction3D::lookat(Point3d from, Point3d to, Mat& destR){
     double x=(to.x-from.x);
     double y=(to.y-from.y);
@@ -62,6 +69,7 @@ void Reconstruction3D::lookat(Point3d from, Point3d to, Mat& destR){
 
     eular2rot(yaw, pitch, 0,destR);
 }
+
 
 void Reconstruction3D::projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, Mat &destdisp, Mat &xyz, Mat &R, Mat &t, Mat &K, Mat &dist, bool isSub){
     Mat mask;
@@ -82,6 +90,7 @@ void Reconstruction3D::projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp
         projectImagefromXYZ_<double>(image,destimage, disp, destdisp, xyz, R, t, K, dist, mask,isSub);
     }
 }
+
 
 template <class T>
 static void fillOcclusionInv_(Mat& src, T invalidvalue){
@@ -117,6 +126,7 @@ static void fillOcclusionInv_(Mat& src, T invalidvalue){
         }
     }
 }
+
 
 template <class T>
 static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, Mat& destdisp, Mat& xyz, Mat& R, Mat& t, Mat& K, Mat& dist, Mat& mask, bool isSub){
@@ -260,6 +270,7 @@ static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, Mat& des
     }
 }
 
+
 void Reconstruction3D::fillOcclusion(Mat& src, int invalidvalue, bool isInv){
     if(isInv){
         if(src.type()==CV_8U){
@@ -290,6 +301,7 @@ void Reconstruction3D::fillOcclusion(Mat& src, int invalidvalue, bool isInv){
         }
     }
 }
+
 
 template <class T>
 static void fillOcclusion_(Mat& src, T invalidvalue){

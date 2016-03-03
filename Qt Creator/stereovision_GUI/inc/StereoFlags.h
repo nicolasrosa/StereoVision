@@ -8,9 +8,13 @@
 #ifndef STEREOFLAGS_H
 #define STEREOFLAGS_H
 
+
+
 class StereoFlags{
 public:
+    /* Constructor and Destructor */
     StereoFlags();
+    ~StereoFlags();
 
     bool showInputImages;
     bool showXYZ;

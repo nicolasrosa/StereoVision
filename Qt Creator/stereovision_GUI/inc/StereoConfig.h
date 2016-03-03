@@ -17,7 +17,10 @@ using namespace std;
 
 class StereoConfig{
 public:
-    StereoConfig(); //Constructor
+    /* Constructor and Destructor */
+    StereoConfig();
+    ~StereoConfig();
+
     void showConfigValues();
 
     string methodName;

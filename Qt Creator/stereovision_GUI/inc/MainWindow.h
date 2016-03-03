@@ -36,16 +36,19 @@ class MainWindow : public QMainWindow{
     Q_OBJECT
 
 public:
+    /* Constructor and Destructor */
     explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
     void setupUi_Custom();
-    void StereoVisionProcessInit();
+    void stereoVisionProcessInit();
     void printHelp();
     void openStereoSource(int inputNum);
 
     QImage Mat2QImage(const Mat& mat);
     void putImageL(const Mat& src);
     void putImageR(const Mat& src);
-    ~MainWindow();
+
 
 private:
     Ui::MainWindow  *ui;
@@ -62,7 +65,7 @@ private:
 signals:
 
 public slots:
-    void StereoVisionProcess_UpdateGUI();
+    void stereoVisionProcess_UpdateGUI();
 
 private slots:
     void on_btnPauseOrResume_clicked();

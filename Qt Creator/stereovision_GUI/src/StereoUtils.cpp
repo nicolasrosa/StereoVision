@@ -5,10 +5,12 @@
  *      Author: nicolasrosa
  */
 
+/* Libraries */
 #include "inc/StereoUtils.h"
 
-/* Constructor */
+/* Constructor and Destructor */
 StereoUtils::StereoUtils(){}
+StereoUtils::~StereoUtils(){}
 
 void StereoUtils::startClock(){
     //lastTime = clock();

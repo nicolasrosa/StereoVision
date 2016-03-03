@@ -16,7 +16,9 @@ using namespace std;
 
 class StereoDisparityMap{
 public:
-    StereoDisparityMap(); //Constructor
+    /* Constructor and Destructor */
+    StereoDisparityMap();
+    ~StereoDisparityMap();
 
     /* Raw Disparities Maps */
     Mat disp_16S;

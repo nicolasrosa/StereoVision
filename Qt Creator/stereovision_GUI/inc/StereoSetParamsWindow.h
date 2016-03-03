@@ -20,10 +20,11 @@ class SetStereoParams : public QDialog{
     Q_OBJECT
 
 public:
+    /* Constructor and Destructor */
     explicit SetStereoParams(QWidget *parent = 0, StereoProcessor *stereo = 0);
-    void loadStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff);
-
     ~SetStereoParams();
+
+    void loadStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff);
 
     bool isAlreadyShowing;
 

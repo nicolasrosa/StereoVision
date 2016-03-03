@@ -5,14 +5,17 @@
  *      Author: nicolasrosa
  */
 
+/* Libraries */
 #include "inc/StereoDiff.h"
 
-/* Constructor */
+/* Constructor and Destructor */
 StereoDiff::StereoDiff(){
     StartDiff=false;
     alpha = 0.5;
     beta = (1.0-alpha);
 }
+
+StereoDiff::~StereoDiff(){}
 
 void StereoDiff::createDiffImage(Mat input1, Mat input2){
     absdiff(input1,input2,diffImage);

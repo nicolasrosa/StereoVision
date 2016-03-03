@@ -27,10 +27,14 @@ static void fillOcclusion_(Mat& src, T invalidvalue);
 /* Class Declaration */
 class Reconstruction3D{
 public:
-    Reconstruction3D(); //Constructor
+    /* Constructor and Destructor */
+    Reconstruction3D();
+    ~Reconstruction3D();
+
     void setViewPoint(double x,double y,double z);
     void setLookAtPoint(double x,double y,double z);
     void PointCloudInit(double baseline,bool isSub);
+
 
     /* 3D Reconstruction Functions */
     void eular2rot(double yaw,double pitch, double roll,Mat& dest);

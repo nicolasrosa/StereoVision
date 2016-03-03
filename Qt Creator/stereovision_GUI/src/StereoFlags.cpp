@@ -5,9 +5,10 @@
  *      Author: nicolasrosa
  */
 
+/* Libraries */
 #include "inc/StereoFlags.h"
 
-/* Constructor */
+/* Constructor and Destructor */
 StereoFlags::StereoFlags(){
     showInputImages=true;
     showXYZ=false;
@@ -25,3 +26,5 @@ StereoFlags::StereoFlags(){
     methodBM = true;
     methodSGBM = false;
 }
+
+StereoFlags::~StereoFlags(){}

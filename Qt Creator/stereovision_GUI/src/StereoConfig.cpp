@@ -5,9 +5,10 @@
  *      Author: nicolasrosa
  */
 
+/* Libraries */
 #include "inc/StereoConfig.h"
 
-/* Constructor */
+/* Constructor and Destructor */
 StereoConfig::StereoConfig(){}
 
 void StereoConfig::showConfigValues(){
@@ -24,6 +25,8 @@ void StereoConfig::showConfigValues(){
     cout << "disp12MaxDiff: "       << this->disp12MaxDiff          << endl;
 }
 
+StereoConfig::~StereoConfig(){}
+
 
 // TODO: Implementar SGBM Configuration
 /// *
@@ -35,7 +38,6 @@ void StereoConfig::showConfigValues(){
 
 //#include "StereoSGBMConfig.h"
 
-///* Constructor */
 //StereoSGBMConfig::StereoSGBMConfig(){}
 
 //void StereoSGBMConfig::showConfigValues(){

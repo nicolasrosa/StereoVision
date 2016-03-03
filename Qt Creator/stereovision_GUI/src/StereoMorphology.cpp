@@ -5,13 +5,13 @@
  *      Author: nicolasrosa
  */
 
+/* Libraries */
 #include "inc/StereoMorphology.h"
 #include "inc/trackObject.h"
 
-/* Constructor */
-StereoMorphology::StereoMorphology(){
-
-}
+/* Constructor and Destructor */
+StereoMorphology::StereoMorphology(){}
+StereoMorphology::~StereoMorphology(){}
 
 void StereoMorphology::imageProcessing(Mat src, Mat cameraFeedL,bool isTrackingObjects,bool isVideoFile){
     //FIXME: Mudar colocar a declacao dos elementos abaixo dentro da classe StereoMorphology

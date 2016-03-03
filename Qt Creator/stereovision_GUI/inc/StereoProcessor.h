@@ -29,7 +29,10 @@ using namespace std;
 
 class StereoProcessor : public StereoConfig{
 public:
+    /* Constructor and Destructor */
     StereoProcessor(int inputNum); //Constructor
+    ~StereoProcessor();
+
     int getInputNum();
 
     void readConfigFile();

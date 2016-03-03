@@ -22,7 +22,10 @@ using namespace std;
 
 class StereoMorphology{
 public:
+    /* Constructor and Destructor */
     StereoMorphology();
+    ~StereoMorphology();
+
     void imageProcessing(Mat src,Mat trackingView,bool isTrackingObjects,bool isVideoFile);
     void Disp_diff(Mat disp8U,Mat disp87_last,Mat disp8U_diff);
 

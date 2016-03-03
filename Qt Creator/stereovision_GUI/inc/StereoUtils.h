@@ -22,8 +22,10 @@ using namespace std;
 
 class StereoUtils{
 public:
-    /* Constructor */
+    /* Constructor and Destructor */
     StereoUtils();
+    ~StereoUtils();
+
     void resizeFrames(Mat *frame1,Mat *frame2);
     void change_resolution(VideoCapture* capL,VideoCapture* capR);
     void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);

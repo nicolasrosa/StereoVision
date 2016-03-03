@@ -5,12 +5,12 @@
  *      Author: nicolasrosa
  */
 
-#include "inc/trackObject.h"
+/* Libraries */
 #include "inc/MainWindow.h"
-
-/* Constructor */
 #include "inc/StereoProcessor.h"
+#include "inc/trackObject.h"
 
+/* Constructor and Destructor */
 StereoProcessor::StereoProcessor(int number) {
     inputNum=number;
     frameCounter=0;
@@ -19,6 +19,21 @@ StereoProcessor::StereoProcessor(int number) {
 
     x=0;
     y=0;
+}
+
+StereoProcessor::~StereoProcessor(){
+    delete bm;
+    delete sgbm;
+
+    calib.~StereoCalib();
+    BMcfg.~StereoConfig();
+    SGBMcfg.~StereoConfig();
+    disp.~StereoDisparityMap();
+    view3D.~Reconstruction3D();
+    diff.~StereoDiff();
+    flags.~StereoFlags();
+    utils.~StereoUtils();
+    morph.~StereoMorphology();
 }
 
 int StereoProcessor::getInputNum(){

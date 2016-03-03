@@ -17,7 +17,9 @@ using namespace std;
 
 class StereoCalib{
 public:
-    StereoCalib(); //Constructor
+    /* Constructor and Destructor */
+    StereoCalib();
+    ~StereoCalib();
 
     void readCalibrationFiles();
     void readIntrinsicsFile();

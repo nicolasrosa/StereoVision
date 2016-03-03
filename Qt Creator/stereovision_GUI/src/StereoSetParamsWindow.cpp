@@ -5,6 +5,7 @@
  *      Author: nicolasrosa
  */
 
+/* Libraries */
 #include <QHBoxLayout>
 #include <QSlider>
 #include <QSpinBox>

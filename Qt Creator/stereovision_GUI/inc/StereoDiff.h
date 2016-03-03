@@ -16,7 +16,10 @@ using namespace std;
 
 class StereoDiff{
 public:
-    StereoDiff(); //Constructor
+    /* Constructor and Destructor */
+    StereoDiff();
+    ~StereoDiff();
+
     void createDiffImage(Mat,Mat);
     void createResAND(Mat,Mat);
     void convertToBGR();

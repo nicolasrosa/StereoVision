@@ -5,6 +5,7 @@
  *      Author: nicolasrosa
  */
 
+/* Libraries */
 #include "inc/MainWindow.h"
 #include <QApplication>
 

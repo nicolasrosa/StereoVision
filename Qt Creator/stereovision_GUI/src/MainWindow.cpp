@@ -16,16 +16,16 @@
 
 /* Global Variables */
 
-/* Constructor */
+/* Constructor and Destructor */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     ui->setupUi(this);
     setupUi_Custom();
 
     stereo = new StereoProcessor(1);
-    StereoVisionProcessInit();
+    stereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
-    connect(tmrTimer,SIGNAL(timeout()),this,SLOT(StereoVisionProcess_UpdateGUI()));
+    connect(tmrTimer,SIGNAL(timeout()),this,SLOT(stereoVisionProcess_UpdateGUI()));
     tmrTimer->start(20);
 
     closeEventOccured = false;
@@ -33,14 +33,18 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     isTrackingObjects=true;
 }
 
+
 MainWindow::~MainWindow(){
     delete stereo;
     delete ui;
+    delete stereoParamsSetupWindow;
 
     tmrTimer->stop();
     closeEventOccured = true;
 }
 
+
+/* Instance Methods */
 void MainWindow::setupUi_Custom(){
     setWindowIcon(QIcon(":/icons/icon/spydrone_black.png"));
 
@@ -56,11 +60,11 @@ void MainWindow::setupUi_Custom(){
     ui->statusBar->showMessage("Running...");
 }
 
-void MainWindow::StereoVisionProcessInit(){
+
+void MainWindow::stereoVisionProcessInit(){
     //FIXME: Arrumar a Matrix K, os valores das ultimas colunas estao errados.
     //FIXME: Arrumar a funcao StereoProcessor::calculateQMatrix().
     //FIXME: Arrumar o Constructor da classe StereoDisparityMap para Alocacao de Memoria das variaveis: disp_16S,disp_8U,disp_BGR
-    //FIXME: Arrumar a declaracao dos Destrutores de todas as classes
     //FIXME: Arrumar a inicializacao e separar as variaveis 'Stereocfg' para os metodos BM e SGBM
     //FIXME: Arrumar os erros que acontecem quando clica-se nos botoes 'Track' and 'Diff' para o input 4
     printHelp();
@@ -149,7 +153,7 @@ void MainWindow::StereoVisionProcessInit(){
     stereo->view3D.PointCloudInit(stereo->calib.baseline,true);
 }
 
-void MainWindow::StereoVisionProcess_UpdateGUI(){
+void MainWindow::stereoVisionProcess_UpdateGUI(){
     /* (6) Rendering Loop */
     stereo->utils.startClock();
 

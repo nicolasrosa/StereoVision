@@ -5,9 +5,10 @@
  *      Author: nicolasrosa
  */
 
+/* Libraries */
 #include "inc/StereoCalib.h"
 
-/* Constructor */
+/* Constructor and Destructor */
 StereoCalib::StereoCalib(){
     double focalLength=0;
     double baseline=0;
@@ -19,6 +20,9 @@ StereoCalib::StereoCalib(){
     hasQMatrix=false;
 }
 
+StereoCalib::~StereoCalib(){}
+
+/* Instance Methods */
 /*** Stereo Calibration function
   ** Description: Reads the Calibrations in *.yml files
   ** Receives:    Matrices Addresses for storage
