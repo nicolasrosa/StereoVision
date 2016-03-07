@@ -24,7 +24,7 @@ RCC_DIR = tmp/rc
 
 
 OTHER_FILES += \
-    extrinsics.yml \
-    intrinsics.yml
+    config/extrinsics.yml \
+    config/intrinsics.yml
 
 HEADERS +=

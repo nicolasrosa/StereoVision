@@ -12,8 +12,8 @@
 using namespace std;
 using namespace cv;
 
-//#define TARGET_PC
-#define TARGET_BBB
+#define TARGET_PC
+//#define TARGET_BBB
 
 #define STEREO_BM
 //#define STEREO_SGBM
@@ -223,7 +223,7 @@ void StereoProcessor::readCalibrationFiles(){
 }
 
 void StereoProcessor::readIntrinsicsFile(){
-    FileStorage fs("intrinsics.yml", FileStorage::READ);
+    FileStorage fs("../config/intrinsics.yml", FileStorage::READ);
     if(!fs.isOpened()){
         cerr << "Failed to open intrinsics.yml file!" << endl;
         return;
@@ -242,7 +242,7 @@ void StereoProcessor::readIntrinsicsFile(){
 }
 
 void StereoProcessor::readExtrinsicsFile(){
-    FileStorage fs("extrinsics.yml", FileStorage::READ);
+    FileStorage fs("../config/extrinsics.yml", FileStorage::READ);
     if(!fs.isOpened()){
         cerr << "Failed to open extrinsics.yml file!" << endl;
         return;
