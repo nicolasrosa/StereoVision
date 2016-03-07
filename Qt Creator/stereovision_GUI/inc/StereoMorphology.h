@@ -28,18 +28,25 @@ public:
 
     void imageProcessing(Mat src,Mat trackingView,bool isTrackingObjects,bool isVideoFile);
     void Disp_diff(Mat disp8U,Mat disp87_last,Mat disp8U_diff);
+    //void cornerHarris_demo(int,void*);
 
-    //Mat erosionElement;
-    //Mat dilationElement;
-    //Mat imgEBGR,imgEDBGR;
-    //Mat imgEDMedian,imgEDMedianBGR;
-    //int x,y;
+    /* Dilation and Erosion Elements */
+    Mat erosionElement;
+    Mat dilationElement;
+
+    /* Tracking Features Variables */
+    int x,y;
+
+    /* Parcial Results */
+    Mat imgE ,imgEBGR;
+    Mat imgED,imgEDBGR;
+    Mat imgEDMedian;
+    Mat imgEDMedianBGR;
 
     /* Results */
     Mat imgThreshold;
     Mat imgThresholdDraw;
     Mat trackingView;
-
 };
 
 #endif // STEREOMORPHOLOGY_H

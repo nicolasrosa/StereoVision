@@ -30,7 +30,7 @@ using namespace std;
 class StereoProcessor : public StereoConfig{
 public:
     /* Constructor and Destructor */
-    StereoProcessor(int inputNum); //Constructor
+    StereoProcessor(int inputNum);
     ~StereoProcessor();
 
     int getInputNum();
