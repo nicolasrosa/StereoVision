@@ -67,6 +67,7 @@ void MainWindow::stereoVisionProcessInit(){
     //FIXME: Arrumar o Constructor da classe StereoDisparityMap para Alocacao de Memoria das variaveis: disp_16S,disp_8U,disp_BGR
     //FIXME: Arrumar a inicializacao e separar as variaveis 'Stereocfg' para os metodos BM e SGBM
     //FIXME: Arrumar os erros que acontecem quando clica-se nos botoes 'Track' and 'Diff' para o input 4
+    //TODO: Implementar stereoBM-CUDA na Interface
     printHelp();
 
     /* (1) Open Image Source */
@@ -180,7 +181,7 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     /* (11) Image Processing */
     if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage || stereo->flags.showWarningLines){
         if(stereo->calib.isVideoFile){
-            stereo->morph.imageProcessing(stereo->disp.disp_8U,stereo->imageL[0],true,stereo->calib.isVideoFile);
+            stereo->morph.imageProcessing(stereo->disp.disp_8U,stereo->imageL[0],true,stereo->calib.isVideoFile,false);
         }
 
         if(stereo->calib.isImageFile){

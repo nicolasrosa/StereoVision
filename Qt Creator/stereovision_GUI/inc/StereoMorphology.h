@@ -26,7 +26,11 @@ public:
     StereoMorphology();
     ~StereoMorphology();
 
-    void imageProcessing(Mat src,Mat trackingView,bool isTrackingObjects,bool isVideoFile);
+    void imageProcessing(Mat src,Mat trackingView,bool isTrackingObjects,bool isVideoFile,bool enableLightingNoiseDetector);
+    void apply_preFiltering(Mat *src,Mat *dst);
+    void apply_lightingNoiseDetector();
+    void apply_harris(Mat src);
+    void apply_watershed(Mat src);
     void Disp_diff(Mat disp8U,Mat disp87_last,Mat disp8U_diff);
     //void cornerHarris_demo(int,void*);
 
@@ -36,12 +40,6 @@ public:
 
     /* Tracking Features Variables */
     int x,y;
-
-    /* Parcial Results */
-    Mat imgE ,imgEBGR;
-    Mat imgED,imgEDBGR;
-    Mat imgEDMedian;
-    Mat imgEDMedianBGR;
 
     /* Results */
     Mat imgThreshold;

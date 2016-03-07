@@ -20,7 +20,6 @@ StereoMorphology::~StereoMorphology(){}
 
 //TODO: Remover escopos
 void cornerHarris_demo(int,void*);
-void apply_watershed();
 
 /* Harris - GlobalVariables */
 //TODO: Alocar as variaveis globais dentro da StereoMorphology class.
@@ -31,47 +30,86 @@ int max_thresh = 255;
 const string source_window = "Source image";
 const string corners_window = "Corners detected";
 
-/* Watershed - GlobalVariables */
-//TODO: Alocar as variaveis globais dentro da StereoMorphology class.
-Mat src_watershed;
-
-void StereoMorphology::imageProcessing(Mat src, Mat cameraFeedL,bool isTrackingObjects,bool isVideoFile){
-    //FIXME: Mudar colocar a declacao dos elementos abaixo dentro da classe StereoMorphology
-    //Mat erosionElement  = getStructuringElement(MORPH_RECT,Size(2*EROSION_SIZE +1, 2*EROSION_SIZE+1 ),Point(EROSION_SIZE,  EROSION_SIZE ));
-    //Mat dilationElement = getStructuringElement(MORPH_RECT,Size(2*DILATION_SIZE+1, 2*DILATION_SIZE+1),Point(DILATION_SIZE, DILATION_SIZE));
-    //Mat imgE,imgED;
-    //Mat imgEBGR,imgEDBGR;
-    //Mat imgEDMedian,imgEDMedianBGR;
-    //int x,y;
-
-    static Mat lastImgThreshold;
-    int nPixels,nTotal;		  	//static int lastThresholdSum=0;
+void StereoMorphology::imageProcessing(Mat src, Mat cameraFeedL,bool isTrackingObjects,bool isVideoFile,bool enableLightingNoiseDetector){
+    /* Local Variables */
+    Mat srcFiltered;
 
     // Near Object Detection
 
-    //Prefiltering
-    // Apply Erosion and Dilation to take out spurious noise
-    erode(src,imgE,erosionElement);
+    /* Prefiltering */
+    apply_preFiltering(&src,&srcFiltered);
+
+    /* Threshold */
+    int T_Otsu = threshold(srcFiltered, imgThreshold, 0, 255, THRESH_BINARY | THRESH_OTSU);
+    //erode(imgThreshold,imgThreshold,erosionElement);
+    //dilate(imgThreshold,imgThreshold,dilationElement);
+    imgThreshold.copyTo(imgThresholdDraw);
+    putText(imgThresholdDraw,"T: "+intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
+
+    /* Lighting Noise Detector*/
+    //TODO: Solve Lighting Noise Problem
+    if(enableLightingNoiseDetector){
+        apply_lightingNoiseDetector();
+    }
+
+    /* Tracking Object */
+    if(isTrackingObjects){
+        cameraFeedL.copyTo(trackingView);
+        if(isVideoFile){
+           trackFilteredObject(x,y,imgThreshold,trackingView);
+        }
+    }
+
+    /* Harris - Corner Detector */
+    apply_harris(src);
+
+    /* Watershed */
+    //cameraFeedL.copyTo(src);
+    apply_watershed(src);
+
+    //FIXME: Distribuir ao longo do código
+    // Output
+    //imshow("Eroded Image",imgE);
+    //imshow("Eroded Image BGR",imgEBGR);
+    //imshow("Eroded+Dilated Image",imgED);
+    //imshow("Eroded+Dilated Image BGR",imgEDBGR);
+    //imshow("Eroded+Dilated+Median Image",imgEDMedian);
+    //imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
+    //imshow("Tracking Object",trackingView);
+    //imshow("Thresholded Image",imgThreshold);
+}
+
+void StereoMorphology::apply_preFiltering(Mat *src,Mat *dst){
+    /* Parcial Results */
+    Mat imgE       ,imgEBGR;
+    Mat imgED      ,imgEDBGR;
+    Mat imgEDMedian,imgEDMedianBGR;
+
+    /* Erosion and Dilation */
+    // Take out spurious noise
+    erode(*src,imgE,erosionElement);
     dilate(imgE,imgED,erosionElement);
 
-    applyColorMap(imgE,imgEBGR, COLORMAP_JET);
-    applyColorMap(imgED,imgEDBGR, COLORMAP_JET);
-
-    // Apply Median Filter
+    /* Gaussian Filter */
     //GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
+
+    /* Median Filter */
     medianBlur(imgED,imgEDMedian,5);
-    applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
 
-    // Thresholding
-    int T_Otsu = threshold(imgEDMedian, imgThreshold, 0, 255, THRESH_BINARY | THRESH_OTSU);
+    /* Result */
+    imgEDMedian.copyTo(*dst);
 
-    erode(imgThreshold,imgThreshold,erosionElement);
+    /* Get the BGR images */
+    //applyColorMap(imgEDMedian,imgEDMedianBGR, COLORMAP_JET);
+    //applyColorMap(imgE,imgEBGR, COLORMAP_JET);
+    //applyColorMap(imgED,imgEDBGR, COLORMAP_JET);
+}
 
-    dilate(imgThreshold,imgThreshold,dilationElement);
+void StereoMorphology::apply_lightingNoiseDetector(){
+    static Mat lastImgThreshold;
 
-    //TODO: Solve Lighting Noise Problem
-    nPixels = sum(imgThreshold)[0]/255;
-    nTotal = imgThreshold.total();
+    int nPixels = sum(imgThreshold)[0]/255;
+    int nTotal = imgThreshold.total();
 
     //	cout << "Number of Pixels:" << nPixels << endl;
     //	cout << "Ratio is: " << ((float)nPixels)/nTotal << endl << endl;
@@ -89,89 +127,16 @@ void StereoMorphology::imageProcessing(Mat src, Mat cameraFeedL,bool isTrackingO
         lastImgThreshold=imgThreshold;
         //lastThresholdSum = CurrentThresholdSum;
     }
+}
 
-    // Tracking Object
-    if(isTrackingObjects){
-        cameraFeedL.copyTo(trackingView);
-        if(isVideoFile){
-           trackFilteredObject(x,y,imgThreshold,trackingView);
-        }
-    }
-
-    imgThreshold.copyTo(imgThresholdDraw);
-    putText(imgThresholdDraw,"T: "+intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
-
-    //TODO: Harris - Reposicionar essa funcao
+void StereoMorphology::apply_harris(Mat src){
     src.copyTo(src_harris);
     namedWindow( source_window, CV_WINDOW_AUTOSIZE );
     createTrackbar( "Threshold: ", source_window, &thresh, max_thresh, cornerHarris_demo );
     cornerHarris_demo( 0, 0 );
     imshow( source_window, src );
-
-    //TODO: watershed - reposicionar essa funcao
-    //cameraFeedL.copyTo(src_watershed);
-
-    applyColorMap(src,src_watershed, COLORMAP_JET); //disp_BGR
-
-    apply_watershed();
-
-    // Output
-    //imshow("Eroded Image",imgE);
-    //imshow("Eroded Image BGR",imgEBGR);
-    //imshow("Eroded+Dilated Image",imgED);
-    //imshow("Eroded+Dilated Image BGR",imgEDBGR);
-    //imshow("Eroded+Dilated+Median Image",imgEDMedian);
-    //imshow("Eroded+Dilated+Median Image BGR",imgEDMedianBGR);
-    //imshow("Tracking Object",trackingView);
-    //imshow("Thresholded Image",imgThreshold);
 }
 
-void StereoMorphology::Disp_diff(Mat disp8U,Mat disp8U_last,Mat disp8U_diff){
-    absdiff(disp8U,disp8U_last,disp8U_diff);
-    Mat disp_diff_th;
-    threshold(disp8U_diff,disp_diff_th, 10, 255, THRESH_BINARY);
-
-    Mat disp_sum;
-    addWeighted(disp8U, 1, disp_diff_th, 1, 0.0, disp_sum);
-
-    vector<vector<Point> > contours;
-    vector<Vec4i> hierarchy;
-    Mat disp_countours = Mat::zeros(disp_diff_th.rows, disp_diff_th.cols, CV_8UC3);
-    Scalar white = CV_RGB( 255, 255, 255 );
-    //                Scalar color( rand()&255, rand()&255, rand()&255 );
-
-    findContours( disp_diff_th, contours, hierarchy,
-                  CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
-
-    // iterate through all the top-level contours,
-    // draw each connected component with its own random color
-    int idx = 0;
-    for( ; idx >= 0; idx = hierarchy[idx][0] )
-    {
-        //drawContours( disp_countours, contours, idx, color, CV_FILLED, 8, hierarchy );
-        drawContours( disp_countours, contours, idx, white, CV_FILLED);
-    }
-
-    namedWindow( "Components", 1 );
-
-
-    cv::Mat holes=disp_diff_th.clone();
-    cv::floodFill(holes,cv::Point2i(0,0),cv::Scalar(1));
-    for(int i=0;i<disp_diff_th.rows*disp_diff_th.cols;i++)                {
-        if(holes.data[i]==0)
-            disp_diff_th.data[i]=1;
-    }
-
-    imshow( "holes", holes );
-    imshow( "Components", disp_countours );
-
-
-    //imshow("Disp",stereo->disp.disp_8U);
-    //imshow("Disp_last",stereo->disp.disp_8U_last);
-    imshow("Disp_diff",disp8U_diff);
-    imshow("Disp_diff_th",disp_diff_th);
-    imshow("Disp_sum",disp_sum);
-}
 
 /** @function cornerHarris_demo */
 void cornerHarris_demo(int,void*)
@@ -215,45 +180,32 @@ void cornerHarris_demo(int,void*)
   imshow( corners_window, result_harris );
 }
 
-void apply_watershed(){
 /**
  * @function Watershed_and_Distance_Transform.cpp
  * @brief Sample code showing how to segment overlapping objects using Laplacian filtering, in addition to Watershed and Distance Transformation
  * @author OpenCV Team
  */
-
+void StereoMorphology::apply_watershed(Mat src){
 //! [load_image]
-    // Load the image
-
-    //Mat src = imread(argv[1]);
-    //Mat src = imread("/home/nicolas/repository/StereoVision/Qt Creator/watershed_Demo/bin/left2.png");
-
-    // Check if everything was fine
-    if (!src_watershed.data){
-        cout << "Failed!" << endl;
-        //return -1;
-    }
-
-    // Show source image
-    imshow("Source Image", src_watershed);
-
+    applyColorMap(src,src, COLORMAP_JET); //disp_BGR
+    imshow("Source Image", src);
 //! [load_image]
 
 //! [black_bg]
     // Change the background from white to black, since that will help later to extract
     // better results during the use of Distance Transform
-    for( int x = 0; x < src_watershed.rows; x++ ) {
-      for( int y = 0; y < src_watershed.cols; y++ ) {
-          if ( src_watershed.at<Vec3b>(x, y) == Vec3b(255,255,255) ) {
-            src_watershed.at<Vec3b>(x, y)[0] = 0;
-            src_watershed.at<Vec3b>(x, y)[1] = 0;
-            src_watershed.at<Vec3b>(x, y)[2] = 0;
+    for( int x = 0; x < src.rows; x++ ) {
+      for( int y = 0; y < src.cols; y++ ) {
+          if ( src.at<Vec3b>(x, y) == Vec3b(255,255,255) ) {
+            src.at<Vec3b>(x, y)[0] = 0;
+            src.at<Vec3b>(x, y)[1] = 0;
+            src.at<Vec3b>(x, y)[2] = 0;
           }
         }
     }
 
     // Show output image
-    imshow("Black Background Image", src_watershed);
+    imshow("Black Background Image", src);
 //! [black_bg]
 
 //! [sharp]
@@ -270,9 +222,9 @@ void apply_watershed(){
     // BUT a 8bits unsigned int (the one we are working with) can contain values from 0 to 255
     // so the possible negative number will be truncated
     Mat imgLaplacian;
-    Mat sharp = src_watershed; // copy source image to another temporary one
+    Mat sharp = src; // copy source image to another temporary one
     filter2D(sharp, imgLaplacian, CV_32F, kernel);
-    src_watershed.convertTo(sharp, CV_32F);
+    src.convertTo(sharp, CV_32F);
     Mat imgResult = sharp - imgLaplacian;
 
     // convert back to 8bits gray scale
@@ -283,12 +235,12 @@ void apply_watershed(){
     imshow( "New Sharped Image", imgResult );
 //! [sharp]
 
-    src_watershed = imgResult; // copy back
+    src = imgResult; // copy back
 
 //! [bin]
     // Create binary image from source image
     Mat bw;
-    cvtColor(src_watershed, bw, CV_BGR2GRAY);
+    cvtColor(src, bw, CV_BGR2GRAY);
     threshold(bw, bw, 40, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
     imshow("Binary Image", bw);
 //! [bin]
@@ -339,7 +291,7 @@ void apply_watershed(){
 
 //! [watershed]
     // Perform the watershed algorithm
-    watershed(src_watershed, markers);
+    watershed(src, markers);
 
     Mat mark = Mat::zeros(markers.size(), CV_8UC1);
     markers.convertTo(mark, CV_8UC1);
@@ -377,4 +329,51 @@ void apply_watershed(){
     // Visualize the final image
     imshow("Final Result", dst);
 //! [watershed]
+}
+
+void StereoMorphology::Disp_diff(Mat disp8U,Mat disp8U_last,Mat disp8U_diff){
+    absdiff(disp8U,disp8U_last,disp8U_diff);
+    Mat disp_diff_th;
+    threshold(disp8U_diff,disp_diff_th, 10, 255, THRESH_BINARY);
+
+    Mat disp_sum;
+    addWeighted(disp8U, 1, disp_diff_th, 1, 0.0, disp_sum);
+
+    vector<vector<Point> > contours;
+    vector<Vec4i> hierarchy;
+    Mat disp_countours = Mat::zeros(disp_diff_th.rows, disp_diff_th.cols, CV_8UC3);
+    Scalar white = CV_RGB( 255, 255, 255 );
+    //                Scalar color( rand()&255, rand()&255, rand()&255 );
+
+    findContours( disp_diff_th, contours, hierarchy,
+                  CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
+
+    // iterate through all the top-level contours,
+    // draw each connected component with its own random color
+    int idx = 0;
+    for( ; idx >= 0; idx = hierarchy[idx][0] )
+    {
+        //drawContours( disp_countours, contours, idx, color, CV_FILLED, 8, hierarchy );
+        drawContours( disp_countours, contours, idx, white, CV_FILLED);
+    }
+
+    namedWindow( "Components", 1 );
+
+
+    cv::Mat holes=disp_diff_th.clone();
+    cv::floodFill(holes,cv::Point2i(0,0),cv::Scalar(1));
+    for(int i=0;i<disp_diff_th.rows*disp_diff_th.cols;i++)                {
+        if(holes.data[i]==0)
+            disp_diff_th.data[i]=1;
+    }
+
+    imshow( "holes", holes );
+    imshow( "Components", disp_countours );
+
+
+    //imshow("Disp",stereo->disp.disp_8U);
+    //imshow("Disp_last",stereo->disp.disp_8U_last);
+    imshow("Disp_diff",disp8U_diff);
+    imshow("Disp_diff_th",disp_diff_th);
+    imshow("Disp_sum",disp_sum);
 }
