@@ -22,7 +22,7 @@ using namespace std;
 SetStereoParams::SetStereoParams(QWidget *parent, StereoProcessor *stereo) : QDialog(parent), ui(new Ui::SetStereoParams){
     ui->setupUi(this);
 
-    this->stereo = stereo;
+    stereo = stereo;
 
     connect(ui->preFilterSize_slider, SIGNAL(valueChanged(int)),ui->preFilterSize_spinBox,SLOT(setValue(int)));
     connect(ui->preFilterCap_slider, SIGNAL(valueChanged(int)),ui->preFilterCap_spinBox,SLOT(setValue(int)));
@@ -47,35 +47,35 @@ SetStereoParams::SetStereoParams(QWidget *parent, StereoProcessor *stereo) : QDi
 }
 
 void SetStereoParams::loadStereoParamsUi(int preFilterSize,int preFilterCap,int SADWindowSize,int minDisparity,int numberOfDisparities,int textureThreshold,int uniquenessRatio, int speckleWindowSize, int speckleRange,int disp12MaxDiff){
-    this->ui->preFilterSize_slider->setValue(preFilterSize);
-    this->ui->preFilterSize_spinBox->setValue(preFilterSize);
+    ui->preFilterSize_slider->setValue(preFilterSize);
+    ui->preFilterSize_spinBox->setValue(preFilterSize);
 
-    this->ui->preFilterCap_slider->setValue(preFilterCap);
-    this->ui->preFilterCap_spinBox->setValue(preFilterCap);
+    ui->preFilterCap_slider->setValue(preFilterCap);
+    ui->preFilterCap_spinBox->setValue(preFilterCap);
 
-    this->ui->SADWindowSize_slider->setValue(SADWindowSize);
-    this->ui->SADWindowSize_spinBox->setValue(SADWindowSize);
+    ui->SADWindowSize_slider->setValue(SADWindowSize);
+    ui->SADWindowSize_spinBox->setValue(SADWindowSize);
 
-    this->ui->minDisparity_slider->setValue(minDisparity);
-    this->ui->minDisparity_spinBox->setValue(minDisparity);
+    ui->minDisparity_slider->setValue(minDisparity);
+    ui->minDisparity_spinBox->setValue(minDisparity);
 
-    this->ui->numberOfDisparities_slider->setValue(numberOfDisparities);
-    this->ui->numberOfDisparities_spinBox->setValue(numberOfDisparities);
+    ui->numberOfDisparities_slider->setValue(numberOfDisparities);
+    ui->numberOfDisparities_spinBox->setValue(numberOfDisparities);
 
-    this->ui->textureThreshold_slider->setValue(textureThreshold);
-    this->ui->textureThreshold_spinBox->setValue(textureThreshold);
+    ui->textureThreshold_slider->setValue(textureThreshold);
+    ui->textureThreshold_spinBox->setValue(textureThreshold);
 
-    this->ui->uniquenessRatio_slider->setValue(uniquenessRatio);
-    this->ui->uniquenessRatio_spinBox->setValue(uniquenessRatio);
+    ui->uniquenessRatio_slider->setValue(uniquenessRatio);
+    ui->uniquenessRatio_spinBox->setValue(uniquenessRatio);
 
-    this->ui->speckleWindowSize_slider->setValue(speckleWindowSize);
-    this->ui->speckleWindowSize_spinBox->setValue(speckleWindowSize);
+    ui->speckleWindowSize_slider->setValue(speckleWindowSize);
+    ui->speckleWindowSize_spinBox->setValue(speckleWindowSize);
 
-    this->ui->speckleRange_slider->setValue(speckleRange);
-    this->ui->speckleRange_spinBox->setValue(speckleRange);
+    ui->speckleRange_slider->setValue(speckleRange);
+    ui->speckleRange_spinBox->setValue(speckleRange);
 
-    this->ui->disp12MaxDiff_slider->setValue(disp12MaxDiff);
-    this->ui->disp12MaxDiff_spinBox->setValue(disp12MaxDiff);
+    ui->disp12MaxDiff_slider->setValue(disp12MaxDiff);
+    ui->disp12MaxDiff_spinBox->setValue(disp12MaxDiff);
 }
 
 SetStereoParams::~SetStereoParams(){
@@ -205,10 +205,10 @@ void SetStereoParams::updateValues() {
                       ui->speckleRange_slider->value(),
                       ui->disp12MaxDiff_slider->value());
 
-    if(this->stereo->flags.methodBM)
-        this->stereo->setStereoBM_Params();
+    if(stereo->flags.methodBM)
+        stereo->setStereoBM_Params();
 
-    if(this->stereo->flags.methodSGBM)
-        this->stereo->setStereoSGBM_Params();
+    if(stereo->flags.methodSGBM)
+        stereo->setStereoSGBM_Params();
 }
 

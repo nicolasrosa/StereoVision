@@ -585,7 +585,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
         event->ignore();
     } else {
         event->accept();
-        this->~MainWindow();
+        ui->~MainWindow();
     }
 }
 

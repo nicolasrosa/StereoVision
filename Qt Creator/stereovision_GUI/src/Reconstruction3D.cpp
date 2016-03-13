@@ -14,32 +14,32 @@ Reconstruction3D::~Reconstruction3D(){}
 
 /* Instance Methods */
 void Reconstruction3D::setViewPoint(double x,double y,double z){
-    this->viewpoint.x = x;
-    this->viewpoint.y = y;
-    this->viewpoint.z = z;
+    viewpoint.x = x;
+    viewpoint.y = y;
+    viewpoint.z = z;
 }
 
 
 void Reconstruction3D::setLookAtPoint(double x,double y,double z){
-    this->lookatpoint.x = x;
-    this->lookatpoint.y = y;
-    this->lookatpoint.z = z;
+    lookatpoint.x = x;
+    lookatpoint.y = y;
+    lookatpoint.z = z;
 }
 
 
 void Reconstruction3D::PointCloudInit(double baseline,bool isSub){
-    this->dist=Mat::zeros(5,1,CV_64F);
-    this->Rotation=Mat::eye(3,3,CV_64F);
-    this->t=Mat::zeros(3,1,CV_64F);
+    dist=Mat::zeros(5,1,CV_64F);
+    Rotation=Mat::eye(3,3,CV_64F);
+    t=Mat::zeros(3,1,CV_64F);
 
-    this->isSub = isSub;
-    this->step = baseline/10;
+    isSub = isSub;
+    step = baseline/10;
 
     //Point3d viewpoint(20.0,20.0,-baseline*10);
     //Point3d lookatpoint(22.0,16.0,baseline*10.0);
 
-    this->setViewPoint(10,10,-2*baseline*10);
-    this->setLookAtPoint(0,0,-baseline*10);
+    setViewPoint(10,10,-2*baseline*10);
+    setLookAtPoint(0,0,-baseline*10);
 }
 
 

@@ -22,7 +22,7 @@ void StereoDiff::createDiffImage(Mat input1, Mat input2){
 }
 
 void StereoDiff::createResAND(Mat input1,Mat input2){
-    bitwise_and(input1,input2,this->res_AND);
+    bitwise_and(input1,input2,res_AND);
 }
 
 void StereoDiff::convertToBGR(){
@@ -37,7 +37,7 @@ void StereoDiff::addRedLines(){
     res_AND_BGR_channels[1] = Mat::zeros(res_AND.rows,res_AND.cols,CV_8UC1);
     cv::merge(res_AND_BGR_channels,3,res_AND_BGR);
 
-    addWeighted(this->imageL,alpha,res_AND_BGR,beta, 0.0,res_ADD);
+    addWeighted(imageL,alpha,res_AND_BGR,beta, 0.0,res_ADD);
 
     //imshow("Add",res_ADD);
 }
