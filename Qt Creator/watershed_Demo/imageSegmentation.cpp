@@ -16,7 +16,8 @@ int main(int, char** argv)
     // Load the image
 
     //Mat src = imread(argv[1]);
-    Mat src = imread("/home/nicolas/repository/StereoVision/Qt Creator/watershed_Demo/bin/left2.png");
+   // Mat src = imread("/home/nicolas/repository/StereoVision/Qt Creator/watershed_Demo/bin/left2.png");
+    Mat src = imread("/home/nicolas/repository/StereoVision/data/road.png");
 
     // Check if everything was fine
     if (!src.data){
