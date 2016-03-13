@@ -25,6 +25,7 @@ StereoFlags::StereoFlags(){
 
     methodBM = true;
     methodSGBM = false;
+    methodBM_GPU = false;
 }
 
 StereoFlags::~StereoFlags(){}

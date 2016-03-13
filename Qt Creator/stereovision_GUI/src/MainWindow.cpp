@@ -114,6 +114,7 @@ void MainWindow::stereoVisionProcessInit(){
     /* Initializing Stereo Matching Methods */
     stereo->stereoBM_Init();
     stereo->stereoSGBM_Init();
+    stereo->stereoBM_GPU_Init();
 
     /* Setting Stereo Parameters */
     stereo->setStereoBM_Params();
@@ -557,12 +558,21 @@ void MainWindow::on_methodSelector_activated(int index){
         cout << "Chose Method: BM" <<endl;
         stereo->flags.methodBM = true;
         stereo->flags.methodSGBM = false;
+        stereo->flags.methodBM_GPU = false;
         break;
     case 1:
         cout << "Chose Method: SGBM" <<endl;
         stereo->flags.methodBM = false;
         stereo->flags.methodSGBM = true;
+        stereo->flags.methodBM_GPU = false;
         break;
+    case 2:
+        cout << "Chose Method: BM_GPU" <<endl;
+        stereo->flags.methodBM = false;
+        stereo->flags.methodSGBM = false;
+        stereo->flags.methodBM_GPU = true;
+        break;
+
     }
 }
 

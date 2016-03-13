@@ -197,6 +197,11 @@
       <string>StereoSGBM</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>StereoBM_GPU</string>
+     </property>
+    </item>
    </widget>
    <widget class="QLCDNumber" name="lcdNumber">
     <property name="geometry">

@@ -31,6 +31,7 @@ public:
 
     bool methodBM;
     bool methodSGBM;
+    bool methodBM_GPU;
 };
 
 #endif // STEREOFLAGS_H

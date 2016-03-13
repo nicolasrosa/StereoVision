@@ -10,6 +10,8 @@
 
 /* Libraries */
 #include <opencv2/opencv.hpp>
+#include "opencv2/cudastereo.hpp"
+#include "opencv2/cudaarithm.hpp"
 
 /* Custom Libraries */
 #include "StereoCalib.h"
@@ -41,6 +43,7 @@ public:
 
     void stereoBM_Init();
     void stereoSGBM_Init();
+    void stereoBM_GPU_Init();
     void stereoCalib();
     void setStereoBM_Params();
     void setStereoSGBM_Params();
@@ -58,11 +61,15 @@ public:
     string imageR_filename;
 
     Mat imageL[2],imageR[2];
+    cuda::GpuMat d_imageL,d_imageR,d_disp_16S;
     Mat	imageL_grey[2],imageR_grey[2];
     VideoCapture capL,capR;
 
     Ptr<StereoBM> bm;
     Ptr<StereoSGBM> sgbm;
+    Ptr<cuda::StereoBM> bm_gpu;
+
+    //enum {BM, SGBM, BM_GPU} method;
 
     StereoCalib calib;
     StereoConfig BMcfg;

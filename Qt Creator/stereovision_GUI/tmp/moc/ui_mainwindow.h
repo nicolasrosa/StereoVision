@@ -206,6 +206,7 @@ public:
         methodSelector->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "StereoBM", 0)
          << QApplication::translate("MainWindow", "StereoSGBM", 0)
+         << QApplication::translate("MainWindow", "StereoBM_GPU", 0)
         );
         toggleBtnShowHist->setText(QApplication::translate("MainWindow", "Hist", 0));
         toggleBtnShowXYZ->setText(QApplication::translate("MainWindow", "ShowXYZ", 0));
