@@ -59,6 +59,10 @@ Sharad Nagappa, Narc{\'{\i}}s Palomeras, Chee~Sing Lee, Nuno Gracias, Daniel~E.
   vehicles using stereo vision}.
 \newblock {\em 2013 MTS/IEEE OCEANS-Bergen}, (Ref 288273):1--9, 2013.
 
+\bibitem{NVIDIA}
+NVIDIA.
+\newblock {CUDA - Parallel Computing Platform}.
+
 \bibitem{UEDA2011}
 Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.
 \newblock {3D Reconstruction and Point Cloud Rendering}, 2011.

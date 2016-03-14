@@ -1,25 +1,25 @@
-\chapter{Vis„o EstereoscÛpica - \textit{Stereo Imaging}}
-\label{Revis„o Bibliogr·fica}
+\chapter{Vis√£o Estereosc√≥pica - \textit{Stereo Imaging}}
+\label{Revis√£o Bibliogr√°fica}
 
-%\textcolor{red}{\textbf{Dica:} Embasamento TeÛrico ou FundamentaÁ„o TeÛrica: revis„o da literatura dos
-%tÛpicos que sustentam a ciÍncia e o conhecimento, relativos aos objetivos e
-%aos mÈtodos escolhidos para o desenvolvimento do trabalho;
-%- Itens como ConsideraÁıes Iniciais e Finais n„o s„o obrigatÛrios, mas
-%completam muito bem qualquer capÌtulo.}
+%\textcolor{red}{\textbf{Dica:} Embasamento Te√≥rico ou Fundamenta√ß√£o Te√≥rica: revis√£o da literatura dos
+%t√≥picos que sustentam a ci√™ncia e o conhecimento, relativos aos objetivos e
+%aos m√©todos escolhidos para o desenvolvimento do trabalho;
+%- Itens como Considera√ß√µes Iniciais e Finais n√£o s√£o obrigat√≥rios, mas
+%completam muito bem qualquer cap√≠tulo.}
 
 %------------------------------------- Texto --------------------------------------------------------
-A vis„o estereoscÛpica possibilita uma boa identificaÁ„o de um espaÁo tridimensional, visto que sua estrutura permite a triangulaÁ„o de pontos chaves, assim determinando-se o seu correto posicionamento. Deste modo, compreende-se o porquÍ deste sistema visual ser amplamente difundido na evoluÁ„o humana e animal. Em vis„o computacional, deseja-se emular os sistemas de vis„o mais eficientes para identificaÁ„o de objetos e reconhecimento de ambientes. Computacionalmente, este processo pode ser realizado em quatro etapas: retificaÁ„o,  Nas prÛximas seÁıes encontram-se apresentadas o modelamento matem·tico, a triangulaÁ„o, a calibraÁ„o, a retificaÁ„o e a projeÁ„o tridimensional para este tipo de sistema. 
+A vis√£o estereosc√≥pica possibilita uma boa identifica√ß√£o de um espa√ßo tridimensional, visto que sua estrutura permite a triangula√ß√£o de pontos chaves, assim determinando-se o seu correto posicionamento. Deste modo, compreende-se o porqu√™ deste sistema visual ser amplamente difundido na evolu√ß√£o humana e animal. Em vis√£o computacional, deseja-se emular os sistemas de vis√£o mais eficientes para identifica√ß√£o de objetos e reconhecimento de ambientes. Computacionalmente, este processo pode ser realizado em quatro etapas: retifica√ß√£o,  Nas pr√≥ximas se√ß√µes encontram-se apresentadas o modelamento matem√°tico, a triangula√ß√£o, a calibra√ß√£o, a retifica√ß√£o e a proje√ß√£o tridimensional para este tipo de sistema. 
 
 % ---------------------------------------------------------------------------------------------------
-\section{TriangulaÁ„o - \textit{Triangulation}}
+\section{Triangula√ß√£o - \textit{Triangulation}}
 
-Idealmente, a triangulaÁ„o de um Ponto P de coordenadas globais (X,Y,Z) pode ser realizada caso tenha-se uma estrutura estÈreo, cujas c‚meras n„o apresentem distorÁ„o e estejam perfeitamente alinhadas. Deste modo, matematicamente, È possÌvel abstrair os sensores das c‚meras como dois planos coplanares entre si. Nessas condiÁıes, tem-se que os eixos Ûpticos das c‚meras s„o paralelos. O eixo Ûptico, tambÈm conhecido como raio principal, È a reta que intercepta o ponto de centro de projeÁ„o ${O}$ e o ponto principal da lente ${c}$. Assumindo que as c‚meras sejam exatamente iguais e alinhadas, tem-se que os pontos focais da c‚mera esquerda e da c‚mera direita s„o iguais ${f_l = f_r}$ e os pontos principais ${c^{left}_x}$ e  ${c^{right}_x}$ apresentam as mesmas coordenadas \cite{Bradski2008}. A figura \ref{stereo_image_geometric_model} ilustra a representaÁ„o do modelo idealizado de um sistema estÈreo.
+Idealmente, a triangula√ß√£o de um Ponto P de coordenadas globais (X,Y,Z) pode ser realizada caso tenha-se uma estrutura est√©reo, cujas c√¢meras n√£o apresentem distor√ß√£o e estejam perfeitamente alinhadas. Deste modo, matematicamente, √© poss√≠vel abstrair os sensores das c√¢meras como dois planos coplanares entre si. Nessas condi√ß√µes, tem-se que os eixos √≥pticos das c√¢meras s√£o paralelos. O eixo √≥ptico, tamb√©m conhecido como raio principal, √© a reta que intercepta o ponto de centro de proje√ß√£o ${O}$ e o ponto principal da lente ${c}$. Assumindo que as c√¢meras sejam exatamente iguais e alinhadas, tem-se que os pontos focais da c√¢mera esquerda e da c√¢mera direita s√£o iguais ${f_l = f_r}$ e os pontos principais ${c^{left}_x}$ e  ${c^{right}_x}$ apresentam as mesmas coordenadas \cite{Bradski2008}. A figura \ref{stereo_image_geometric_model} ilustra a representa√ß√£o do modelo idealizado de um sistema est√©reo.
 
 
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/stereo_image_geometric_model.png}
- 	\caption{Modelo Idealizado de um sistema de Vis„o EstÈreo(Bradski,2008)}
+ 	\caption{Modelo Idealizado de um sistema de Vis√£o Est√©reo(Bradski,2008)}
  	\label{stereo_image_geometric_model}
 \end{figure}
 
@@ -27,57 +27,69 @@ Idealmente, a triangulaÁ„o de um Ponto P de coordenadas globais (X,Y,Z) pode ser
 %\section{Geometria epipolar - \textit{Epipolar Geometry}}
 %
 %%----------------------------------------------------------------------------------------------------
-%\section{CalibraÁ„o \textit{Stereo Calibration}}
-%\subsection{Par‚metros intrÌnsecos}
+%\section{Calibra√ß√£o \textit{Stereo Calibration}}
+%\subsection{Par√¢metros intr√≠nsecos}
 %
-%\subsection{Par‚metros extrÌnsecos}
-%
-%%----------------------------------------------------------------------------------------------------
-%\section{RetificaÁ„o de Imagens  - \textit{Stereo Rectification}}
+%\subsection{Par√¢metros extr√≠nsecos}
 %
 %%----------------------------------------------------------------------------------------------------
-%\section{CorrespondÍncia EstÈreo - \textit{Stereo Correspondence}}
+%\section{Retifica√ß√£o de Imagens  - \textit{Stereo Rectification}}
+%
+%%----------------------------------------------------------------------------------------------------
+%\section{Correspond√™ncia Est√©reo - \textit{Stereo Correspondence}}
 %
 %%----------------------------------------------------------------------------------------------------
 %\section{Mapa de disparidades - \textit{Disparity Map}}
 %
 %%----------------------------------------------------------------------------------------------------
-%\section{ProjeÁ„o Tridimensional - \textit{3D Reprojection}}
+%\section{Proje√ß√£o Tridimensional - \textit{3D Reprojection}}
 %
 %%----------------------------------------------------------------------------------------------------
 %\section{Reconhecimento de Objeto - \textit{Object Recognition}}
-%\subsection{SegmentaÁ„o - \textit{Image Segmentation}}
+%\subsection{Segmenta√ß√£o - \textit{Image Segmentation}}
 %
-%\subsection{IdentificaÁ„o - \textit{Object Identification}}
+%\subsection{Identifica√ß√£o - \textit{Object Identification}}
 
 %----------------------------------------------------------------------------------------------------
-\section{AplicaÁıes em RobÛtica}
+\section{Aplica√ß√µes em Rob√≥tica}
 
-Nesta seÁ„o, ser„o apresentados alguns dos trabalhos que tÍm como principais sensores ou utilizam c‚meras estereoscÛpicas para a navegaÁ„o autÙnoma em ambientes terrestre, aÈrea e subaqu·tica.
+Nesta se√ß√£o, ser√£o apresentados alguns dos trabalhos que t√™m como principais sensores ou utilizam c√¢meras estereosc√≥picas para a navega√ß√£o aut√¥noma em ambientes terrestre, a√©rea e subaqu√°tica.
 
-Nos dias de hoje, as empresas automobilÌsticas vem participando de uma verdadeira corrida tecnolÛgica para o desenvolvimento de automÛveis totalmente autÙnomos e economicamente vi·veis. As universidades n„o ficaram para tr·s e tambÈm apresentam pesquisas envolvendo desenvolvimento de algoritmos de controle e sensores, tornando essa corrida ainda mais acirrada. Os resultados apresentados s„o realmente promissores, o que concretizam cada vez mais essa realidade tida atÈ ent„o como distante. Na figura \ref{caminhao_autonomo} abaixo, È possÌvel observar o projeto de caminh„o autÙnomo desenvolvido pelo LaboratÛrio de RobÛtica MÛvel - LRM - ICMC/USP. O caminh„o conta com diversos sensores, dentre eles c‚meras estereoscÛpicas, que identificam outros automÛveis, pessoas e faixas de sinalizaÁ„o \cite{ShinzatoP}. 
+Nos dias de hoje, as empresas automobil√≠sticas vem participando de uma verdadeira corrida tecnol√≥gica para o desenvolvimento de autom√≥veis totalmente aut√¥nomos e economicamente vi√°veis. As universidades n√£o ficaram para tr√°s e tamb√©m apresentam pesquisas envolvendo desenvolvimento de algoritmos de controle e sensores, tornando essa corrida ainda mais acirrada. Os resultados apresentados s√£o realmente promissores, o que concretizam cada vez mais essa realidade tida at√© ent√£o como distante. Na figura \ref{caminhao_autonomo} abaixo, √© poss√≠vel observar o projeto de caminh√£o aut√¥nomo desenvolvido pelo Laborat√≥rio de Rob√≥tica M√≥vel - LRM - ICMC/USP. O caminh√£o conta com diversos sensores, dentre eles c√¢meras estereosc√≥picas, que identificam outros autom√≥veis, pessoas e faixas de sinaliza√ß√£o \cite{ShinzatoP}. 
 
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/caminhao_autonomo.jpg}
- 	\caption{Caminh„o AutÙnomo desenvolvido pelo LaboratÛrio de RobÛtica MÛvel - LRM - ICMC/USP em parceria com a Scania}
+ 	\caption{Caminh√£o Aut√¥nomo desenvolvido pelo Laborat√≥rio de Rob√≥tica M√≥vel - LRM - ICMC/USP em parceria com a Scania}
  	\label{caminhao_autonomo}
 \end{figure}
 
-No caso de navegaÁ„o autÙnoma para ambiente aÈreo, o projeto utilizando \textit{Micro Air Vehicle} (MAVS) desenvolvido pelo \textit{Massachusetts Institute of Technology} (MIT) permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obst·culos voando a um velocidade de 30 mph (48 $km/h$). A figura \ref{mit_drones} abaixo apresenta o trabalho desenvolvido, o qual È um comparativo de desempenho de uma implementaÁ„o em hardware utilizando \textit{Field-programmable gate array} (FPGA) e um processador ARM para processamento embarcado do mÈtodo \textit{Semi-Global Block Matching} (SGBM) \cite{BarryMIT}.
+No caso de navega√ß√£o aut√¥noma para ambiente a√©reo, o projeto utilizando \textit{Micro Air Vehicle} (MAVS) desenvolvido pelo \textit{Massachusetts Institute of Technology} (MIT) permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obst√°culos voando a um velocidade de 30 mph (48 $km/h$). A figura \ref{mit_drones} abaixo apresenta o trabalho desenvolvido, o qual √© um comparativo de desempenho de uma implementa√ß√£o em hardware utilizando \textit{Field-programmable gate array} (FPGA) e um processador ARM para processamento embarcado do m√©todo \textit{Semi-Global Block Matching} (SGBM) \cite{BarryMIT}.
 
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.30]{./Resources/mit_drones.png}
- 	\caption{Plataformas experimentais de aeronaves com o Sistema EstÈreo - FPGA (frente) e o Sistema EstÈreo - Pushbroom (tr·s). C‚maras s„o montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas cÈlulas.}
+ 	\caption{Plataformas experimentais de aeronaves com o Sistema Est√©reo - FPGA (frente) e o Sistema Est√©reo - Pushbroom (tr√°s). C√¢maras s√£o montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas c√©lulas.}
  	\label{mit_drones}
 \end{figure}
 
-No caso de navegaÁ„o autÙnoma para ambiente subaqu·tico, um exemplo de \textit{autonomous underwater vehicle} (AUV) È o projeto desenvolvido pela Universidade espanhola de Girona (veja figura \ref{G500}). O trabalho propıe a utilizaÁ„o do mÈtodo de Mapeamento e LocalizaÁ„o Simult‚nea (SLAM),juntamente com c‚meras estereoscÛpicas, para o reconhecimento do ambiente, aprimorando assim o erro de rastreamento dos objetos \cite{Nagappa2013}.
+No caso de navega√ß√£o aut√¥noma para ambiente subaqu√°tico, um exemplo de \textit{autonomous underwater vehicle} (AUV) √© o projeto desenvolvido pela Universidade espanhola de Girona (veja figura \ref{G500}). O trabalho prop√µe a utiliza√ß√£o do m√©todo de Mapeamento e Localiza√ß√£o Simult√¢nea (SLAM),juntamente com c√¢meras estereosc√≥picas, para o reconhecimento do ambiente, aprimorando assim o erro de rastreamento dos objetos \cite{Nagappa2013}.
 
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.1]{./Resources/G500.jpg}
- 	\caption{VeÌculo Submarino AutÙnomo - Girona 500}
+ 	\caption{Ve√≠culo Submarino Aut√¥nomo - Girona 500}
  	\label{G500}
 \end{figure}
+
+%----------------------------------------------------------------------------------------------------
+\section{Acelera√ß√£o em Hardware - \textit{Hardware Acceleration}}
+\subsection{CUDA}
+
+\textit{Compute Unified Device Architecture} (CUDA) √© uma tecnologia desenvolvida pela NVIDIA e em sua ess√™ncia √© uma plataforma de computa√ß√£o paralela de prop√≥sito geral, cujo objetivo √© tirar proveito das unidades de processamento gr√°fico(GPU), assim, acelerando consideralmente a execu√ß√£o de algoritmos computacionais complexos ao comparar-se com o desempenho da CPU.
+
+Atualmente, a maioria das placas de video da NVIDIA contam com essa tecnologia, por conta disso os pesquisadores e desenvolvidores de software est√£o voltando suas pesquisas para o desenvolvimento e otimiza√ß√£o de algoritmos que possam explorar todo o poder de processamento destes dispositivos. Alguns exemplos de aplica√ß√µes s√£o identifica√ß√£o de placas ocultas em art√©rias, an√°lise do fluxo de tr√°fego a√©reo e visualiza√ß√£o de mol√©culas
+
+Historicamente, a implementa√ß√£o de algoritmos em GPU mostrou-se bastante obscura, visto que sua programa√ß√£o era bastante atrelada ao hardware a ser utilizado, mesmo com linguagens de programa√ß√£o gr√°fica como o OpenGL. Em 2003, um grupo de pesquisadores de Stanford, apresentaram o primeiro compilador, Brook, que facilitaria a implementa√ß√£o de software, visto que permitia a lidar de uma maneira mais male√°vel o fluxo de dados, podendo principalmente paraleliz√°-los. Em 2006, a NVIDIA juntamente com Ian Buck, criador do Brook, desenvolveram uma plataforma (CUDA) mais intuitiva e que permitisse a utiliza√ß√£o de uma linguagem de alto n√≠vel e tornasse a GPU em um processador de prop√≥sito geral (GPGPU)\cite{NVIDIA}.
+
+\subsection{NEON}

@@ -1,57 +1,57 @@
-\chapter{IntroduÁ„o}
+\chapter{Introdu√ß√£o}
 \label{Introducao}
 
-A pesquisa em veÌculos aÈreos n„o tripulado (VANTs) vem se tornando um assunto recorrente no ‚mbito cientÌfico. A real motivaÁ„o para seu desenvolvimento levanta diversas questıes Èticas e legais, visto que foram inicialmente motivados para fins militares. Por outro lado, esse tipo de plataforma tambÈm possui aplicaÁıes tais como: cultivo e pulverizaÁ„o de culturas, produÁ„o cinematogr·fica, operaÁıes de busca e salvamento, inspeÁ„o de linhas elÈtricas de alta tens„o, entrega de mercadorias e encomendas.
+A pesquisa em ve√≠culos a√©reos n√£o tripulado (VANTs) vem se tornando um assunto recorrente no √¢mbito cient√≠fico. A real motiva√ß√£o para seu desenvolvimento levanta diversas quest√µes √©ticas e legais, visto que foram inicialmente motivados para fins militares. Por outro lado, esse tipo de plataforma tamb√©m possui aplica√ß√µes tais como: cultivo e pulveriza√ß√£o de culturas, produ√ß√£o cinematogr√°fica, opera√ß√µes de busca e salvamento, inspe√ß√£o de linhas el√©tricas de alta tens√£o, entrega de mercadorias e encomendas.
 
-A navegaÁ„o de um micro veÌculo aÈreo em espaÁo confinado È um desafio significante. Atualmente, a navegaÁ„o autÙnoma enfrenta o problema de localizaÁ„o e mapeamento simult‚neo, mais conhecido como SLAM (\textit{Simultaneous Localization and Mapping}) \cite{Dissanayake2001}. SLAM apresenta quatro etapas: Mapeamento, PercepÁ„o, LocalizaÁ„o e Modelagem. A complexidade deste problema encontra-se no fato de que o veÌculo necessita navegar em um espaÁo desconhecido, extrair caracterÌsticas importantes do ambiente, construir um mapa com os dados obtidos e simultaneamente localizar-se dentro deste. O sensoriamento pode ser realizado tanto por Vis„o computacional ou por sensores Ûpticos. 
+A navega√ß√£o de um micro ve√≠culo a√©reo em espa√ßo confinado √© um desafio significante. Atualmente, a navega√ß√£o aut√¥noma enfrenta o problema de localiza√ß√£o e mapeamento simult√¢neo, mais conhecido como SLAM (\textit{Simultaneous Localization and Mapping}) \cite{Dissanayake2001}. SLAM apresenta quatro etapas: Mapeamento, Percep√ß√£o, Localiza√ß√£o e Modelagem. A complexidade deste problema encontra-se no fato de que o ve√≠culo necessita navegar em um espa√ßo desconhecido, extrair caracter√≠sticas importantes do ambiente, construir um mapa com os dados obtidos e simultaneamente localizar-se dentro deste. O sensoriamento pode ser realizado tanto por Vis√£o computacional ou por sensores √≥pticos. 
 
-O processo de desenvolvimento do veÌculo consiste em quatro passos: estrutura, circuito, controle e navegaÁ„o. Os dois primeiros itens compıem o hardware, o qual estabelece as conexıes fÌsicas necess·rias para integrar os sistemas de alimentaÁ„o, comunicaÁ„o e controle. A parte de software engloba o desenvolvimento de algoritmos visando o controle e navegaÁ„o, mais especificamente o desenvolvimento do cÛdigo para Vis„o EstÈreo (\textit{Stereo Vision}) \cite{Lemaire2007}, planejamento de caminho (\textit{Path Planning}) e arquitetura de m·quina de estados (\textit{Decision Making}).
+O processo de desenvolvimento do ve√≠culo consiste em quatro passos: estrutura, circuito, controle e navega√ß√£o. Os dois primeiros itens comp√µem o hardware, o qual estabelece as conex√µes f√≠sicas necess√°rias para integrar os sistemas de alimenta√ß√£o, comunica√ß√£o e controle. A parte de software engloba o desenvolvimento de algoritmos visando o controle e navega√ß√£o, mais especificamente o desenvolvimento do c√≥digo para Vis√£o Est√©reo (\textit{Stereo Vision}) \cite{Lemaire2007}, planejamento de caminho (\textit{Path Planning}) e arquitetura de m√°quina de estados (\textit{Decision Making}).
 
-Um sistema autÙnomo tambÈm implica o processamento de imagens ser embarcado, isto È, o processamento para a navegaÁ„o do veÌculo ser realizada \textit{On-line}. Deste modo, as plataformas de desenvolvimento BeagleBone Black e NVIDIA Jetson TK1 ser„o analisadas e avaliadas com relaÁ„o performance ao executar o algoritmo desenvolvido \cite{Shah2014}. 
+Um sistema aut√¥nomo tamb√©m implica o processamento de imagens ser embarcado, isto √©, o processamento para a navega√ß√£o do ve√≠culo ser realizada \textit{On-line}. Deste modo, as plataformas de desenvolvimento BeagleBone Black e NVIDIA Jetson TK1 ser√£o analisadas e avaliadas com rela√ß√£o performance ao executar o algoritmo desenvolvido \cite{Shah2014}. 
 
 %------------------------------------- Objetivos ----------------------------------------------------
 \section{Objetivos}
 
 % Objetivos Antigos
-%\textcolor{red}{\textbf{Dica:} Apresente "somente" os objetivos - podem ser gerais e/ou especÌficos}
+%\textcolor{red}{\textbf{Dica:} Apresente "somente" os objetivos - podem ser gerais e/ou espec√≠ficos}
 %s
 %\textcolor{red}{
 %\begin{enumerate}
-%	\item Desenvolvimento de um algoritmo de controle para veÌculo aÈreo autÙnomo
-%	\item Estudo e aplicaÁ„o do algoritmo de localizaÁ„o e mapeamento simult‚neo baseado em Vis„o (Vision-based SLAM)
-%	\item Desenvolvimento de cÛdigo da Vis„o do QuadricÛptero para Linux Embarcado
-%	\item UtilizaÁ„o da Plataforma ROS (Robot Operating System)
+%	\item Desenvolvimento de um algoritmo de controle para ve√≠culo a√©reo aut√¥nomo
+%	\item Estudo e aplica√ß√£o do algoritmo de localiza√ß√£o e mapeamento simult√¢neo baseado em Vis√£o (Vision-based SLAM)
+%	\item Desenvolvimento de c√≥digo da Vis√£o do Quadric√≥ptero para Linux Embarcado
+%	\item Utiliza√ß√£o da Plataforma ROS (Robot Operating System)
 %	\item Reproduzir o desafio proposto pela AAVC Competition	
 %\end{enumerate}
 %}
 
 \begin{enumerate}
-	\item Estudo e aplicaÁ„o de tÈcnicas de vis„o computacional para vis„o estÈreo.
-	\item Desenvolvimento de uma interface de apoio para o controle de um veÌculo autÙnomo.
-	\item Desenvolvimento de algoritmo de vis„o estÈreo para Linux Embarcado e aplicaÁ„o em QuadricÛpteros.
+	\item Estudo e aplica√ß√£o de t√©cnicas de vis√£o computacional para vis√£o est√©reo.
+	\item Desenvolvimento de uma interface de apoio para o controle de um ve√≠culo aut√¥nomo.
+	\item Desenvolvimento de algoritmo de vis√£o est√©reo para Linux Embarcado e aplica√ß√£o em Quadric√≥pteros.
 	\item Comparativo de desempenho do algoritmo desenvolvido em diferentes plataformas.
 \end{enumerate}
 
 %------------------------------------- Justificativa ------------------------------------------------
 \section{Justificativa}
-%\textcolor{red}{\textbf{Dica:} ExplanaÁ„o sobre porque o trabalho se
-%justifica e quais os pontos de relev‚ncia do mesmo}
+%\textcolor{red}{\textbf{Dica:} Explana√ß√£o sobre porque o trabalho se
+%justifica e quais os pontos de relev√¢ncia do mesmo}
 
-A pouco mais de 30 anos, o VANT BQM-1BR realizava seu primeiro voo em espaÁo aÈreo brasileiro. Deste ent„o, mesmo a apÛs a recente popularizaÁ„o dos \textit{Drones}, a legislaÁ„o com relaÁ„o ‡ esses veÌculos ainda È obscura. JosÈ Luiz Boa Nova Filho, gerente-adjunto do projeto VANT da PolÌcia Federal, apresenta o histÛrico e introduz a atual conjuntura na qual se encontra o processo legislativo \cite{Filho2014}. No dia 19/11/2015, o Departamento de Controle do EspaÁo AÈreo da Aeron·utica (DECEA) e a AgÍncia Nacional de AviaÁ„o Civil (ANAC) publicaram a nova regulamentaÁ„o para a utilizaÁ„o dos RPA (\textit{Remotely-Piloted Aircraft}), termo adotado para se referir aos VANTs, traduzido como "Aeronave Remotamente Pilotada", substituindo assim a Circular de InformaÁıes Aeron·uticas AIC N 21/10. A regulaÁ„o segue o modelo proposto pela OrganizaÁ„o de AviaÁ„o Civil Internacional (OACI), a qual preza integralmente pela priorizaÁ„o da seguranÁa, tanto da aeronave quanto dos civis e propriedades \cite{DECEA2015}. 
+A pouco mais de 30 anos, o VANT BQM-1BR realizava seu primeiro voo em espa√ßo a√©reo brasileiro. Deste ent√£o, mesmo a ap√≥s a recente populariza√ß√£o dos \textit{Drones}, a legisla√ß√£o com rela√ß√£o √† esses ve√≠culos ainda √© obscura. Jos√© Luiz Boa Nova Filho, gerente-adjunto do projeto VANT da Pol√≠cia Federal, apresenta o hist√≥rico e introduz a atual conjuntura na qual se encontra o processo legislativo \cite{Filho2014}. No dia 19/11/2015, o Departamento de Controle do Espa√ßo A√©reo da Aeron√°utica (DECEA) e a Ag√™ncia Nacional de Avia√ß√£o Civil (ANAC) publicaram a nova regulamenta√ß√£o para a utiliza√ß√£o dos RPA (\textit{Remotely-Piloted Aircraft}), termo adotado para se referir aos VANTs, traduzido como "Aeronave Remotamente Pilotada", substituindo assim a Circular de Informa√ß√µes Aeron√°uticas AIC N 21/10. A regula√ß√£o segue o modelo proposto pela Organiza√ß√£o de Avia√ß√£o Civil Internacional (OACI), a qual preza integralmente pela prioriza√ß√£o da seguran√ßa, tanto da aeronave quanto dos civis e propriedades \cite{DECEA2015}. 
 
-A \textit{Federal Aviation Administration} (FAA) apresenta as mesmas dificuldades para a integraÁ„o deste dispositivos em seu espaÁo aÈreo, visto que este È o mais complexo e movimentado do mundo. Deste modo, mesmo sem uma legislaÁ„o madura, rÌgidas restriÁıes s„o impostas para voos em ambientes abertos. Entretanto, assim como as agÍncias brasileiras, a FAA ainda n„o apresentou uma regulamentaÁ„o clara envolvendo veÌculos totalmente autÙnomos. 
+A \textit{Federal Aviation Administration} (FAA) apresenta as mesmas dificuldades para a integra√ß√£o deste dispositivos em seu espa√ßo a√©reo, visto que este √© o mais complexo e movimentado do mundo. Deste modo, mesmo sem uma legisla√ß√£o madura, r√≠gidas restri√ß√µes s√£o impostas para voos em ambientes abertos. Entretanto, assim como as ag√™ncias brasileiras, a FAA ainda n√£o apresentou uma regulamenta√ß√£o clara envolvendo ve√≠culos totalmente aut√¥nomos. 
 
-Conclui-se que, mesmo sem um posicionamento concreto das agÍncias reguladoras, a seguranÁa destas aeronaves deve ser priorizada, assim permitindo a utilizaÁ„o e ampliaÁ„o dessa nova tecnologia. Deste modo, o aprimoramento do sensores para a percepÁ„o do ambiente ao redor destes equipamentos torna-se um passo crucial, justificando a execuÁ„o deste trabalho, o qual estuda a utilizaÁ„o de vis„o estÈreo para a detecÁ„o de obst·culos.
+Conclui-se que, mesmo sem um posicionamento concreto das ag√™ncias reguladoras, a seguran√ßa destas aeronaves deve ser priorizada, assim permitindo a utiliza√ß√£o e amplia√ß√£o dessa nova tecnologia. Deste modo, o aprimoramento do sensores para a percep√ß√£o do ambiente ao redor destes equipamentos torna-se um passo crucial, justificando a execu√ß√£o deste trabalho, o qual estuda a utiliza√ß√£o de vis√£o est√©reo para a detec√ß√£o de obst√°culos.
 
-%------------------------------------- MotivaÁ„o ----------------------------------------------------
-\section{MotivaÁ„o}
+%------------------------------------- Motiva√ß√£o ----------------------------------------------------
+\section{Motiva√ß√£o}
 %\textcolor{red}{\textbf{Dica:} Um pequeno texto sobre o que motivou o desenvolvimento do
 %Trabalho}
 
-A proposta deste trabalho de conclus„o de curso È auxiliar o primeiro passo de mapeamento de ambientes atravÈs de vis„o estereoscÛpica. Este trabalho È motivado pela tentativa de reproduzir-se o desafio proposto pela \textit{Autonomous Aerial Vehicle Competition} (AAVC)\cite{AAVC}, competiÁ„o organizada pelo LaboratÛrio de Pesquisas da Forca AÈrea Americana (AFRL) e sediada em Dayton-OH. Esta competiÁ„o incentiva o estudo de veÌculos aÈreos autÙnomos, convidando diversas universidades a compartilhar seus avanÁos nesta ·rea de pesquisa. O competidor È motivado a adaptar um modelo de quadricÛptero 3DRobotics©, assim este veÌculo precisa cumprir um certo percurso com caixas como obst·culos, detectar e reportar ‡ estaÁ„o base a posiÁ„o de um objeto.
+A proposta deste trabalho de conclus√£o de curso √© auxiliar o primeiro passo de mapeamento de ambientes atrav√©s de vis√£o estereosc√≥pica. Este trabalho √© motivado pela tentativa de reproduzir-se o desafio proposto pela \textit{Autonomous Aerial Vehicle Competition} (AAVC)\cite{AAVC}, competi√ß√£o organizada pelo Laborat√≥rio de Pesquisas da Forca A√©rea Americana (AFRL) e sediada em Dayton-OH. Esta competi√ß√£o incentiva o estudo de ve√≠culos a√©reos aut√¥nomos, convidando diversas universidades a compartilhar seus avan√ßos nesta √°rea de pesquisa. O competidor √© motivado a adaptar um modelo de quadric√≥ptero 3DRobotics¬©, assim este ve√≠culo precisa cumprir um certo percurso com caixas como obst√°culos, detectar e reportar √† esta√ß√£o base a posi√ß√£o de um objeto.
 
-A segunda motivaÁ„o para o desenvolvimento deste trabalho È o crescente n˙mero de aplicaÁıes de vis„o estereoscÛpica em plataformas robÛtica. Atualmente, existem diversas pesquisas voltadas ao desenvolvimento de veÌculos autÙnomos para navegaÁ„o terrestre, aÈrea e subaqu·tica.
+A segunda motiva√ß√£o para o desenvolvimento deste trabalho √© o crescente n√∫mero de aplica√ß√µes de vis√£o estereosc√≥pica em plataformas rob√≥tica. Atualmente, existem diversas pesquisas voltadas ao desenvolvimento de ve√≠culos aut√¥nomos para navega√ß√£o terrestre, a√©rea e subaqu√°tica.
 
-%------------------------------------- OrganizaÁ„o do trabalho --------------------------------------
-%\section{OrganizaÁ„o do trabalho}
-%\textcolor{red}{\textbf{Dica:} Apresente o que tem em cada capÌtulo.}
+%------------------------------------- Organiza√ß√£o do trabalho --------------------------------------
+%\section{Organiza√ß√£o do trabalho}
+%\textcolor{red}{\textbf{Dica:} Apresente o que tem em cada cap√≠tulo.}
