@@ -256,6 +256,7 @@ void App::run(){
         cuda::GpuMat d_disp8U(imageL.size(),CV_8U);
         Mat disp8U(imageL.size(),CV_8U),dispBGR;
 
+        //disp.convertTo(disp8U,CV_8U);
         normalize(disp, disp8U, 0, 255, CV_MINMAX,CV_8U);
         //cuda::normalize(d_disp,d_disp8U,1,0,NORM_MINMAX,-1);
         //cuda::normalize(d_disp, d_disp8U, 1, 0, NORM_MINMAX, -1, Mat() );
