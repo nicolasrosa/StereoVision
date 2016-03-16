@@ -1,23 +1,24 @@
-\chapter{Visão Estereoscópica - \textit{Stereo Imaging}}
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+% Embasamento Teórico ou Fundamentação Teórica: revisão da literatura dos tópicos que sustentam a ciência e o conhecimento, relativos aos objetivos e aos métodos escolhidos para o desenvolvimento do trabalho.
+% Itens como Considerações Iniciais e Finais não são obrigatórios, mas completam muito bem qualquer capítulo.
+\chapter{Visão Estéreo - \textit{Stereo Imaging}}
 \label{Revisão Bibliográfica}
 
-% Dica:  Embasamento Teórico ou Fundamentação Teórica: revisão da literatura dos tópicos que sustentam a ciência e o conhecimento, relativos aos objetivos e aos métodos escolhidos para o desenvolvimento do trabalho.
-% - Itens como Considerações Iniciais e Finais não são obrigatórios, mas completam muito bem qualquer capítulo.
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-A visão estereoscópica possibilita uma boa identificação de um espaço tridimensional, visto que sua estrutura permite a triangulação de pontos chaves, assim determinando-se o seu correto posicionamento. Deste modo, compreende-se o porquê deste sistema visual ser amplamente difundido na evolução humana e animal. Em visão computacional, deseja-se emular os sistemas de visão mais eficientes para identificação de objetos e reconhecimento de ambientes. Computacionalmente, este processo pode ser realizado em quatro etapas: retificação,  Nas próximas seções encontram-se apresentadas o modelamento matemático, a triangulação, a calibração, a retificação e a projeção tridimensional para este tipo de sistema. 
+A visão estéreo possibilita uma boa identificação de um espaço tridimensional, visto que sua estrutura permite a triangulação de pontos chaves, assim determinando-se o seu correto posicionamento. Deste modo, compreende-se o porquê deste sistema visual ser amplamente difundido na evolução humana e animal. Em visão computacional, deseja-se emular os sistemas de visão mais eficientes para identificação de objetos e reconhecimento de ambientes. Computacionalmente, este processo pode ser realizado em quatro etapas: retificação,  Nas próximas seções encontram-se apresentadas o modelamento matemático, a triangulação, a calibração, a retificação e a projeção tridimensional para este tipo de sistema. 
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Triangulação - \textit{Triangulation}}
 
-Idealmente, a triangulação de um Ponto P de coordenadas globais (X,Y,Z) pode ser realizada caso tenha-se uma estrutura estéreo, cujas câmeras não apresentem distorção e estejam perfeitamente alinhadas. Deste modo, matematicamente, é possível abstrair os sensores das câmeras como dois planos coplanares entre si. Nessas condições, tem-se que os eixos ópticos das câmeras são paralelos. O eixo óptico, também conhecido como raio principal, é a reta que intercepta o ponto de centro de projeção ${O}$ e o ponto principal da lente ${c}$. Assumindo que as câmeras sejam exatamente iguais e alinhadas, tem-se que os pontos focais da câmera esquerda e da câmera direita são iguais ${f_l = f_r}$ e os pontos principais ${c^{left}_x}$ e  ${c^{right}_x}$ apresentam as mesmas coordenadas \cite{Bradski2008}. A figura \ref{stereo_image_geometric_model} ilustra a representação do modelo idealizado de um sistema estéreo.
+Idealmente, a triangulação de um Ponto P de coordenadas globais (X,Y,Z) pode ser realizada caso tenha-se uma estrutura estéreo, cujas lentes não apresentem distorção e estejam perfeitamente alinhadas. Deste modo, matematicamente, é possível abstrair os sensores das câmeras como dois planos coplanares entre si. Nessas condições, tem-se que os eixos ópticos das câmeras são paralelos. O eixo óptico, também conhecido como raio principal, é a reta que intercepta o ponto de centro de projeção ${O}$ e o ponto principal da lente ${c}$. Assumindo que as câmeras sejam exatamente iguais e alinhadas, tem-se que os pontos focais da câmera esquerda e da câmera direita são iguais ${f_l = f_r}$ e os pontos principais ${c^{left}_x}$ e  ${c^{right}_x}$ apresentam as mesmas coordenadas \cite{Bradski2008}. A figura \ref{stereo_image_geometric_model} ilustra a representação do modelo idealizado de um sistema estéreo.
 
 
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/stereo_image_geometric_model.png}
- 	\caption{Modelo Idealizado de um sistema de Visão Estéreo (Bradski,2008)}
+ 	\caption{Modelo Idealizado de um sistema de visão estéreo (Bradski,2008)}
  	\label{stereo_image_geometric_model}
 \end{figure}
 
@@ -60,9 +61,9 @@ Idealmente, a triangulação de um Ponto P de coordenadas globais (X,Y,Z) pode s
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Aplicações em Robótica}
 
-Nesta seção, serão apresentados alguns dos trabalhos que têm como principais sensores ou utilizam câmeras estereoscópicas para a navegação autônoma em ambientes terrestre, aérea e subaquática.
+Nesta seção, serão apresentados alguns dos trabalhos que têm como principais sensores câmeras estéreo para a navegação autônoma em ambientes terrestre, aérea e subaquática.
 
-Nos dias de hoje, as empresas automobilísticas vem participando de uma verdadeira corrida tecnológica para o desenvolvimento de automóveis totalmente autônomos e economicamente viáveis. As universidades não ficaram para trás e também apresentam pesquisas envolvendo desenvolvimento de algoritmos de controle e sensores, tornando essa corrida ainda mais acirrada. Os resultados apresentados são realmente promissores, o que concretizam cada vez mais essa realidade tida até então como distante. Na figura \ref{caminhao_autonomo} abaixo, é possível observar o projeto de caminhão autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP. O caminhão conta com diversos sensores, dentre eles câmeras estereoscópicas, que identificam outros automóveis, pessoas e faixas de sinalização \cite{ShinzatoP}. 
+Nos dias de hoje, as empresas automobilísticas vem participando de uma verdadeira corrida tecnológica para o desenvolvimento de automóveis totalmente autônomos e economicamente viáveis. As universidades não ficaram para trás e também apresentam pesquisas envolvendo desenvolvimento de algoritmos de controle e sensores, tornando essa corrida ainda mais acirrada. Os resultados apresentados são realmente promissores, o que concretizam cada vez mais essa realidade tida até então como distante. Na figura \ref{caminhao_autonomo} abaixo, é possível observar o projeto de caminhão autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP. O caminhão conta com diversos sensores, dentre eles câmeras estéreo, que identificam outros automóveis, pessoas e faixas de sinalização \cite{ShinzatoP}. 
 
 \begin{figure}[H]
  	\centering
@@ -80,7 +81,7 @@ No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \tex
  	\label{mit_drones}
 \end{figure}
 
-No caso de navegação autônoma para ambiente subaquático, um exemplo de \textit{autonomous underwater vehicle} (AUV) é o projeto desenvolvido pela Universidade espanhola de Girona (veja figura \ref{G500}). O trabalho propõe a utilização do método de Mapeamento e Localização Simultânea (SLAM),juntamente com câmeras estereoscópicas, para o reconhecimento do ambiente, aprimorando assim o erro de rastreamento dos objetos \cite{Nagappa2013}.
+No caso de navegação autônoma para ambiente subaquático, um exemplo de \textit{autonomous underwater vehicle} (AUV) é o projeto desenvolvido pela Universidade espanhola de Girona (veja figura \ref{G500}). O trabalho propõe a utilização do método de Mapeamento e Localização Simultânea (SLAM), juntamente com câmera estéreo, para o reconhecimento do ambiente, aprimorando assim o erro de rastreamento dos objetos \cite{Nagappa2013}.
 
 \begin{figure}[H]
  	\centering

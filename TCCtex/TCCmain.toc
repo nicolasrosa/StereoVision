@@ -4,14 +4,14 @@
 \contentsline {section}{\numberline {1.2}Justificativa}{26}{section.1.2}
 \contentsline {section}{\numberline {1.3}Motiva\IeC {\c c}\IeC {\~a}o}{27}{section.1.3}
 \contentsline {section}{\numberline {1.4}Organiza\IeC {\c c}\IeC {\~a}o do trabalho}{27}{section.1.4}
-\contentsline {chapter}{\numberline {2}Vis\IeC {\~a}o Estereosc\IeC {\'o}pica - \textit {Stereo Imaging}}{29}{chapter.2}
+\contentsline {chapter}{\numberline {2}Vis\IeC {\~a}o Est\IeC {\'e}reo - \textit {Stereo Imaging}}{29}{chapter.2}
 \contentsline {section}{\numberline {2.1}Triangula\IeC {\c c}\IeC {\~a}o - \textit {Triangulation}}{29}{section.2.1}
 \contentsline {section}{\numberline {2.2}Geometria epipolar - \textit {Epipolar Geometry}}{30}{section.2.2}
 \contentsline {section}{\numberline {2.3}Mapa de disparidades - \textit {Disparity Map}}{30}{section.2.3}
 \contentsline {section}{\numberline {2.4}Aplica\IeC {\c c}\IeC {\~o}es em Rob\IeC {\'o}tica}{30}{section.2.4}
 \contentsline {chapter}{\numberline {3}Materiais e M\IeC {\'e}todos}{33}{chapter.3}
 \contentsline {section}{\numberline {3.1}Materiais}{33}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}C\IeC {\^a}meras estereosc\IeC {\'o}picas}{33}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.1}C\IeC {\^a}meras est\IeC {\'e}reo}{33}{subsection.3.1.1}
 \contentsline {subsection}{\numberline {3.1.2}Unidades de Processamento}{35}{subsection.3.1.2}
 \contentsline {subsubsection}{BeagleBone Black}{35}{section*.4}
 \contentsline {subsubsection}{Jetson TK1}{36}{section*.5}
@@ -21,16 +21,16 @@
 \contentsline {subsection}{\numberline {3.2.1}Cen\IeC {\'a}rios}{39}{subsection.3.2.1}
 \contentsline {subsubsection}{Cen\IeC {\'a}rio 1}{39}{section*.7}
 \contentsline {subsubsection}{Cen\IeC {\'a}rio 2}{40}{section*.8}
-\contentsline {subsubsection}{Cen\IeC {\'a}rio 3}{41}{section*.9}
-\contentsline {subsection}{\numberline {3.2.2}Processamento de Imagem}{42}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Correspond\IeC {\^e}ncia Est\IeC {\'e}reo - \textit {Stereo Correspondence}}{43}{subsection.3.2.3}
-\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo - \textit {Block Matching} - BM}{43}{section*.10}
-\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Semi-global - \textit {Semi-global Block Matching} - SGBM}{43}{section*.11}
-\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Local com Acelera\IeC {\c c}\IeC {\~a}o de GPU - \textit {Block Matching with GPU Acceleration} - BMGPU}{43}{section*.12}
-\contentsline {subsection}{\numberline {3.2.4}Acelera\IeC {\c c}\IeC {\~a}o em Hardware - \textit {Hardware Acceleration}}{43}{subsection.3.2.4}
-\contentsline {subsubsection}{CUDA}{43}{section*.13}
-\contentsline {subsubsection}{NEON}{44}{section*.14}
-\contentsline {subsection}{\numberline {3.2.5}Jetson TK1 - Configura\IeC {\c c}\IeC {\~a}o da Plataforma}{44}{subsection.3.2.5}
+\contentsline {subsubsection}{Cen\IeC {\'a}rio 3}{40}{section*.9}
+\contentsline {subsection}{\numberline {3.2.2}Processamento de Imagem}{41}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Correspond\IeC {\^e}ncia Est\IeC {\'e}reo - \textit {Stereo Correspondence}}{42}{subsection.3.2.3}
+\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo - \textit {Block Matching} - BM}{42}{section*.10}
+\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Semi-global - \textit {Semi-global Block Matching} - SGBM}{42}{section*.11}
+\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Local com Acelera\IeC {\c c}\IeC {\~a}o de GPU - \textit {Block Matching with GPU Acceleration} - BMGPU}{42}{section*.12}
+\contentsline {subsection}{\numberline {3.2.4}Acelera\IeC {\c c}\IeC {\~a}o em Hardware - \textit {Hardware Acceleration}}{42}{subsection.3.2.4}
+\contentsline {subsubsection}{CUDA}{42}{section*.13}
+\contentsline {subsubsection}{NEON}{43}{section*.14}
+\contentsline {subsection}{\numberline {3.2.5}Jetson TK1 - Configura\IeC {\c c}\IeC {\~a}o da Plataforma}{43}{subsection.3.2.5}
 \contentsline {chapter}{\numberline {4}Resultados}{47}{chapter.4}
 \contentsline {section}{\numberline {4.1}Interface Gr\IeC {\'a}fica - \textit {StereoVisionGUI}}{47}{section.4.1}
 \contentsline {section}{\numberline {4.2}Compara\IeC {\c c}\IeC {\~a}o de Desempenho: Desktop x BBB x Jetson TK1}{52}{section.4.2}
@@ -43,6 +43,6 @@
 \contentsline {subsection}{\numberline {4.2.3}Jetson TK1}{53}{subsection.4.2.3}
 \contentsline {subsubsection}{CPU}{53}{section*.19}
 \contentsline {subsubsection}{GPU}{53}{section*.20}
-\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o Parcial}{55}{chapter.5}
+\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o}{55}{chapter.5}
 \contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{59}{appendix.A}
 \contentsline {chapter}{\numberline {I}Anexo 1}{61}{appendix.A}

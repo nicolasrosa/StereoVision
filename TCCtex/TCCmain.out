@@ -3,14 +3,14 @@
 \BOOKMARK [1][-]{section.1.2}{Justificativa}{chapter.1}% 3
 \BOOKMARK [1][-]{section.1.3}{Motiva\347\343o}{chapter.1}% 4
 \BOOKMARK [1][-]{section.1.4}{Organiza\347\343o do trabalho}{chapter.1}% 5
-\BOOKMARK [0][-]{chapter.2}{Vis\343o Estereosc\363pica - Stereo Imaging}{}% 6
+\BOOKMARK [0][-]{chapter.2}{Vis\343o Est\351reo - Stereo Imaging}{}% 6
 \BOOKMARK [1][-]{section.2.1}{Triangula\347\343o - Triangulation}{chapter.2}% 7
 \BOOKMARK [1][-]{section.2.2}{Geometria epipolar - Epipolar Geometry}{chapter.2}% 8
 \BOOKMARK [1][-]{section.2.3}{Mapa de disparidades - Disparity Map}{chapter.2}% 9
 \BOOKMARK [1][-]{section.2.4}{Aplica\347\365es em Rob\363tica}{chapter.2}% 10
 \BOOKMARK [0][-]{chapter.3}{Materiais e M\351todos}{}% 11
 \BOOKMARK [1][-]{section.3.1}{Materiais}{chapter.3}% 12
-\BOOKMARK [2][-]{subsection.3.1.1}{C\342meras estereosc\363picas}{section.3.1}% 13
+\BOOKMARK [2][-]{subsection.3.1.1}{C\342meras est\351reo}{section.3.1}% 13
 \BOOKMARK [2][-]{subsection.3.1.2}{Unidades de Processamento}{section.3.1}% 14
 \BOOKMARK [2][-]{subsection.3.1.3}{Equipamentos auxiliares}{section.3.1}% 15
 \BOOKMARK [1][-]{section.3.2}{M\351todos}{chapter.3}% 16
@@ -25,6 +25,6 @@
 \BOOKMARK [2][-]{subsection.4.2.1}{Desktop}{section.4.2}% 25
 \BOOKMARK [2][-]{subsection.4.2.2}{BeagleBone Black\(BBB\)}{section.4.2}% 26
 \BOOKMARK [2][-]{subsection.4.2.3}{Jetson TK1}{section.4.2}% 27
-\BOOKMARK [0][-]{chapter.5}{Conclus\343o Parcial}{}% 28
+\BOOKMARK [0][-]{chapter.5}{Conclus\343o}{}% 28
 \BOOKMARK [0][-]{appendix.A}{Ap\352ndice 1}{}% 29
 \BOOKMARK [0][-]{appendix.A}{Anexo 1}{}% 30

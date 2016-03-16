@@ -1,7 +1,7 @@
 \select@language {brazil}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Modelo Idealizado de um sistema de Vis\IeC {\~a}o Est\IeC {\'e}reo (Bradski,2008)}}{30}{figure.2.1}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Modelo Idealizado de um sistema de vis\IeC {\~a}o est\IeC {\'e}reo (Bradski,2008)}}{30}{figure.2.1}
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Caminh\IeC {\~a}o Aut\IeC {\^o}nomo desenvolvido pelo Laborat\IeC {\'o}rio de Rob\IeC {\'o}tica M\IeC {\'o}vel - LRM - ICMC/USP em parceria com a Scania}}{31}{figure.2.2}
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Plataformas experimentais de aeronaves com o Sistema Est\IeC {\'e}reo - FPGA (frente) e o Sistema Est\IeC {\'e}reo - Pushbroom (tr\IeC {\'a}s). C\IeC {\^a}maras s\IeC {\~a}o montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas c\IeC {\'e}lulas.}}{31}{figure.2.3}
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Ve\IeC {\'\i }culo Submarino Aut\IeC {\^o}nomo - Girona 500}}{32}{figure.2.4}
@@ -11,11 +11,11 @@
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Plataforma de Desenvolvimento - BeagleBone Black}}{36}{figure.3.3}
 \contentsline {figure}{\numberline {3.4}{\ignorespaces Plataforma de Desenvolvimento - Jetson TK1}}{36}{figure.3.4}
 \contentsline {figure}{\numberline {3.5}{\ignorespaces Padr\IeC {\~a}o de Calibra\IeC {\c c}\IeC {\~a}o}}{38}{figure.3.5}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Quadric\IeC {\'o}ptero 3DR X8 com suporte para a C\IeC {\^a}mera 3D}}{39}{figure.3.6}
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Cen\IeC {\'a}rio 1 - Ambiente Externo - \IeC {\'A}rvore}}{40}{figure.3.7}
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Cen\IeC {\'a}rio 2 - Ambiente Interno - Mesa/Cadeira/Estantes}}{41}{figure.3.8}
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Cen\IeC {\'a}rio 3 - Bancada/Quadric\IeC {\'o}ptero}}{42}{figure.3.9}
-\contentsline {figure}{\numberline {3.10}{\ignorespaces Etapas do Processamento de Imagens}}{43}{figure.3.10}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Quadric\IeC {\'o}ptero 3DR X8 com suporte para a C\IeC {\^a}mera 3D}}{38}{figure.3.6}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Cen\IeC {\'a}rio 1 - Ambiente Externo - \IeC {\'A}rvore}}{39}{figure.3.7}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Cen\IeC {\'a}rio 2 - Ambiente Interno - Mesa/Cadeira/Estantes}}{40}{figure.3.8}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Cen\IeC {\'a}rio 3 - Bancada/Quadric\IeC {\'o}ptero}}{41}{figure.3.9}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Etapas do Processamento de Imagens}}{42}{figure.3.10}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Interface Gr\IeC {\'a}fica - Visualiza\IeC {\c c}\IeC {\~a}o simult\IeC {\^a}nea dos quadros das c\IeC {\^a}meras esquerda e direita}}{48}{figure.4.1}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Interface Gr\IeC {\'a}fica - Visualiza\IeC {\c c}\IeC {\~a}o dos Mapa de disparidade em Escala de Cinza e RGB}}{49}{figure.4.2}
