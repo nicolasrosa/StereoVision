@@ -63,6 +63,10 @@ Sharad Nagappa, Narc{\'{\i}}s Palomeras, Chee~Sing Lee, Nuno Gracias, Daniel~E.
 NVIDIA.
 \newblock {CUDA - Parallel Computing Platform}.
 
+\bibitem{eLinuxJetsonOpenCV}
+Embedded~Linux Wiki.
+\newblock {Installing OpenCV (including the GPU module) on Jetson TK1}.
+
 \bibitem{UEDA2011}
 Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.
 \newblock {3D Reconstruction and Point Cloud Rendering}, 2011.

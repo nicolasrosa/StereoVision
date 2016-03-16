@@ -16,12 +16,12 @@
 \BOOKMARK [1][-]{section.3.2}{M\351todos}{chapter.3}% 16
 \BOOKMARK [2][-]{subsection.3.2.1}{Cen\341rios}{section.3.2}% 17
 \BOOKMARK [2][-]{subsection.3.2.2}{Processamento de Imagem}{section.3.2}% 18
-\BOOKMARK [1][-]{section.3.3}{Correspond\352ncia Est\351reo - Stereo Correspondence}{chapter.3}% 19
-\BOOKMARK [2][-]{subsection.3.3.1}{Acelera\347\343o em Hardware - Hardware Acceleration}{section.3.3}% 20
-\BOOKMARK [2][-]{subsection.3.3.2}{Jetson TK1 - Configura\347\343o da Plataforma}{section.3.3}% 21
+\BOOKMARK [2][-]{subsection.3.2.3}{Correspond\352ncia Est\351reo - Stereo Correspondence}{section.3.2}% 19
+\BOOKMARK [2][-]{subsection.3.2.4}{Acelera\347\343o em Hardware - Hardware Acceleration}{section.3.2}% 20
+\BOOKMARK [2][-]{subsection.3.2.5}{Jetson TK1 - Configura\347\343o da Plataforma}{section.3.2}% 21
 \BOOKMARK [0][-]{chapter.4}{Resultados}{}% 22
 \BOOKMARK [1][-]{section.4.1}{Interface Gr\341fica - StereoVisionGUI}{chapter.4}% 23
-\BOOKMARK [1][-]{section.4.2}{Medi\347\343o de Desempenho}{chapter.4}% 24
+\BOOKMARK [1][-]{section.4.2}{Compara\347\343o de Desempenho: Desktop x BBB x Jetson TK1}{chapter.4}% 24
 \BOOKMARK [2][-]{subsection.4.2.1}{Desktop}{section.4.2}% 25
 \BOOKMARK [2][-]{subsection.4.2.2}{BeagleBone Black\(BBB\)}{section.4.2}% 26
 \BOOKMARK [2][-]{subsection.4.2.3}{Jetson TK1}{section.4.2}% 27
