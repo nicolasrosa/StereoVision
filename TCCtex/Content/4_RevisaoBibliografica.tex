@@ -1,16 +1,14 @@
 \chapter{Visão Estereoscópica - \textit{Stereo Imaging}}
 \label{Revisão Bibliográfica}
 
-%\textcolor{red}{\textbf{Dica:} Embasamento Teórico ou Fundamentação Teórica: revisão da literatura dos
-%tópicos que sustentam a ciência e o conhecimento, relativos aos objetivos e
-%aos métodos escolhidos para o desenvolvimento do trabalho;
-%- Itens como Considerações Iniciais e Finais não são obrigatórios, mas
-%completam muito bem qualquer capítulo.}
+% Dica:  Embasamento Teórico ou Fundamentação Teórica: revisão da literatura dos tópicos que sustentam a ciência e o conhecimento, relativos aos objetivos e aos métodos escolhidos para o desenvolvimento do trabalho.
+% - Itens como Considerações Iniciais e Finais não são obrigatórios, mas completam muito bem qualquer capítulo.
 
-%------------------------------------- Texto --------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 A visão estereoscópica possibilita uma boa identificação de um espaço tridimensional, visto que sua estrutura permite a triangulação de pontos chaves, assim determinando-se o seu correto posicionamento. Deste modo, compreende-se o porquê deste sistema visual ser amplamente difundido na evolução humana e animal. Em visão computacional, deseja-se emular os sistemas de visão mais eficientes para identificação de objetos e reconhecimento de ambientes. Computacionalmente, este processo pode ser realizado em quatro etapas: retificação,  Nas próximas seções encontram-se apresentadas o modelamento matemático, a triangulação, a calibração, a retificação e a projeção tridimensional para este tipo de sistema. 
 
-% ---------------------------------------------------------------------------------------------------
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Triangulação - \textit{Triangulation}}
 
 Idealmente, a triangulação de um Ponto P de coordenadas globais (X,Y,Z) pode ser realizada caso tenha-se uma estrutura estéreo, cujas câmeras não apresentem distorção e estejam perfeitamente alinhadas. Deste modo, matematicamente, é possível abstrair os sensores das câmeras como dois planos coplanares entre si. Nessas condições, tem-se que os eixos ópticos das câmeras são paralelos. O eixo óptico, também conhecido como raio principal, é a reta que intercepta o ponto de centro de projeção ${O}$ e o ponto principal da lente ${c}$. Assumindo que as câmeras sejam exatamente iguais e alinhadas, tem-se que os pontos focais da câmera esquerda e da câmera direita são iguais ${f_l = f_r}$ e os pontos principais ${c^{left}_x}$ e  ${c^{right}_x}$ apresentam as mesmas coordenadas \cite{Bradski2008}. A figura \ref{stereo_image_geometric_model} ilustra a representação do modelo idealizado de um sistema estéreo.
@@ -23,34 +21,43 @@ Idealmente, a triangulação de um Ponto P de coordenadas globais (X,Y,Z) pode s
  	\label{stereo_image_geometric_model}
 \end{figure}
 
-%%----------------------------------------------------------------------------------------------------
-%\section{Geometria epipolar - \textit{Epipolar Geometry}}
-%
-%%----------------------------------------------------------------------------------------------------
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Geometria epipolar - \textit{Epipolar Geometry}}
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %\section{Calibração \textit{Stereo Calibration}}
 %\subsection{Parâmetros intrínsecos}
-%
+
 %\subsection{Parâmetros extrínsecos}
-%
-%%----------------------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %\section{Retificação de Imagens  - \textit{Stereo Rectification}}
-%
-%%----------------------------------------------------------------------------------------------------
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %\section{Correspondência Estéreo - \textit{Stereo Correspondence}}
-%
-%%----------------------------------------------------------------------------------------------------
-%\section{Mapa de disparidades - \textit{Disparity Map}}
-%
-%%----------------------------------------------------------------------------------------------------
+%\subsection{BM}
+%\subsection{SGBM}
+%\subsection{BMGPU}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Mapa de disparidades - \textit{Disparity Map}}
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %\section{Projeção Tridimensional - \textit{3D Reprojection}}
-%
-%%----------------------------------------------------------------------------------------------------
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %\section{Reconhecimento de Objeto - \textit{Object Recognition}}
 %\subsection{Segmentação - \textit{Image Segmentation}}
-%
+
 %\subsection{Identificação - \textit{Object Identification}}
 
-%----------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Aplicações em Robótica}
 
 Nesta seção, serão apresentados alguns dos trabalhos que têm como principais sensores ou utilizam câmeras estereoscópicas para a navegação autônoma em ambientes terrestre, aérea e subaquática.
@@ -82,14 +89,5 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
  	\label{G500}
 \end{figure}
 
-%----------------------------------------------------------------------------------------------------
-\section{Aceleração em Hardware - \textit{Hardware Acceleration}}
-\subsection{CUDA}
 
-\textit{Compute Unified Device Architecture} (CUDA) é uma tecnologia desenvolvida pela NVIDIA e em sua essência é uma plataforma de computação paralela de propósito geral, cujo objetivo é tirar proveito das unidades de processamento gráfico(GPU), assim, acelerando consideralmente a execução de algoritmos computacionais complexos ao comparar-se com o desempenho da CPU.
-
-Atualmente, a maioria das placas de video da NVIDIA contam com essa tecnologia, por conta disso os pesquisadores e desenvolvidores de software estão voltando suas pesquisas para o desenvolvimento e otimização de algoritmos que possam explorar todo o poder de processamento destes dispositivos. Alguns exemplos de aplicações são identificação de placas ocultas em artérias, análise do fluxo de tráfego aéreo e visualização de moléculas
-
-Historicamente, a implementação de algoritmos em GPU mostrou-se bastante obscura, visto que sua programação era bastante atrelada ao hardware a ser utilizado, mesmo com linguagens de programação gráfica como o OpenGL. Em 2003, um grupo de pesquisadores de Stanford, apresentaram o primeiro compilador, Brook, que facilitaria a implementação de software, visto que permitia a lidar de uma maneira mais maleável o fluxo de dados, podendo principalmente paralelizá-los. Em 2006, a NVIDIA juntamente com Ian Buck, criador do Brook, desenvolveram uma plataforma (CUDA) mais intuitiva e que permitisse a utilização de uma linguagem de alto nível e tornasse a GPU em um processador de propósito geral (GPGPU)\cite{NVIDIA}.
-
-\subsection{NEON}
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
