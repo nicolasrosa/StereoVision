@@ -3,49 +3,49 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: TCCmain.aux
 The style file: unsrt.bst
 Database file #1: ./Content/References.bib
-Warning--empty journal in Shah2014
 Warning--empty publisher in Bradski2008
+Warning--empty journal in Shah2014
 Warning--empty year in ShinzatoP
 Warning--there's a number but no volume in Nagappa2013
-You've used 14 entries,
+You've used 15 entries,
             1791 wiz_defined-function locations,
-            526 strings with 5846 characters,
-and the built_in function-call counts, 2514 in all, are:
-= -- 197
-> -- 119
+            532 strings with 6019 characters,
+and the built_in function-call counts, 2636 in all, are:
+= -- 209
+> -- 123
 < -- 3
-+ -- 47
-- -- 33
-* -- 135
-:= -- 396
-add.period$ -- 35
-call.type$ -- 14
++ -- 49
+- -- 34
+* -- 139
+:= -- 421
+add.period$ -- 38
+call.type$ -- 15
 change.case$ -- 13
 chr.to.int$ -- 0
-cite$ -- 18
-duplicate$ -- 111
-empty$ -- 271
-format.name$ -- 33
-if$ -- 557
+cite$ -- 19
+duplicate$ -- 118
+empty$ -- 282
+format.name$ -- 34
+if$ -- 582
 int.to.chr$ -- 0
-int.to.str$ -- 14
+int.to.str$ -- 15
 missing$ -- 9
-newline$ -- 66
-num.names$ -- 13
-pop$ -- 63
+newline$ -- 71
+num.names$ -- 14
+pop$ -- 65
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 68
+skip$ -- 70
 stack$ -- 0
 substring$ -- 98
-swap$ -- 24
+swap$ -- 25
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 4
-while$ -- 25
-width$ -- 16
-write$ -- 128
+while$ -- 26
+width$ -- 17
+write$ -- 139
 (There were 4 warnings)

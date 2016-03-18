@@ -1,5 +1,17 @@
 \begin{thebibliography}{10}
 
+\bibitem{Bradski2008}
+Gary Bradski and Adrian Kaehler.
+\newblock {\em {Learning OpenCV: Computer Vision with the OpenCV Library}},
+  volume~1.
+\newblock 2008.
+
+\bibitem{Mendes2012}
+Caio C{\'{e}}sar~Teodoro Mendes.
+\newblock {\em {Navega{\c{c}}{\~{a}}o de rob{\^{o}}s m{\'{o}}veis utilizando
+  vis{\~{a}}o est{\'{e}}reo}}.
+\newblock PhD thesis, University of S{\~{a}}o Paulo, 2012.
+
 \bibitem{Dissanayake2001}
 M.W.M.G. Dissanayake, P.~Newman, S.~Clark, H.F. Durrant-Whyte, and M.~Csorba.
 \newblock {A solution to the simultaneous localization and map building
@@ -31,12 +43,6 @@ Jos{\'{e}} Luiz~Boanova Filho.
 
 \bibitem{AAVC}
 {Autonomous Aerial Vehicle Competition}.
-
-\bibitem{Bradski2008}
-Gary Bradski and Adrian Kaehler.
-\newblock {\em {Learning OpenCV: Computer Vision with the OpenCV Library}},
-  volume~1.
-\newblock 2008.
 
 \bibitem{ShinzatoP}
 D.~F. {Shinzato, P. Y. ; Os{\'{o}}rio, F. S. ; Wolf}.

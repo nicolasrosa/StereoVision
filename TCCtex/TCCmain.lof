@@ -1,11 +1,12 @@
 \select@language {brazil}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Modelo Idealizado de um sistema de vis\IeC {\~a}o est\IeC {\'e}reo (Bradski e Kaehler,2008)}}{30}{figure.2.1}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Correspond\IeC {\^e}ncia de pontos hom\IeC {\'o}logos em um par de imagens est\IeC {\'e}reo}}{31}{figure.2.2}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Caminh\IeC {\~a}o Aut\IeC {\^o}nomo desenvolvido pelo Laborat\IeC {\'o}rio de Rob\IeC {\'o}tica M\IeC {\'o}vel - LRM - ICMC/USP em parceria com a Scania}}{32}{figure.2.3}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Plataformas experimentais de aeronaves com o Sistema Est\IeC {\'e}reo - FPGA (frente) e o Sistema Est\IeC {\'e}reo - Pushbroom (tr\IeC {\'a}s). C\IeC {\^a}maras s\IeC {\~a}o montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas c\IeC {\'e}lulas.}}{32}{figure.2.4}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Ve\IeC {\'\i }culo Submarino Aut\IeC {\^o}nomo - Girona 500}}{33}{figure.2.5}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Modelo Idealizado de um sistema de vis\IeC {\~a}o est\IeC {\'e}reo. Imagem retirada de \cite {Bradski2008}}}{30}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Geometria Epipolar. Imagem retirada de \cite {Mendes2012}}}{31}{figure.2.2}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Correspond\IeC {\^e}ncia de pontos hom\IeC {\'o}logos em um par de imagens est\IeC {\'e}reo}}{32}{figure.2.3}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Caminh\IeC {\~a}o Aut\IeC {\^o}nomo desenvolvido pelo Laborat\IeC {\'o}rio de Rob\IeC {\'o}tica M\IeC {\'o}vel - LRM - ICMC/USP em parceria com a Scania}}{33}{figure.2.4}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Plataformas experimentais de aeronaves com o Sistema Est\IeC {\'e}reo - FPGA (frente) e o Sistema Est\IeC {\'e}reo - Pushbroom (tr\IeC {\'a}s). C\IeC {\^a}maras s\IeC {\~a}o montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas c\IeC {\'e}lulas.}}{33}{figure.2.5}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Ve\IeC {\'\i }culo Submarino Aut\IeC {\^o}nomo - Girona 500}}{34}{figure.2.6}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces 3D Webcam Minoru}}{36}{figure.3.1}
 \contentsline {figure}{\numberline {3.2}{\ignorespaces C\IeC {\^a}mera Digital Fujifilm FinePix Real 3D W3}}{37}{figure.3.2}

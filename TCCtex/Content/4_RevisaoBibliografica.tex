@@ -18,7 +18,7 @@ Idealmente, a triangulação de um Ponto P de coordenadas globais $(X,Y,Z)$ pode
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/stereo_image_geometric_model.png}
- 	\caption{Modelo Idealizado de um sistema de visão estéreo (Bradski e Kaehler,2008)}
+ 	\caption{Modelo Idealizado de um sistema de visão estéreo. Imagem retirada de \cite{Bradski2008}}
  	\label{stereo_image_geometric_model}
 \end{figure}
 
@@ -31,19 +31,21 @@ A distância presente entre os pontos $x^l$ e $x^r$ é dada pela equação $d = 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Geometria epipolar - \textit{Epipolar Geometry}}
 
+Geometria epipolar corresponde à estrutura básica de um sistema estéreo, na qual leva em consideração os modelos \textit{pinhole} de ambas câmeras utilizadas e encontra-se ilustrada pela figura \ref{geometry_epipolar}. 
 
-% Geometria Epipolar
-% Geometria epipolar se refere a geometria de um sistema estéreo, onde os modelos pinhole das
-% duas câmeras são levados em consideração. A Figura 2.6 apresenta os principais componentes
-% da geometria epipolar.
-% Figura 2.6: Principais elementos presentes na geometria epipolar (Bradski e Kaehler, 2008).
-% Tem-se portanto os centros de projeção para a câmera da esquerda O e , para câmera da
-% direita O d e seus respectivos planos de projeção Π e e Π d . As intersecções entre a linha que
-% liga os centros de projeção e os planos de projeção são chamadas de pontos epipolares, no caso,12
-% 2.1. Visão Estéreo
-% temos e e e e d . Se levarmos em consideração um ponto P , ainda temos o plano epipolar formado
-% pelos pontos p e , p d , e e e e d . A intersecção do plano epipolar com cada plano projetivo resulta
-% nas linhas epipolares.
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/geometry_epipolar.png}
+ 	\caption{Geometria Epipolar. Imagem retirada de \cite{Mendes2012}}
+ 	\label{geometry_epipolar}
+\end{figure}
+
+Projeta-se o ponto P no centros de projeção $O^e$ e $O^d$, as linha que interligam o ponto P à esses centros interceptam os planos $\Pi_e$ e $\Pi_d$ nos pontos $p_e$ e $p_d$. Os pontos epipolares (\textit{epipoles}) $e_e$ e $e_d$ estão localizados nos pontos de intersecção da linha que interliga os centros de projeção e os planos projetivos. 
+
+% Explicar Restrição epipolar
+% Definição: Restrição Epipolar
+% Pontos de correspondência devem estar em linhas epipolares conjugadas.
+
 % A utilidade deste modelo está na chamada restrição epipolar. Suponha-se que, utilizando um
 % sistema estéreo, pretende-se procurar na imagem da direita o ponto correspondente ao ponto p e ,
 % projeção do ponto P na imagem da direita. A princípio, o ponto correspondente poderia estar
@@ -56,6 +58,33 @@ A distância presente entre os pontos $x^l$ e $x^r$ é dada pela equação $d = 
 % Para fazer valer a “restrição epipolar” é preciso calibrar o sistema estéreo. O processo de
 % calibração é descrito na Seção 2.1.5.
 % 2.1.5
+
+
+% We learned that we can find the image x of a 3D point X by tracing a line joining this 3D point
+% with the camera's center. Conversely, the image point that we observe at position x can be
+% located anywhere on this line in 3D space. This implies that if we want to find the corresponding
+% point of a given image point in another image, we need to search along the projection of this line
+% onto the second image plane. This imaginary line is called the epipolar line of point x. It defines
+% a fundamental constraint that must satisfy two corresponding points, that is, the match of a
+% given point must lie on the epipolar line of this point in the other view. The exact orientation of
+% this epipolar line depends on the respective position of the two cameras. In fact, the position of
+% the epipolar lines characterizes the geometry of a two-view system.
+% Another observation that can be made from the geometry of this two-view system is that all
+% of the epipolar lines pass through the same point. This point corresponds to the projection of
+% one camera center onto the other camera. This special point is called an epipole.
+% 
+% $p'^TFp = 0$ 
+% 
+% This equation expresses the relation between two corresponding points and is known as the
+% epipolar constraint
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%\section{Calibração \textit{Stereo Calibration}}
+%\subsection{Parâmetros intrínsecos}
+
+%\subsection{Parâmetros extrínsecos}
+
 % Calibração
 % Na realidade câmeras não são perfeitas, por conta do uso de lentes, a imagem formada possui
 % distorções e seu centro ótico não é perfeitamente alinhado. Portanto é necessário um processo
@@ -79,6 +108,11 @@ A distância presente entre os pontos $x^l$ e $x^r$ é dada pela equação $d = 
 % cessário estimar as matrizes R e T que relacionam as câmeras (Bradski e Kaehler,
 % 2008).
 % 2.1.6
+
+
+%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%\section{Retificação de Imagens  - \textit{Stereo Rectification}}
+
 % Retificação
 % O processo de retificação consiste em realizar uma transformação no par de imagens estéreo
 % para alinhá-las horizontalmente, limitando assim a busca realizada pelo método estéreo, de
@@ -88,24 +122,10 @@ A distância presente entre os pontos $x^l$ e $x^r$ é dada pela equação $d = 
 % ilustra o resultado da retificação.
 % 2.1.7
 
-% Explicar Restrição epipolar
-% Definição: Restrição Epipolar
-% Pontos de correspondência devem estar em linhas epipolares conjugadas.
-
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-%\section{Calibração \textit{Stereo Calibration}}
-%\subsection{Parâmetros intrínsecos}
-
-%\subsection{Parâmetros extrínsecos}
-
-
-%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-%\section{Retificação de Imagens  - \textit{Stereo Rectification}}
-
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Correspondência Estéreo - \textit{Stereo Correspondence}}
-Correspondência estéreo não é nada mais que a utilização de métodos estéreo, os quais são responsáveis pela procura de pontos homólogos nos pares de imagens estéreo. Como visto anteriormente, devido ao distanciamento das câmeras $(T)$ e ao distanciamento do objeto com relação às câmeras $(Z)$, o mesmo ponto apresenta diferentes posicionamento nos planos das câmeras $x^l$ e $x^r$. A figura \ref{homologous_points _stereo} ilustra um par de imagens estéreo (esquerda e direita), nas quais pixeis homólogos estão destacados. Os métodos estéreo utilizam da restrição epipolar o que reduzir o espaço de busca e de diferentes meios para encontrá-los. Mesmo com essa essa restrição e com a retificação das imagens, os métodos ainda assim apresenta um elevado custo computacional, além de que ainda estão sujeitos à encontrarem falsas correspondências (Bradski e Kaehler,2008). 
+Correspondência estéreo não é nada mais que a utilização de métodos estéreo, os quais são responsáveis pela procura de pontos homólogos nos pares de imagens estéreo. Como visto anteriormente, devido ao distanciamento das câmeras $(T)$ e ao distanciamento do objeto com relação às câmeras $(Z)$, o mesmo ponto apresenta diferentes posicionamento nos planos das câmeras $x^l$ e $x^r$. A figura \ref{homologous_points _stereo} ilustra um par de imagens estéreo (esquerda e direita), nas quais pixeis homólogos estão destacados. Os métodos estéreo utilizam da restrição epipolar o que reduzir o espaço de busca e de diferentes meios para encontrá-los. Mesmo com essa essa restrição e com a retificação das imagens, os métodos ainda assim apresenta um elevado custo computacional, além de que ainda estão sujeitos à encontrarem falsas correspondências \cite{Bradski2008}. 
 
 \begin{figure}[H]
  	\centering

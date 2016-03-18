@@ -8,12 +8,12 @@
 \contentsline {section}{\numberline {2.1}Vis\IeC {\~a}o Est\IeC {\'e}reo - \textit {Stereo Imaging}}{29}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Triangula\IeC {\c c}\IeC {\~a}o - \textit {Triangulation}}{29}{subsection.2.1.1}
 \contentsline {subsection}{\numberline {2.1.2}Geometria epipolar - \textit {Epipolar Geometry}}{30}{subsection.2.1.2}
-\contentsline {subsection}{\numberline {2.1.3}Correspond\IeC {\^e}ncia Est\IeC {\'e}reo - \textit {Stereo Correspondence}}{30}{subsection.2.1.3}
-\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo - \textit {Block Matching} - BM}{31}{section*.4}
-\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Semi-global - \textit {Semi-global Block Matching} - SGBM}{31}{section*.5}
-\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Local com Acelera\IeC {\c c}\IeC {\~a}o de GPU - \textit {Block Matching with GPU Acceleration} - BMGPU}{31}{section*.6}
-\contentsline {subsubsection}{Mapa de disparidades - \textit {Disparity Map}}{31}{section*.7}
-\contentsline {subsection}{\numberline {2.1.4}Aplica\IeC {\c c}\IeC {\~o}es em Rob\IeC {\'o}tica}{31}{subsection.2.1.4}
+\contentsline {subsection}{\numberline {2.1.3}Correspond\IeC {\^e}ncia Est\IeC {\'e}reo - \textit {Stereo Correspondence}}{31}{subsection.2.1.3}
+\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo - \textit {Block Matching} - BM}{32}{section*.4}
+\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Semi-global - \textit {Semi-global Block Matching} - SGBM}{32}{section*.5}
+\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Local com Acelera\IeC {\c c}\IeC {\~a}o de GPU - \textit {Block Matching with GPU Acceleration} - BMGPU}{32}{section*.6}
+\contentsline {subsubsection}{Mapa de disparidades - \textit {Disparity Map}}{32}{section*.7}
+\contentsline {subsection}{\numberline {2.1.4}Aplica\IeC {\c c}\IeC {\~o}es em Rob\IeC {\'o}tica}{32}{subsection.2.1.4}
 \contentsline {chapter}{\numberline {3}Materiais e M\IeC {\'e}todos}{35}{chapter.3}
 \contentsline {section}{\numberline {3.1}Materiais}{35}{section.3.1}
 \contentsline {subsection}{\numberline {3.1.1}C\IeC {\^a}meras est\IeC {\'e}reo}{35}{subsection.3.1.1}
