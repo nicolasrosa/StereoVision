@@ -352,14 +352,14 @@ void App::handleKey(char key){
         }
         break;
     case '1':
-        p.ndisp = p.ndisp == 1 ? 8 : p.ndisp + 8;
+        p.ndisp = p.ndisp == 1 ? 8 : min(p.ndisp + 8,256);
         cout << "ndisp: " << p.ndisp << endl;
         bm->setNumDisparities(p.ndisp);
         bp->setNumDisparities(p.ndisp);
         csbp->setNumDisparities(p.ndisp);
         break;
     case 'q': case 'Q':
-        p.ndisp = max(p.ndisp - 8, 1);
+        p.ndisp = max(p.ndisp - 8, 8);
         cout << "ndisp: " << p.ndisp << endl;
         bm->setNumDisparities(p.ndisp);
         bp->setNumDisparities(p.ndisp);
@@ -367,13 +367,13 @@ void App::handleKey(char key){
         break;
     case '2':
         if (p.method == Params::BM){
-            bm->setBlockSize(min(bm->getBlockSize() + 1, 51));
+            bm->setBlockSize(min(bm->getBlockSize() + 2, 51));
             cout << "win_size: " << bm->getBlockSize() << endl;
         }
         break;
     case 'w': case 'W':
         if (p.method == Params::BM){
-            bm->setBlockSize(max(bm->getBlockSize() - 1, 2));
+            bm->setBlockSize(max(bm->getBlockSize() - 2, 3));
             cout << "win_size: " << bm->getBlockSize() << endl;
         }
         break;
