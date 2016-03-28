@@ -26,8 +26,8 @@ StereoProcessor::~StereoProcessor(){
     delete sgbm;
 
     calib.~StereoCalib();
-    BMcfg.~StereoConfig();
-    SGBMcfg.~StereoConfig();
+    cfgBM.~StereoConfig();
+    cfgSGBM.~StereoConfig();
     disp.~StereoDisparityMap();
     view3D.~Reconstruction3D();
     diff.~StereoDiff();
@@ -73,22 +73,22 @@ void StereoProcessor::readStereoBMConfigFile(){
         return;
     }
 
-    fs["methodName"] >> BMcfg.methodName;
-    fs["preFilterSize"] >> BMcfg.preFilterSize;
-    fs["preFilterCap"] >> BMcfg.preFilterCap;
-    fs["SADWindowSize"] >> BMcfg.SADWindowSize;
-    fs["minDisparity"] >> BMcfg.minDisparity;
-    fs["numberOfDisparities"] >> BMcfg.numberOfDisparities;
-    fs["textureThreshold"] >> BMcfg.textureThreshold;
-    fs["uniquenessRatio"] >> BMcfg.uniquenessRatio;
-    fs["speckleWindowSize"] >> BMcfg.speckleWindowSize;
-    fs["speckleRange"] >> BMcfg.speckleRange;
-    fs["disp12MaxDiff"] >> BMcfg.disp12MaxDiff;
+    fs["methodName"] >> cfgBM.methodName;
+    fs["preFilterSize"] >> cfgBM.preFilterSize;
+    fs["preFilterCap"] >> cfgBM.preFilterCap;
+    fs["SADWindowSize"] >> cfgBM.SADWindowSize;
+    fs["minDisparity"] >> cfgBM.minDisparity;
+    fs["numberOfDisparities"] >> cfgBM.numberOfDisparities;
+    fs["textureThreshold"] >> cfgBM.textureThreshold;
+    fs["uniquenessRatio"] >> cfgBM.uniquenessRatio;
+    fs["speckleWindowSize"] >> cfgBM.speckleWindowSize;
+    fs["speckleRange"] >> cfgBM.speckleRange;
+    fs["disp12MaxDiff"] >> cfgBM.disp12MaxDiff;
 
     fs.release();
 
     // Display
-    BMcfg.showConfigValues();
+    cfgBM.showConfigValues();
     cout << "stereoBM.yml Read Successfully."  << endl << endl;
     //cout << "----------------------------------------------------------------------" << endl << endl;
 }
@@ -100,22 +100,22 @@ void StereoProcessor::readStereoSGBMConfigFile(){
         return;
     }
 
-    fs["methodName"] >> SGBMcfg.methodName;
-    fs["preFilterSize"] >> SGBMcfg.preFilterSize;
-    fs["preFilterCap"] >> SGBMcfg.preFilterCap;
-    fs["SADWindowSize"] >> SGBMcfg.SADWindowSize;
-    fs["minDisparity"] >> SGBMcfg.minDisparity;
-    fs["numberOfDisparities"] >> SGBMcfg.numberOfDisparities;
-    fs["textureThreshold"] >> SGBMcfg.textureThreshold;
-    fs["uniquenessRatio"] >> SGBMcfg.uniquenessRatio;
-    fs["speckleWindowSize"] >> SGBMcfg.speckleWindowSize;
-    fs["speckleRange"] >> SGBMcfg.speckleRange;
-    fs["disp12MaxDiff"] >> SGBMcfg.disp12MaxDiff;
+    fs["methodName"] >> cfgSGBM.methodName;
+    fs["preFilterSize"] >> cfgSGBM.preFilterSize;
+    fs["preFilterCap"] >> cfgSGBM.preFilterCap;
+    fs["SADWindowSize"] >> cfgSGBM.SADWindowSize;
+    fs["minDisparity"] >> cfgSGBM.minDisparity;
+    fs["numberOfDisparities"] >> cfgSGBM.numberOfDisparities;
+    fs["textureThreshold"] >> cfgSGBM.textureThreshold;
+    fs["uniquenessRatio"] >> cfgSGBM.uniquenessRatio;
+    fs["speckleWindowSize"] >> cfgSGBM.speckleWindowSize;
+    fs["speckleRange"] >> cfgSGBM.speckleRange;
+    fs["disp12MaxDiff"] >> cfgSGBM.disp12MaxDiff;
 
     fs.release();
 
     // Display
-    SGBMcfg.showConfigValues();
+    cfgSGBM.showConfigValues();
     cout << "stereoSGBM.yml Read Successfully."  << endl << endl;
     //cout << "----------------------------------------------------------------------" << endl << endl;
 }
@@ -130,15 +130,15 @@ void StereoProcessor::stereoBM_Init(){
     bm = StereoBM::create(16,9);
 
     /* Initializing Stereo Block Matching Object */
-    bm->setPreFilterSize(BMcfg.preFilterSize);
-    bm->setPreFilterCap(BMcfg.preFilterCap);
-    bm->setBlockSize(BMcfg.SADWindowSize);
-    bm->setMinDisparity(BMcfg.minDisparity);
-    bm->setNumDisparities(BMcfg.numberOfDisparities);
-    bm->setTextureThreshold(BMcfg.textureThreshold);
-    bm->setUniquenessRatio(BMcfg.uniquenessRatio);
-    bm->setSpeckleWindowSize(BMcfg.speckleWindowSize);
-    bm->setSpeckleRange(BMcfg.speckleRange);
+    bm->setPreFilterSize(cfgBM.preFilterSize);
+    bm->setPreFilterCap(cfgBM.preFilterCap);
+    bm->setBlockSize(cfgBM.SADWindowSize);
+    bm->setMinDisparity(cfgBM.minDisparity);
+    bm->setNumDisparities(cfgBM.numberOfDisparities);
+    bm->setTextureThreshold(cfgBM.textureThreshold);
+    bm->setUniquenessRatio(cfgBM.uniquenessRatio);
+    bm->setSpeckleWindowSize(cfgBM.speckleWindowSize);
+    bm->setSpeckleRange(cfgBM.speckleRange);
     bm->setDisp12MaxDiff(disp12MaxDiff);
 }
 
@@ -188,27 +188,27 @@ void StereoProcessor::setStereoBM_Params(){
 
     numRows = imageL[0].rows;
 
-    if(BMcfg.preFilterSize%2==1){
-        bm->setPreFilterSize(BMcfg.preFilterSize);
+    if(cfgBM.preFilterSize%2==1){
+        bm->setPreFilterSize(cfgBM.preFilterSize);
     }
 
-    bm->setPreFilterCap(BMcfg.preFilterCap);
+    bm->setPreFilterCap(cfgBM.preFilterCap);
 
-    if(BMcfg.SADWindowSize%2==1 && BMcfg.SADWindowSize<=numRows){
-        bm->setBlockSize(BMcfg.SADWindowSize);
+    if(cfgBM.SADWindowSize%2==1 && cfgBM.SADWindowSize<=numRows){
+        bm->setBlockSize(cfgBM.SADWindowSize);
     }
 
-    bm->setMinDisparity(BMcfg.minDisparity);
+    bm->setMinDisparity(cfgBM.minDisparity);
 
-    if(BMcfg.numberOfDisparities%16==0){
-        bm->setNumDisparities(BMcfg.numberOfDisparities);
+    if(cfgBM.numberOfDisparities%16==0){
+        bm->setNumDisparities(cfgBM.numberOfDisparities);
     }
 
-    bm->setTextureThreshold(BMcfg.textureThreshold);
-    bm->setUniquenessRatio( BMcfg.uniquenessRatio);
-    bm->setSpeckleWindowSize(BMcfg.speckleWindowSize);
-    bm->setSpeckleRange(BMcfg.speckleRange);
-    bm->setDisp12MaxDiff(BMcfg.disp12MaxDiff);
+    bm->setTextureThreshold(cfgBM.textureThreshold);
+    bm->setUniquenessRatio( cfgBM.uniquenessRatio);
+    bm->setSpeckleWindowSize(cfgBM.speckleWindowSize);
+    bm->setSpeckleRange(cfgBM.speckleRange);
+    bm->setDisp12MaxDiff(cfgBM.disp12MaxDiff);
 }
 
 void StereoProcessor::setStereoSGBM_Params(){
@@ -249,26 +249,26 @@ void StereoProcessor::setStereoSGBM_Params(){
 
     numChannels = imageL[0].channels();
 
-    sgbm->setP1(8*numChannels*SGBMcfg.SADWindowSize*SGBMcfg.SADWindowSize);
-    sgbm->setP2(32*numChannels*SGBMcfg.SADWindowSize*SGBMcfg.SADWindowSize);
+    sgbm->setP1(8*numChannels*cfgSGBM.SADWindowSize*cfgSGBM.SADWindowSize);
+    sgbm->setP2(32*numChannels*cfgSGBM.SADWindowSize*cfgSGBM.SADWindowSize);
     sgbm->setMode(StereoSGBM::MODE_SGBM);
 
-    sgbm->setPreFilterCap(SGBMcfg.preFilterCap);
+    sgbm->setPreFilterCap(cfgSGBM.preFilterCap);
 
-    if( SGBMcfg.SADWindowSize%2==1 &&  SGBMcfg.SADWindowSize<=numRows){
-        sgbm->setBlockSize( SGBMcfg.SADWindowSize);
+    if( cfgSGBM.SADWindowSize%2==1 &&  cfgSGBM.SADWindowSize<=numRows){
+        sgbm->setBlockSize( cfgSGBM.SADWindowSize);
     }
 
-    sgbm->setMinDisparity(SGBMcfg.minDisparity);
+    sgbm->setMinDisparity(cfgSGBM.minDisparity);
 
-    if(SGBMcfg.numberOfDisparities%16==0){
-        sgbm->setNumDisparities(SGBMcfg.numberOfDisparities);
+    if(cfgSGBM.numberOfDisparities%16==0){
+        sgbm->setNumDisparities(cfgSGBM.numberOfDisparities);
     }
 
-    sgbm->setUniquenessRatio(SGBMcfg.uniquenessRatio);
-    sgbm->setSpeckleWindowSize(SGBMcfg.speckleWindowSize);
-    sgbm->setSpeckleRange(SGBMcfg.speckleRange);
-    sgbm->setDisp12MaxDiff(SGBMcfg.disp12MaxDiff);
+    sgbm->setUniquenessRatio(cfgSGBM.uniquenessRatio);
+    sgbm->setSpeckleWindowSize(cfgSGBM.speckleWindowSize);
+    sgbm->setSpeckleRange(cfgSGBM.speckleRange);
+    sgbm->setDisp12MaxDiff(cfgSGBM.disp12MaxDiff);
 }
 
 void StereoProcessor::captureFrames(){
@@ -297,17 +297,15 @@ void StereoProcessor::applyRectification(){
 }
 
 void StereoProcessor::calculateDisparities(){
-    // Convert BGR to Grey Scale
+    /* Convert BGR images to Grey Scale */
     if(flags.methodBM || flags.methodBM_GPU){
         cvtColor(imageL[0],imageL_grey[0],CV_BGR2GRAY);
         cvtColor(imageR[0],imageR_grey[0],CV_BGR2GRAY);
     }
-    //    utils.startClock();
+
+    /* Computing Disparities - Disparity Map */
     if(flags.methodBM)
         bm->compute(imageL_grey[0],imageR_grey[0],disp.disp_16S);
-    //    utils.stopClock();
-
-    //    cout << "t:" << 1.0/utils.d << endl;
 
     if(flags.methodSGBM)
         sgbm->compute(imageL[0],imageR[0],disp.disp_16S);
@@ -371,27 +369,27 @@ void StereoProcessor::saveLastFrames(){
 }
 
 void StereoProcessor::setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff) {
-    BMcfg.preFilterSize = preFilterSize;
-    BMcfg.preFilterCap = preFilterCap;
-    BMcfg.SADWindowSize = sadWindowSize;
-    BMcfg.minDisparity = minDisparity;
-    BMcfg.numberOfDisparities = numOfDisparities;
-    BMcfg.textureThreshold = textureThreshold;
-    BMcfg.uniquenessRatio = uniquenessRatio;
-    BMcfg.speckleRange = speckleWindowRange;
-    BMcfg.speckleWindowSize = speckleWindowSize;
-    BMcfg.disp12MaxDiff = disp12MaxDiff;
+    cfgBM.preFilterSize = preFilterSize;
+    cfgBM.preFilterCap = preFilterCap;
+    cfgBM.SADWindowSize = sadWindowSize;
+    cfgBM.minDisparity = minDisparity;
+    cfgBM.numberOfDisparities = numOfDisparities;
+    cfgBM.textureThreshold = textureThreshold;
+    cfgBM.uniquenessRatio = uniquenessRatio;
+    cfgBM.speckleRange = speckleWindowRange;
+    cfgBM.speckleWindowSize = speckleWindowSize;
+    cfgBM.disp12MaxDiff = disp12MaxDiff;
 
-    SGBMcfg.preFilterSize = preFilterSize;
-    SGBMcfg.preFilterCap = preFilterCap;
-    SGBMcfg.SADWindowSize = sadWindowSize;
-    SGBMcfg.minDisparity = minDisparity;
-    SGBMcfg.numberOfDisparities = numOfDisparities;
-    SGBMcfg.textureThreshold = textureThreshold;
-    SGBMcfg.uniquenessRatio = uniquenessRatio;
-    SGBMcfg.speckleRange = speckleWindowRange;
-    SGBMcfg.speckleWindowSize = speckleWindowSize;
-    SGBMcfg.disp12MaxDiff = disp12MaxDiff;
+    cfgSGBM.preFilterSize = preFilterSize;
+    cfgSGBM.preFilterCap = preFilterCap;
+    cfgSGBM.SADWindowSize = sadWindowSize;
+    cfgSGBM.minDisparity = minDisparity;
+    cfgSGBM.numberOfDisparities = numOfDisparities;
+    cfgSGBM.textureThreshold = textureThreshold;
+    cfgSGBM.uniquenessRatio = uniquenessRatio;
+    cfgSGBM.speckleRange = speckleWindowRange;
+    cfgSGBM.speckleWindowSize = speckleWindowSize;
+    cfgSGBM.disp12MaxDiff = disp12MaxDiff;
 
     //std::cout << "Set Values!\n";
 }

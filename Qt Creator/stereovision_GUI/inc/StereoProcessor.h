@@ -72,8 +72,8 @@ public:
     //enum {BM, SGBM, BM_GPU} method;
 
     StereoCalib calib;
-    StereoConfig BMcfg;
-    StereoConfig SGBMcfg;
+    StereoConfig cfgBM;
+    StereoConfig cfgSGBM;
     StereoDisparityMap disp;
     Reconstruction3D view3D;
     StereoDiff diff;

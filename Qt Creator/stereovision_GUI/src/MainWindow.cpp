@@ -520,31 +520,31 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
     cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
 
     if(stereo->flags.methodBM){
-        stereoParamsSetupWindow->loadStereoParamsUi(stereo->BMcfg.preFilterSize,
-                                                    stereo->BMcfg.preFilterCap,
-                                                    stereo->BMcfg.SADWindowSize,
-                                                    stereo->BMcfg.minDisparity,
-                                                    stereo->BMcfg.numberOfDisparities,
-                                                    stereo->BMcfg.textureThreshold,
-                                                    stereo->BMcfg.uniquenessRatio,
-                                                    stereo->BMcfg.speckleWindowSize,
-                                                    stereo->BMcfg.speckleRange,
-                                                    stereo->BMcfg.disp12MaxDiff);
+        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgBM.preFilterSize,
+                                                    stereo->cfgBM.preFilterCap,
+                                                    stereo->cfgBM.SADWindowSize,
+                                                    stereo->cfgBM.minDisparity,
+                                                    stereo->cfgBM.numberOfDisparities,
+                                                    stereo->cfgBM.textureThreshold,
+                                                    stereo->cfgBM.uniquenessRatio,
+                                                    stereo->cfgBM.speckleWindowSize,
+                                                    stereo->cfgBM.speckleRange,
+                                                    stereo->cfgBM.disp12MaxDiff);
         // Debug
         //stereo->BMcfg.showConfigValues();
     }
 
     if(stereo->flags.methodSGBM){
-        stereoParamsSetupWindow->loadStereoParamsUi(stereo->SGBMcfg.preFilterSize,
-                                                    stereo->SGBMcfg.preFilterCap,
-                                                    stereo->SGBMcfg.SADWindowSize,
-                                                    stereo->SGBMcfg.minDisparity,
-                                                    stereo->SGBMcfg.numberOfDisparities,
-                                                    stereo->SGBMcfg.textureThreshold,
-                                                    stereo->SGBMcfg.uniquenessRatio,
-                                                    stereo->SGBMcfg.speckleWindowSize,
-                                                    stereo->SGBMcfg.speckleRange,
-                                                    stereo->SGBMcfg.disp12MaxDiff);
+        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgSGBM.preFilterSize,
+                                                    stereo->cfgSGBM.preFilterCap,
+                                                    stereo->cfgSGBM.SADWindowSize,
+                                                    stereo->cfgSGBM.minDisparity,
+                                                    stereo->cfgSGBM.numberOfDisparities,
+                                                    stereo->cfgSGBM.textureThreshold,
+                                                    stereo->cfgSGBM.uniquenessRatio,
+                                                    stereo->cfgSGBM.speckleWindowSize,
+                                                    stereo->cfgSGBM.speckleRange,
+                                                    stereo->cfgSGBM.disp12MaxDiff);
         // Debug
         //stereo->SGBMcfg.showConfigValues();
     }
