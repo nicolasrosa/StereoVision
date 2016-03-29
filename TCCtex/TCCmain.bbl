@@ -42,7 +42,7 @@ Jos{\'{e}} Luiz~Boanova Filho.
   (drones)}, 2015.
 
 \bibitem{AAVC}
-{Autonomous Aerial Vehicle Competition}.
+{FLYAAVC. Autonomous aerial vehicle competition. Disponível em: <www.flyaavc.org>. Acesso em: 09 nov. 2015}.
 
 \bibitem{ShinzatoP}
 D.~F. {Shinzato, P. Y. ; Os{\'{o}}rio, F. S. ; Wolf}.
@@ -67,7 +67,7 @@ Sharad Nagappa, Narc{\'{\i}}s Palomeras, Chee~Sing Lee, Nuno Gracias, Daniel~E.
 
 \bibitem{NVIDIA}
 NVIDIA.
-\newblock {CUDA - Parallel Computing Platform}.
+\newblock {CUDA - plataforma paralela de computação. Disponível em: <http://www.nvidia.com.br/object/cuda\_home\_new\_br.html>. Acesso em: 03 mar. 2016.}
 
 \bibitem{eLinuxJetsonOpenCV}
 Embedded~Linux Wiki.
