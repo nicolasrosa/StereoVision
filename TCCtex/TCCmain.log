@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.3.14)  29 MAR 2016 15:42
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.3.14)  29 MAR 2016 17:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1134,6 +1134,9 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 267.
 
 [22] (./TCCmain.toc
+Underfull \vbox (badness 5359) has occurred while \output is active []
+
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1141,9 +1144,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 38.
+(babel)             in language  on input line 39.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 38.
+(babel)             in language  on input line 39.
 [23
 
 
@@ -1250,7 +1253,7 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <12> not available
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 12.
 
-<./Resources/stereo_image_geometric_model.png, id=374, 1022.82124pt x 633.36626
+<./Resources/stereo_image_geometric_model.png, id=384, 1022.82124pt x 633.36626
 pt>
 File: ./Resources/stereo_image_geometric_model.png Graphic file (type png)
  <use ./Resources/stereo_image_geometric_model.png>
@@ -1275,13 +1278,13 @@ Package babel Info: Redefining portuges shorthand "|
 
 ]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 30.
- <./Resources/geometry_epipolar.png, id=384, 978.65625pt x 528.97626pt>
+(babel)             in language  on input line 32.
+ <./Resources/geometry_epipolar.png, id=395, 978.65625pt x 528.97626pt>
 File: ./Resources/geometry_epipolar.png Graphic file (type png)
 
 <use ./Resources/geometry_epipolar.png>
 Package pdftex.def Info: ./Resources/geometry_epipolar.png used on input line 3
-6.
+8.
 (pdftex.def)             Requested size: 342.53482pt x 185.14445pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1294,12 +1297,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 40.
+(babel)             in language  on input line 42.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 40.
+(babel)             in language  on input line 42.
 [30 <./Resources/stereo_image_geometric_model.png>]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 92.
+(babel)             in language  on input line 54.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1308,63 +1311,160 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 95.
+(babel)             in language  on input line 57.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 95.
+(babel)             in language  on input line 57.
 [31 <./Resources/geometry_epipolar.png>]
-<./Resources/homologous_points_stereo.png, id=400, 1352.05125pt x 375.4025pt>
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 58.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.70 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Display math should end with $$.
+<to be read again> 
+                   \par 
+l.70 
+     
+The `$' that I just saw supposedly matches a previous `$$'.
+So I shall assume that you typed `$$' both times.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.71 \begin{pmatrix}
+                    
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.75 \end{pmatrix}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! LaTeX Error: Bad math environment delimiter.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.76 \end{equation}
+                   
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! You can't use `\eqno' in horizontal mode.
+\endmathdisplay@a ...\df@tag \@empty \else \veqno 
+                                                  \alt@tag \df@tag \fi \ifx ...
+l.76 \end{equation}
+                   
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.76 \end{equation}
+                   
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Display math should end with $$.
+<to be read again> 
+                   \endgroup 
+l.76 \end{equation}
+                   
+The `$' that I just saw supposedly matches a previous `$$'.
+So I shall assume that you typed `$$' both times.
+
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 108.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 121.
+<./Resources/homologous_points_stereo.png, id=416, 1352.05125pt x 375.4025pt>
 File: ./Resources/homologous_points_stereo.png Graphic file (type png)
 
 <use ./Resources/homologous_points_stereo.png>
 Package pdftex.def Info: ./Resources/homologous_points_stereo.png used on input
- line 98.
+ line 127.
 (pdftex.def)             Requested size: 473.22504pt x 131.39284pt.
 
-Overfull \hbox (29.36185pt too wide) in paragraph at lines 98--99
+Overfull \hbox (29.36185pt too wide) in paragraph at lines 127--128
  [][] 
  []
 
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 105.
-LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10.95> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 105.
 
-Overfull \hbox (4.54425pt too wide) in paragraph at lines 109--109
+Underfull \vbox (badness 3271) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 131.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 131.
+[32]
+LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10.95> not available
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 134.
+
+Overfull \hbox (4.54425pt too wide) in paragraph at lines 138--138
 [][]\T1/ptm/b/n/10.95 Método Es-té-reo Lo-cal com Ace-le-ra-ção de GPU - \T1/pt
 m/b/it/10.95 Block Mat-ching with GPU Ac-ce-le-ra-tion \T1/ptm/b/n/10.95 - BMGP
 U 
  []
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 140.
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 145.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 145.
-[32 <./Resources/homologous_points_stereo.png>]
-<./Resources/caminhao_autonomo.jpg, id=413, 722.7pt x 481.8pt>
+(babel)             in language  on input line 169.
+<./Resources/caminhao_autonomo.jpg, id=428, 722.7pt x 481.8pt>
 File: ./Resources/caminhao_autonomo.jpg Graphic file (type jpg)
 
 <use ./Resources/caminhao_autonomo.jpg>
 Package pdftex.def Info: ./Resources/caminhao_autonomo.jpg used on input line 1
-48.
+77.
 (pdftex.def)             Requested size: 252.94878pt x 168.63252pt.
 
-<./Resources/mit_drones.png, id=416, 1136.245pt x 749.80125pt>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 181.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 181.
+[33 <./Resources/homologous_points_stereo.png>]
+<./Resources/mit_drones.png, id=441, 1136.245pt x 749.80125pt>
 File: ./Resources/mit_drones.png Graphic file (type png)
 
 <use ./Resources/mit_drones.png>
-Package pdftex.def Info: ./Resources/mit_drones.png used on input line 157.
+Package pdftex.def Info: ./Resources/mit_drones.png used on input line 186.
 (pdftex.def)             Requested size: 340.87613pt x 224.94211pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1373,31 +1473,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 161.
+(babel)             in language  on input line 192.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 161.
-[33 <./Resources/caminhao_autonomo.jpg>]
-<./Resources/G500.jpg, id=425, 3116.64375pt x 2441.12pt>
+(babel)             in language  on input line 192.
+[34 <./Resources/caminhao_autonomo.jpg> <./Resources/mit_drones.png>]
+<./Resources/G500.jpg, id=450, 3116.64375pt x 2441.12pt>
 File: ./Resources/G500.jpg Graphic file (type jpg)
 
 <use ./Resources/G500.jpg>
-Package pdftex.def Info: ./Resources/G500.jpg used on input line 166.
+Package pdftex.def Info: ./Resources/G500.jpg used on input line 195.
 (pdftex.def)             Requested size: 311.68263pt x 244.1263pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 170.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 170.
-[34 <./Resources/mit_drones.png>]) (./Content/5_MateriaisMetodos.tex
+) (./Content/5_MateriaisMetodos.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1429,7 +1515,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 14.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 20.
-<./Resources/minoru.jpg, id=441, 1127.21124pt x 1505.625pt>
+<./Resources/minoru.jpg, id=462, 1127.21124pt x 1505.625pt>
 File: ./Resources/minoru.jpg Graphic file (type jpg)
 
 <use ./Resources/minoru.jpg>
@@ -1464,7 +1550,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 49.
 
-<./Resources/fujiW3.jpg, id=450, 500.62032pt x 346.29375pt>
+<./Resources/fujiW3.jpg, id=470, 500.62032pt x 346.29375pt>
 File: ./Resources/fujiW3.jpg Graphic file (type jpg)
 
 <use ./Resources/fujiW3.jpg>
@@ -1492,7 +1578,7 @@ Package babel Info: Redefining portuges shorthand "|
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 83.
 
-<./Resources/bbb.jpg, id=457, 1568.86125pt x 1045.9075pt>
+<./Resources/bbb.jpg, id=477, 1568.86125pt x 1045.9075pt>
 File: ./Resources/bbb.jpg Graphic file (type jpg)
 
 <use ./Resources/bbb.jpg>
@@ -1517,7 +1603,7 @@ Package babel Info: Redefining portuges shorthand "|
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 112.
 
-<./Resources/jetson_tk1.jpg, id=465, 1927.2pt x 1144.275pt>
+<./Resources/jetson_tk1.jpg, id=485, 1927.2pt x 1144.275pt>
 File: ./Resources/jetson_tk1.jpg Graphic file (type jpg)
 
 <use ./Resources/jetson_tk1.jpg>
@@ -1557,7 +1643,7 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 169.
 [41]
-<./Resources/calibration_pattern.png, id=478, 1377.64688pt x 1001.24063pt>
+<./Resources/calibration_pattern.png, id=498, 1377.64688pt x 1001.24063pt>
 File: ./Resources/calibration_pattern.png Graphic file (type png)
 
 <use ./Resources/calibration_pattern.png>
@@ -1565,7 +1651,7 @@ Package pdftex.def Info: ./Resources/calibration_pattern.png used on input line
  172.
 (pdftex.def)             Requested size: 137.77275pt x 100.12993pt.
 
-<./Resources/quad_camera_support.jpg, id=480, 3089.5425pt x 2381.89874pt>
+<./Resources/quad_camera_support.jpg, id=500, 3089.5425pt x 2381.89874pt>
 File: ./Resources/quad_camera_support.jpg Graphic file (type jpg)
 
 <use ./Resources/quad_camera_support.jpg>
@@ -1590,7 +1676,7 @@ upport.jpg>]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 194.
 
-<./Resources/thumb_video10_l.png, id=486, 648.4225pt x 494.84875pt>
+<./Resources/thumb_video10_l.png, id=506, 648.4225pt x 494.84875pt>
 File: ./Resources/thumb_video10_l.png Graphic file (type png)
 
 <use ./Resources/thumb_video10_l.png>
@@ -1609,7 +1695,7 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 216.
 [43 <./Resources/thumb_video10_l.png>]
-<./Resources/thumb_video12_l.png, id=494, 648.4225pt x 494.84875pt>
+<./Resources/thumb_video12_l.png, id=514, 648.4225pt x 494.84875pt>
 File: ./Resources/thumb_video12_l.png Graphic file (type png)
 
 <use ./Resources/thumb_video12_l.png>
@@ -1617,7 +1703,7 @@ Package pdftex.def Info: ./Resources/thumb_video12_l.png used on input line 219
 .
 (pdftex.def)             Requested size: 324.21045pt x 247.42377pt.
 
-<./Resources/thumb_video15.png, id=496, 648.4225pt x 494.84875pt>
+<./Resources/thumb_video15.png, id=516, 648.4225pt x 494.84875pt>
 File: ./Resources/thumb_video15.png Graphic file (type png)
 
 <use ./Resources/thumb_video15.png>
@@ -1641,7 +1727,7 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 239.
 
-<./Resources/stereo_processor_steps2.png, id=504, 295.1025pt x 418.56375pt>
+<./Resources/stereo_processor_steps2.png, id=524, 295.1025pt x 418.56375pt>
 File: ./Resources/stereo_processor_steps2.png Graphic file (type png)
 
 <use ./Resources/stereo_processor_steps2.png>
@@ -1751,7 +1837,7 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 27.
 [51]
-<./Resources/gui_showleftright_view.png, id=590, 1314.9125pt x 743.77875pt>
+<./Resources/gui_showleftright_view.png, id=610, 1314.9125pt x 743.77875pt>
 File: ./Resources/gui_showleftright_view.png Graphic file (type png)
 
 <use ./Resources/gui_showleftright_view.png>
@@ -1763,7 +1849,7 @@ Overfull \hbox (16.36308pt too wide) in paragraph at lines 34--35
  [][] 
  []
 
-<./Resources/gui_showdisparitymap_view.png, id=592, 1294.8375pt x 722.7pt>
+<./Resources/gui_showdisparitymap_view.png, id=612, 1294.8375pt x 722.7pt>
 File: ./Resources/gui_showdisparitymap_view.png Graphic file (type png)
 
 <use ./Resources/gui_showdisparitymap_view.png>
@@ -1790,7 +1876,7 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 48.
 [52 <./Resources/gui_showleftright_view.png>]
-<./Resources/gui_show3dreconstruction_view.png, id=599, 1290.8225pt x 712.6625p
+<./Resources/gui_show3dreconstruction_view.png, id=619, 1290.8225pt x 712.6625p
 t>
 File: ./Resources/gui_show3dreconstruction_view.png Graphic file (type png)
  <use ./Resources/gui_show3dreconstruction_view.png>
@@ -1818,7 +1904,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 61.
 [53 <./Resources/gui_showdisparitymap_view.png> <./Resources/gui_show3dreconstr
 uction_view.png>]
-<./Resources/gui_show_tracking_object_view.png, id=605, 1294.8375pt x 721.69624
+<./Resources/gui_show_tracking_object_view.png, id=625, 1294.8375pt x 721.69624
 pt>
 File: ./Resources/gui_show_tracking_object_view.png Graphic file (type png)
  <use ./Resources/gui_show_tracking_object_view.png>
@@ -1830,7 +1916,7 @@ Overfull \hbox (9.33672pt too wide) in paragraph at lines 64--65
  [][] 
  []
 
-<./Resources/gui_showdiffimage_view.png, id=607, 1291.82625pt x 721.69624pt>
+<./Resources/gui_showdiffimage_view.png, id=627, 1291.82625pt x 721.69624pt>
 File: ./Resources/gui_showdiffimage_view.png Graphic file (type png)
 
 <use ./Resources/gui_showdiffimage_view.png>
@@ -1857,7 +1943,7 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 78.
 [54 <./Resources/gui_show_tracking_object_view.png>]
-<./Resources/gui_showwarningedges_view.png, id=613, 1288.815pt x 714.67pt>
+<./Resources/gui_showwarningedges_view.png, id=633, 1288.815pt x 714.67pt>
 File: ./Resources/gui_showwarningedges_view.png Graphic file (type png)
 
 <use ./Resources/gui_showwarningedges_view.png>
@@ -1961,11 +2047,6 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 [60]
-Underfull \hbox (badness 10000) in paragraph at lines 45--46
-[]\T1/ptm/m/n/12 FLYAAVC. Au-to-no-mous ae-rial vehi-cle com-pe-ti-tion. Dis-po
--ní-vel em:
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1973,24 +2054,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 60.
+(babel)             in language  on input line 65.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 60.
+(babel)             in language  on input line 65.
 [61
 
-]
-Underfull \hbox (badness 7415) in paragraph at lines 69--71
-[]\T1/ptm/m/n/12 NVIDIA.  CUDA - pla-ta-forma pa-ra-lela de com-pu-ta-ção. Dis-
-po-ní-vel em:
- []
-
-
-Underfull \hbox (badness 1675) in paragraph at lines 69--71
-\T1/ptm/m/n/12 <http://www.nvidia.com.br/object/cuda_home_new_br.html>. Acesso 
-em: 03 mar.
- []
-
-) (./Content/8_Apendices.tex
+]) (./Content/8_Apendices.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2745,30 +2814,31 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 98.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 98.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 98.
 Package rerunfilecheck Info: File `TCCmain.out' has not changed.
-(rerunfilecheck)             Checksum: 7CB1CB4DDA73B070013F16D934063ECF;2140.
+(rerunfilecheck)             Checksum: 9AD4FD4F93A284806585CF322A3A2E52;2336.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 98.
  ) 
 Here is how much of TeX's memory you used:
- 15434 strings out of 494963
- 222692 string characters out of 6179647
- 378020 words of memory out of 5000000
- 17562 multiletter control sequences out of 15000+600000
- 81445 words of font info for 127 fonts, out of 8000000 for 9000
+ 15450 strings out of 494963
+ 222918 string characters out of 6179647
+ 378067 words of memory out of 5000000
+ 17567 multiletter control sequences out of 15000+600000
+ 82224 words of font info for 130 fonts, out of 8000000 for 9000
  38 hyphenation exceptions out of 8191
  48i,12n,97p,1132b,1895s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/sym
-bol/usyr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/urw/times/utmri8a.pfb>
-Output written on TCCmain.pdf (80 pages, 12645782 bytes).
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/symbol/us
+yr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/urw/times/utmri8a.pfb>
+Output written on TCCmain.pdf (80 pages, 12655571 bytes).
 PDF statistics:
- 1432 PDF objects out of 1440 (max. 8388607)
- 1304 compressed objects within 14 object streams
- 729 named destinations out of 1000 (max. 500000)
- 351 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1456 PDF objects out of 1728 (max. 8388607)
+ 1327 compressed objects within 14 object streams
+ 737 named destinations out of 1000 (max. 500000)
+ 367 words of extra memory for PDF output out of 10000 (max. 10000000)
 

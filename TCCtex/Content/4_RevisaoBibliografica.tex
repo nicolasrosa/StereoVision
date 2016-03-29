@@ -4,7 +4,7 @@
 \chapter{Fundamentos Teóricos}
 \label{Revisão Bibliográfica}
 
-A visão estéreo possibilita boa identificação de um espaço tridimensional, visto que sua estrutura permite a triangulação de pontos chaves, assim determinando o seu correto posicionamento. Deste modo, compreende-se o porquê deste sistema visual ser amplamente difundido na evolução humana e animal. Em visão computacional, deseja-se emular os sistemas de visão mais eficientes para identificação de objetos e reconhecimento de ambientes. Este processo pode ser realizado  computacionalmente, porém alguns conceitos como: Triangulação, Geometria Epipolar, Calibração e Retificação e Correspondência Estéreo. Estes conceitos encontram-se apresentados nas próximas seções abaixo.
+A visão estéreo possibilita boa identificação de um espaço tridimensional, visto que sua estrutura permite a triangulação de pontos chaves, assim determinando o seu correto posicionamento. Deste modo, compreende-se o porquê deste sistema visual ser amplamente difundido na evolução humana e animal. Em visão computacional, deseja-se emular os sistemas de visão mais eficientes para identificação de objetos e reconhecimento de ambientes. Este processo pode ser realizado  computacionalmente, porém alguns conceitos como: Triangulação, Geometria Epipolar, Calibração e Retificação e Correspondência Estéreo. Estes conceitos encontram-se apresentados nas próximas seções.
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -20,10 +20,12 @@ Idealmente, a triangulação de um ponto P de coordenadas globais $(X,Y,Z)$ pode
  	\label{stereo_image_geometric_model}
 \end{figure}
 
-A distância presente entre os pontos $x^l$ e $x^r$ é dada pela equação $d = x^l - x^r$, o valor de $d$ é comumente também de chamado de disparidade. Caso os pontos $x^l$ e $x^r$, a distância focal $f$, a distância entre os centros das câmeras $(T,baseline)$ sejam conhecidos é possível determinar a distância entre o ponto P à base das câmeras $(Z)$. Por meio de semelhanças de triângulos, é possível estabelecer uma relação entre os triângulos $O_lPO_r$ e $x^lPx^r$, a qual está apresentada a seguir:
-\begin{align*}
+A distância presente entre os pontos $x^l$ e $x^r$ é dada pela equação $d = x^l - x^r$, o valor de $d$ é comumente também de chamado de disparidade. Caso os pontos $x^l$ e $x^r$, a distância focal $f$, a distância entre os centros das câmeras $(T,baseline)$ sejam conhecidos é possível determinar a distância entre o ponto P à base das câmeras $(Z)$. Por meio de semelhanças de triângulos, é possível estabelecer uma relação entre os triângulos $O_lPO_r$ e $x^lPx^r$, a qual está apresentada na equação \ref{triangle_similarity}.
+
+\begin{equation}
+\label{triangle_similarity}
 \frac{T - (x^l-x^r)}{Z-T} = \frac{T}{Z} \Rightarrow Z = \frac{fT}{(x^l-x^r)} = \frac{fT}{d}
-\end{align*}
+\end{equation}
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,15 +42,41 @@ Geometria epipolar corresponde à estrutura básica de um sistema estéreo, na q
 
 Projeta-se o ponto P no centros de projeção $O^e$ e $O^d$, as linha que interligam o ponto P à esses centros interceptam os planos $\Pi_e$ e $\Pi_d$ nos pontos $p_e$ e $p_d$. Os pontos epipolares (\textit{epipoles}) $e_e$ e $e_d$ estão localizados nos pontos de intersecção da linha que interliga os centros de projeção e os planos projetivos \cite{Mendes2012}. O conhecimento desta geometria é importante pra o entendimento da chamada restrição epipolar (\textit{epipolar constraint}). 
 
-Considerando um sistema estéreo e um certo ponto $P$, deseja-se localizar na imagem da direita o seu ponto homólogo $P'$, isto é, sua projeção no plano projetivo direito. Sem a restrição, faz-se necessário a busca bidimensional em todo espaço do plano $\Pi_d$. Entretanto, a restrição epipolar garante que o ponto homólogo deve estar sobre a linha epipolar da imagem direita. Deste modo, é possível restringir a busca à uma única dimensão, busca somente sobre a linha epipolar, reduzindo consideravelmente o custo computacional \cite{Bradski2008}. Todavia, o sistema estéreo deve estar corretamente calibrado para que possa tomar mão desta restrição. A expressão que representa a restrição epipolar é dada relação entre a matriz fundamental F e os dois pontos correspondentes, em coordenadas de pixel.
+Considerando um sistema estéreo e um certo ponto $P$, deseja-se localizar na imagem da direita o seu ponto homólogo $P'$, isto é, sua projeção no plano projetivo direito. Sem a restrição, faz-se necessário a busca bidimensional em todo espaço do plano $\Pi_d$. Entretanto, a restrição epipolar garante que o ponto homólogo deve estar sobre a linha epipolar da imagem direita. Deste modo, é possível restringir a busca à uma única dimensão, busca somente sobre a linha epipolar, reduzindo consideravelmente o custo computacional \cite{Bradski2008}. Todavia, o sistema estéreo deve estar corretamente calibrado para que possa tomar mão desta restrição. A expressão \ref{epipolar_constraint} representa a restrição epipolar é dada relação entre a matriz fundamental F e os dois pontos correspondentes, em coordenadas de pixel \cite{RobertLaganiere}.
 
-$p'^TFp = 0 p'=p^r e p=p^l$
+\begin{equation}
+ \label{epipolar_constraint}
+ p'^TFp = 0
+\end{equation}
+
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-%\section{Calibração \textit{Stereo Calibration}}
-%\subsection{Parâmetros intrínsecos}
+\subsection{Calibração das Câmeras- \textit{Calibration}}
 
-%\subsection{Parâmetros extrínsecos}
+Até o presente momento, todos os conceitos apresentados assumiam que as câmeras são idealmente alinhadas e que suas lentes não apresentavam distorção. Na realidade, os centros ópticos não são perfeitamente alinhados e a lente introduz distorções à imagem projetada no sensor da câmera. Deste modo, faz-se necessário o processo de calibração, o qual mensura estas deformidades e estima os parâmetros que consigam anular ou minimizar estas imperfeições. Isto permite que os métodos computacionais obtenham resultados mais coerentes com a realidade.  Estes parâmetros são classificadas em dois tipos específicos: intrínsecos e extrínsecos.
+
+\subsubsection{Parâmetros intrínsecos}
+
+Correspondem às propriedades intrínsecas de cada câmera, as quais são descritas pela matriz M (\textit{Intrinsic Matrix}) e o vetor D (\textit{Distortion Coefficients Vector}) 
+
+% $$\[ \chi(\lambda) = \left| \begin{array}{ccc}
+% \lambda - a & -b & -c \\
+% -d & \lambda - e & -f \\
+% -g & -h & \lambda - i \end{array} \right|.\] 
+% $$
+
+\begin{equation}
+ M =
+
+\begin{pmatrix}
+f_x & 0   & c_x\\ 
+  0 & f_y & c_y\\ 
+  0 & 0   & 1
+\end{pmatrix}
+\end{equation}
+
+
+\subsubsection{Parâmetros extrínsecos}
 
 % Calibração
 % Na realidade câmeras não são perfeitas, por conta do uso de lentes, a imagem formada possui
@@ -67,8 +95,9 @@ $p'^TFp = 0 p'=p^r e p=p^l$
 % utilizado nesse projeto consiste na apresentação de um padrão conhecido para câmera estéreo
 % (um tabuleiro de xadrez) onde é possível a identificação de pontos correspondentes entre o
 % par de imagens estéreo. Isto possibilita ao método de calibração estimar todos os parâmetros
-% necessários.Capítulo 2. Fundamentos Teóricos
-% 13
+% necessários.
+
+
 % Figura 2.7: Por conta do alinhamento imperfeito presente em qualquer sistema estéreo é ne-
 % cessário estimar as matrizes R e T que relacionam as câmeras (Bradski e Kaehler,
 % 2008).
@@ -76,7 +105,7 @@ $p'^TFp = 0 p'=p^r e p=p^l$
 
 
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-%\section{Retificação de Imagens  - \textit{Stereo Rectification}}
+\subsection{Retificação de Imagens  - \textit{Rectification}}
 
 % Retificação
 % O processo de retificação consiste em realizar uma transformação no par de imagens estéreo
@@ -141,7 +170,7 @@ Abaixo, encontra-se apresentado um pequeno resumo de como são os operadores dos
 \label{aplicacoes_robotica}
 Nesta seção, serão apresentados alguns dos trabalhos que têm como principais sensores câmeras estéreo para a navegação autônoma em ambientes terrestre, aérea e subaquática.
 
-Nos dias de hoje, as empresas automobilísticas vem participando de uma verdadeira corrida tecnológica para o desenvolvimento de automóveis totalmente autônomos e economicamente viáveis. As universidades não ficaram para trás e também apresentam pesquisas envolvendo desenvolvimento de algoritmos de controle e sensores, tornando essa corrida ainda mais acirrada. Os resultados apresentados são realmente promissores, o que concretizam cada vez mais essa realidade tida até então como distante. Na figura \ref{caminhao_autonomo} abaixo, é possível observar o projeto de caminhão autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP. O caminhão conta com diversos sensores, dentre eles câmeras estéreo, que identificam outros automóveis, pessoas e faixas de sinalização \cite{ShinzatoP}. 
+Nos dias de hoje, as empresas automobilísticas vem participando de uma verdadeira corrida tecnológica para o desenvolvimento de automóveis totalmente autônomos e economicamente viáveis. As universidades não ficaram para trás e também apresentam pesquisas envolvendo desenvolvimento de algoritmos de controle e sensores, tornando essa corrida ainda mais acirrada. Os resultados apresentados são realmente promissores, o que concretizam cada vez mais essa realidade tida até então como distante. Na figura \ref{caminhao_autonomo}, é possível observar o projeto de caminhão autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP. O caminhão conta com diversos sensores, dentre eles câmeras estéreo, que identificam outros automóveis, pessoas e faixas de sinalização \cite{ShinzatoP}. 
 
 \begin{figure}[H]
  	\centering
@@ -150,7 +179,7 @@ Nos dias de hoje, as empresas automobilísticas vem participando de uma verdadei
  	\label{caminhao_autonomo}
 \end{figure}
 
-No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \textit{Micro Air Vehicle} (MAVS) desenvolvido pelo \textit{Massachusetts Institute of Technology} (MIT) permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obstáculos voando a um velocidade de 30 mph (48 $km/h$). A figura \ref{mit_drones} abaixo apresenta o trabalho desenvolvido, o qual é um comparativo de desempenho de uma implementação em hardware utilizando \textit{Field-programmable gate array} (FPGA) e um processador ARM para processamento embarcado do método \textit{Semi-Global Block Matching} (SGBM) \cite{BarryMIT}.
+No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \textit{Micro Air Vehicle} (MAVS) desenvolvido pelo \textit{Massachusetts Institute of Technology} (MIT) permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obstáculos voando a um velocidade de 30 mph (48 $km/h$). A figura \ref{mit_drones} apresenta o trabalho desenvolvido, o qual é um comparativo de desempenho de uma implementação em hardware utilizando \textit{Field-programmable gate array} (FPGA) e um processador ARM para processamento embarcado do método \textit{Semi-Global Block Matching} (SGBM) \cite{BarryMIT}.
 
 \begin{figure}[H]
  	\centering
