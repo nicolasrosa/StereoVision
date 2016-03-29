@@ -55,8 +55,8 @@ struct App{
 
     string text() const{
         stringstream ss;
-        ss << "(" << p.method_str() << ") FPS: " << setiosflags(ios::left)
-           << setprecision(4) << fps;
+        //ss << "(" << p.method_str() << ") FPS: " << setiosflags(ios::left) << setprecision(4) << fps;
+        ss << "(" << p.method_str() << ") FPS: " << setiosflags(ios::left) << setprecision(2) << fps;
         return ss.str();
     }
 private:
@@ -263,8 +263,6 @@ void App::run(){
         //d_disp8U.download(disp8U);
 
         applyColorMap(disp8U,dispBGR, COLORMAP_JET);
-
-        putText(disp8U, text(), Point(5, 25), FONT_HERSHEY_SIMPLEX, 1.0, Scalar::all(255));
 
         putText(disp8U, text(), Point(5, 25), FONT_HERSHEY_SIMPLEX, 1.0, Scalar::all(255));
         imshow("disp", disp8U);
