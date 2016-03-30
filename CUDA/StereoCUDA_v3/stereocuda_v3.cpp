@@ -203,9 +203,6 @@ void App::run(){
     cout << endl;
     printParams();
 
-    int test = 1 << (sizeof(unsigned char) * 8);
-    cout << "oi" <<  test << endl;
-
     running = true;
     while (running){
         startClock();
