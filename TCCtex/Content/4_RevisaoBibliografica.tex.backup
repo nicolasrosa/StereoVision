@@ -55,28 +55,63 @@ Considerando um sistema estéreo e um certo ponto $P$, deseja-se localizar na im
 
 Até o presente momento, todos os conceitos apresentados assumiam que as câmeras são idealmente alinhadas e que suas lentes não apresentavam distorção. Na realidade, os centros ópticos não são perfeitamente alinhados e a lente introduz distorções à imagem projetada no sensor da câmera. Deste modo, faz-se necessário o processo de calibração, o qual mensura estas deformidades e estima os parâmetros que consigam anular ou minimizar estas imperfeições. Isto permite que os métodos computacionais obtenham resultados mais coerentes com a realidade.  Estes parâmetros são classificadas em dois tipos específicos: intrínsecos e extrínsecos.
 
+
+%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Parâmetros intrínsecos}
 
-\subsubsection{Parâmetros extrínsecos}
+Correspondem às propriedades intrínsecas de cada câmera, as quais são descritas pela matriz M (\textit{Intrinsic Matrix}) e o vetor D (\textit{Distortion Coefficients Vector}). A figura \ref{lenses_distortion} ilustra o modelo completo, componente radial e componente tangencial do modelo de distorções das lentes da câmera esquerda e direita, respectivamente.
+\cite{DevelopmentTeam2016}.
 
-% Calibração
-% Na realidade câmeras não são perfeitas, por conta do uso de lentes, a imagem formada possui
-% distorções e seu centro ótico não é perfeitamente alinhado. Portanto é necessário um processo
-% para estimar os parâmetros intrínsecos de cada câmera, isto é, a matriz M descrita na Seção
-% 2.1.1 e o vetor D apresentado na Seção 2.1.2. No caso de um sistema estéreo, por conta de um
-% alinhamento naturalmente imperfeito das câmeras, ainda se faz necessário estimar a matriz de
-% rotação R e o vetor de translação T que relacionam as duas câmeras. As matrizes R e T são
-% chamados de parâmetros extrínsecos e são ilustrados pela Figura 2.7.
-% Os parâmetros extrínsecos são necessários para estimar os pontos epipolares, e assim fazer
-% valer a “restrição epipolar”. Além disso, é possível alinhar as linhas epipolares horizontalmente,
-% simplificando ainda mais a busca por pontos correspondentes. O processo de alinhar as imagens
-% horizontalmente é chamado de retificação e é descrito na Seção 2.1.6.
-% Existem vários métodos para estimar os parâmetros intrínsecos e extrínsecos (Zhang, 2008)
-% de uma câmera, porém a descrição de tais métodos foge ao escopo desta dissertação. O método
-% utilizado nesse projeto consiste na apresentação de um padrão conhecido para câmera estéreo
-% (um tabuleiro de xadrez) onde é possível a identificação de pontos correspondentes entre o
-% par de imagens estéreo. Isto possibilita ao método de calibração estimar todos os parâmetros
-% necessários.
+\begin{equation}
+ M = \begin{pmatrix}
+f_x & 0   & c_x\\ 
+  0 & f_y & c_y\\ 
+  0 & 0   & 1
+\end{pmatrix}
+\end{equation}
+
+\begin{center}
+  $f_x,f_y$: Distância focal
+  
+  $c_x,c_y$: Compensação do ponto principal
+\end{center}
+
+\begin{equation}
+  D = (k_1,k_2,p_1,p_2[,k_3[,k_4,k_5,k_6]])
+\end{equation}
+
+\begin{center}
+  $k_1,k_2,k_3$: Coeficientes de distorção radial simétrica
+  
+  $p_1,p_2$: Coeficientes de distorção tangencial (descentrada)
+\end{center}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.20]{./Resources/lenses_distortion.jpg}
+ 	\caption{Calibração estéreo dos parâmetros intrínsecos - Modelo de Distorções}
+ 	\label{lenses_distortion}
+\end{figure}
+
+
+%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{Parâmetros extrínsecos}
+Correspondem às propriedades extrínsecas, isto é, demonstram a disposição espacial da segunda câmera, direita, com relação à câmera da esquerda em coordenadas globais. Assim como ilustrado na figura \ref{essential_geometry.png}, a matriz de rotação R e o vetor de translação T são responsáveis por descrever este deslocamento.
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.25]{./Resources/essential_geometry.png}
+ 	\caption{Calibração estéreo dos parâmetros extrínsecos}
+ 	\label{essential_geometry.png}
+\end{figure}
+
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.70]{./Resources/stereo_calib_extrinsic.png}
+ 	\caption{Calibração estéreo dos parâmetros extrínsecos}
+ 	\label{stereo_calib_extrinsic}
+\end{figure}
 
 
 % Figura 2.7: Por conta do alinhamento imperfeito presente em qualquer sistema estéreo é ne-

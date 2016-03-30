@@ -7,45 +7,45 @@ Warning--empty publisher in Bradski2008
 Warning--empty journal in Shah2014
 Warning--empty year in ShinzatoP
 Warning--there's a number but no volume in Nagappa2013
-You've used 16 entries,
+You've used 17 entries,
             1791 wiz_defined-function locations,
-            537 strings with 6139 characters,
-and the built_in function-call counts, 2782 in all, are:
-= -- 221
-> -- 127
+            547 strings with 6527 characters,
+and the built_in function-call counts, 2952 in all, are:
+= -- 243
+> -- 131
 < -- 3
-+ -- 51
-- -- 35
-* -- 142
-:= -- 444
-add.period$ -- 41
-call.type$ -- 16
-change.case$ -- 13
++ -- 53
+- -- 36
+* -- 145
+:= -- 475
+add.period$ -- 47
+call.type$ -- 17
+change.case$ -- 14
 chr.to.int$ -- 0
-cite$ -- 20
-duplicate$ -- 128
-empty$ -- 301
-format.name$ -- 35
-if$ -- 617
+cite$ -- 21
+duplicate$ -- 133
+empty$ -- 319
+format.name$ -- 36
+if$ -- 659
 int.to.chr$ -- 0
-int.to.str$ -- 16
+int.to.str$ -- 17
 missing$ -- 11
-newline$ -- 76
-num.names$ -- 15
-pop$ -- 72
+newline$ -- 84
+num.names$ -- 16
+pop$ -- 80
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 72
+skip$ -- 65
 stack$ -- 0
 substring$ -- 98
-swap$ -- 26
+swap$ -- 27
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 4
-while$ -- 27
-width$ -- 18
-write$ -- 149
+while$ -- 28
+width$ -- 19
+write$ -- 167
 (There were 4 warnings)

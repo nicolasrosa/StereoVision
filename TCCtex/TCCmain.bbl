@@ -42,12 +42,20 @@ Jos{\'{e}} Luiz~Boanova Filho.
   (drones)}, 2015.
 
 \bibitem{AAVC}
-{Autonomous Aerial Vehicle Competition}.
+{FLYAAVC. Autonomous Aerial Vehicle Competition}.
+\newblock \url{http://www.flyaavc.org/}, 2015.
 
 \bibitem{RobertLaganiere}
 Robert Laganière.
 \newblock {\em OpenCV 2 Computer Vision Application Programming Cookbook}.
 \newblock Packt Publishing, 2011.
+
+\bibitem{DevelopmentTeam2016}
+OpenCV {Development Team}.
+\newblock {Camera Calibration and 3D Reconstruction}.
+\newblock
+  \url{http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html},
+  2014.
 
 \bibitem{ShinzatoP}
 D.~F. {Shinzato, P. Y. ; Os{\'{o}}rio, F. S. ; Wolf}.
@@ -72,11 +80,13 @@ Sharad Nagappa, Narc{\'{\i}}s Palomeras, Chee~Sing Lee, Nuno Gracias, Daniel~E.
 
 \bibitem{NVIDIA}
 NVIDIA.
-\newblock {CUDA - Parallel Computing Platform}.
+\newblock Cuda - plataforma paralela de computação.
+\newblock \url{http://www.nvidia.com.br/object/cuda_home_new_br.html}, 2016.
 
 \bibitem{eLinuxJetsonOpenCV}
 Embedded~Linux Wiki.
 \newblock {Installing OpenCV (including the GPU module) on Jetson TK1}.
+\newblock \url{http://elinux.org/Jetson/Installing_OpenCV}.
 
 \bibitem{UEDA2011}
 Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.
