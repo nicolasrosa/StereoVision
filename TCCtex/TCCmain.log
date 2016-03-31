@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.3.14)  31 MAR 2016 17:07
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.3.14)  31 MAR 2016 17:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1456,14 +1456,14 @@ File: ./Resources/caminhao_autonomo.jpg Graphic file (type jpg)
 
 <use ./Resources/caminhao_autonomo.jpg>
 Package pdftex.def Info: ./Resources/caminhao_autonomo.jpg used on input line 2
-34.
+35.
 (pdftex.def)             Requested size: 252.94878pt x 168.63252pt.
 
 <./Resources/mit_drones.png, id=492, 1136.245pt x 749.80125pt>
 File: ./Resources/mit_drones.png Graphic file (type png)
 
 <use ./Resources/mit_drones.png>
-Package pdftex.def Info: ./Resources/mit_drones.png used on input line 243.
+Package pdftex.def Info: ./Resources/mit_drones.png used on input line 246.
 (pdftex.def)             Requested size: 340.87613pt x 224.94211pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1476,15 +1476,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 247.
+(babel)             in language  on input line 250.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 247.
+(babel)             in language  on input line 250.
 [37 <./Resources/caminhao_autonomo.jpg>]
 <./Resources/G500.jpg, id=502, 3116.64375pt x 2441.12pt>
 File: ./Resources/G500.jpg Graphic file (type jpg)
 
 <use ./Resources/G500.jpg>
-Package pdftex.def Info: ./Resources/G500.jpg used on input line 252.
+Package pdftex.def Info: ./Resources/G500.jpg used on input line 257.
 (pdftex.def)             Requested size: 311.68263pt x 244.1263pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1497,9 +1497,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 256.
+(babel)             in language  on input line 261.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 256.
+(babel)             in language  on input line 261.
 [38 <./Resources/mit_drones.png>]) (./Content/5_MateriaisMetodos.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2859,7 +2859,7 @@ yr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on TCCmain.pdf (84 pages, 13642210 bytes).
+Output written on TCCmain.pdf (84 pages, 13642208 bytes).
 PDF statistics:
  1520 PDF objects out of 1728 (max. 8388607)
  1380 compressed objects within 14 object streams

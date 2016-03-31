@@ -10,7 +10,9 @@ LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu -I/usr/local/cuda/inclu
 
 # Sources
 SOURCES += \
-    stereocuda_v3.cpp
+    stereocuda_v3.cpp \
+    params.cpp \
+    app.cpp
 
 # Binaries Location
 DESTDIR = bin
@@ -25,4 +27,6 @@ RCC_DIR = tmp/rc
 
 OTHER_FILES +=
 
-HEADERS +=
+HEADERS += \
+    params.h \
+    app.h

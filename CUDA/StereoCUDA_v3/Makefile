@@ -45,8 +45,12 @@ OBJECTS_DIR   = tmp/obj/
 
 ####### Files
 
-SOURCES       = stereocuda_v3.cpp 
-OBJECTS       = tmp/obj/stereocuda_v3.o
+SOURCES       = stereocuda_v3.cpp \
+		params.cpp \
+		app.cpp 
+OBJECTS       = tmp/obj/stereocuda_v3.o \
+		tmp/obj/params.o \
+		tmp/obj/app.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -279,8 +283,16 @@ compiler_clean:
 
 ####### Compile
 
-tmp/obj/stereocuda_v3.o: stereocuda_v3.cpp 
+tmp/obj/stereocuda_v3.o: stereocuda_v3.cpp app.h \
+		params.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/stereocuda_v3.o stereocuda_v3.cpp
+
+tmp/obj/params.o: params.cpp params.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/params.o params.cpp
+
+tmp/obj/app.o: app.cpp app.h \
+		params.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/app.o app.cpp
 
 ####### Install
 
