@@ -26,6 +26,8 @@ public:
     }
     enum {BM} method;
     int ndisp; // Max disparity + 1
+    int minDisparity;
+    bool needCalibration;
 private:
     Size resolution;
 

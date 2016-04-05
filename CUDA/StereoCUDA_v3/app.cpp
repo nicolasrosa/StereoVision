@@ -2,11 +2,14 @@
 
 #include <iostream>
 
+#define DISP_NORMALIZATION
+
 using namespace std;
 
 App::App(const Params& params) : p(params), running(false){
     isVideoFile=false;
     isImageFile=false;
+
     frameCounter=0;
 
     cuda::printShortCudaDeviceInfo(cuda::getDevice());
@@ -28,31 +31,8 @@ App::App(const Params& params) : p(params), running(false){
 void App::run(){
     App::open();
 
-    if(isVideoFile){
-
-    }else{
-        cvtColor(imageL_src, imageL, COLOR_BGR2GRAY);
-        cvtColor(imageR_src, imageR, COLOR_BGR2GRAY);
-        d_imageL.upload(imageL);
-        d_imageR.upload(imageR);
-
-        imshow("left", imageL);
-        imshow("right", imageR);
-    }
-
-    // Set common parameters
-    bm = cuda::createStereoBM(p.ndisp);
-
-    //    bm->setPreFilterSize(127);
-    //    bm->setPreFilterCap(61);
-    bm->setBlockSize(15);
-    //    bm->setMinDisparity(0);
-    //    bm->setNumDisparities(16);
-    bm->setTextureThreshold(4);
-    //    bm->setUniquenessRatio(0);
-    //    bm->setSpeckleWindowSize(0);
-    //    bm->setSpeckleRange(0);
-    //    bm->setDisp12MaxDiff(1);
+    /* Initializing Stereo Matching Methods */
+    App::stereoBM_GPU_Init();
 
     bp = cuda::createStereoBeliefPropagation(p.ndisp);
     csbp = cuda::createStereoConstantSpaceBP(p.ndisp);
@@ -64,31 +44,71 @@ void App::run(){
     cout << endl;
     printParams();
 
+    /* (4) Stereo Calibration */
+    if(p.needCalibration){
+
+        /* Read Calibration Files */
+        calib.readCalibrationFiles();
+
+        /* Read/Calculate the Q Matrix */
+        //TODO: Fix the reading process of the Q.yml file
+        if(calib.hasQMatrix){
+        //if(p.needCalibration){
+            calib.readQMatrix(); //true=640x480 false=others
+        }else{
+            calib.imageCenter = Point2d((imageL.cols-1.0)/2.0,(imageL.rows-1.0)/2.0);
+            calib.calculateQMatrix();
+        }
+
+        /* Calculate the K Matrix */
+        ////        // Checking Intrinsic Matrix
+        ////        if(calib.isKcreated){
+        ////           cout << "The Intrinsic Matrix is already Created." << endl << endl;
+        ////        }else{
+        //            //createKMatrix();
+        // //       }
+        calib.createKMatrix();
+
+    }else{
+        cout << "Calibration: OFF" << endl << endl;
+        cerr << "Warning: Can't generate 3D Reconstruction. Please, check Q,K Matrix." << endl;
+
+        //readQMatrix(); //true=640x480 false=others
+        //createKMatrix();
+    }
+
     running = true;
     while (running){
         startClock();
         switch (p.method){
         case Params::BM:
-            if (d_imageL.channels() > 1 || d_imageR.channels() > 1){
-                cout << "BM doesn't support color images\n";
-                cvtColor(imageL_src, imageL, COLOR_BGR2GRAY);
-                cvtColor(imageR_src, imageR, COLOR_BGR2GRAY);
-                cout << "image_channels: " << imageL.channels() << endl;
-                d_imageL.upload(imageL);
-                d_imageR.upload(imageR);
-                imshow("left", imageL);
-                imshow("right", imageR);
-            }
-
             if(isVideoFile){
                 capL >> imageL;
                 capR >> imageR;
 
                 resizeFrames(&imageL,&imageR,p.getResolution());
 
+                if(p.needCalibration){
+                    calib.imageSize = imageL.size();
+                    stereoRectify(calib.M1,calib.D1,calib.M2,calib.D2,calib.imageSize,calib.R,calib.T,calib.R1,calib.R2,calib.P1,calib.P2,calib.Q,CALIB_ZERO_DISPARITY,-1,calib.imageSize,&calib.roi1,&calib.roi2);
+
+                    Mat rmap[2][2];
+                    initUndistortRectifyMap(calib.M1, calib.D1, calib.R1, calib.P1, calib.imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
+                    initUndistortRectifyMap(calib.M2, calib.D2, calib.R2, calib.P2, calib.imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+
+                    Mat imageLr, imageRr;
+                    remap(imageL, imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
+                    remap(imageR, imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
+
+                    imageL = imageLr;
+                    imageR = imageRr;
+                }
+
                 /* Converts the new frames to grey */
-                cvtColor(imageL, imageL, COLOR_BGR2GRAY);
-                cvtColor(imageR, imageR, COLOR_BGR2GRAY);
+                if (imageL.channels() > 1 || imageR.channels() > 1){
+                    cvtColor(imageL, imageL, COLOR_BGR2GRAY);
+                    cvtColor(imageR, imageR, COLOR_BGR2GRAY);
+                }
 
                 d_imageL.upload(imageL);
                 d_imageR.upload(imageR);
@@ -106,16 +126,15 @@ void App::run(){
         // Show results
         d_disp.download(disp);
 
-        /* TODO: Descomentar Trecho Original */
-        //putText(disp, text(), Point(5, 25), FONT_HERSHEY_SIMPLEX, 1.0, Scalar::all(255));
-        //imshow("disparity", disp);
-
-        /* TODO: Remover Depois */
         cuda::GpuMat d_disp8U(imageL.size(),CV_8U);
         Mat disp8U(imageL.size(),CV_8U),dispBGR;
 
-        //disp.convertTo(disp8U,CV_8U);
-        normalize(disp, disp8U, 0, 255, CV_MINMAX,CV_8U);
+        /* Normalization */
+#ifdef DISP_NORMALIZATION
+        normalize(disp, disp8U, 0, 255, CV_MINMAX,CV_8U); // NORMALIZE = ON
+#else
+        disp.convertTo(disp8U,CV_8U);                     // NORMALIZE = OFF
+#endif
         //cuda::normalize(d_disp,d_disp8U,1,0,NORM_MINMAX,-1);
         //cuda::normalize(d_disp, d_disp8U, 1, 0, NORM_MINMAX, -1, Mat() );
         //d_disp8U.download(disp8U);
@@ -172,20 +191,20 @@ void App::handleKey(char key){
         imshow("left", imageL);
         imshow("right", imageR);
         break;
-//    case 'm': case 'M':
-//        switch (p.method){
-//        case Params::BM:
-//            p.method = Params::BP;
-//            break;
-//        case Params::BP:
-//            p.method = Params::CSBP;
-//            break;
-//        case Params::CSBP:
-//            p.method = Params::BM;
-//            break;
-//        }
-//        cout << "method: " << p.method_str() << endl;
-//        break;
+        //    case 'm': case 'M':
+        //        switch (p.method){
+        //        case Params::BM:
+        //            p.method = Params::BP;
+        //            break;
+        //        case Params::BP:
+        //            p.method = Params::CSBP;
+        //            break;
+        //        case Params::CSBP:
+        //            p.method = Params::BM;
+        //            break;
+        //        }
+        //        cout << "method: " << p.method_str() << endl;
+        //        break;
     case 's': case 'S':
         if (p.method == Params::BM){
             switch (bm->getPreFilterType()){
@@ -219,52 +238,80 @@ void App::handleKey(char key){
             cout << "win_size: " << bm->getBlockSize() << endl;
         }
         break;
+        //TODO: Fix minDisparity Problem. It doesn't set the value to the bm->setMindisparity().
     case 'w': case 'W':
         if (p.method == Params::BM){
             bm->setBlockSize(max(bm->getBlockSize() - 2, 3));
             cout << "win_size: " << bm->getBlockSize() << endl;
         }
         break;
-//    case '3':
-//        if (p.method == Params::BP){
-//            bp->setNumIters(bp->getNumIters() + 1);
-//            cout << "iter_count: " << bp->getNumIters() << endl;
-//        }
-//        else if (p.method == Params::CSBP){
-//            csbp->setNumIters(csbp->getNumIters() + 1);
-//            cout << "iter_count: " << csbp->getNumIters() << endl;
-//        }
-//        break;
-//    case 'e': case 'E':
-//        if (p.method == Params::BP){
-//            bp->setNumIters(max(bp->getNumIters() - 1, 1));
-//            cout << "iter_count: " << bp->getNumIters() << endl;
-//        }
-//        else if (p.method == Params::CSBP){
-//            csbp->setNumIters(max(csbp->getNumIters() - 1, 1));
-//            cout << "iter_count: " << csbp->getNumIters() << endl;
-//        }
-//        break;
-//    case '4':
-//        if (p.method == Params::BP){
-//            bp->setNumLevels(bp->getNumLevels() + 1);
-//            cout << "level_count: " << bp->getNumLevels() << endl;
-//        }
-//        else if (p.method == Params::CSBP){
-//            csbp->setNumLevels(csbp->getNumLevels() + 1);
-//            cout << "level_count: " << csbp->getNumLevels() << endl;
-//        }
-//        break;
-//    case 'r': case 'R':
-//        if (p.method == Params::BP){
-//            bp->setNumLevels(max(bp->getNumLevels() - 1, 1));
-//            cout << "level_count: " << bp->getNumLevels() << endl;
-//        }
-//        else if (p.method == Params::CSBP){
-//            csbp->setNumLevels(max(csbp->getNumLevels() - 1, 1));
-//            cout << "level_count: " << csbp->getNumLevels() << endl;
-//        }
-//        break;
+    case '3':
+        if (p.method == Params::BM){
+            cout << "value: " << p.minDisparity + 1 << endl;
+
+            p.minDisparity = p.minDisparity + 1;
+
+            bm->setMinDisparity(p.minDisparity);
+            //bm->setMinDisparity(30);
+            //bm->setMinDisparity(min(bm->getMinDisparity() + 1,100));
+            cout << "minDisparity: " << bm->getMinDisparity() << endl;
+        }
+        break;
+    case 'e': case 'E':
+        if (p.method == Params::BM){
+            cout << "value: " << p.minDisparity - 1 << endl;
+            p.minDisparity = p.minDisparity - 1;
+
+            bm->setMinDisparity(p.minDisparity);
+            bm->setMinDisparity(50);
+
+
+            //bm->setMinDisparity(-30);
+            //bm->setMinDisparity(max(bm->getMinDisparity() - 1,-100));
+
+            cout << "minDisparity: " << bm->getMinDisparity() << endl;
+        }
+        break;
+        //    case '3':
+        //        if (p.method == Params::BP){
+        //            bp->setNumIters(bp->getNumIters() + 1);
+        //            cout << "iter_count: " << bp->getNumIters() << endl;
+        //        }
+        //        else if (p.method == Params::CSBP){
+        //            csbp->setNumIters(csbp->getNumIters() + 1);
+        //            cout << "iter_count: " << csbp->getNumIters() << endl;
+        //        }
+        //        break;
+        //    case 'e': case 'E':
+        //        if (p.method == Params::BP){
+        //            bp->setNumIters(max(bp->getNumIters() - 1, 1));
+        //            cout << "iter_count: " << bp->getNumIters() << endl;
+        //        }
+        //        else if (p.method == Params::CSBP){
+        //            csbp->setNumIters(max(csbp->getNumIters() - 1, 1));
+        //            cout << "iter_count: " << csbp->getNumIters() << endl;
+        //        }
+        //        break;
+        //    case '4':
+        //        if (p.method == Params::BP){
+        //            bp->setNumLevels(bp->getNumLevels() + 1);
+        //            cout << "level_count: " << bp->getNumLevels() << endl;
+        //        }
+        //        else if (p.method == Params::CSBP){
+        //            csbp->setNumLevels(csbp->getNumLevels() + 1);
+        //            cout << "level_count: " << csbp->getNumLevels() << endl;
+        //        }
+        //        break;
+        //    case 'r': case 'R':
+        //        if (p.method == Params::BP){
+        //            bp->setNumLevels(max(bp->getNumLevels() - 1, 1));
+        //            cout << "level_count: " << bp->getNumLevels() << endl;
+        //        }
+        //        else if (p.method == Params::CSBP){
+        //            csbp->setNumLevels(max(csbp->getNumLevels() - 1, 1));
+        //            cout << "level_count: " << csbp->getNumLevels() << endl;
+        //        }
+        //        break;
     }
 }
 
@@ -305,6 +352,24 @@ void App::open(){
             cout << "It is not a Image file" << endl;
         }
     }
+}
+
+void App::stereoBM_GPU_Init(){
+    bm = cuda::createStereoBM(p.ndisp);
+
+    //TODO: Create initialization p.variables for the following variables
+
+    //    bm->setPreFilterSize(127);
+    //    bm->setPreFilterCap(61);
+    bm->setBlockSize(15);
+    bm->setMinDisparity(0);
+    //    bm->setNumDisparities(16);
+    bm->setTextureThreshold(4);
+    //    bm->setUniquenessRatio(0);
+    //    bm->setSpeckleWindowSize(0);
+    //    bm->setSpeckleRange(0);
+    //    bm->setDisp12MaxDiff(1);
+
 }
 
 void App::resizeFrames(Mat* frame1,Mat* frame2,Size resolution){

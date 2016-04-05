@@ -6,7 +6,7 @@
  */
 
 /* Libraries */
-#include "inc/StereoCalib.h"
+#include "StereoCalib.h"
 
 /* Constructor and Destructor */
 StereoCalib::StereoCalib(){
@@ -16,7 +16,6 @@ StereoCalib::StereoCalib(){
     isVideoFile=false;
     isImageFile=false;
 
-    needCalibration=false;
     hasQMatrix=false;
 }
 
@@ -60,8 +59,9 @@ void StereoCalib::readCalibrationFiles(){
 }
 
 void StereoCalib::readIntrinsicsFile(){
-    FileStorage fs(intrinsicsFileName, FileStorage::READ);
+    FileStorage fs("/home/nicolas/repository/StereoVision/CUDA/StereoCUDA_v3/config/intrinsics.yml", FileStorage::READ);
     if(!fs.isOpened()){
+        cout << "Failed to open intrinsics.yml file!" << endl;
         cerr << "Failed to open intrinsics.yml file!" << endl;
         return;
     }
@@ -79,7 +79,7 @@ void StereoCalib::readIntrinsicsFile(){
 }
 
 void StereoCalib::readExtrinsicsFile(){
-    FileStorage fs(extrinsicsFileName, FileStorage::READ);
+    FileStorage fs("/home/nicolas/repository/StereoVision/CUDA/StereoCUDA_v3/config/extrinsics.yml", FileStorage::READ);
     if(!fs.isOpened()){
         cerr << "Failed to open extrinsics.yml file!" << endl;
         return;
@@ -115,7 +115,7 @@ void StereoCalib::createKMatrix(){
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
 void StereoCalib::readQMatrix(){
-    FileStorage fs(QmatrixFileName, FileStorage::READ);
+    FileStorage fs("/home/nicolas/repository/StereoVision/CUDA/StereoCUDA_v3/config/Q.yml", FileStorage::READ);
 
     if(imageSizeDesired.width == 640 && imageSizeDesired.height == 480){
         if(!fs.isOpened()){

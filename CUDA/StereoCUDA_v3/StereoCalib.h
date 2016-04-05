@@ -30,7 +30,8 @@ public:
 
     bool isVideoFile;
     bool isImageFile;
-    bool needCalibration;
+
+    //TODO: Fix hasQMatrix
     bool hasQMatrix;
 
     string intrinsicsFileName;

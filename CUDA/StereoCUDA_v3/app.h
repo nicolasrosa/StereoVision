@@ -15,6 +15,7 @@
 #include <opencv2/imgproc.hpp>
 
 #include "params.h"
+#include "StereoCalib.h"
 
 using namespace std;
 using namespace cv;
@@ -26,11 +27,16 @@ public:
     void handleKey(char key);
     void printParams() const;
     void open();
+    void stereoBM_GPU_Init();
     void resizeFrames(Mat* frame1,Mat* frame2,Size resolution);
     void videoLooper();
+
     void startClock();
     void stopClock();
+
     string text() const;
+
+    StereoCalib calib;
 
 private:
     Params p;
@@ -39,16 +45,16 @@ private:
     bool isVideoFile;
     bool isImageFile;
 
+    Ptr<cuda::StereoBM> bm;
+    Ptr<cuda::StereoBeliefPropagation> bp;
+    Ptr<cuda::StereoConstantSpaceBP> csbp;
+
     VideoCapture capR;
     VideoCapture capL;
 
     Mat imageL_src, imageR_src;
     Mat imageL, imageR;
     cuda::GpuMat d_imageL, d_imageR;
-
-    Ptr<cuda::StereoBM> bm;
-    Ptr<cuda::StereoBeliefPropagation> bp;
-    Ptr<cuda::StereoConstantSpaceBP> csbp;
 
     int64 clockInitial;
     int64 d;

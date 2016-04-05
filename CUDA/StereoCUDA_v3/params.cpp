@@ -10,6 +10,8 @@
 Params::Params(){
     method = BM;
     ndisp = 64;
+    minDisparity = 0;
+    needCalibration=false;
 }
 
 void Params::setResolution(int width,int height){
