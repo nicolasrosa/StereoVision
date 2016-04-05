@@ -1,0 +1,10 @@
+Command Line Input Examples:
+
+--left /home/nicolas/workspace/data/20004.avi --right /home/nicolas/workspace/data/30004.avi --method BM --ndisp 64 --calib true
+
+--left /home/nicolas/workspace/data/video10_l.avi --right /home/nicolas/workspace/data/video10_r.avi --method BM --ndisp 64 --calib true
+
+
+
+
+
