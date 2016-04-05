@@ -126,7 +126,6 @@ void MainWindow::stereoVisionProcessInit(){
         stereo->calib.readCalibrationFiles();
 
         /* Read/Calculate the Q Matrix */
-
         if(stereo->calib.hasQMatrix){
             stereo->calib.readQMatrix(); //true=640x480 false=others
         }else{
