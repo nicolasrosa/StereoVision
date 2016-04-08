@@ -364,6 +364,7 @@ void App::stereoBM_GPU_Init(){
     bm->setBlockSize(15);
     bm->setMinDisparity(0);
     //    bm->setNumDisparities(16);
+    //TODO: Add HandleKey for the Threshold value
     bm->setTextureThreshold(4);
     //    bm->setUniquenessRatio(0);
     //    bm->setSpeckleWindowSize(0);
