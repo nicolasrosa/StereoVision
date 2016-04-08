@@ -80,33 +80,37 @@ void MainWindow::stereoVisionProcessInit(){
 
     /* Getting Input Resolution */
     if(stereo->calib.isVideoFile){
-        stereo->calib.imageSize.width = stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH);
-        stereo->calib.imageSize.height = stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT);
+        stereo->calib.setResolution(stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH),stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT));
     }else{
-        stereo->calib.imageSize.width = stereo->imageL[0].cols;
-        stereo->calib.imageSize.height = stereo->imageL[0].rows;
+        stereo->calib.setResolution(stereo->imageL[0].cols,stereo->imageL[0].rows);
     }
 
     /* Setting Desired Resolution */
-    stereo->calib.imageSizeDesired.width = 640;
-    stereo->calib.imageSizeDesired.height = 480;
+    stereo->calib.setResolutionDesired(640,480);
 
     /* Checking Invalid Input Size */
-    if(stereo->calib.imageSize.width==0 && stereo->calib.imageSize.height==0){
+    if(stereo->calib.getResolution_width()==0 && stereo->calib.getResolution_height()==0){
         cerr << "Number of Cols and Number of Rows equal to ZERO!" << endl;
     }else{
         /* Console Output */
-        cout << "Input Resolution(Width,Height): (" << stereo->calib.imageSize.width << "," << stereo->calib.imageSize.height << ")" << endl;
-        cout << "Desired Resolution(Width,Height): (" << stereo->calib.imageSizeDesired.width << "," << stereo->calib.imageSizeDesired.height << ")" << endl << endl;
+        cout << "Input Resolution(Width,Height): (" << stereo->calib.getResolution_width() << "," << stereo->calib.getResolution_height() << ")" << endl;
+        cout << "Desired Resolution(Width,Height): (" << stereo->calib.getResolutionDesired_width() << "," << stereo->calib.getResolutionDesired_height() << ")" << endl << endl;
 
         /* GUI */
-        ui->textBoxOutput->appendPlainText(QString("Input Resolution(Width,Height): (")+QString::number(stereo->calib.imageSize.width)+QString(",")+QString::number(stereo->calib.imageSize.height)+QString(")"));
-        ui->textBoxOutput->appendPlainText(QString("Desired Resolution(Width,Height): (")+QString::number(stereo->calib.imageSizeDesired.width)+QString(",")+QString::number(stereo->calib.imageSizeDesired.height)+QString(")"));
+        ui->textBoxOutput->appendPlainText(QString("Input Resolution(Width,Height): (")+
+                                           QString::number(stereo->calib.getResolution_width())+
+                                           QString(",")+QString::number(stereo->calib.getResolution_height())+
+                                           QString(")"));
+        ui->textBoxOutput->appendPlainText(QString("Desired Resolution(Width,Height): (")+
+                                           QString::number(stereo->calib.getResolutionDesired_width())+
+                                           QString(",")+
+                                           QString::number(stereo->calib.getResolutionDesired_height())+
+                                           QString(")"));
     }
 
     /* Resizing the Input Resolution to the Desired Resolution*/
-    if(stereo->calib.isImageFile && (stereo->calib.imageSize.width != stereo->calib.imageSizeDesired.width)){
-        stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0]);
+    if(stereo->calib.isImageFile && (stereo->calib.getResolution_width() != stereo->calib.getResolutionDesired_width())){
+        stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0],stereo->calib.getResolutionDesired());
     }
 
     /* (3) Stereo Initialization */

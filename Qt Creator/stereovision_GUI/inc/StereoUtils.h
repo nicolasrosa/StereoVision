@@ -26,7 +26,7 @@ public:
     StereoUtils();
     ~StereoUtils();
 
-    void resizeFrames(Mat *frame1,Mat *frame2);
+    void resizeFrames(Mat *frame1,Mat *frame2,Size resolution);
     void change_resolution(VideoCapture* capL,VideoCapture* capR);
     void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
     void writeMatToFile(Mat &m, const char* filename);

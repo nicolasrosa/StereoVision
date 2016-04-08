@@ -28,6 +28,18 @@ public:
     void calculateQMatrix();
     void createKMatrix();
 
+    void setResolution(int width,int height);
+    void setResolutionDesired(int width,int height);
+
+    Size getResolution();
+    Size getResolutionDesired();
+
+    int getResolution_width();
+    int getResolution_height();
+
+    int getResolutionDesired_width();
+    int getResolutionDesired_height();
+
     bool isVideoFile;
     bool isImageFile;
     bool needCalibration;
@@ -39,22 +51,21 @@ public:
     string StereoBMConfigFileName;
     string StereoSGBMConfigFileName;
 
-    Size imageSize;
-    Size imageSizeDesired;
-
     Point2d imageCenter;
 
     Mat K,Q;
     double focalLength;
     double baseline;
-//    bool is320x240;
-//    bool is640x480;
-//    bool is1280x720;
 
     Mat M1,D1,M2,D2;
     Mat R,T,R1,P1,R2,P2;
     Rect roi1, roi2;
     bool isKcreated;
+
+private:
+    Size resolution;
+    Size resolutionDesired;
+
 };
 
 #endif // STEREOCALIB_H

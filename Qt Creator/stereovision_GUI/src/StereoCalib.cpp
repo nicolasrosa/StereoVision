@@ -95,8 +95,8 @@ void StereoCalib::createKMatrix(){
     K=Mat::eye(3,3,CV_64F);
     K.at<double>(0,0)=focalLength;
     K.at<double>(1,1)=focalLength;
-    K.at<double>(0,2)=(imageSize.width-1.0)/2.0;
-    K.at<double>(1,2)=(imageSize.height-1.0)/2.0;
+    K.at<double>(0,2)=(resolution.width-1.0)/2.0;
+    K.at<double>(1,2)=(resolution.height-1.0)/2.0;
     //K.at<double>(0,2)=(0-1.0)/2.0;
     //K.at<double>(1,2)=(0-1.0)/2.0;
 
@@ -117,7 +117,7 @@ void StereoCalib::createKMatrix(){
 void StereoCalib::readQMatrix(){
     FileStorage fs(QmatrixFileName, FileStorage::READ);
 
-    if(imageSizeDesired.width == 640 && imageSizeDesired.height == 480){
+    if(resolutionDesired.width == 640 && resolutionDesired.height == 480){
         if(!fs.isOpened()){
             cerr << "Failed to open Q.yml file" << endl;
             return;
@@ -165,4 +165,38 @@ void StereoCalib::calculateQMatrix(){
     cout << "Q:" << endl << Q << endl;
 
     cout << "f: " << focalLength << endl;
+}
+
+void StereoCalib::setResolution(int width, int height){
+    resolution.width = width;
+    resolution.height = width;
+}
+
+void StereoCalib::setResolutionDesired(int width, int height){
+    resolutionDesired.width = 640;
+    resolutionDesired.height = 480;
+}
+
+Size StereoCalib::getResolution(){
+    return(resolution);
+}
+
+Size StereoCalib::getResolutionDesired(){
+    return(resolutionDesired);
+}
+
+int StereoCalib::getResolution_width(){
+    return(resolution.width);
+}
+
+int StereoCalib::getResolution_height(){
+    return(resolution.height);
+}
+
+int StereoCalib::getResolutionDesired_width(){
+    return(resolutionDesired.width);
+}
+
+int StereoCalib::getResolutionDesired_height(){
+    return(resolutionDesired.height);
 }

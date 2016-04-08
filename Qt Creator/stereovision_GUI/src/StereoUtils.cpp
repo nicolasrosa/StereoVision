@@ -98,22 +98,10 @@ void StereoUtils::contrast_and_brightness(Mat &left,Mat &right,float alpha,float
     }
 }
 
-void StereoUtils::resizeFrames(Mat* frame1,Mat* frame2){
+void StereoUtils::resizeFrames(Mat* frame1,Mat* frame2,Size resolution){
     if(frame1->cols != 0 || !frame2->cols != 0){
-#ifdef RESOLUTION_320x240
-        resize(*frame1, *frame1, Size(320,240), 0, 0, INTER_CUBIC);
-        resize(*frame2, *frame2, Size(320,240), 0, 0, INTER_CUBIC);
-#endif
-
-#ifdef RESOLUTION_640x480
-        resize(*frame1, *frame1, Size(640,480), 0, 0, INTER_CUBIC);
-        resize(*frame2, *frame2, Size(640,480), 0, 0, INTER_CUBIC);
-#endif
-
-#ifdef RESOLUTION_1280x720
-        resize(*frame1, *frame1, Size(1280,720), 0, 0, INTER_CUBIC);
-        resize(*frame2, *frame2, Size(1280,720), 0, 0, INTER_CUBIC);
-#endif
+        resize(*frame1, *frame1, resolution, 0, 0, INTER_CUBIC);
+        resize(*frame2, *frame2, resolution, 0, 0, INTER_CUBIC);
     }
 }
 

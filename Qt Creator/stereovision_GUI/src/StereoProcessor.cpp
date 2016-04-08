@@ -277,16 +277,16 @@ void StereoProcessor::captureFrames(){
     capR >> imageR[0];
 
     /* Resizing the Input Resolution to the Desired Resolution */
-    utils.resizeFrames(&imageL[0],&imageR[0]);
+    utils.resizeFrames(&imageL[0],&imageR[0],calib.getResolutionDesired());
 }
 
 void StereoProcessor::applyRectification(){
-    calib.imageSize = imageL[0].size();
-    stereoRectify(calib.M1,calib.D1,calib.M2,calib.D2,calib.imageSize,calib.R,calib.T,calib.R1,calib.R2,calib.P1,calib.P2,calib.Q,CALIB_ZERO_DISPARITY,-1,calib.imageSize,&calib.roi1,&calib.roi2);
+    calib.setResolution(imageL[0].size().width,imageL[0].size().height);
+    stereoRectify(calib.M1,calib.D1,calib.M2,calib.D2,calib.getResolution(),calib.R,calib.T,calib.R1,calib.R2,calib.P1,calib.P2,calib.Q,CALIB_ZERO_DISPARITY,-1,calib.getResolution(),&calib.roi1,&calib.roi2);
 
     Mat rmap[2][2];
-    initUndistortRectifyMap(calib.M1, calib.D1, calib.R1, calib.P1, calib.imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
-    initUndistortRectifyMap(calib.M2, calib.D2, calib.R2, calib.P2, calib.imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+    initUndistortRectifyMap(calib.M1, calib.D1, calib.R1, calib.P1, calib.getResolution(), CV_16SC2, rmap[0][0], rmap[0][1]);
+    initUndistortRectifyMap(calib.M2, calib.D2, calib.R2, calib.P2, calib.getResolution(), CV_16SC2, rmap[1][0], rmap[1][1]);
 
     Mat imageLr, imageRr;
     remap(imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
