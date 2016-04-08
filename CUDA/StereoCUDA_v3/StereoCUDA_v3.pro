@@ -17,7 +17,7 @@ SOURCES += \
 
 # Binaries Location
 DESTDIR = bin
-TARGET = stereoCUDA_v3
+TARGET = stereoCUDA
 
 # Temporary directories
 OBJECTS_DIR = tmp/obj

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.6.1, 2016-04-05T13:16:56. -->
+<!-- Written by QtCreator 3.6.1, 2016-04-08T16:08:20. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -244,7 +244,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/nicolas/repository/StereoVision/CUDA/StereoCUDA_v3/StereoCUDA_v3.pro</value>
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">--left /home/nicolas/workspace/data/20011.avi --right /home/nicolas/workspace/data/30011.avi --method BM --ndisp 64 --calib false</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">--left /home/nicolas/workspace/data/video10_l.avi --right /home/nicolas/workspace/data/video10_r.avi --method BM --ndisp 64 --calib true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">StereoCUDA_v3.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
