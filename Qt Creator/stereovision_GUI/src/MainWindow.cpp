@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
     setupUi_Custom();
 
-    stereo = new StereoProcessor(5);
+    stereo = new StereoProcessor(2);
     stereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -67,7 +67,6 @@ void MainWindow::stereoVisionProcessInit(){
     //FIXME: Arrumar o Constructor da classe StereoDisparityMap para Alocacao de Memoria das variaveis: disp_16S,disp_8U,disp_BGR
     //FIXME: Arrumar a inicializacao e separar as variaveis 'Stereocfg' para os metodos BM e SGBM
     //FIXME: Arrumar os erros que acontecem quando clica-se nos botoes 'Track' and 'Diff' para o input 4
-    //TODO: Implementar stereoBM-CUDA na Interface
     printHelp();
 
     /* (1) Open Image Source */

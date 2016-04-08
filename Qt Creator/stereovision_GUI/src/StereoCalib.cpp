@@ -169,12 +169,12 @@ void StereoCalib::calculateQMatrix(){
 
 void StereoCalib::setResolution(int width, int height){
     resolution.width = width;
-    resolution.height = width;
+    resolution.height = height;
 }
 
 void StereoCalib::setResolutionDesired(int width, int height){
-    resolutionDesired.width = 640;
-    resolutionDesired.height = 480;
+    resolutionDesired.width = width;
+    resolutionDesired.height = height;
 }
 
 Size StereoCalib::getResolution(){
