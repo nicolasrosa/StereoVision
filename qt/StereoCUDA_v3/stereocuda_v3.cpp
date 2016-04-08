@@ -1,0 +1,64 @@
+/* Libraries */
+#include "app.h"
+#include "params.h"
+
+using namespace cv;
+using namespace std;
+
+/* Global Variables */
+bool help_showed = false;
+
+static void printHelp(){
+    cout << "Usage: stereo_match_gpu\n"
+         << "\t--left <left_view> --right <right_view> # must be rectified\n"
+         << "\t--method <stereo_match_method> # BM | BP | CSBP\n"
+         << "\t--ndisp <number> # number of disparity levels\n";
+    help_showed = true;
+}
+
+int main(int argc, char** argv){
+    try{
+        if(argc < 2){
+            printHelp();
+            return 1;
+        }
+
+        Params args = Params::read(argc, argv);
+
+        args.setResolution(320,240);
+        //args.setResolution(640,480);
+        //args.setResolution(1280,720);
+
+        /* Forced exit */
+        if (help_showed)
+            return -1;
+
+        /* Initializing and runnning the application object */
+        App app(args);
+        app.run();
+    }
+    catch(const exception& e){
+        cout << "error: " << e.what() << endl;
+    }
+    return 0;
+}
+
+Params Params::read(int argc, char** argv){
+    Params p;
+
+    for (int i = 1; i < argc; i++){
+        if (string(argv[i]) == "--left") p.left = argv[++i];
+        else if (string(argv[i]) == "--right")
+            p.right = argv[++i];
+        else if (string(argv[i]) == "--method"){
+            if (string(argv[i + 1]) == "BM") p.method = BM;
+            else throw runtime_error("unknown stereo match method: " + string(argv[i + 1]));
+            i++;
+        }
+        else if (string(argv[i]) == "--ndisp") p.ndisp = atoi(argv[++i]);
+        else if (string(argv[i]) == "--help") printHelp();
+        else throw runtime_error("unknown key: " + string(argv[i]));
+    }
+
+    return p;
+}
