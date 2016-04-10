@@ -4,3 +4,4 @@ Extrinsics Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_
 Q Matrix Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/Q.yml"
 StereoBM Parameters Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/stereoBM.yml"
 StereoSGBM Parameters Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/stereoSGBM.yml"
+StereoBM_GPU Parameters Path: "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/stereoBM_GPU.yml"

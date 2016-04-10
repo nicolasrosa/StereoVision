@@ -40,13 +40,15 @@ public:
     void readConfigFile();
     void readStereoBMConfigFile();
     void readStereoSGBMConfigFile();
+    void readStereoBM_GPUConfigFile();
 
     void stereoBM_Init();
     void stereoSGBM_Init();
     void stereoBM_GPU_Init();
-    void stereoCalib();
+
     void setStereoBM_Params();
     void setStereoSGBM_Params();
+    void setStereoBM_GPU_Params();
 
     void setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff);
 
@@ -65,15 +67,22 @@ public:
     Mat	imageL_grey[2],imageR_grey[2];
     VideoCapture capL,capR;
 
+    /* Stereo Methods */
+    /* BM */
     Ptr<StereoBM> bm;
+    StereoConfig cfgBM;
+
+    /* SGBM */
     Ptr<StereoSGBM> sgbm;
+    StereoConfig cfgSGBM;
+
+    /* BM_GPU */
     Ptr<cuda::StereoBM> bm_gpu;
+    StereoConfig cfgBM_GPU;
 
     //enum {BM, SGBM, BM_GPU} method;
 
     StereoCalib calib;
-    StereoConfig cfgBM;
-    StereoConfig cfgSGBM;
     StereoDisparityMap disp;
     Reconstruction3D view3D;
     StereoDiff diff;

@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
     setupUi_Custom();
 
-    stereo = new StereoProcessor(2);
+    stereo = new StereoProcessor(1);
     stereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -74,6 +74,7 @@ void MainWindow::stereoVisionProcessInit(){
     stereo->readConfigFile();
     stereo->readStereoBMConfigFile();
     stereo->readStereoSGBMConfigFile();
+    stereo->readStereoBM_GPUConfigFile();
 
     /* (2) Camera Setting */
 
@@ -122,6 +123,7 @@ void MainWindow::stereoVisionProcessInit(){
     /* Setting Stereo Parameters */
     stereo->setStereoBM_Params();
     stereo->setStereoSGBM_Params();
+    //stereo->setStereoBM_GPUParams();
 
     /* (4) Stereo Calibration */
     if(stereo->calib.needCalibration){
@@ -522,33 +524,84 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
     cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
 
     if(stereo->flags.methodBM){
-        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgBM.preFilterSize,
-                                                    stereo->cfgBM.preFilterCap,
-                                                    stereo->cfgBM.SADWindowSize,
-                                                    stereo->cfgBM.minDisparity,
-                                                    stereo->cfgBM.numberOfDisparities,
-                                                    stereo->cfgBM.textureThreshold,
-                                                    stereo->cfgBM.uniquenessRatio,
-                                                    stereo->cfgBM.speckleWindowSize,
-                                                    stereo->cfgBM.speckleRange,
-                                                    stereo->cfgBM.disp12MaxDiff);
+//        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgBM.preFilterSize,
+//                                                    stereo->cfgBM.preFilterCap,
+//                                                    stereo->cfgBM.SADWindowSize,
+//                                                    stereo->cfgBM.minDisparity,
+//                                                    stereo->cfgBM.numberOfDisparities,
+//                                                    stereo->cfgBM.textureThreshold,
+//                                                    stereo->cfgBM.uniquenessRatio,
+//                                                    stereo->cfgBM.speckleWindowSize,
+//                                                    stereo->cfgBM.speckleRange,
+//                                                    stereo->cfgBM.disp12MaxDiff);
+
+        stereoParamsSetupWindow->loadStereoParamsUi(stereo->bm->getPreFilterSize(),
+                                                    stereo->bm->getPreFilterCap(),
+                                                    stereo->bm->getBlockSize(),
+                                                    stereo->bm->getMinDisparity(),
+                                                    stereo->bm->getNumDisparities(),
+                                                    stereo->bm->getTextureThreshold(),
+                                                    stereo->bm->getUniquenessRatio(),
+                                                    stereo->bm->getSpeckleWindowSize(),
+                                                    stereo->bm->getSpeckleRange(),
+                                                    stereo->bm->getDisp12MaxDiff());
         // Debug
         //stereo->BMcfg.showConfigValues();
     }
 
     if(stereo->flags.methodSGBM){
+        //TODO: Remover cfgSGBM variables quando for criado uma janela de configuração para cada método.
+        //Relembrando: SGBM não tem alguns parametros que o BM tem.
+//        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgSGBM.preFilterSize,
+//                                                    stereo->cfgSGBM.preFilterCap,
+//                                                    stereo->cfgSGBM.SADWindowSize,
+//                                                    stereo->cfgSGBM.minDisparity,
+//                                                    stereo->cfgSGBM.numberOfDisparities,
+//                                                    stereo->cfgSGBM.textureThreshold,
+//                                                    stereo->cfgSGBM.uniquenessRatio,
+//                                                    stereo->cfgSGBM.speckleWindowSize,
+//                                                    stereo->cfgSGBM.speckleRange,
+//                                                    stereo->cfgSGBM.disp12MaxDiff);
+
         stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgSGBM.preFilterSize,
-                                                    stereo->cfgSGBM.preFilterCap,
-                                                    stereo->cfgSGBM.SADWindowSize,
-                                                    stereo->cfgSGBM.minDisparity,
-                                                    stereo->cfgSGBM.numberOfDisparities,
+                                                    stereo->sgbm->getPreFilterCap(),
+                                                    stereo->sgbm->getBlockSize(),
+                                                    stereo->sgbm->getMinDisparity(),
+                                                    stereo->sgbm->getNumDisparities(),
                                                     stereo->cfgSGBM.textureThreshold,
-                                                    stereo->cfgSGBM.uniquenessRatio,
-                                                    stereo->cfgSGBM.speckleWindowSize,
-                                                    stereo->cfgSGBM.speckleRange,
-                                                    stereo->cfgSGBM.disp12MaxDiff);
+                                                    stereo->sgbm->getUniquenessRatio(),
+                                                    stereo->sgbm->getSpeckleWindowSize(),
+                                                    stereo->sgbm->getSpeckleRange(),
+                                                    stereo->sgbm->getDisp12MaxDiff());
         // Debug
         //stereo->SGBMcfg.showConfigValues();
+    }
+
+    if(stereo->flags.methodBM_GPU){
+//        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgBM_GPU.preFilterSize,
+//                                                    stereo->cfgBM_GPU.preFilterCap,
+//                                                    stereo->cfgBM_GPU.SADWindowSize,
+//                                                    stereo->cfgBM_GPU.minDisparity,
+//                                                    stereo->cfgBM_GPU.numberOfDisparities,
+//                                                    stereo->cfgBM_GPU.textureThreshold,
+//                                                    stereo->cfgBM_GPU.uniquenessRatio,
+//                                                    stereo->cfgBM_GPU.speckleWindowSize,
+//                                                    stereo->cfgBM_GPU.speckleRange,
+//                                                    stereo->cfgBM_GPU.disp12MaxDiff);
+
+        stereoParamsSetupWindow->loadStereoParamsUi(stereo->bm_gpu->getPreFilterSize(),
+                                                    stereo->bm_gpu->getPreFilterCap(),
+                                                    stereo->bm_gpu->getBlockSize(),
+                                                    stereo->bm_gpu->getMinDisparity(),
+                                                    stereo->bm_gpu->getNumDisparities(),
+                                                    stereo->bm_gpu->getTextureThreshold(),
+                                                    stereo->bm_gpu->getUniquenessRatio(),
+                                                    stereo->bm_gpu->getSpeckleWindowSize(),
+                                                    stereo->bm_gpu->getSpeckleRange(),
+                                                    stereo->bm_gpu->getDisp12MaxDiff());
+
+        // Debug
+        //stereo->cfgBM_GPU.showConfigValues();
     }
 
     stereoParamsSetupWindow->show();

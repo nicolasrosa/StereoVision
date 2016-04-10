@@ -63,7 +63,8 @@ OTHER_FILES += \
         config/intrinsics.yml \
         config/extrinsics.yml \
         config/Q.yml \
-        config/stereoSGBM.yml
+        config/stereoSGBM.yml \
+        config/stereoBM_GPU.yml
 
 RESOURCES += \
     res/icon_resource.qrc

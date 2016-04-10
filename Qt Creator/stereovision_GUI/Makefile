@@ -339,11 +339,11 @@ compiler_rcc_clean:
 	-$(DEL_FILE) tmp/rc/qrc_icon_resource.cpp
 tmp/rc/qrc_icon_resource.cpp: res/icon_resource.qrc \
 		res/icon/helicopter_cyan.png \
-		res/icon/spydrone_black.png \
 		res/icon/helicopter_white.png \
 		res/icon/helicopter_black.png \
+		res/icon/helicopter_orange.png \
 		res/icon/helicopter_green.png \
-		res/icon/helicopter_orange.png
+		res/icon/spydrone_black.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name icon_resource res/icon_resource.qrc -o tmp/rc/qrc_icon_resource.cpp
 
 compiler_moc_header_make_all: tmp/moc/moc_MainWindow.cpp tmp/moc/moc_StereoSetParamsWindow.cpp
@@ -1209,7 +1209,60 @@ tmp/obj/MainWindow.o: src/MainWindow.cpp inc/MainWindow.h \
 		inc/Reconstruction3D.h \
 		inc/StereoSetParamsWindow.h \
 		/usr/include/qt5/QtWidgets/QDialog \
-		tmp/moc/ui_mainwindow.h
+		tmp/moc/ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QComboBox \
+		/usr/include/qt5/QtWidgets/qcombobox.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/QLCDNumber \
+		/usr/include/qt5/QtWidgets/qlcdnumber.h \
+		/usr/include/qt5/QtWidgets/QLabel \
+		/usr/include/qt5/QtWidgets/qlabel.h \
+		/usr/include/qt5/QtWidgets/QMenuBar \
+		/usr/include/qt5/QtWidgets/qmenubar.h \
+		/usr/include/qt5/QtWidgets/qmenu.h \
+		/usr/include/qt5/QtWidgets/QPlainTextEdit \
+		/usr/include/qt5/QtWidgets/qplaintextedit.h \
+		/usr/include/qt5/QtWidgets/qtextedit.h \
+		/usr/include/qt5/QtGui/qtextdocument.h \
+		/usr/include/qt5/QtGui/qtextoption.h \
+		/usr/include/qt5/QtGui/qtextcursor.h \
+		/usr/include/qt5/QtGui/qtextformat.h \
+		/usr/include/qt5/QtGui/qpen.h \
+		/usr/include/qt5/QtGui/qabstracttextdocumentlayout.h \
+		/usr/include/qt5/QtGui/qtextlayout.h \
+		/usr/include/qt5/QtGui/qglyphrun.h \
+		/usr/include/qt5/QtGui/qrawfont.h \
+		/usr/include/qt5/QtGui/qfontdatabase.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QStatusBar \
+		/usr/include/qt5/QtWidgets/qstatusbar.h \
+		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/MainWindow.o src/MainWindow.cpp
 
 tmp/obj/trackObject.o: src/trackObject.cpp inc/trackObject.h
@@ -1606,9 +1659,40 @@ tmp/obj/StereoSetParamsWindow.o: src/StereoSetParamsWindow.cpp /usr/include/qt5/
 		/usr/include/qt5/QtGui/qvalidator.h \
 		/usr/include/qt5/QtCore/qregularexpression.h \
 		tmp/moc/ui_setstereoparams.h \
-		inc/StereoSetParamsWindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtWidgets/qdialog.h \
+		/usr/include/qt5/QtWidgets/QDialogButtonBox \
+		/usr/include/qt5/QtWidgets/qdialogbuttonbox.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QLabel \
+		/usr/include/qt5/QtWidgets/qlabel.h \
+		inc/StereoSetParamsWindow.h \
 		inc/StereoProcessor.h \
 		inc/StereoCalib.h \
 		inc/StereoCustom.h \
@@ -1622,8 +1706,6 @@ tmp/obj/StereoSetParamsWindow.o: src/StereoSetParamsWindow.cpp /usr/include/qt5/
 		inc/MainWindow.h \
 		/usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
-		/usr/include/qt5/QtWidgets/qtabwidget.h \
-		/usr/include/qt5/QtGui/qicon.h \
 		/usr/include/qt5/QtCore/QtCore \
 		/usr/include/qt5/QtCore/QtCoreDepends \
 		/usr/include/qt5/QtCore/qabstractanimation.h \
@@ -1657,10 +1739,8 @@ tmp/obj/StereoSetParamsWindow.o: src/StereoSetParamsWindow.cpp /usr/include/qt5/
 		/usr/include/qt5/QtCore/qtemporarydir.h \
 		/usr/include/qt5/QtCore/QScopedPointer \
 		/usr/include/qt5/QtCore/qtemporaryfile.h \
-		/usr/include/qt5/QtCore/qabstractitemmodel.h \
 		/usr/include/qt5/QtCore/qabstractproxymodel.h \
 		/usr/include/qt5/QtCore/qidentityproxymodel.h \
-		/usr/include/qt5/QtCore/qitemselectionmodel.h \
 		/usr/include/qt5/QtCore/qsortfilterproxymodel.h \
 		/usr/include/qt5/QtCore/qstringlistmodel.h \
 		/usr/include/qt5/QtCore/qjsonarray.h \
@@ -1668,10 +1748,8 @@ tmp/obj/StereoSetParamsWindow.o: src/StereoSetParamsWindow.cpp /usr/include/qt5/
 		/usr/include/qt5/QtCore/qjsondocument.h \
 		/usr/include/qt5/QtCore/qjsonobject.h \
 		/usr/include/qt5/QtCore/qabstracteventdispatcher.h \
-		/usr/include/qt5/QtCore/qeventloop.h \
 		/usr/include/qt5/QtCore/qabstractnativeeventfilter.h \
 		/usr/include/qt5/QtCore/qbasictimer.h \
-		/usr/include/qt5/QtCore/qcoreapplication.h \
 		/usr/include/qt5/QtCore/qmath.h \
 		/usr/include/qt5/QtCore/qmetaobject.h \
 		/usr/include/qt5/QtCore/qmimedata.h \

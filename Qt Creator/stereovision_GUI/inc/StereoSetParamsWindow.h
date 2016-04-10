@@ -60,7 +60,7 @@ private slots:
 
 private:
     Ui::SetStereoParams *ui;
-    StereoProcessor *stereo;
+    StereoProcessor *stereo_SetStereoParamsObj;
 
     void updateValues();
 };

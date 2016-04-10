@@ -22,7 +22,7 @@ using namespace std;
 SetStereoParams::SetStereoParams(QWidget *parent, StereoProcessor *stereo) : QDialog(parent), ui(new Ui::SetStereoParams){
     ui->setupUi(this);
 
-    stereo = stereo;
+    this->stereo_SetStereoParamsObj = stereo;
 
     connect(ui->preFilterSize_slider, SIGNAL(valueChanged(int)),ui->preFilterSize_spinBox,SLOT(setValue(int)));
     connect(ui->preFilterCap_slider, SIGNAL(valueChanged(int)),ui->preFilterCap_spinBox,SLOT(setValue(int)));
@@ -194,21 +194,25 @@ void SetStereoParams::on_buttonBox_rejected(){
 
 void SetStereoParams::updateValues() {
     //std::cout << "Update Values!\n";
-    stereo->setValues(ui->preFilterSize_slider->value(),
-                      ui->preFilterCap_slider->value(),
-                      ui->SADWindowSize_slider->value(),
-                      ui->minDisparity_slider->value(),
-                      ui->numberOfDisparities_slider->value(),
-                      ui->textureThreshold_slider->value(),
-                      ui->uniquenessRatio_slider->value(),
-                      ui->speckleWindowSize_slider->value(),
-                      ui->speckleRange_slider->value(),
-                      ui->disp12MaxDiff_slider->value());
+    stereo_SetStereoParamsObj->setValues(ui->preFilterSize_slider->value(),
+                                         ui->preFilterCap_slider->value(),
+                                         ui->SADWindowSize_slider->value(),
+                                         ui->minDisparity_slider->value(),
+                                         ui->numberOfDisparities_slider->value(),
+                                         ui->textureThreshold_slider->value(),
+                                         ui->uniquenessRatio_slider->value(),
+                                         ui->speckleWindowSize_slider->value(),
+                                         ui->speckleRange_slider->value(),
+                                         ui->disp12MaxDiff_slider->value());
 
-    if(stereo->flags.methodBM)
-        stereo->setStereoBM_Params();
+    //TODO: Implementar Switch-Case
+    if(stereo_SetStereoParamsObj->flags.methodBM)
+        stereo_SetStereoParamsObj->setStereoBM_Params();
 
-    if(stereo->flags.methodSGBM)
-        stereo->setStereoSGBM_Params();
+    if(stereo_SetStereoParamsObj->flags.methodSGBM)
+        stereo_SetStereoParamsObj->setStereoSGBM_Params();
+
+    if(stereo_SetStereoParamsObj->flags.methodBM_GPU)
+        stereo_SetStereoParamsObj->setStereoBM_GPU_Params();
 }
 

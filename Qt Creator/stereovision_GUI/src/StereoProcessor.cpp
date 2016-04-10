@@ -26,8 +26,11 @@ StereoProcessor::~StereoProcessor(){
     delete sgbm;
 
     calib.~StereoCalib();
+
     cfgBM.~StereoConfig();
     cfgSGBM.~StereoConfig();
+    cfgBM_GPU.~StereoConfig();
+
     disp.~StereoDisparityMap();
     view3D.~Reconstruction3D();
     diff.~StereoDiff();
@@ -53,6 +56,7 @@ void StereoProcessor::readConfigFile(){
     fs["Q Matrix Path"]   >> calib.QmatrixFileName;
     fs["StereoBM Parameters Path"] >> calib.StereoBMConfigFileName;
     fs["StereoSGBM Parameters Path"] >> calib.StereoSGBMConfigFileName;
+    fs["StereoBM_GPU Parameters Path"] >> calib.StereoBM_GPUConfigFileName;
 
     fs.release();
 
@@ -62,6 +66,7 @@ void StereoProcessor::readConfigFile(){
     cout << "Q Matrix Path: "               << calib.QmatrixFileName              << endl;
     cout << "StereoBM Parameters Path:"     << calib.StereoBMConfigFileName       << endl;
     cout << "StereoSGBM Parameters Path:"   << calib.StereoSGBMConfigFileName     << endl;
+    cout << "StereoBM_GPU Parameters Path:" << calib.StereoBM_GPUConfigFileName   << endl;
     cout << "Config.yml Read Successfully." << endl << endl ;
     //cout << "----------------------------------------------------------------------"    << endl;
 }
@@ -117,6 +122,33 @@ void StereoProcessor::readStereoSGBMConfigFile(){
     // Display
     cfgSGBM.showConfigValues();
     cout << "stereoSGBM.yml Read Successfully."  << endl << endl;
+    //cout << "----------------------------------------------------------------------" << endl << endl;
+}
+
+void StereoProcessor::readStereoBM_GPUConfigFile(){
+    FileStorage fs(calib.StereoBM_GPUConfigFileName, FileStorage::READ);
+    if(!fs.isOpened()){
+        cerr << "Failed to open stereoBM_GPU.yml file!" << endl;
+        return;
+    }
+
+    fs["methodName"] >> cfgBM_GPU.methodName;
+    fs["preFilterSize"] >> cfgBM_GPU.preFilterSize;
+    fs["preFilterCap"] >> cfgBM_GPU.preFilterCap;
+    fs["SADWindowSize"] >> cfgBM_GPU.SADWindowSize;
+    fs["minDisparity"] >> cfgBM_GPU.minDisparity;
+    fs["numberOfDisparities"] >> cfgBM_GPU.numberOfDisparities;
+    fs["textureThreshold"] >> cfgBM_GPU.textureThreshold;
+    fs["uniquenessRatio"] >> cfgBM_GPU.uniquenessRatio;
+    fs["speckleWindowSize"] >> cfgBM_GPU.speckleWindowSize;
+    fs["speckleRange"] >> cfgBM_GPU.speckleRange;
+    fs["disp12MaxDiff"] >> cfgBM_GPU.disp12MaxDiff;
+
+    fs.release();
+
+    // Display
+    cfgBM_GPU.showConfigValues();
+    cout << "stereoBM_GPU.yml Read Successfully."  << endl << endl;
     //cout << "----------------------------------------------------------------------" << endl << endl;
 }
 
@@ -212,41 +244,6 @@ void StereoProcessor::setStereoBM_Params(){
 }
 
 void StereoProcessor::setStereoSGBM_Params(){
-    //int trackbarsAux[10];
-
-    //    trackbarsAux[0] = SGBMcfg.preFilterSize*2.5+5;
-    //    trackbarsAux[1] = SGBMcfg.preFilterCap*0.625+1;
-    //    trackbarsAux[2] = SGBMcfg.SADWindowSize*2.5+5;
-    //    trackbarsAux[3] = SGBMcfg.minDisparity*2.0-100;
-    //    trackbarsAux[4] = SGBMcfg.numberOfDisparities*16;
-    //    trackbarsAux[5] = SGBMcfg.textureThreshold*320;
-    //    trackbarsAux[6] = SGBMcfg.uniquenessRatio*2.555;
-    //    trackbarsAux[7] = SGBMcfg.speckleWindowSize*1.0;
-    //    trackbarsAux[8] = SGBMcfg.speckleRange*1.0;
-    //    trackbarsAux[9] = SGBMcfg.disp12MaxDiff*1.0;
-
-    //    trackbarsAux[0] = SGBMcfg.preFilterSize;
-    //    trackbarsAux[1] = SGBMcfg.preFilterCap;
-    //    trackbarsAux[2] = SGBMcfg.SADWindowSize;
-    //    trackbarsAux[3] = SGBMcfg.minDisparity;
-    //    trackbarsAux[4] = SGBMcfg.numberOfDisparities;
-    //    trackbarsAux[5] = SGBMcfg.textureThreshold;
-    //    trackbarsAux[6] = SGBMcfg.uniquenessRatio;
-    //    trackbarsAux[7] = SGBMcfg.speckleWindowSize;
-    //    trackbarsAux[8] = SGBMcfg.speckleRange;
-    //    trackbarsAux[9] = SGBMcfg.disp12MaxDiff;
-
-    //    cout << "0: " << trackbarsAux[0] << endl;
-    //    cout << "1: " << trackbarsAux[1] << endl;
-    //    cout << "2: " << trackbarsAux[2] << endl;
-    //    cout << "3: " << trackbarsAux[3] << endl;
-    //    cout << "4: " << trackbarsAux[4] << endl;
-    //    cout << "5: " << trackbarsAux[5] << endl;
-    //    cout << "6: " << trackbarsAux[6] << endl;
-    //    cout << "7: " << trackbarsAux[7] << endl;
-    //    cout << "8: " << trackbarsAux[8] << endl;
-    //    cout << "9: " << trackbarsAux[9] << endl;
-
     numChannels = imageL[0].channels();
 
     sgbm->setP1(8*numChannels*cfgSGBM.SADWindowSize*cfgSGBM.SADWindowSize);
@@ -270,6 +267,38 @@ void StereoProcessor::setStereoSGBM_Params(){
     sgbm->setSpeckleRange(cfgSGBM.speckleRange);
     sgbm->setDisp12MaxDiff(cfgSGBM.disp12MaxDiff);
 }
+
+void StereoProcessor::setStereoBM_GPU_Params(){
+    bm_gpu->setROI1(calib.roi1);
+    bm_gpu->setROI2(calib.roi2);
+
+    //TODO: Remover multipla definição de valores das variaveis numRows e numChannel
+    //TODO: Transformar essas variáveis em privadas
+    numRows = imageL[0].rows;
+
+    if(cfgBM_GPU.preFilterSize%2==1){
+        bm_gpu->setPreFilterSize(cfgBM_GPU.preFilterSize);
+    }
+
+    bm_gpu->setPreFilterCap(cfgBM_GPU.preFilterCap);
+
+    if(cfgBM_GPU.SADWindowSize%2==1 && cfgBM_GPU.SADWindowSize<=51){
+        bm_gpu->setBlockSize(cfgBM_GPU.SADWindowSize);
+    }
+
+    bm_gpu->setMinDisparity(cfgBM_GPU.minDisparity);
+
+    if(cfgBM_GPU.numberOfDisparities%16==0){
+        bm_gpu->setNumDisparities(cfgBM_GPU.numberOfDisparities);
+    }
+
+    bm_gpu->setTextureThreshold(cfgBM_GPU.textureThreshold);
+    bm_gpu->setUniquenessRatio( cfgBM_GPU.uniquenessRatio);
+    bm_gpu->setSpeckleWindowSize(cfgBM_GPU.speckleWindowSize);
+    bm_gpu->setSpeckleRange(cfgBM_GPU.speckleRange);
+    bm_gpu->setDisp12MaxDiff(cfgBM_GPU.disp12MaxDiff);
+}
+
 
 void StereoProcessor::captureFrames(){
     /* Capture Frames from the VideoCap Object */
@@ -369,27 +398,45 @@ void StereoProcessor::saveLastFrames(){
 }
 
 void StereoProcessor::setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff) {
-    cfgBM.preFilterSize = preFilterSize;
-    cfgBM.preFilterCap = preFilterCap;
-    cfgBM.SADWindowSize = sadWindowSize;
-    cfgBM.minDisparity = minDisparity;
-    cfgBM.numberOfDisparities = numOfDisparities;
-    cfgBM.textureThreshold = textureThreshold;
-    cfgBM.uniquenessRatio = uniquenessRatio;
-    cfgBM.speckleRange = speckleWindowRange;
-    cfgBM.speckleWindowSize = speckleWindowSize;
-    cfgBM.disp12MaxDiff = disp12MaxDiff;
+    //TODO: Excluir flags individuais, criar enum method, e utilizar switch-case em todos os lugares parecidos com a estrutura abaixo.
+    if(this->flags.methodBM){
+        cfgBM.preFilterSize = preFilterSize;
+        cfgBM.preFilterCap = preFilterCap;
+        cfgBM.SADWindowSize = sadWindowSize;
+        cfgBM.minDisparity = minDisparity;
+        cfgBM.numberOfDisparities = numOfDisparities;
+        cfgBM.textureThreshold = textureThreshold;
+        cfgBM.uniquenessRatio = uniquenessRatio;
+        cfgBM.speckleRange = speckleWindowRange;
+        cfgBM.speckleWindowSize = speckleWindowSize;
+        cfgBM.disp12MaxDiff = disp12MaxDiff;
+    }
 
-    cfgSGBM.preFilterSize = preFilterSize;
-    cfgSGBM.preFilterCap = preFilterCap;
-    cfgSGBM.SADWindowSize = sadWindowSize;
-    cfgSGBM.minDisparity = minDisparity;
-    cfgSGBM.numberOfDisparities = numOfDisparities;
-    cfgSGBM.textureThreshold = textureThreshold;
-    cfgSGBM.uniquenessRatio = uniquenessRatio;
-    cfgSGBM.speckleRange = speckleWindowRange;
-    cfgSGBM.speckleWindowSize = speckleWindowSize;
-    cfgSGBM.disp12MaxDiff = disp12MaxDiff;
+    if(this->flags.methodSGBM){
+        cfgSGBM.preFilterSize = preFilterSize;
+        cfgSGBM.preFilterCap = preFilterCap;
+        cfgSGBM.SADWindowSize = sadWindowSize;
+        cfgSGBM.minDisparity = minDisparity;
+        cfgSGBM.numberOfDisparities = numOfDisparities;
+        cfgSGBM.textureThreshold = textureThreshold;
+        cfgSGBM.uniquenessRatio = uniquenessRatio;
+        cfgSGBM.speckleRange = speckleWindowRange;
+        cfgSGBM.speckleWindowSize = speckleWindowSize;
+        cfgSGBM.disp12MaxDiff = disp12MaxDiff;
+    }
+
+    if(this->flags.methodBM_GPU){
+        cfgBM_GPU.preFilterSize = preFilterSize;
+        cfgBM_GPU.preFilterCap = preFilterCap;
+        cfgBM_GPU.SADWindowSize = sadWindowSize;
+        cfgBM_GPU.minDisparity = minDisparity;
+        cfgBM_GPU.numberOfDisparities = numOfDisparities;
+        cfgBM_GPU.textureThreshold = textureThreshold;
+        cfgBM_GPU.uniquenessRatio = uniquenessRatio;
+        cfgBM_GPU.speckleRange = speckleWindowRange;
+        cfgBM_GPU.speckleWindowSize = speckleWindowSize;
+        cfgBM_GPU.disp12MaxDiff = disp12MaxDiff;
+    }
 
     //std::cout << "Set Values!\n";
 }

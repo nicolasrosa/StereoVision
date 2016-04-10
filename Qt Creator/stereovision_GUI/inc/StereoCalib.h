@@ -48,8 +48,11 @@ public:
     string intrinsicsFileName;
     string extrinsicsFileName;
     string QmatrixFileName;
+
     string StereoBMConfigFileName;
     string StereoSGBMConfigFileName;
+    string StereoBM_GPUConfigFileName;
+
 
     Point2d imageCenter;
 
