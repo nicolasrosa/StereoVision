@@ -22,10 +22,6 @@ StereoFlags::StereoFlags(){
     showWarningLines=false;
     showHistograms=false;
     showDispDepth=false;
-
-    methodBM = true;
-    methodSGBM = false;
-    methodBM_GPU = false;
 }
 
 StereoFlags::~StereoFlags(){}

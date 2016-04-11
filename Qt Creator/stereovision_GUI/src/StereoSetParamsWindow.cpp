@@ -205,14 +205,17 @@ void SetStereoParams::updateValues() {
                                          ui->speckleRange_slider->value(),
                                          ui->disp12MaxDiff_slider->value());
 
-    //TODO: Implementar Switch-Case
-    if(stereo_SetStereoParamsObj->flags.methodBM)
+    switch(stereo_SetStereoParamsObj->method){
+    case StereoProcessor::BM:
         stereo_SetStereoParamsObj->setStereoBM_Params();
+        break;
 
-    if(stereo_SetStereoParamsObj->flags.methodSGBM)
+    case StereoProcessor::SGBM:
         stereo_SetStereoParamsObj->setStereoSGBM_Params();
-
-    if(stereo_SetStereoParamsObj->flags.methodBM_GPU)
+        break;
+    case StereoProcessor::BM_GPU:
         stereo_SetStereoParamsObj->setStereoBM_GPU_Params();
+        break;
+    }
 }
 

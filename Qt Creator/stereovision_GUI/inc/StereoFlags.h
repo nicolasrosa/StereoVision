@@ -28,10 +28,6 @@ public:
     bool showWarningLines;
     bool showHistograms;
     bool showDispDepth;
-
-    bool methodBM;
-    bool methodSGBM;
-    bool methodBM_GPU;
 };
 
 #endif // STEREOFLAGS_H

@@ -12,6 +12,8 @@
 
 /* Constructor and Destructor */
 StereoProcessor::StereoProcessor(int number) {
+    method = BM;
+
     inputNum=number;
     frameCounter=0;
 
@@ -205,6 +207,22 @@ void StereoProcessor::stereoBM_GPU_Init(){
     //    bm->setDisp12MaxDiff(1);
 }
 
+void StereoProcessor::setNumRows(int value){
+    numRows = value;
+}
+
+int StereoProcessor::getNumRows(){
+    return numRows;
+}
+
+void StereoProcessor::setNumChannels(int value){
+    numChannels = value;
+}
+
+int StereoProcessor::getNumChannels(){
+    return numChannels;
+}
+
 /*** StereoBM Parameters Configuration function
   ** Description: Executes the setup of parameters of the StereoBM object by changing the trackbars
   ** @param rect roi1: Region of Interest 1
@@ -217,8 +235,6 @@ void StereoProcessor::stereoBM_GPU_Init(){
 void StereoProcessor::setStereoBM_Params(){
     bm->setROI1(calib.roi1);
     bm->setROI1(calib.roi2);
-
-    numRows = imageL[0].rows;
 
     if(cfgBM.preFilterSize%2==1){
         bm->setPreFilterSize(cfgBM.preFilterSize);
@@ -244,15 +260,13 @@ void StereoProcessor::setStereoBM_Params(){
 }
 
 void StereoProcessor::setStereoSGBM_Params(){
-    numChannels = imageL[0].channels();
-
     sgbm->setP1(8*numChannels*cfgSGBM.SADWindowSize*cfgSGBM.SADWindowSize);
     sgbm->setP2(32*numChannels*cfgSGBM.SADWindowSize*cfgSGBM.SADWindowSize);
     sgbm->setMode(StereoSGBM::MODE_SGBM);
 
     sgbm->setPreFilterCap(cfgSGBM.preFilterCap);
 
-    if( cfgSGBM.SADWindowSize%2==1 &&  cfgSGBM.SADWindowSize<=numRows){
+    if(cfgSGBM.SADWindowSize%2==1 &&  cfgSGBM.SADWindowSize<=numRows){
         sgbm->setBlockSize( cfgSGBM.SADWindowSize);
     }
 
@@ -271,10 +285,6 @@ void StereoProcessor::setStereoSGBM_Params(){
 void StereoProcessor::setStereoBM_GPU_Params(){
     bm_gpu->setROI1(calib.roi1);
     bm_gpu->setROI2(calib.roi2);
-
-    //TODO: Remover multipla definição de valores das variaveis numRows e numChannel
-    //TODO: Transformar essas variáveis em privadas
-    numRows = imageL[0].rows;
 
     if(cfgBM_GPU.preFilterSize%2==1){
         bm_gpu->setPreFilterSize(cfgBM_GPU.preFilterSize);
@@ -327,23 +337,26 @@ void StereoProcessor::applyRectification(){
 
 void StereoProcessor::calculateDisparities(){
     /* Convert BGR images to Grey Scale */
-    if(flags.methodBM || flags.methodBM_GPU){
+    if(method == StereoProcessor::BM || method == StereoProcessor::BM_GPU){
         cvtColor(imageL[0],imageL_grey[0],CV_BGR2GRAY);
         cvtColor(imageR[0],imageR_grey[0],CV_BGR2GRAY);
     }
 
     /* Computing Disparities - Disparity Map */
-    if(flags.methodBM)
+    switch(method){
+    case StereoProcessor::BM:
         bm->compute(imageL_grey[0],imageR_grey[0],disp.disp_16S);
 
-    if(flags.methodSGBM)
+        break;
+    case StereoProcessor::SGBM:
         sgbm->compute(imageL[0],imageR[0],disp.disp_16S);
-
-    if(flags.methodBM_GPU){
+        break;
+    case StereoProcessor::BM_GPU:
         d_imageL.upload(imageL_grey[0]);
         d_imageR.upload(imageR_grey[0]);
         bm_gpu->compute(d_imageL,d_imageR,d_disp_16S);
         d_disp_16S.download(disp.disp_16S);
+        break;
     }
 
     normalize(disp.disp_16S, disp.disp_8U, 0, 255, CV_MINMAX, CV_8U);
@@ -398,8 +411,8 @@ void StereoProcessor::saveLastFrames(){
 }
 
 void StereoProcessor::setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff) {
-    //TODO: Excluir flags individuais, criar enum method, e utilizar switch-case em todos os lugares parecidos com a estrutura abaixo.
-    if(this->flags.methodBM){
+    switch(method){
+    case StereoProcessor::BM:
         cfgBM.preFilterSize = preFilterSize;
         cfgBM.preFilterCap = preFilterCap;
         cfgBM.SADWindowSize = sadWindowSize;
@@ -410,9 +423,8 @@ void StereoProcessor::setValues(int preFilterSize, int preFilterCap, int sadWind
         cfgBM.speckleRange = speckleWindowRange;
         cfgBM.speckleWindowSize = speckleWindowSize;
         cfgBM.disp12MaxDiff = disp12MaxDiff;
-    }
-
-    if(this->flags.methodSGBM){
+        break;
+    case StereoProcessor::SGBM:
         cfgSGBM.preFilterSize = preFilterSize;
         cfgSGBM.preFilterCap = preFilterCap;
         cfgSGBM.SADWindowSize = sadWindowSize;
@@ -423,9 +435,8 @@ void StereoProcessor::setValues(int preFilterSize, int preFilterCap, int sadWind
         cfgSGBM.speckleRange = speckleWindowRange;
         cfgSGBM.speckleWindowSize = speckleWindowSize;
         cfgSGBM.disp12MaxDiff = disp12MaxDiff;
-    }
-
-    if(this->flags.methodBM_GPU){
+        break;
+    case StereoProcessor::BM_GPU:
         cfgBM_GPU.preFilterSize = preFilterSize;
         cfgBM_GPU.preFilterCap = preFilterCap;
         cfgBM_GPU.SADWindowSize = sadWindowSize;
@@ -436,6 +447,7 @@ void StereoProcessor::setValues(int preFilterSize, int preFilterCap, int sadWind
         cfgBM_GPU.speckleRange = speckleWindowRange;
         cfgBM_GPU.speckleWindowSize = speckleWindowSize;
         cfgBM_GPU.disp12MaxDiff = disp12MaxDiff;
+        break;
     }
 
     //std::cout << "Set Values!\n";

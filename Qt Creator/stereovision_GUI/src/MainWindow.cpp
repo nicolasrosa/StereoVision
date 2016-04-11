@@ -121,6 +121,9 @@ void MainWindow::stereoVisionProcessInit(){
     stereo->stereoBM_GPU_Init();
 
     /* Setting Stereo Parameters */
+    stereo->setNumRows(stereo->imageL[0].rows);
+    stereo->setNumChannels(stereo->imageL[0].channels());
+
     stereo->setStereoBM_Params();
     stereo->setStereoSGBM_Params();
     //stereo->setStereoBM_GPUParams();
@@ -523,17 +526,18 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
 
     cout << "[Stereo Param Setup] Stereo Parameters Configuration Loaded!" << endl;
 
-    if(stereo->flags.methodBM){
-//        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgBM.preFilterSize,
-//                                                    stereo->cfgBM.preFilterCap,
-//                                                    stereo->cfgBM.SADWindowSize,
-//                                                    stereo->cfgBM.minDisparity,
-//                                                    stereo->cfgBM.numberOfDisparities,
-//                                                    stereo->cfgBM.textureThreshold,
-//                                                    stereo->cfgBM.uniquenessRatio,
-//                                                    stereo->cfgBM.speckleWindowSize,
-//                                                    stereo->cfgBM.speckleRange,
-//                                                    stereo->cfgBM.disp12MaxDiff);
+    switch(stereo->method){
+    case StereoProcessor::BM:
+        //        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgBM.preFilterSize,
+        //                                                    stereo->cfgBM.preFilterCap,
+        //                                                    stereo->cfgBM.SADWindowSize,
+        //                                                    stereo->cfgBM.minDisparity,
+        //                                                    stereo->cfgBM.numberOfDisparities,
+        //                                                    stereo->cfgBM.textureThreshold,
+        //                                                    stereo->cfgBM.uniquenessRatio,
+        //                                                    stereo->cfgBM.speckleWindowSize,
+        //                                                    stereo->cfgBM.speckleRange,
+        //                                                    stereo->cfgBM.disp12MaxDiff);
 
         stereoParamsSetupWindow->loadStereoParamsUi(stereo->bm->getPreFilterSize(),
                                                     stereo->bm->getPreFilterCap(),
@@ -547,21 +551,21 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
                                                     stereo->bm->getDisp12MaxDiff());
         // Debug
         //stereo->BMcfg.showConfigValues();
-    }
+        break;
 
-    if(stereo->flags.methodSGBM){
+    case StereoProcessor::SGBM:
         //TODO: Remover cfgSGBM variables quando for criado uma janela de configuração para cada método.
         //Relembrando: SGBM não tem alguns parametros que o BM tem.
-//        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgSGBM.preFilterSize,
-//                                                    stereo->cfgSGBM.preFilterCap,
-//                                                    stereo->cfgSGBM.SADWindowSize,
-//                                                    stereo->cfgSGBM.minDisparity,
-//                                                    stereo->cfgSGBM.numberOfDisparities,
-//                                                    stereo->cfgSGBM.textureThreshold,
-//                                                    stereo->cfgSGBM.uniquenessRatio,
-//                                                    stereo->cfgSGBM.speckleWindowSize,
-//                                                    stereo->cfgSGBM.speckleRange,
-//                                                    stereo->cfgSGBM.disp12MaxDiff);
+        //        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgSGBM.preFilterSize,
+        //                                                    stereo->cfgSGBM.preFilterCap,
+        //                                                    stereo->cfgSGBM.SADWindowSize,
+        //                                                    stereo->cfgSGBM.minDisparity,
+        //                                                    stereo->cfgSGBM.numberOfDisparities,
+        //                                                    stereo->cfgSGBM.textureThreshold,
+        //                                                    stereo->cfgSGBM.uniquenessRatio,
+        //                                                    stereo->cfgSGBM.speckleWindowSize,
+        //                                                    stereo->cfgSGBM.speckleRange,
+        //                                                    stereo->cfgSGBM.disp12MaxDiff);
 
         stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgSGBM.preFilterSize,
                                                     stereo->sgbm->getPreFilterCap(),
@@ -575,19 +579,20 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
                                                     stereo->sgbm->getDisp12MaxDiff());
         // Debug
         //stereo->SGBMcfg.showConfigValues();
-    }
 
-    if(stereo->flags.methodBM_GPU){
-//        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgBM_GPU.preFilterSize,
-//                                                    stereo->cfgBM_GPU.preFilterCap,
-//                                                    stereo->cfgBM_GPU.SADWindowSize,
-//                                                    stereo->cfgBM_GPU.minDisparity,
-//                                                    stereo->cfgBM_GPU.numberOfDisparities,
-//                                                    stereo->cfgBM_GPU.textureThreshold,
-//                                                    stereo->cfgBM_GPU.uniquenessRatio,
-//                                                    stereo->cfgBM_GPU.speckleWindowSize,
-//                                                    stereo->cfgBM_GPU.speckleRange,
-//                                                    stereo->cfgBM_GPU.disp12MaxDiff);
+        break;
+
+    case StereoProcessor::BM_GPU:
+        //        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgBM_GPU.preFilterSize,
+        //                                                    stereo->cfgBM_GPU.preFilterCap,
+        //                                                    stereo->cfgBM_GPU.SADWindowSize,
+        //                                                    stereo->cfgBM_GPU.minDisparity,
+        //                                                    stereo->cfgBM_GPU.numberOfDisparities,
+        //                                                    stereo->cfgBM_GPU.textureThreshold,
+        //                                                    stereo->cfgBM_GPU.uniquenessRatio,
+        //                                                    stereo->cfgBM_GPU.speckleWindowSize,
+        //                                                    stereo->cfgBM_GPU.speckleRange,
+        //                                                    stereo->cfgBM_GPU.disp12MaxDiff);
 
         stereoParamsSetupWindow->loadStereoParamsUi(stereo->bm_gpu->getPreFilterSize(),
                                                     stereo->bm_gpu->getPreFilterCap(),
@@ -602,6 +607,9 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
 
         // Debug
         //stereo->cfgBM_GPU.showConfigValues();
+
+        break;
+
     }
 
     stereoParamsSetupWindow->show();
@@ -611,21 +619,15 @@ void MainWindow::on_methodSelector_activated(int index){
     switch(index){
     case 0:
         cout << "Chose Method: BM" <<endl;
-        stereo->flags.methodBM = true;
-        stereo->flags.methodSGBM = false;
-        stereo->flags.methodBM_GPU = false;
+        stereo->method = StereoProcessor::BM;
         break;
     case 1:
         cout << "Chose Method: SGBM" <<endl;
-        stereo->flags.methodBM = false;
-        stereo->flags.methodSGBM = true;
-        stereo->flags.methodBM_GPU = false;
+        stereo->method = StereoProcessor::SGBM;
         break;
     case 2:
         cout << "Chose Method: BM_GPU" <<endl;
-        stereo->flags.methodBM = false;
-        stereo->flags.methodSGBM = false;
-        stereo->flags.methodBM_GPU = true;
+        stereo->method = StereoProcessor::BM_GPU;
         break;
 
     }

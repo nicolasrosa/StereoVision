@@ -52,6 +52,11 @@ public:
 
     void setValues(int preFilterSize, int preFilterCap, int sadWindowSize, int minDisparity, int numOfDisparities, int textureThreshold, int uniquenessRatio, int speckleWindowSize, int speckleWindowRange, int disp12MaxDiff);
 
+    void setNumRows(int value);
+    void setNumChannels(int value);
+    int getNumRows();
+    int getNumChannels();
+
     void captureFrames();
     void applyRectification();
     void calculateDisparities();
@@ -80,7 +85,7 @@ public:
     Ptr<cuda::StereoBM> bm_gpu;
     StereoConfig cfgBM_GPU;
 
-    //enum {BM, SGBM, BM_GPU} method;
+    enum {BM, SGBM, BM_GPU} method;
 
     StereoCalib calib;
     StereoDisparityMap disp;
@@ -90,8 +95,7 @@ public:
     StereoUtils utils;
     StereoMorphology morph;
 
-    int numRows;
-    int numChannels;
+
     int frameCounter;
 
     /* Mouse Coordinates */
@@ -99,6 +103,8 @@ public:
 
 private:
     int inputNum;
+    int numRows;
+    int numChannels;
 };
 
 #endif // STEREOPROCESSOR_H
