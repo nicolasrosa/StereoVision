@@ -1,0 +1,8 @@
+/* Calibration Files */
+
+intrinsics.yml
+extrinsics.yml
+
+/* Folder Contents */
+[cam1] Calibration files of the Camera 1 - Fuji FinePix Real 3D W3
+[cam2] Calibration files of the Camera 2 - Provided by Dataset
