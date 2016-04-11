@@ -8,6 +8,7 @@
 /* Libraries */
 #include "inc/StereoMorphology.h"
 #include "inc/trackObject.h"
+#include "inc/StereoCalib.h"
 
 /* Constructor and Destructor */
 StereoMorphology::StereoMorphology(){
@@ -30,7 +31,7 @@ int max_thresh = 255;
 const string source_window = "Source image";
 const string corners_window = "Corners detected";
 
-void StereoMorphology::imageProcessing(Mat src, Mat cameraFeedL,bool isTrackingObjects,bool isVideoFile,bool enableLightingNoiseDetector){
+void StereoMorphology::applyMorphology(Mat src, Mat cameraFeedL,bool isTrackingObjects,int inputType,bool enableLightingNoiseDetector){
     /* Local Variables */
     Mat srcFiltered;
 
@@ -55,7 +56,7 @@ void StereoMorphology::imageProcessing(Mat src, Mat cameraFeedL,bool isTrackingO
     /* Tracking Object */
     if(isTrackingObjects){
         cameraFeedL.copyTo(trackingView);
-        if(isVideoFile){
+        if(inputType == StereoCalib::VideoFile){
            trackFilteredObject(x,y,imgThreshold,trackingView);
         }
     }

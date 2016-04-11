@@ -39,6 +39,7 @@ public:
     /* Constructor and Destructor */
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void deleteStereoObj();
 
     void setupUi_Custom();
     void stereoVisionProcessInit();
@@ -80,6 +81,8 @@ private slots:
     void on_toggleBtnShowXYZ_toggled(bool checked);
     void on_toggleBtnShowDispDepth_toggled(bool checked);
     void on_methodSelector_activated(int index);
+
+    void on_inputSelector_activated(int index);
 
 protected:
     void keyPressEvent(QKeyEvent *event);

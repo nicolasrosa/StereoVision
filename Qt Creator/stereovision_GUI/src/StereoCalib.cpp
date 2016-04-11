@@ -13,9 +13,6 @@ StereoCalib::StereoCalib(){
     double focalLength=0;
     double baseline=0;
 
-    isVideoFile=false;
-    isImageFile=false;
-
     needCalibration=false;
     hasQMatrix=false;
 }

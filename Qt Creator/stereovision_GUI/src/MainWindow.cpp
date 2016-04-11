@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ui->setupUi(this);
     setupUi_Custom();
 
-    stereo = new StereoProcessor(1);
+    stereo = new StereoProcessor(0);
     stereoVisionProcessInit();
 
     tmrTimer = new QTimer(this);
@@ -43,6 +43,10 @@ MainWindow::~MainWindow(){
     closeEventOccured = true;
 }
 
+void MainWindow::deleteStereoObj(){
+    delete stereo;
+}
+
 
 /* Instance Methods */
 void MainWindow::setupUi_Custom(){
@@ -62,11 +66,6 @@ void MainWindow::setupUi_Custom(){
 
 
 void MainWindow::stereoVisionProcessInit(){
-    //FIXME: Arrumar a Matrix K, os valores das ultimas colunas estao errados.
-    //FIXME: Arrumar a funcao StereoProcessor::calculateQMatrix().
-    //FIXME: Arrumar o Constructor da classe StereoDisparityMap para Alocacao de Memoria das variaveis: disp_16S,disp_8U,disp_BGR
-    //FIXME: Arrumar a inicializacao e separar as variaveis 'Stereocfg' para os metodos BM e SGBM
-    //FIXME: Arrumar os erros que acontecem quando clica-se nos botoes 'Track' and 'Diff' para o input 4
     printHelp();
 
     /* (1) Open Image Source */
@@ -79,10 +78,13 @@ void MainWindow::stereoVisionProcessInit(){
     /* (2) Camera Setting */
 
     /* Getting Input Resolution */
-    if(stereo->calib.isVideoFile){
+    switch(stereo->calib.inputType){
+    case StereoCalib::VideoFile:
         stereo->calib.setResolution(stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH),stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT));
-    }else{
+        break;
+    case StereoCalib::ImageFile:
         stereo->calib.setResolution(stereo->imageL[0].cols,stereo->imageL[0].rows);
+        break;
     }
 
     /* Setting Desired Resolution */
@@ -109,24 +111,23 @@ void MainWindow::stereoVisionProcessInit(){
     }
 
     /* Resizing the Input Resolution to the Desired Resolution*/
-    if(stereo->calib.isImageFile && (stereo->calib.getResolution_width() != stereo->calib.getResolutionDesired_width())){
+    if(stereo->calib.inputType == StereoCalib::ImageFile && (stereo->calib.getResolution_width() != stereo->calib.getResolutionDesired_width())){
         stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0],stereo->calib.getResolutionDesired());
     }
 
     /* (3) Stereo Initialization */
-
     /* Initializing Stereo Matching Methods */
     stereo->stereoBM_Init();
     stereo->stereoSGBM_Init();
     stereo->stereoBM_GPU_Init();
 
     /* Setting Stereo Parameters */
-    stereo->setNumRows(stereo->imageL[0].rows);
+    stereo->setNumRows(stereo->calib.getResolutionDesired_height());
     stereo->setNumChannels(stereo->imageL[0].channels());
 
     stereo->setStereoBM_Params();
     stereo->setStereoSGBM_Params();
-    //stereo->setStereoBM_GPUParams();
+    stereo->setStereoBM_GPU_Params();
 
     /* (4) Stereo Calibration */
     if(stereo->calib.needCalibration){
@@ -166,7 +167,7 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     /* (6) Rendering Loop */
     stereo->utils.startClock();
 
-    if(stereo->calib.isVideoFile){
+    if(stereo->calib.inputType == StereoCalib::VideoFile){
         /* (7) Frames Capture */
         stereo->captureFrames();
 
@@ -188,12 +189,13 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
 
     /* (11) Image Processing */
     if(stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage || stereo->flags.showWarningLines){
-        if(stereo->calib.isVideoFile){
-            stereo->morph.imageProcessing(stereo->disp.disp_8U,stereo->imageL[0],true,stereo->calib.isVideoFile,false);
-        }
-
-        if(stereo->calib.isImageFile){
+        switch(stereo->calib.inputType){
+        case StereoCalib::VideoFile:
+            stereo->morph.applyMorphology(stereo->disp.disp_8U,stereo->imageL[0],true,stereo->calib.inputType,false);
+            break;
+        case StereoCalib::ImageFile:
             ui->textBoxOutput->appendPlainText(QString("This feature is not supported, because of the Input file type (Image File).1"));
+            break;
         }
     }
 
@@ -204,7 +206,8 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
 
     /* (12) Movement Difference between Frames */
     if(stereo->flags.showDiffImage || stereo->flags.showWarningLines){
-        if(stereo->calib.isVideoFile){
+        switch(stereo->calib.inputType){
+            case StereoCalib::VideoFile:
             if(stereo->diff.StartDiff){
                 stereo->diff.createDiffImage(stereo->imageL_grey[0],stereo->imageL_grey[1]);
 
@@ -223,11 +226,11 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
                 stereo->saveLastFrames();
                 stereo->diff.StartDiff=true;
             }
-        }
-
-        if(stereo->calib.isImageFile){
+                break;
+            case StereoCalib::ImageFile:
             ui->textBoxOutput->appendPlainText(QString("This feature is not supported, because of the Input file type (Image File).2"));
-        }
+                break;
+            }
     }
 
     /* (13) GUI Output */
@@ -343,55 +346,55 @@ void MainWindow::openStereoSource(int inputNum){
     ui->textBoxOutput->appendPlainText(QString("Input File: ")+QString::number(inputNum));
 
     switch(inputNum){
-    case 1:
+    case 0:
         stereo->imageL_filename = "/home/nicolas/workspace/data/video10_l.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/video10_r.avi";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=true;
         break;
-    case 2:
+    case 1:
         stereo->imageL_filename = "/home/nicolas/workspace/data/video12_l.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/video12_r.avi";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=true;
         break;
-    case 3:
+    case 2:
         stereo->imageL_filename = "/home/nicolas/workspace/data/dataset/Piano-perfect/im0.png";
         stereo->imageR_filename = "/home/nicolas/workspace/data/dataset/Piano-perfect/im1.png";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
-    case 4:
+    case 3:
         stereo->imageL_filename = "/home/nicolas/workspace/data/20004.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/30004.avi";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
-    case 5:
+    case 4:
         stereo->imageL_filename = "/home/nicolas/workspace/data/teddy_l.png";
         stereo->imageR_filename = "/home/nicolas/workspace/data/teddy_r.png";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
-    case 6:
+    case 5:
         stereo->imageL_filename = "/home/nicolas/workspace/data/left/video15.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/right/video15.avi";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
-    case 7:
+    case 6:
         stereo->imageL_filename = "/home/nicolas/workspace/data/20011.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/30011.avi";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
-    case 8:
+    case 7:
         stereo->imageL_filename = "../data/left/left2.png";
         stereo->imageR_filename = "../data/right/right2.png";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
-    case 9:
+    case 8:
         stereo->imageL_filename = "../data/left/left3.png";
         stereo->imageR_filename = "../data/right/right3.png";
         stereo->calib.needCalibration=false;
@@ -401,7 +404,7 @@ void MainWindow::openStereoSource(int inputNum){
 
     /* Identify the type of the input file. */
     if(stereo->imageL_filename.substr(stereo->imageL_filename.find_last_of(".") + 1) == "avi"){
-        stereo->calib.isVideoFile=true;
+        stereo->calib.inputType = StereoCalib::VideoFile;
 
         stereo->capL.open(stereo->imageL_filename);
         stereo->capR.open(stereo->imageR_filename);
@@ -427,7 +430,7 @@ void MainWindow::openStereoSource(int inputNum){
         if(stereo->imageL_filename.substr(stereo->imageL_filename.find_last_of(".") + 1) == "jpg" || stereo->imageL_filename.substr(stereo->imageL_filename.find_last_of(".") + 1) == "png"){
             cout << "It's a Image file" << endl;
             ui->textBoxOutput->appendPlainText(QString( "It's a Image file"));
-            stereo->calib.isImageFile=true;
+            stereo->calib.inputType = StereoCalib::ImageFile;
 
             stereo->imageL[0] = imread(stereo->imageL_filename, CV_LOAD_IMAGE_COLOR);
             stereo->imageR[0] = imread(stereo->imageR_filename, CV_LOAD_IMAGE_COLOR);
@@ -613,6 +616,19 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
     }
 
     stereoParamsSetupWindow->show();
+}
+
+void MainWindow::on_inputSelector_activated(int index){
+    cout << "Chose Input: " << index << endl;
+
+    /* Destroys last stereo object */
+    MainWindow::deleteStereoObj();
+
+    /* Create the new stereo object */
+    stereo = new StereoProcessor(index);
+
+    /* Forced Restart */
+    this->stereoVisionProcessInit();
 }
 
 void MainWindow::on_methodSelector_activated(int index){

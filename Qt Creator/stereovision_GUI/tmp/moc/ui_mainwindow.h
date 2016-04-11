@@ -46,6 +46,7 @@ public:
     QPushButton *toggleBtnShowHist;
     QPushButton *toggleBtnShowXYZ;
     QPushButton *toggleBtnShowDispDepth;
+    QComboBox *inputSelector;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -53,7 +54,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1292, 691);
+        MainWindow->resize(1292, 709);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         lblOriginalLeft = new QLabel(centralWidget);
@@ -74,13 +75,13 @@ public:
         textBoxOutput->setReadOnly(true);
         btnPauseOrResume = new QPushButton(centralWidget);
         btnPauseOrResume->setObjectName(QStringLiteral("btnPauseOrResume"));
-        btnPauseOrResume->setGeometry(QRect(10, 500, 145, 51));
+        btnPauseOrResume->setGeometry(QRect(10, 500, 145, 41));
         btnShowDisparityMap = new QPushButton(centralWidget);
         btnShowDisparityMap->setObjectName(QStringLiteral("btnShowDisparityMap"));
         btnShowDisparityMap->setGeometry(QRect(180, 540, 181, 41));
         btnShowStereoParamSetup = new QPushButton(centralWidget);
         btnShowStereoParamSetup->setObjectName(QStringLiteral("btnShowStereoParamSetup"));
-        btnShowStereoParamSetup->setGeometry(QRect(10, 560, 145, 41));
+        btnShowStereoParamSetup->setGeometry(QRect(10, 550, 145, 41));
         btnShow3DReconstruction = new QPushButton(centralWidget);
         btnShow3DReconstruction->setObjectName(QStringLiteral("btnShow3DReconstruction"));
         btnShow3DReconstruction->setGeometry(QRect(180, 580, 181, 41));
@@ -98,7 +99,7 @@ public:
         btnShowWarningLines->setGeometry(QRect(390, 580, 211, 41));
         methodSelector = new QComboBox(centralWidget);
         methodSelector->setObjectName(QStringLiteral("methodSelector"));
-        methodSelector->setGeometry(QRect(10, 610, 141, 27));
+        methodSelector->setGeometry(QRect(10, 630, 141, 27));
         methodSelector->setFocusPolicy(Qt::StrongFocus);
         lcdNumber = new QLCDNumber(centralWidget);
         lcdNumber->setObjectName(QStringLiteral("lcdNumber"));
@@ -175,6 +176,10 @@ public:
         toggleBtnShowDispDepth = new QPushButton(centralWidget);
         toggleBtnShowDispDepth->setObjectName(QStringLiteral("toggleBtnShowDispDepth"));
         toggleBtnShowDispDepth->setGeometry(QRect(368, 10, 171, 27));
+        inputSelector = new QComboBox(centralWidget);
+        inputSelector->setObjectName(QStringLiteral("inputSelector"));
+        inputSelector->setGeometry(QRect(10, 600, 141, 27));
+        inputSelector->setFocusPolicy(Qt::StrongFocus);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -211,6 +216,15 @@ public:
         toggleBtnShowHist->setText(QApplication::translate("MainWindow", "Hist", 0));
         toggleBtnShowXYZ->setText(QApplication::translate("MainWindow", "ShowXYZ", 0));
         toggleBtnShowDispDepth->setText(QApplication::translate("MainWindow", "Show Disparity/Depth", 0));
+        inputSelector->clear();
+        inputSelector->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "Input 1", 0)
+         << QApplication::translate("MainWindow", "Input 2", 0)
+         << QApplication::translate("MainWindow", "Input 3", 0)
+         << QApplication::translate("MainWindow", "Input 4", 0)
+         << QApplication::translate("MainWindow", "Input 5", 0)
+         << QApplication::translate("MainWindow", "Input 6", 0)
+        );
     } // retranslateUi
 
 };

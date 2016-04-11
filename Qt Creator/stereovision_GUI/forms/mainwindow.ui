@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1292</width>
-    <height>691</height>
+    <height>709</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -77,7 +77,7 @@
       <x>10</x>
       <y>500</y>
       <width>145</width>
-      <height>51</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -101,7 +101,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>560</y>
+      <y>550</y>
       <width>145</width>
       <height>41</height>
      </rect>
@@ -179,7 +179,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>610</y>
+      <y>630</y>
       <width>141</width>
       <height>27</height>
      </rect>
@@ -666,6 +666,49 @@
     <property name="text">
      <string>Show Disparity/Depth</string>
     </property>
+   </widget>
+   <widget class="QComboBox" name="inputSelector">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>600</y>
+      <width>141</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
+    <item>
+     <property name="text">
+      <string>Input 1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Input 2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Input 3</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Input 4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Input 5</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Input 6</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

@@ -40,8 +40,8 @@ public:
     int getResolutionDesired_width();
     int getResolutionDesired_height();
 
-    bool isVideoFile;
-    bool isImageFile;
+    enum{VideoFile,ImageFile} inputType;
+
     bool needCalibration;
     bool hasQMatrix;
 

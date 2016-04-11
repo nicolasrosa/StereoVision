@@ -1,12 +1,12 @@
 %YAML:1.0
 methodName: "StereoBM_GPU"
-preFilterSize: 131
-preFilterCap: 61
-SADWindowSize: 67
+preFilterSize: 5
+preFilterCap: 1
+SADWindowSize: 15
 minDisparity: 0
-numberOfDisparities: 16
-textureThreshold: 9600
+numberOfDisparities: 64
+textureThreshold: 4
 uniquenessRatio: 0
 speckleWindowSize: 0
 speckleRange: 0
-disp12MaxDiff: 1
+disp12MaxDiff: 0

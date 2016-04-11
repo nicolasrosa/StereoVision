@@ -26,7 +26,7 @@ public:
     StereoMorphology();
     ~StereoMorphology();
 
-    void imageProcessing(Mat src,Mat trackingView,bool isTrackingObjects,bool isVideoFile,bool enableLightingNoiseDetector);
+    void applyMorphology(Mat src,Mat trackingView,bool isTrackingObjects,int inputType,bool enableLightingNoiseDetector);
     void apply_preFiltering(Mat *src,Mat *dst);
     void apply_lightingNoiseDetector();
     void apply_harris(Mat src);

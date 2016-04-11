@@ -24,21 +24,22 @@ StereoProcessor::StereoProcessor(int number) {
 }
 
 StereoProcessor::~StereoProcessor(){
-    delete bm;
-    delete sgbm;
+//    delete bm;
+//    delete sgbm;
+//    delete bm_gpu;
 
-    calib.~StereoCalib();
+//    calib.~StereoCalib();
 
-    cfgBM.~StereoConfig();
-    cfgSGBM.~StereoConfig();
-    cfgBM_GPU.~StereoConfig();
+//    cfgBM.~StereoConfig();
+//    cfgSGBM.~StereoConfig();
+//    cfgBM_GPU.~StereoConfig();
 
-    disp.~StereoDisparityMap();
-    view3D.~Reconstruction3D();
-    diff.~StereoDiff();
-    flags.~StereoFlags();
-    utils.~StereoUtils();
-    morph.~StereoMorphology();
+//    disp.~StereoDisparityMap();
+//    view3D.~Reconstruction3D();
+//    diff.~StereoDiff();
+//    flags.~StereoFlags();
+//    utils.~StereoUtils();
+//    morph.~StereoMorphology();
 }
 
 int StereoProcessor::getInputNum(){
@@ -199,7 +200,7 @@ void StereoProcessor::stereoBM_GPU_Init(){
     //    bm->setPreFilterCap(61);
     bm_gpu->setBlockSize(15);
     //    bm->setMinDisparity(0);
-    //    bm->setNumDisparities(16);
+    bm_gpu->setNumDisparities(64);
     bm_gpu->setTextureThreshold(4);
     //    bm->setUniquenessRatio(0);
     //    bm->setSpeckleWindowSize(0);
