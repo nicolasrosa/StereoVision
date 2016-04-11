@@ -4,9 +4,9 @@ preFilterSize: 5
 preFilterCap: 1
 SADWindowSize: 5
 minDisparity: 0
-numberOfDisparities: 16
+numberOfDisparities: 64
 textureThreshold: 0
-uniquenessRatio: 0
+uniquenessRatio: 15
 speckleWindowSize: 0
 speckleRange: 0
 disp12MaxDiff: 1
