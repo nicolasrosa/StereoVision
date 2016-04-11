@@ -6,7 +6,7 @@ SADWindowSize: 15
 minDisparity: 0
 numberOfDisparities: 64
 textureThreshold: 4
-uniquenessRatio: 0
+uniquenessRatio: 15
 speckleWindowSize: 0
 speckleRange: 0
 disp12MaxDiff: 0

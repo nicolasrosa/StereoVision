@@ -54,8 +54,8 @@ void StereoProcessor::readConfigFile(){
         cerr << "Failed to open config.yml file!" << endl;
         return;
     }
-    fs["Intrinsics Path"] >> calib.intrinsicsFileName;
-    fs["Extrinsics Path"] >> calib.extrinsicsFileName;
+//    fs["Intrinsics Path"] >> calib.intrinsicsFileName;
+//    fs["Extrinsics Path"] >> calib.extrinsicsFileName;
     fs["Q Matrix Path"]   >> calib.QmatrixFileName;
     fs["StereoBM Parameters Path"] >> calib.StereoBMConfigFileName;
     fs["StereoSGBM Parameters Path"] >> calib.StereoSGBMConfigFileName;

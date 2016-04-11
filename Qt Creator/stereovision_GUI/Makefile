@@ -338,12 +338,12 @@ compiler_rcc_make_all: tmp/rc/qrc_icon_resource.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) tmp/rc/qrc_icon_resource.cpp
 tmp/rc/qrc_icon_resource.cpp: res/icon_resource.qrc \
-		res/icon/helicopter_cyan.png \
+		res/icon/helicopter_green.png \
+		res/icon/helicopter_orange.png \
+		res/icon/spydrone_black.png \
 		res/icon/helicopter_white.png \
 		res/icon/helicopter_black.png \
-		res/icon/helicopter_orange.png \
-		res/icon/helicopter_green.png \
-		res/icon/spydrone_black.png
+		res/icon/helicopter_cyan.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name icon_resource res/icon_resource.qrc -o tmp/rc/qrc_icon_resource.cpp
 
 compiler_moc_header_make_all: tmp/moc/moc_MainWindow.cpp tmp/moc/moc_StereoSetParamsWindow.cpp
@@ -1535,7 +1535,8 @@ tmp/obj/StereoConfig.o: src/StereoConfig.cpp inc/StereoConfig.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoConfig.o src/StereoConfig.cpp
 
 tmp/obj/StereoMorphology.o: src/StereoMorphology.cpp inc/StereoMorphology.h \
-		inc/trackObject.h
+		inc/trackObject.h \
+		inc/StereoCalib.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoMorphology.o src/StereoMorphology.cpp
 
 tmp/obj/StereoSetParamsWindow.o: src/StereoSetParamsWindow.cpp /usr/include/qt5/QtWidgets/QHBoxLayout \

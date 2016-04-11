@@ -709,6 +709,11 @@
       <string>Input 6</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>Input 7</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

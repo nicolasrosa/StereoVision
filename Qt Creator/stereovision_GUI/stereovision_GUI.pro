@@ -61,7 +61,6 @@ OTHER_FILES += \
         config/config.yml \
         config/stereoBM.yml \
         config/intrinsics.yml \
-        config/extrinsics.yml \
         config/Q.yml \
         config/stereoSGBM.yml \
         config/stereoBM_GPU.yml

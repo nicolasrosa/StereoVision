@@ -224,6 +224,7 @@ public:
          << QApplication::translate("MainWindow", "Input 4", 0)
          << QApplication::translate("MainWindow", "Input 5", 0)
          << QApplication::translate("MainWindow", "Input 6", 0)
+         << QApplication::translate("MainWindow", "Input 7", 0)
         );
     } // retranslateUi
 

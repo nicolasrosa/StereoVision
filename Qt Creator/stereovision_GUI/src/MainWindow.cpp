@@ -349,43 +349,53 @@ void MainWindow::openStereoSource(int inputNum){
     case 0:
         stereo->imageL_filename = "/home/nicolas/workspace/data/video10_l.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/video10_r.avi";
+        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/extrinsics.yml";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=true;
         break;
     case 1:
         stereo->imageL_filename = "/home/nicolas/workspace/data/video12_l.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/video12_r.avi";
+        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/extrinsics.yml";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=true;
         break;
     case 2:
         stereo->imageL_filename = "/home/nicolas/workspace/data/dataset/Piano-perfect/im0.png";
         stereo->imageR_filename = "/home/nicolas/workspace/data/dataset/Piano-perfect/im1.png";
-        stereo->calib.needCalibration=true;
+        stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
     case 3:
         stereo->imageL_filename = "/home/nicolas/workspace/data/20004.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/30004.avi";
-        stereo->calib.needCalibration=false;
+        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam2/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam2/extrinsics.yml";
+        stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
     case 4:
         stereo->imageL_filename = "/home/nicolas/workspace/data/teddy_l.png";
         stereo->imageR_filename = "/home/nicolas/workspace/data/teddy_r.png";
-        stereo->calib.needCalibration=true;
+        stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
     case 5:
         stereo->imageL_filename = "/home/nicolas/workspace/data/left/video15.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/right/video15.avi";
+        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/extrinsics.yml";
         stereo->calib.needCalibration=true;
-        stereo->calib.hasQMatrix=false;
+        stereo->calib.hasQMatrix=true;
         break;
     case 6:
         stereo->imageL_filename = "/home/nicolas/workspace/data/20011.avi";
         stereo->imageR_filename = "/home/nicolas/workspace/data/30011.avi";
-        stereo->calib.needCalibration=false;
+        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam2/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam2/extrinsics.yml";
+        stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
     case 7:

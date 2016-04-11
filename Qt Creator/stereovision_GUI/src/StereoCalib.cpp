@@ -119,7 +119,10 @@ void StereoCalib::readQMatrix(){
             cerr << "Failed to open Q.yml file" << endl;
             return;
         }
+
         fs["Q"] >> Q;
+
+        fs.release();
 
         /* Checking if the Reading Process was Successful */
         if(!Q.data){
@@ -130,8 +133,8 @@ void StereoCalib::readQMatrix(){
         /* Console Output */
         cout << "Q:" << endl << Q << endl;
 
-        focalLength = Q.at<double>(2,3);  cout << "f:" << focalLength << endl;
-        baseline = -1.0/Q.at<double>(3,2); cout << "baseline: " << baseline << endl;
+        focalLength = Q.at<double>(2,3);        cout << "f:" << focalLength << endl;
+        baseline = -1.0/Q.at<double>(3,2);      cout << "baseline: " << baseline << endl;
     }else{
         cerr << "Check Q.yml file!\n" << endl;
         return;
