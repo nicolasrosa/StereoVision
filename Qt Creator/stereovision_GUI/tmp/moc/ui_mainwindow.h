@@ -47,6 +47,7 @@ public:
     QPushButton *toggleBtnShowXYZ;
     QPushButton *toggleBtnShowDispDepth;
     QComboBox *inputSelector;
+    QPushButton *toggleBtnShowLeftImage;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -180,6 +181,9 @@ public:
         inputSelector->setObjectName(QStringLiteral("inputSelector"));
         inputSelector->setGeometry(QRect(10, 600, 141, 27));
         inputSelector->setFocusPolicy(Qt::StrongFocus);
+        toggleBtnShowLeftImage = new QPushButton(centralWidget);
+        toggleBtnShowLeftImage->setObjectName(QStringLiteral("toggleBtnShowLeftImage"));
+        toggleBtnShowLeftImage->setGeometry(QRect(270, 10, 99, 27));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -226,6 +230,7 @@ public:
          << QApplication::translate("MainWindow", "Input 6", 0)
          << QApplication::translate("MainWindow", "Input 7", 0)
         );
+        toggleBtnShowLeftImage->setText(QApplication::translate("MainWindow", "ShowLeft", 0));
     } // retranslateUi
 
 };

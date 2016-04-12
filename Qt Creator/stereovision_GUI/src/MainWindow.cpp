@@ -56,10 +56,12 @@ void MainWindow::setupUi_Custom(){
     ui->toggleBtnShowHist->setCheckable(true);
     ui->toggleBtnShowXYZ->setCheckable(true);
     ui->toggleBtnShowDispDepth->setCheckable(true);
+    ui->toggleBtnShowLeftImage->setCheckable(true);
 
     ui->toggleBtnShowHist->hide();
     ui->toggleBtnShowXYZ->hide();
     ui->toggleBtnShowDispDepth->hide();
+    ui->toggleBtnShowLeftImage->hide();
 
     ui->statusBar->showMessage("Running...");
 }
@@ -207,7 +209,7 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     /* (12) Movement Difference between Frames */
     if(stereo->flags.showDiffImage || stereo->flags.showWarningLines){
         switch(stereo->calib.inputType){
-            case StereoCalib::VideoFile:
+        case StereoCalib::VideoFile:
             if(stereo->diff.StartDiff){
                 stereo->diff.createDiffImage(stereo->imageL_grey[0],stereo->imageL_grey[1]);
 
@@ -226,66 +228,77 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
                 stereo->saveLastFrames();
                 stereo->diff.StartDiff=true;
             }
-                break;
-            case StereoCalib::ImageFile:
+            break;
+        case StereoCalib::ImageFile:
             ui->textBoxOutput->appendPlainText(QString("This feature is not supported, because of the Input file type (Image File).2"));
-                break;
-            }
+            break;
+        }
     }
 
     /* (13) GUI Output */
     if(stereo->flags.showInputImages){
-        putImageL(stereo->imageL[0]);
-        putImageR(stereo->imageR[0]);
+        putImage(stereo->imageL[0],LEFT_WINDOW);
+        putImage(stereo->imageR[0],RIGHT_WINDOW);
+
 
         ui->toggleBtnShowHist->hide();
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
     }
 
     if(stereo->flags.showDisparityMap){
-        putImageL(stereo->disp.disp_8U);
-        putImageR(stereo->disp.disp_BGR);
+        if(stereo->flags.showLeftOnRightWindow){
+            putImage(stereo->imageL[0],LEFT_WINDOW);
+        }else{
+            putImage(stereo->disp.disp_8U,LEFT_WINDOW);
+        }
+        putImage(stereo->disp.disp_BGR,RIGHT_WINDOW);
 
         ui->toggleBtnShowHist->show();
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->show();
+        ui->toggleBtnShowLeftImage->show();
     }
 
     if(stereo->flags.show3Dreconstruction){
-        putImageL(stereo->view3D.disp3D_8U);
-        putImageR(stereo->view3D.disp3D_BGR);
+        putImage(stereo->view3D.disp3D_8U,LEFT_WINDOW);
+        putImage(stereo->view3D.disp3D_BGR,RIGHT_WINDOW);
 
         ui->toggleBtnShowHist->hide();
         ui->toggleBtnShowXYZ->show();
         ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
     }
 
     if(stereo->flags.showTrackingObjectView){
-        putImageL(stereo->morph.trackingView);
-        putImageR(stereo->morph.imgThresholdDraw);
+        putImage(stereo->morph.trackingView,LEFT_WINDOW);
+        putImage(stereo->morph.imgThresholdDraw,RIGHT_WINDOW);
 
         ui->toggleBtnShowHist->hide();
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
     }
 
     if(stereo->flags.showDiffImage && stereo->diff.StartDiff){
-        putImageL(stereo->diff.diffImage);
-        putImageR(stereo->diff.res_AND);
+        putImage(stereo->diff.diffImage,LEFT_WINDOW);
+        putImage(stereo->diff.res_AND,RIGHT_WINDOW);
 
         ui->toggleBtnShowHist->hide();
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
     }
 
     if(stereo->flags.showWarningLines && stereo->diff.StartDiff){
-        putImageL(stereo->diff.res_ADD);
-        putImageR(stereo->diff.res_AND_BGR);
+        putImage(stereo->diff.res_ADD,LEFT_WINDOW);
+        putImage(stereo->diff.res_AND_BGR,RIGHT_WINDOW);
 
         ui->toggleBtnShowHist->hide();
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
     }
 
     /* (14) Video Loop - If the last frame is reached, reset the capture and the frameCounter */
@@ -701,14 +714,17 @@ QImage MainWindow::Mat2QImage(const Mat& mat){
     }
 }
 
-void MainWindow::putImageL(const Mat& src){
-    qimageL = Mat2QImage(src);
-    ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
-}
-
-void MainWindow::putImageR(const Mat& src){
-    qimageR = Mat2QImage(src);
-    ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+void MainWindow::putImage(const Mat& src,int windowID){
+    switch(windowID){
+        case LEFT_WINDOW:
+            qimageL = Mat2QImage(src);
+            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
+            break;
+        case RIGHT_WINDOW:
+            qimageR = Mat2QImage(src);
+            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+            break;
+    }
 }
 
 void MainWindow::on_toggleBtnShowHist_clicked(bool checked){
@@ -740,6 +756,18 @@ void MainWindow::on_toggleBtnShowDispDepth_toggled(bool checked){
     }else{
         cout << "Show Disparity/Depth: Off" << endl;
         stereo->flags.showDispDepth = false;
+    }
+}
+
+void MainWindow::on_toggleBtnShowLeftImage_toggled(bool checked){
+    if(checked){
+        cout << "Show Disp BGR Image on the Right Window: On" << endl;
+        stereo->flags.showLeftOnRightWindow = true;
+        ui->toggleBtnShowLeftImage->setText("ShowDisp");
+    }else{
+        cout << "Show Disp BGR Image on the Right Window: Off" << endl;
+        stereo->flags.showLeftOnRightWindow = false;
+        ui->toggleBtnShowLeftImage->setText("ShowLeft");
     }
 }
 

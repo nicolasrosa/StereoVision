@@ -46,10 +46,10 @@ public:
     void printHelp();
     void openStereoSource(int inputNum);
 
+    /* Windows */
     QImage Mat2QImage(const Mat& mat);
-    void putImageL(const Mat& src);
-    void putImageR(const Mat& src);
-
+    enum{LEFT_WINDOW,RIGHT_WINDOW};
+    void putImage(const Mat& src,int windowID);
 
 private:
     Ui::MainWindow  *ui;
@@ -81,8 +81,8 @@ private slots:
     void on_toggleBtnShowXYZ_toggled(bool checked);
     void on_toggleBtnShowDispDepth_toggled(bool checked);
     void on_methodSelector_activated(int index);
-
     void on_inputSelector_activated(int index);
+    void on_toggleBtnShowLeftImage_toggled(bool checked);
 
 protected:
     void keyPressEvent(QKeyEvent *event);
