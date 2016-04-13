@@ -245,10 +245,12 @@ public:
         }
     }
 
+    /* Results */
     Mat disp3Dviewer;
     Mat disp3D;
     Mat disp3D_8U;
     Mat disp3D_BGR;
+
 
     Point3d viewpoint;
     Point3d lookatpoint;

@@ -17,8 +17,6 @@ StereoMorphology::StereoMorphology(){
 
 StereoMorphology::~StereoMorphology(){}
 
-//TODO: Remover escopos
-void cornerHarris_demo(int,void*);
 
 /* Harris - GlobalVariables */
 //TODO: Alocar as variaveis globais dentro da StereoMorphology class.
@@ -28,6 +26,49 @@ int thresh = 200;
 int max_thresh = 255;
 const string source_window = "Source image";
 const string corners_window = "Corners detected";
+
+/** @function cornerHarris_demo */
+void cornerHarris_demo(int,void*)
+{
+  //Mat src_gray;
+  //cvtColor( src_harris, src_gray, CV_BGR2GRAY );
+
+
+  Mat dst_norm, dst_norm_scaled;
+  dst_harris = Mat::zeros( src_harris.size(), CV_32FC1 );
+
+  /// Detector parameters
+  int blockSize = 2;
+  int apertureSize = 3;
+  double k = 0.04;
+
+  /// Detecting corners
+  cornerHarris( src_harris, dst_harris, blockSize, apertureSize, k, BORDER_DEFAULT );
+  //imshow("dst",dst_harris);
+
+  /// Normalizing
+  normalize( dst_harris, dst_norm, 0, 255, NORM_MINMAX, CV_32FC1, Mat() );
+  convertScaleAbs( dst_norm, dst_norm_scaled );
+  //imshow("dst_norm",dst_norm_scaled);
+
+  src_harris.copyTo(result_harris);
+  /// Drawing a circle around corners
+  for( int j = 0; j < dst_norm.rows ; j++ )
+     { for( int i = 0; i < dst_norm.cols; i++ )
+          {
+            if( (int) dst_norm.at<float>(j,i) > thresh )
+              {
+               //circle( dst_norm_scaled, Point( i, j ), 5,  Scalar(0), 2, 8, 0 );
+               circle( result_harris, Point( i, j ), 5,  Scalar(0), 2, 8, 0 );
+            }
+          }
+     }
+  /// Showing the result
+  namedWindow( corners_window, CV_WINDOW_AUTOSIZE );
+  //imshow( corners_window, dst_norm_scaled );
+  imshow( corners_window, result_harris );
+}
+
 
 void StereoMorphology::applyMorphology(Mat src, Mat cameraFeedL,bool isTrackingObjects,int inputType,bool enableLightingNoiseDetector){
     /* Local Variables */
@@ -57,8 +98,52 @@ void StereoMorphology::applyMorphology(Mat src, Mat cameraFeedL,bool isTrackingO
     }
 
     //! Testing Methods !//
-//    imshow("RAW",src);
-//    imshow("Filtered", srcFiltered);
+    imshow("RAW",src);
+    imshow("Filtered", srcFiltered);
+
+    //! Testing Blobs !//
+    // Setup SimpleBlobDetector parameters.
+    SimpleBlobDetector::Params params;
+
+    // Change thresholds
+    params.minThreshold = 0;
+    params.maxThreshold = 255;
+
+    // Filter by Area.
+    params.filterByArea = true;
+    params.minArea = 10;
+
+    // Filter by Circularity
+    params.filterByCircularity = false;
+    params.minCircularity = 0.1;
+
+    // Filter by Convexity
+    params.filterByConvexity = false;
+    params.minConvexity = 0.87;
+
+    // Filter by Inertia
+    params.filterByInertia = true;
+    params.minInertiaRatio = 0.01;
+
+
+    // Storage for blobs
+    vector<KeyPoint> keypoints;
+
+    // Set up detector with params
+    Ptr<SimpleBlobDetector> detector = SimpleBlobDetector::create(params);
+
+    // Detect blobs
+    detector->detect( srcFiltered, keypoints);
+
+    // Draw detected blobs as red circles.
+    // DrawMatchesFlags::DRAW_RICH_KEYPOINTS flag ensures
+    // the size of the circle corresponds to the size of blob
+
+    Mat im_with_keypoints;
+    drawKeypoints( srcFiltered, keypoints, im_with_keypoints, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS );
+
+    // Show blobs
+    imshow("keypoints", im_with_keypoints );
 
     /* Harris - Corner Detector */
     //apply_harris(src);
@@ -135,49 +220,6 @@ void StereoMorphology::apply_harris(Mat src){
     createTrackbar( "Threshold: ", source_window, &thresh, max_thresh, cornerHarris_demo );
     cornerHarris_demo( 0, 0 );
     imshow( source_window, src );
-}
-
-
-/** @function cornerHarris_demo */
-void cornerHarris_demo(int,void*)
-{
-  //Mat src_gray;
-  //cvtColor( src_harris, src_gray, CV_BGR2GRAY );
-
-
-  Mat dst_norm, dst_norm_scaled;
-  dst_harris = Mat::zeros( src_harris.size(), CV_32FC1 );
-
-  /// Detector parameters
-  int blockSize = 2;
-  int apertureSize = 3;
-  double k = 0.04;
-
-  /// Detecting corners
-  cornerHarris( src_harris, dst_harris, blockSize, apertureSize, k, BORDER_DEFAULT );
-  //imshow("dst",dst_harris);
-
-  /// Normalizing
-  normalize( dst_harris, dst_norm, 0, 255, NORM_MINMAX, CV_32FC1, Mat() );
-  convertScaleAbs( dst_norm, dst_norm_scaled );
-  //imshow("dst_norm",dst_norm_scaled);
-
-  src_harris.copyTo(result_harris);
-  /// Drawing a circle around corners
-  for( int j = 0; j < dst_norm.rows ; j++ )
-     { for( int i = 0; i < dst_norm.cols; i++ )
-          {
-            if( (int) dst_norm.at<float>(j,i) > thresh )
-              {
-               //circle( dst_norm_scaled, Point( i, j ), 5,  Scalar(0), 2, 8, 0 );
-               circle( result_harris, Point( i, j ), 5,  Scalar(0), 2, 8, 0 );
-            }
-          }
-     }
-  /// Showing the result
-  namedWindow( corners_window, CV_WINDOW_AUTOSIZE );
-  //imshow( corners_window, dst_norm_scaled );
-  imshow( corners_window, result_harris );
 }
 
 /**

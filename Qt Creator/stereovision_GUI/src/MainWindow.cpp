@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     uiConfiguration();
     timerConfiguration();
 
+    stereo = new StereoProcessor(0);
     stereoVisionProcessInit();
 
     printHelp();
@@ -73,8 +74,6 @@ void MainWindow::setupUi_Custom(){
 
 
 void MainWindow::stereoVisionProcessInit(){
-    stereo = new StereoProcessor(0);
-
     /* (1) Open Image Source */
     openStereoSource(stereo->getInputNum());
     stereo->readConfigFile();
@@ -706,11 +705,9 @@ void MainWindow::on_toggleBtnShowLeftImage_toggled(bool checked){
     if(checked){
         cout << "Show Disp BGR Image on the Right Window: On" << endl;
         stereo->flags.showLeftOnRightWindow = true;
-        ui->toggleBtnShowLeftImage->setText("ShowDisp");
     }else{
         cout << "Show Disp BGR Image on the Right Window: Off" << endl;
         stereo->flags.showLeftOnRightWindow = false;
-        ui->toggleBtnShowLeftImage->setText("ShowLeft");
     }
 }
 
@@ -781,8 +778,10 @@ void MainWindow::updateDisplayWindows(){
     if(stereo->flags.showDisparityMap){
         if(stereo->flags.showLeftOnRightWindow){
             putImage(stereo->imageL[0],LEFT_WINDOW);
+            ui->toggleBtnShowLeftImage->setText("ShowDisp");
         }else{
             putImage(stereo->disp.disp_8U,LEFT_WINDOW);
+            ui->toggleBtnShowLeftImage->setText("ShowLeft");
         }
         putImage(stereo->disp.disp_BGR,RIGHT_WINDOW);
 
@@ -803,13 +802,19 @@ void MainWindow::updateDisplayWindows(){
     }
 
     if(stereo->flags.showTrackingObjectView){
-        putImage(stereo->morph.trackingView,LEFT_WINDOW);
+        if(stereo->flags.showLeftOnRightWindow){
+            putImage(stereo->disp.disp_8U,LEFT_WINDOW);
+            ui->toggleBtnShowLeftImage->setText("ShowTrack");
+        }else{
+            putImage(stereo->morph.trackingView,LEFT_WINDOW);
+            ui->toggleBtnShowLeftImage->setText("ShowDisp");
+        }
         putImage(stereo->morph.imgThresholdDraw,RIGHT_WINDOW);
 
         ui->toggleBtnShowHist->hide();
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->hide();
-        ui->toggleBtnShowLeftImage->hide();
+        ui->toggleBtnShowLeftImage->show();
     }
 
     if(stereo->flags.showDiffImage && stereo->diff.StartDiff){
