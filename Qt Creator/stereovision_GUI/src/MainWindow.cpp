@@ -18,18 +18,14 @@
 
 /* Constructor and Destructor */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
-    ui->setupUi(this);
-    setupUi_Custom();
+    uiConfiguration();
+    timerConfiguration();
 
-    stereo = new StereoProcessor(0);
     stereoVisionProcessInit();
 
-    tmrTimer = new QTimer(this);
-    connect(tmrTimer,SIGNAL(timeout()),this,SLOT(stereoVisionProcess_UpdateGUI()));
-    tmrTimer->start(20);
+    printHelp();
 
     closeEventOccured = false;
-    isStereoParamSetupTrackbarsCreated=false;
     isTrackingObjects=true;
 }
 
@@ -43,12 +39,21 @@ MainWindow::~MainWindow(){
     closeEventOccured = true;
 }
 
-void MainWindow::deleteStereoObj(){
-    delete stereo;
+
+/* Instance Methods */
+void MainWindow::uiConfiguration(){
+    ui->setupUi(this);
+    setupUi_Custom();
 }
 
 
-/* Instance Methods */
+void MainWindow::timerConfiguration(){
+    tmrTimer = new QTimer(this);
+    connect(tmrTimer,SIGNAL(timeout()),this,SLOT(stereoVisionProcess_UpdateGUI()));
+    tmrTimer->start(20);
+}
+
+
 void MainWindow::setupUi_Custom(){
     setWindowIcon(QIcon(":/icons/icon/spydrone_black.png"));
 
@@ -68,7 +73,7 @@ void MainWindow::setupUi_Custom(){
 
 
 void MainWindow::stereoVisionProcessInit(){
-    printHelp();
+    stereo = new StereoProcessor(0);
 
     /* (1) Open Image Source */
     openStereoSource(stereo->getInputNum());
@@ -78,7 +83,6 @@ void MainWindow::stereoVisionProcessInit(){
     stereo->readStereoBM_GPUConfigFile();
 
     /* (2) Camera Setting */
-
     /* Getting Input Resolution */
     switch(stereo->calib.inputType){
     case StereoCalib::VideoFile:
@@ -152,7 +156,6 @@ void MainWindow::stereoVisionProcessInit(){
         //            //createKMatrix();
         // //       }
         stereo->calib.createKMatrix();
-
     }else{
         cout << "Calibration: OFF" << endl << endl;
         cerr << "Warning: Can't generate 3D Reconstruction. Please, check Q,K Matrix." << endl;
@@ -164,6 +167,7 @@ void MainWindow::stereoVisionProcessInit(){
     /* (5) Point Cloud Initialization */
     stereo->view3D.PointCloudInit(stereo->calib.baseline,true);
 }
+
 
 void MainWindow::stereoVisionProcess_UpdateGUI(){
     /* (6) Rendering Loop */
@@ -236,70 +240,7 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     }
 
     /* (13) GUI Output */
-    if(stereo->flags.showInputImages){
-        putImage(stereo->imageL[0],LEFT_WINDOW);
-        putImage(stereo->imageR[0],RIGHT_WINDOW);
-
-
-        ui->toggleBtnShowHist->hide();
-        ui->toggleBtnShowXYZ->hide();
-        ui->toggleBtnShowDispDepth->hide();
-        ui->toggleBtnShowLeftImage->hide();
-    }
-
-    if(stereo->flags.showDisparityMap){
-        if(stereo->flags.showLeftOnRightWindow){
-            putImage(stereo->imageL[0],LEFT_WINDOW);
-        }else{
-            putImage(stereo->disp.disp_8U,LEFT_WINDOW);
-        }
-        putImage(stereo->disp.disp_BGR,RIGHT_WINDOW);
-
-        ui->toggleBtnShowHist->show();
-        ui->toggleBtnShowXYZ->hide();
-        ui->toggleBtnShowDispDepth->show();
-        ui->toggleBtnShowLeftImage->show();
-    }
-
-    if(stereo->flags.show3Dreconstruction){
-        putImage(stereo->view3D.disp3D_8U,LEFT_WINDOW);
-        putImage(stereo->view3D.disp3D_BGR,RIGHT_WINDOW);
-
-        ui->toggleBtnShowHist->hide();
-        ui->toggleBtnShowXYZ->show();
-        ui->toggleBtnShowDispDepth->hide();
-        ui->toggleBtnShowLeftImage->hide();
-    }
-
-    if(stereo->flags.showTrackingObjectView){
-        putImage(stereo->morph.trackingView,LEFT_WINDOW);
-        putImage(stereo->morph.imgThresholdDraw,RIGHT_WINDOW);
-
-        ui->toggleBtnShowHist->hide();
-        ui->toggleBtnShowXYZ->hide();
-        ui->toggleBtnShowDispDepth->hide();
-        ui->toggleBtnShowLeftImage->hide();
-    }
-
-    if(stereo->flags.showDiffImage && stereo->diff.StartDiff){
-        putImage(stereo->diff.diffImage,LEFT_WINDOW);
-        putImage(stereo->diff.res_AND,RIGHT_WINDOW);
-
-        ui->toggleBtnShowHist->hide();
-        ui->toggleBtnShowXYZ->hide();
-        ui->toggleBtnShowDispDepth->hide();
-        ui->toggleBtnShowLeftImage->hide();
-    }
-
-    if(stereo->flags.showWarningLines && stereo->diff.StartDiff){
-        putImage(stereo->diff.res_ADD,LEFT_WINDOW);
-        putImage(stereo->diff.res_AND_BGR,RIGHT_WINDOW);
-
-        ui->toggleBtnShowHist->hide();
-        ui->toggleBtnShowXYZ->hide();
-        ui->toggleBtnShowDispDepth->hide();
-        ui->toggleBtnShowLeftImage->hide();
-    }
+    MainWindow::updateDisplayWindows();
 
     /* (14) Video Loop - If the last frame is reached, reset the capture and the frameCounter */
     stereo->videoLooper();
@@ -309,11 +250,17 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     //stereo->utils.showFPS();
     ui->lcdNumber->display((int)stereo->utils.fps);
 
-    waitKey(1); // It will display the window infinitely until any keypress (it is suitable for image display)
     if(closeEventOccured){
         cout << "----------------------------- END ------------------------------------" << endl;
         return;
     }
+
+    /* (16) Loop End - It will display the window infinitely until any keypress (it is suitable for image display) */
+    waitKey(1);
+}
+
+void MainWindow::deleteStereoObj(){
+    delete stereo;
 }
 
 void MainWindow::printHelp(){
@@ -348,6 +295,7 @@ void MainWindow::printHelp(){
              QString("-------------------------------------------\n")+
              QString("\n\n"));
 }
+
 
 void MainWindow::openStereoSource(int inputNum){
     /* Create an object that decodes the input Video stream. */
@@ -469,6 +417,7 @@ void MainWindow::openStereoSource(int inputNum){
     }
 }
 
+
 void MainWindow::on_btnShowInputImages_clicked(){
     stereo->flags.showInputImages = true;
     stereo->flags.showDisparityMap = false;
@@ -477,6 +426,7 @@ void MainWindow::on_btnShowInputImages_clicked(){
     stereo->flags.showDiffImage = false;
     stereo->flags.showWarningLines = false;
 }
+
 
 void MainWindow::on_btnShowDisparityMap_clicked(){
     stereo->flags.showInputImages = false;
@@ -487,6 +437,7 @@ void MainWindow::on_btnShowDisparityMap_clicked(){
     stereo->flags.showWarningLines = false;
 }
 
+
 void MainWindow::on_btnShow3DReconstruction_clicked(){
     stereo->flags.showInputImages = false;
     stereo->flags.showDisparityMap = false;
@@ -495,6 +446,7 @@ void MainWindow::on_btnShow3DReconstruction_clicked(){
     stereo->flags.showDiffImage = false;
     stereo->flags.showWarningLines = false;
 }
+
 
 void MainWindow::on_btnShowTrackingObjectView_clicked(){
     stereo->flags.showInputImages = false;
@@ -505,6 +457,7 @@ void MainWindow::on_btnShowTrackingObjectView_clicked(){
     stereo->flags.showWarningLines = false;
 }
 
+
 void MainWindow::on_btnShowDiffImage_clicked(){
     stereo->flags.showInputImages = false;
     stereo->flags.showDisparityMap = false;
@@ -514,6 +467,7 @@ void MainWindow::on_btnShowDiffImage_clicked(){
     stereo->flags.showWarningLines = false;
 }
 
+
 void MainWindow::on_btnShowWarningLines_clicked(){
     stereo->flags.showInputImages = false;
     stereo->flags.showDisparityMap = false;
@@ -522,6 +476,7 @@ void MainWindow::on_btnShowWarningLines_clicked(){
     stereo->flags.showDiffImage = false;
     stereo->flags.showWarningLines = true;
 }
+
 
 void MainWindow::on_btnPauseOrResume_clicked(){
     if(tmrTimer->isActive() == true){
@@ -546,6 +501,7 @@ void MainWindow::on_btnPauseOrResume_clicked(){
     }
 }
 
+
 void MainWindow::on_btnShowStereoParamSetup_clicked(){
     /* Creates  stereoParamsSetupWindow Object */
     stereoParamsSetupWindow = new SetStereoParams(this,stereo);
@@ -554,17 +510,6 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
 
     switch(stereo->method){
     case StereoProcessor::BM:
-        //        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgBM.preFilterSize,
-        //                                                    stereo->cfgBM.preFilterCap,
-        //                                                    stereo->cfgBM.SADWindowSize,
-        //                                                    stereo->cfgBM.minDisparity,
-        //                                                    stereo->cfgBM.numberOfDisparities,
-        //                                                    stereo->cfgBM.textureThreshold,
-        //                                                    stereo->cfgBM.uniquenessRatio,
-        //                                                    stereo->cfgBM.speckleWindowSize,
-        //                                                    stereo->cfgBM.speckleRange,
-        //                                                    stereo->cfgBM.disp12MaxDiff);
-
         stereoParamsSetupWindow->loadStereoParamsUi(stereo->bm->getPreFilterSize(),
                                                     stereo->bm->getPreFilterCap(),
                                                     stereo->bm->getBlockSize(),
@@ -582,17 +527,6 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
     case StereoProcessor::SGBM:
         //TODO: Remover cfgSGBM variables quando for criado uma janela de configuração para cada método.
         //Relembrando: SGBM não tem alguns parametros que o BM tem.
-        //        stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgSGBM.preFilterSize,
-        //                                                    stereo->cfgSGBM.preFilterCap,
-        //                                                    stereo->cfgSGBM.SADWindowSize,
-        //                                                    stereo->cfgSGBM.minDisparity,
-        //                                                    stereo->cfgSGBM.numberOfDisparities,
-        //                                                    stereo->cfgSGBM.textureThreshold,
-        //                                                    stereo->cfgSGBM.uniquenessRatio,
-        //                                                    stereo->cfgSGBM.speckleWindowSize,
-        //                                                    stereo->cfgSGBM.speckleRange,
-        //                                                    stereo->cfgSGBM.disp12MaxDiff);
-
         stereoParamsSetupWindow->loadStereoParamsUi(stereo->cfgSGBM.preFilterSize,
                                                     stereo->sgbm->getPreFilterCap(),
                                                     stereo->sgbm->getBlockSize(),
@@ -641,6 +575,7 @@ void MainWindow::on_btnShowStereoParamSetup_clicked(){
     stereoParamsSetupWindow->show();
 }
 
+
 void MainWindow::on_inputSelector_activated(int index){
     cout << "Chose Input: " << index << endl;
 
@@ -653,6 +588,7 @@ void MainWindow::on_inputSelector_activated(int index){
     /* Forced Restart */
     this->stereoVisionProcessInit();
 }
+
 
 void MainWindow::on_methodSelector_activated(int index){
     switch(index){
@@ -672,6 +608,7 @@ void MainWindow::on_methodSelector_activated(int index){
     }
 }
 
+
 void MainWindow::closeEvent(QCloseEvent *event){
     QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Exit",
                                                                 tr("Are you sure?\n"),
@@ -684,6 +621,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
         ui->~MainWindow();
     }
 }
+
 
 QImage MainWindow::Mat2QImage(const Mat& mat){
     // 8-bits unsigned, NO. OF CHANNELS=1
@@ -714,6 +652,7 @@ QImage MainWindow::Mat2QImage(const Mat& mat){
     }
 }
 
+
 void MainWindow::putImage(const Mat& src,int windowID){
     switch(windowID){
         case LEFT_WINDOW:
@@ -727,6 +666,7 @@ void MainWindow::putImage(const Mat& src,int windowID){
     }
 }
 
+
 void MainWindow::on_toggleBtnShowHist_clicked(bool checked){
     if(checked){
         cout << "Show Hist 1: On" << endl;
@@ -739,6 +679,7 @@ void MainWindow::on_toggleBtnShowHist_clicked(bool checked){
     }
 }
 
+
 void MainWindow::on_toggleBtnShowXYZ_toggled(bool checked){
     if(checked){
         cout << "ShowXYZ: On" << endl;
@@ -749,6 +690,7 @@ void MainWindow::on_toggleBtnShowXYZ_toggled(bool checked){
     }
 }
 
+
 void MainWindow::on_toggleBtnShowDispDepth_toggled(bool checked){
     if(checked){
         cout << "Show Disparity/Depth: On" << endl;
@@ -758,6 +700,7 @@ void MainWindow::on_toggleBtnShowDispDepth_toggled(bool checked){
         stereo->flags.showDispDepth = false;
     }
 }
+
 
 void MainWindow::on_toggleBtnShowLeftImage_toggled(bool checked){
     if(checked){
@@ -770,6 +713,7 @@ void MainWindow::on_toggleBtnShowLeftImage_toggled(bool checked){
         ui->toggleBtnShowLeftImage->setText("ShowLeft");
     }
 }
+
 
 void MainWindow::mousePressEvent(QMouseEvent *e){
     int x_clickedPos;
@@ -798,6 +742,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e){
     }
 }
 
+
 void MainWindow::keyPressEvent(QKeyEvent *event){
     switch(event->key()){
     case Qt::Key_Left:
@@ -818,5 +763,72 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     case Qt::Key_Minus:
         stereo->view3D.viewpoint.z-= stereo->view3D.step;
         break;
+    }
+}
+
+void MainWindow::updateDisplayWindows(){
+    if(stereo->flags.showInputImages){
+        putImage(stereo->imageL[0],LEFT_WINDOW);
+        putImage(stereo->imageR[0],RIGHT_WINDOW);
+
+
+        ui->toggleBtnShowHist->hide();
+        ui->toggleBtnShowXYZ->hide();
+        ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
+    }
+
+    if(stereo->flags.showDisparityMap){
+        if(stereo->flags.showLeftOnRightWindow){
+            putImage(stereo->imageL[0],LEFT_WINDOW);
+        }else{
+            putImage(stereo->disp.disp_8U,LEFT_WINDOW);
+        }
+        putImage(stereo->disp.disp_BGR,RIGHT_WINDOW);
+
+        ui->toggleBtnShowHist->show();
+        ui->toggleBtnShowXYZ->hide();
+        ui->toggleBtnShowDispDepth->show();
+        ui->toggleBtnShowLeftImage->show();
+    }
+
+    if(stereo->flags.show3Dreconstruction){
+        putImage(stereo->view3D.disp3D_8U,LEFT_WINDOW);
+        putImage(stereo->view3D.disp3D_BGR,RIGHT_WINDOW);
+
+        ui->toggleBtnShowHist->hide();
+        ui->toggleBtnShowXYZ->show();
+        ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
+    }
+
+    if(stereo->flags.showTrackingObjectView){
+        putImage(stereo->morph.trackingView,LEFT_WINDOW);
+        putImage(stereo->morph.imgThresholdDraw,RIGHT_WINDOW);
+
+        ui->toggleBtnShowHist->hide();
+        ui->toggleBtnShowXYZ->hide();
+        ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
+    }
+
+    if(stereo->flags.showDiffImage && stereo->diff.StartDiff){
+        putImage(stereo->diff.diffImage,LEFT_WINDOW);
+        putImage(stereo->diff.res_AND,RIGHT_WINDOW);
+
+        ui->toggleBtnShowHist->hide();
+        ui->toggleBtnShowXYZ->hide();
+        ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
+    }
+
+    if(stereo->flags.showWarningLines && stereo->diff.StartDiff){
+        putImage(stereo->diff.res_ADD,LEFT_WINDOW);
+        putImage(stereo->diff.res_AND_BGR,RIGHT_WINDOW);
+
+        ui->toggleBtnShowHist->hide();
+        ui->toggleBtnShowXYZ->hide();
+        ui->toggleBtnShowDispDepth->hide();
+        ui->toggleBtnShowLeftImage->hide();
     }
 }

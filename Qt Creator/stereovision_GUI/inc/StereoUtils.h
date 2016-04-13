@@ -12,11 +12,6 @@
 #include <fstream>
 #include <time.h>
 
-/* Resolution */
-//#define RESOLUTION_320x240
-#define RESOLUTION_640x480
-//#define RESOLUTION_1280x720
-
 using namespace cv;
 using namespace std;
 
@@ -27,11 +22,10 @@ public:
     ~StereoUtils();
 
     void resizeFrames(Mat *frame1,Mat *frame2,Size resolution);
-    void change_resolution(VideoCapture* capL,VideoCapture* capR);
+    void change_resolution(VideoCapture* capL,VideoCapture* capR,Size resolution);
     void contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta);
     void writeMatToFile(Mat &m, const char* filename);
     void calculateHist(Mat &src, const string histName);
-    void setDisplayFPS();
     string intToString(int number);
 
     /* Timing */

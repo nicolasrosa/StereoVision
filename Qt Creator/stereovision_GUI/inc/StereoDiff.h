@@ -20,6 +20,8 @@ public:
     StereoDiff();
     ~StereoDiff();
 
+    void calculateDiff();
+
     void createDiffImage(Mat,Mat);
     void createResAND(Mat,Mat);
     void convertToBGR();

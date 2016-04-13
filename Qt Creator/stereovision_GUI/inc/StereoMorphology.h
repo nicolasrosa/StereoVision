@@ -7,6 +7,8 @@
 
 /* Libraries */
 #include <opencv2/opencv.hpp>
+#include "inc/StereoCalib.h"
+#include "inc/trackObject.h"
 
 #ifndef STEREOMORPHOLOGY_H
 #define STEREOMORPHOLOGY_H
@@ -33,6 +35,9 @@ public:
     void apply_watershed(Mat src);
     void Disp_diff(Mat disp8U,Mat disp87_last,Mat disp8U_diff);
     //void cornerHarris_demo(int,void*);
+
+    TrackObject trackObject;
+    StereoUtils utils;
 
     /* Dilation and Erosion Elements */
     Mat erosionElement;

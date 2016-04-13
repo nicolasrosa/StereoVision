@@ -8,7 +8,13 @@
 /* Libraries */
 #include "inc/trackObject.h"
 
-void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed){
+/* Constructor and Destructor */
+TrackObject::TrackObject():FRAME_WIDTH(640),FRAME_HEIGHT(480),MAX_NUM_OBJECTS(50),MIN_OBJECT_AREA(20*20),
+                           MAX_OBJECT_AREA(FRAME_HEIGHT*FRAME_WIDTH/1.5){}
+
+TrackObject::~TrackObject(){}
+
+void TrackObject::trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed){
 
 	Mat temp;
 	threshold.copyTo(temp);
@@ -46,13 +52,14 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed){
 			if(objectFound ==true){
 				putText(cameraFeed,"Tracking Object",Point(0,50),2,1,Scalar(0,255,0),2);
 				//draw object location on screen
-				drawObject(x,y,cameraFeed);}
+                drawObject(x,y,cameraFeed);
+            }
 
 		}else putText(cameraFeed,"TOO MUCH NOISE! ADJUST FILTER",Point(0,50),1,2,Scalar(0,0,255),2);
 	}
 }
 
-void drawObject(int x, int y,Mat &frame){
+void TrackObject::drawObject(int x, int y,Mat &frame){
 
 	//use some of the openCV drawing functions to draw crosshairs
 	//on your tracked image!
@@ -75,13 +82,6 @@ void drawObject(int x, int y,Mat &frame){
     line(frame,Point(x,y),Point(x+25,y),Scalar(0,255,0),2);
     else line(frame,Point(x,y),Point(FRAME_WIDTH,y),Scalar(0,255,0),2);
 
-	putText(frame,intToString(x)+","+intToString(y),Point(x,y+30),1,1,Scalar(0,255,0),2);
-
-}
-
-string intToString(int number){
-    stringstream ss;
-    ss << number;
-    return ss.str();
+    putText(frame,utils.intToString(x)+","+utils.intToString(y),Point(x,y+30),1,1,Scalar(0,255,0),2);
 }
 

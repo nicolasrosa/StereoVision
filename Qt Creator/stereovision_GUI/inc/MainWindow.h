@@ -39,14 +39,20 @@ public:
     /* Constructor and Destructor */
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void deleteStereoObj();
 
+    /* App Configuration */
+    void uiConfiguration();
+    void timerConfiguration();
     void setupUi_Custom();
+
     void stereoVisionProcessInit();
+
     void printHelp();
     void openStereoSource(int inputNum);
+    void deleteStereoObj();
 
-    /* Windows */
+    /* App Windows */
+    void updateDisplayWindows();
     QImage Mat2QImage(const Mat& mat);
     enum{LEFT_WINDOW,RIGHT_WINDOW};
     void putImage(const Mat& src,int windowID);
@@ -60,7 +66,6 @@ private:
     QTimer* tmrTimer;
 
     bool closeEventOccured;
-    bool isStereoParamSetupTrackbarsCreated;
     bool isTrackingObjects;
 
 signals:

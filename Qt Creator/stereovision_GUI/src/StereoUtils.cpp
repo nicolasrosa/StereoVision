@@ -60,31 +60,18 @@ void StereoUtils::writeMatToFile(cv::Mat& m, const char* filename){
     fout.close();
 }
 
-void StereoUtils::change_resolution(VideoCapture* capL,VideoCapture* capR){
-#ifdef RESOLUTION_320x240
-    capL->set(CV_CAP_PROP_FRAME_WIDTH, 320);
-    capL->set(CV_CAP_PROP_FRAME_HEIGHT,240);
-    capR->set(CV_CAP_PROP_FRAME_WIDTH, 320);
-    capR->set(CV_CAP_PROP_FRAME_HEIGHT,240);
-#endif
 
-#ifdef RESOLUTION_640x480
-    capL->set(CV_CAP_PROP_FRAME_WIDTH, 640);
-    capL->set(CV_CAP_PROP_FRAME_HEIGHT,480);
-    capR->set(CV_CAP_PROP_FRAME_WIDTH, 640);
-    capR->set(CV_CAP_PROP_FRAME_HEIGHT,480);
-#endif
-
-#ifdef RESOLUTION_1280x960
-    capL->set(CV_CAP_PROP_FRAME_WIDTH,1280);
-    capL->set(CV_CAP_PROP_FRAME_HEIGHT,720);
-    capR->set(CV_CAP_PROP_FRAME_WIDTH,1280);
-    capR->set(CV_CAP_PROP_FRAME_HEIGHT,720);
-#endif
+void StereoUtils::change_resolution(VideoCapture* capL,VideoCapture* capR,Size resolution){
+    capL->set(CV_CAP_PROP_FRAME_WIDTH, resolution.width);
+    capL->set(CV_CAP_PROP_FRAME_HEIGHT,resolution.height);
+    capR->set(CV_CAP_PROP_FRAME_WIDTH, resolution.width);
+    capR->set(CV_CAP_PROP_FRAME_HEIGHT,resolution.height);
 
     cout << "Camera 1 Resolution: " << capL->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capL->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
     cout << "Camera 2 Resolution: " << capR->get(CV_CAP_PROP_FRAME_WIDTH) << "x" << capR->get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+
 }
+
 
 void StereoUtils::contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
     //Contrast and Brightness. Do the operation: new_image(i,j) = alpha*image(i,j) + beta

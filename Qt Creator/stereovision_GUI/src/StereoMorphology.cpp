@@ -7,8 +7,6 @@
 
 /* Libraries */
 #include "inc/StereoMorphology.h"
-#include "inc/trackObject.h"
-#include "inc/StereoCalib.h"
 
 /* Constructor and Destructor */
 StereoMorphology::StereoMorphology(){
@@ -35,17 +33,14 @@ void StereoMorphology::applyMorphology(Mat src, Mat cameraFeedL,bool isTrackingO
     /* Local Variables */
     Mat srcFiltered;
 
-    // Near Object Detection
-
+    //! Near Object Detection !//
     /* Prefiltering */
     apply_preFiltering(&src,&srcFiltered);
 
     /* Threshold */
     int T_Otsu = threshold(srcFiltered, imgThreshold, 0, 255, THRESH_BINARY | THRESH_OTSU);
-    //erode(imgThreshold,imgThreshold,erosionElement);
-    //dilate(imgThreshold,imgThreshold,dilationElement);
     imgThreshold.copyTo(imgThresholdDraw);
-    putText(imgThresholdDraw,"T: "+intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
+    putText(imgThresholdDraw,"T: "+utils.intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
 
     /* Lighting Noise Detector*/
     //TODO: Solve Lighting Noise Problem
@@ -57,16 +52,20 @@ void StereoMorphology::applyMorphology(Mat src, Mat cameraFeedL,bool isTrackingO
     if(isTrackingObjects){
         cameraFeedL.copyTo(trackingView);
         if(inputType == StereoCalib::VideoFile){
-           trackFilteredObject(x,y,imgThreshold,trackingView);
+           trackObject.trackFilteredObject(x,y,imgThreshold,trackingView);
         }
     }
 
+    //! Testing Methods !//
+//    imshow("RAW",src);
+//    imshow("Filtered", srcFiltered);
+
     /* Harris - Corner Detector */
-    apply_harris(src);
+    //apply_harris(src);
 
     /* Watershed */
     //cameraFeedL.copyTo(src);
-    apply_watershed(src);
+    //apply_watershed(src);
 
     //FIXME: Distribuir ao longo do código
     // Output
