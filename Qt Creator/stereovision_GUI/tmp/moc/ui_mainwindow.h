@@ -71,7 +71,7 @@ public:
         textBoxOutput = new QPlainTextEdit(centralWidget);
         textBoxOutput->setObjectName(QStringLiteral("textBoxOutput"));
         textBoxOutput->setEnabled(true);
-        textBoxOutput->setGeometry(QRect(614, 488, 671, 197));
+        textBoxOutput->setGeometry(QRect(644, 488, 641, 197));
         textBoxOutput->setFocusPolicy(Qt::StrongFocus);
         textBoxOutput->setReadOnly(true);
         btnPauseOrResume = new QPushButton(centralWidget);

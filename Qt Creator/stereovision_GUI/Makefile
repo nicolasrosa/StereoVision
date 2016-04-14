@@ -58,7 +58,8 @@ SOURCES       = src/main.cpp \
 		src/Reconstruction3D.cpp \
 		src/StereoConfig.cpp \
 		src/StereoMorphology.cpp \
-		src/StereoSetParamsWindow.cpp tmp/rc/qrc_icon_resource.cpp \
+		src/StereoSetParamsWindow.cpp \
+		src/StereoInput.cpp tmp/rc/qrc_icon_resource.cpp \
 		tmp/moc/moc_MainWindow.cpp \
 		tmp/moc/moc_StereoSetParamsWindow.cpp
 OBJECTS       = tmp/obj/main.o \
@@ -75,6 +76,7 @@ OBJECTS       = tmp/obj/main.o \
 		tmp/obj/StereoConfig.o \
 		tmp/obj/StereoMorphology.o \
 		tmp/obj/StereoSetParamsWindow.o \
+		tmp/obj/StereoInput.o \
 		tmp/obj/qrc_icon_resource.o \
 		tmp/obj/moc_MainWindow.o \
 		tmp/obj/moc_StereoSetParamsWindow.o
@@ -313,7 +315,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d tmp/obj/stereovision_GUI1.0.0 || mkdir -p tmp/obj/stereovision_GUI1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents res/icon_resource.qrc tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents / inc/MainWindow.h inc/StereoProcessor.h inc/StereoCustom.h inc/StereoFlags.h inc/StereoDiff.h inc/StereoCalib.h inc/StereoDisparityMap.h inc/StereoUtils.h inc/StereoConfig.h inc/StereoMorphology.h inc/StereoSetParamsWindow.h inc/trackObject.h inc/Reconstruction3D.h tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents src/main.cpp src/MainWindow.cpp src/trackObject.cpp src/StereoProcessor.cpp src/StereoCustom.cpp src/StereoFlags.cpp src/StereoDiff.cpp src/StereoCalib.cpp src/StereoDisparityMap.cpp src/StereoUtils.cpp src/Reconstruction3D.cpp src/StereoConfig.cpp src/StereoMorphology.cpp src/StereoSetParamsWindow.cpp tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents forms/mainwindow.ui forms/setstereoparams.ui tmp/obj/stereovision_GUI1.0.0/ && (cd `dirname tmp/obj/stereovision_GUI1.0.0` && $(TAR) stereovision_GUI1.0.0.tar stereovision_GUI1.0.0 && $(COMPRESS) stereovision_GUI1.0.0.tar) && $(MOVE) `dirname tmp/obj/stereovision_GUI1.0.0`/stereovision_GUI1.0.0.tar.gz . && $(DEL_FILE) -r tmp/obj/stereovision_GUI1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents res/icon_resource.qrc tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents / inc/MainWindow.h inc/StereoProcessor.h inc/StereoCustom.h inc/StereoFlags.h inc/StereoDiff.h inc/StereoCalib.h inc/StereoDisparityMap.h inc/StereoUtils.h inc/StereoConfig.h inc/StereoMorphology.h inc/StereoSetParamsWindow.h inc/trackObject.h inc/Reconstruction3D.h inc/StereoInput.h tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents src/main.cpp src/MainWindow.cpp src/trackObject.cpp src/StereoProcessor.cpp src/StereoCustom.cpp src/StereoFlags.cpp src/StereoDiff.cpp src/StereoCalib.cpp src/StereoDisparityMap.cpp src/StereoUtils.cpp src/Reconstruction3D.cpp src/StereoConfig.cpp src/StereoMorphology.cpp src/StereoSetParamsWindow.cpp src/StereoInput.cpp tmp/obj/stereovision_GUI1.0.0/ && $(COPY_FILE) --parents forms/mainwindow.ui forms/setstereoparams.ui tmp/obj/stereovision_GUI1.0.0/ && (cd `dirname tmp/obj/stereovision_GUI1.0.0` && $(TAR) stereovision_GUI1.0.0.tar stereovision_GUI1.0.0 && $(COMPRESS) stereovision_GUI1.0.0.tar) && $(MOVE) `dirname tmp/obj/stereovision_GUI1.0.0`/stereovision_GUI1.0.0.tar.gz . && $(DEL_FILE) -r tmp/obj/stereovision_GUI1.0.0
 
 
 clean:compiler_clean 
@@ -341,9 +343,9 @@ tmp/rc/qrc_icon_resource.cpp: res/icon_resource.qrc \
 		res/icon/helicopter_green.png \
 		res/icon/helicopter_orange.png \
 		res/icon/spydrone_black.png \
+		res/icon/helicopter_cyan.png \
 		res/icon/helicopter_white.png \
-		res/icon/helicopter_black.png \
-		res/icon/helicopter_cyan.png
+		res/icon/helicopter_black.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name icon_resource res/icon_resource.qrc -o tmp/rc/qrc_icon_resource.cpp
 
 compiler_moc_header_make_all: tmp/moc/moc_MainWindow.cpp tmp/moc/moc_StereoSetParamsWindow.cpp
@@ -584,6 +586,7 @@ tmp/moc/moc_MainWindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		inc/StereoFlags.h \
 		inc/StereoUtils.h \
 		inc/StereoMorphology.h \
+		inc/trackObject.h \
 		inc/Reconstruction3D.h \
 		inc/MainWindow.h \
 		inc/StereoSetParamsWindow.h \
@@ -960,6 +963,7 @@ tmp/obj/main.o: src/main.cpp inc/MainWindow.h \
 		inc/StereoFlags.h \
 		inc/StereoUtils.h \
 		inc/StereoMorphology.h \
+		inc/trackObject.h \
 		inc/Reconstruction3D.h \
 		inc/StereoSetParamsWindow.h \
 		/usr/include/qt5/QtWidgets/QDialog \
@@ -1206,6 +1210,7 @@ tmp/obj/MainWindow.o: src/MainWindow.cpp inc/MainWindow.h \
 		inc/StereoFlags.h \
 		inc/StereoUtils.h \
 		inc/StereoMorphology.h \
+		inc/trackObject.h \
 		inc/Reconstruction3D.h \
 		inc/StereoSetParamsWindow.h \
 		/usr/include/qt5/QtWidgets/QDialog \
@@ -1265,7 +1270,8 @@ tmp/obj/MainWindow.o: src/MainWindow.cpp inc/MainWindow.h \
 		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/MainWindow.o src/MainWindow.cpp
 
-tmp/obj/trackObject.o: src/trackObject.cpp inc/trackObject.h
+tmp/obj/trackObject.o: src/trackObject.cpp inc/trackObject.h \
+		inc/StereoUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/trackObject.o src/trackObject.cpp
 
 tmp/obj/StereoProcessor.o: src/StereoProcessor.cpp inc/MainWindow.h \
@@ -1504,10 +1510,10 @@ tmp/obj/StereoProcessor.o: src/StereoProcessor.cpp inc/MainWindow.h \
 		inc/StereoFlags.h \
 		inc/StereoUtils.h \
 		inc/StereoMorphology.h \
+		inc/trackObject.h \
 		inc/Reconstruction3D.h \
 		inc/StereoSetParamsWindow.h \
-		/usr/include/qt5/QtWidgets/QDialog \
-		inc/trackObject.h
+		/usr/include/qt5/QtWidgets/QDialog
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoProcessor.o src/StereoProcessor.cpp
 
 tmp/obj/StereoCustom.o: src/StereoCustom.cpp inc/StereoCustom.h
@@ -1535,8 +1541,9 @@ tmp/obj/StereoConfig.o: src/StereoConfig.cpp inc/StereoConfig.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoConfig.o src/StereoConfig.cpp
 
 tmp/obj/StereoMorphology.o: src/StereoMorphology.cpp inc/StereoMorphology.h \
+		inc/StereoCalib.h \
 		inc/trackObject.h \
-		inc/StereoCalib.h
+		inc/StereoUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoMorphology.o src/StereoMorphology.cpp
 
 tmp/obj/StereoSetParamsWindow.o: src/StereoSetParamsWindow.cpp /usr/include/qt5/QtWidgets/QHBoxLayout \
@@ -1703,6 +1710,7 @@ tmp/obj/StereoSetParamsWindow.o: src/StereoSetParamsWindow.cpp /usr/include/qt5/
 		inc/StereoFlags.h \
 		inc/StereoUtils.h \
 		inc/StereoMorphology.h \
+		inc/trackObject.h \
 		inc/Reconstruction3D.h \
 		inc/MainWindow.h \
 		/usr/include/qt5/QtWidgets/QMainWindow \
@@ -1817,6 +1825,9 @@ tmp/obj/StereoSetParamsWindow.o: src/StereoSetParamsWindow.cpp /usr/include/qt5/
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtGui/QCloseEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoSetParamsWindow.o src/StereoSetParamsWindow.cpp
+
+tmp/obj/StereoInput.o: src/StereoInput.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/StereoInput.o src/StereoInput.cpp
 
 tmp/obj/qrc_icon_resource.o: tmp/rc/qrc_icon_resource.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/qrc_icon_resource.o tmp/rc/qrc_icon_resource.cpp

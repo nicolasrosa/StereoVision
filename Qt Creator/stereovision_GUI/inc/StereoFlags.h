@@ -8,7 +8,7 @@
 #ifndef STEREOFLAGS_H
 #define STEREOFLAGS_H
 
-
+/* Libraries */
 
 class StereoFlags{
 public:

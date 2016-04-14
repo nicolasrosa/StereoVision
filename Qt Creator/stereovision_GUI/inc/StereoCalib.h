@@ -12,6 +12,9 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 
+/* Custom Libraries */
+#include "inc/StereoInput.h"
+
 using namespace cv;
 using namespace std;
 
@@ -40,15 +43,22 @@ public:
     int getResolutionDesired_width();
     int getResolutionDesired_height();
 
+    /* Input files Path */
+    string imageL_FileName;
+    string imageR_FileName;
+
+
+    /* Calibration files Path */
+    string intrinsicsFileName;
+    string extrinsicsFileName;
+    string QmatrixFileName;
+
     enum{VideoFile,ImageFile} inputType;
 
     bool needCalibration;
     bool hasQMatrix;
 
-    string intrinsicsFileName;
-    string extrinsicsFileName;
-    string QmatrixFileName;
-
+    /* Method Configuration Files Path */
     string StereoBMConfigFileName;
     string StereoSGBMConfigFileName;
     string StereoBM_GPUConfigFileName;

@@ -14,17 +14,18 @@
 #include "opencv2/cudaarithm.hpp"
 
 /* Custom Libraries */
+#include "MainWindow.h"
+#include "Reconstruction3D.h"
+
+#include "StereoInput.h"
 #include "StereoCalib.h"
 #include "StereoCustom.h"
 #include "StereoConfig.h"
 #include "StereoDiff.h"
 #include "StereoDisparityMap.h"
 #include "StereoFlags.h"
-#include "StereoUtils.h"
 #include "StereoMorphology.h"
-
-#include "Reconstruction3D.h"
-#include "MainWindow.h"
+#include "StereoUtils.h"
 
 using namespace cv;
 using namespace std;
@@ -64,9 +65,6 @@ public:
     void saveLastFrames();
     void videoLooper();
 
-    string imageL_filename;
-    string imageR_filename;
-
     Mat imageL[2],imageR[2];
     cuda::GpuMat d_imageL,d_imageR,d_disp_16S;
     Mat	imageL_grey[2],imageR_grey[2];
@@ -87,6 +85,7 @@ public:
 
     enum {BM, SGBM, BM_GPU} method;
 
+    //StereoInput input;
     StereoCalib calib;
     StereoDisparityMap disp;
     Reconstruction3D view3D;

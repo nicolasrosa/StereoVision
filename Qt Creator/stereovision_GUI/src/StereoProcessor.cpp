@@ -11,7 +11,7 @@
 #include "inc/trackObject.h"
 
 /* Constructor and Destructor */
-StereoProcessor::StereoProcessor(int number) {
+StereoProcessor::StereoProcessor(int number){
     method = BM;
 
     inputNum=number;

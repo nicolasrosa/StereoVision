@@ -51,6 +51,9 @@ public:
     void openStereoSource(int inputNum);
     void deleteStereoObj();
 
+    /* App TextBox */
+    void uiText1();
+
     /* App Windows */
     void updateDisplayWindows();
     QImage Mat2QImage(const Mat& mat);

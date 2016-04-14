@@ -21,10 +21,10 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     uiConfiguration();
     timerConfiguration();
 
+    printHelp();
+
     stereo = new StereoProcessor(0);
     stereoVisionProcessInit();
-
-    printHelp();
 
     closeEventOccured = false;
     isTrackingObjects=true;
@@ -64,6 +64,7 @@ void MainWindow::setupUi_Custom(){
     ui->toggleBtnShowDispDepth->setCheckable(true);
     ui->toggleBtnShowLeftImage->setCheckable(true);
 
+    /* Hides all Auxiliary Buttons */
     ui->toggleBtnShowHist->hide();
     ui->toggleBtnShowXYZ->hide();
     ui->toggleBtnShowDispDepth->hide();
@@ -104,15 +105,7 @@ void MainWindow::stereoVisionProcessInit(){
         cout << "Desired Resolution(Width,Height): (" << stereo->calib.getResolutionDesired_width() << "," << stereo->calib.getResolutionDesired_height() << ")" << endl << endl;
 
         /* GUI */
-        ui->textBoxOutput->appendPlainText(QString("Input Resolution(Width,Height): (")+
-                                           QString::number(stereo->calib.getResolution_width())+
-                                           QString(",")+QString::number(stereo->calib.getResolution_height())+
-                                           QString(")"));
-        ui->textBoxOutput->appendPlainText(QString("Desired Resolution(Width,Height): (")+
-                                           QString::number(stereo->calib.getResolutionDesired_width())+
-                                           QString(",")+
-                                           QString::number(stereo->calib.getResolutionDesired_height())+
-                                           QString(")"));
+
     }
 
     /* Resizing the Input Resolution to the Desired Resolution*/
@@ -264,8 +257,8 @@ void MainWindow::deleteStereoObj(){
 
 void MainWindow::printHelp(){
     /* Console Output */
-    cout << "-----------------Help Menu-----------------\n"
-         << "Run command line: ./reprojectImageTo3D\n"
+    cout << "--------------------------------------------------------------- Help Menu ---------------------------------------------------------------\n"
+         << "Run command line: ./stereovision_GUI\n"
          << "Keys:\n"
          << "'`' -\tShow Help\n"
          << "'1' -\tShow L/R Windows\t\t'4' -\tShow XYZ\n"
@@ -275,13 +268,13 @@ void MainWindow::printHelp(){
          << "x-axis:\t'Key_Right'/'Key_Left' -> +x,-x\n"
          << "y-axis:\t'Key_Up'/'Key_Down' -> +y,-y\n"
          << "z-axis:\t'Key_Plus'/'Key_Minus' -> +z,-z\n"
-         << "-------------------------------------------\n"
-         << "\n\n";
+         << "---------------------------------------------------------------------------------------------------------------------------------------\n"
+         << "\n";
 
     /* GUI */
     ui->textBoxOutput->appendPlainText
-            (QString("-----------------Help Menu-----------------\n")+
-             QString("Run command line: ./reprojectImageTo3D\n")+
+            (QString("----------------------------------------------------------- Help Menu -----------------------------------------------------------\n")+
+             QString("Run command line: ./stereovision_GUI\n")+
              QString("Keys:\n")+
              QString("'`' -\tShow Help\n")+
              QString("'1' -\tShow L/R Windows\t\t'4' -\tShow XYZ\n")+
@@ -291,93 +284,93 @@ void MainWindow::printHelp(){
              QString("x-axis:\t'Key_Right'/'Key_Left' -> +x,-x\n")+
              QString("y-axis:\t'Key_Up'/'Key_Down' -> +y,-y\n")+
              QString("z-axis:\t'Key_Plus'/'Key_Minus' -> +z,-z\n")+
-             QString("-------------------------------------------\n")+
-             QString("\n\n"));
+             QString("---------------------------------------------------------------------------------------------------------------------------------------\n")+
+             QString("\n"));
 }
 
 
 void MainWindow::openStereoSource(int inputNum){
     /* Create an object that decodes the input Video stream. */
-    cout << "Enter Video Number(1,2,3,4,5,6,7,8,9): " << endl;
+    cout << "\nEnter Video Number(1,2,3,4,5,6,7,8,9): " << endl;
     cout << "Input File: " << inputNum << endl;
 
     //	scanf("%d",&inputNum);
-    ui->textBoxOutput->appendPlainText(QString("Enter Video Number(1,2,3,4,5,6,7,8,9): "));
+    ui->textBoxOutput->appendPlainText(QString("\nEnter Video Number(1,2,3,4,5,6,7,8,9): "));
     ui->textBoxOutput->appendPlainText(QString("Input File: ")+QString::number(inputNum));
 
     switch(inputNum){
     case 0:
-        stereo->imageL_filename = "/home/nicolas/workspace/data/video10_l.avi";
-        stereo->imageR_filename = "/home/nicolas/workspace/data/video10_r.avi";
-        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/intrinsics.yml";
-        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/extrinsics.yml";
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/video10_l.avi";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/video10_r.avi";
+        stereo->calib.intrinsicsFileName = "../config/calib/cam1/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "../config/calib/cam1/extrinsics.yml";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=true;
         break;
     case 1:
-        stereo->imageL_filename = "/home/nicolas/workspace/data/video12_l.avi";
-        stereo->imageR_filename = "/home/nicolas/workspace/data/video12_r.avi";
-        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/intrinsics.yml";
-        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/extrinsics.yml";
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/video12_l.avi";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/video12_r.avi";
+        stereo->calib.intrinsicsFileName = "../config/calib/cam1/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "../config/calib/cam1/extrinsics.yml";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=true;
         break;
     case 2:
-        stereo->imageL_filename = "/home/nicolas/workspace/data/dataset/Piano-perfect/im0.png";
-        stereo->imageR_filename = "/home/nicolas/workspace/data/dataset/Piano-perfect/im1.png";
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/dataset/Piano-perfect/im0.png";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/dataset/Piano-perfect/im1.png";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
     case 3:
-        stereo->imageL_filename = "/home/nicolas/workspace/data/20004.avi";
-        stereo->imageR_filename = "/home/nicolas/workspace/data/30004.avi";
-        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam2/intrinsics.yml";
-        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam2/extrinsics.yml";
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/20004.avi";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/30004.avi";
+        stereo->calib.intrinsicsFileName = "../config/calib/cam2/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "../config/calib/cam2/extrinsics.yml";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
     case 4:
-        stereo->imageL_filename = "/home/nicolas/workspace/data/teddy_l.png";
-        stereo->imageR_filename = "/home/nicolas/workspace/data/teddy_r.png";
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/teddy_l.png";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/teddy_r.png";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
     case 5:
-        stereo->imageL_filename = "/home/nicolas/workspace/data/left/video15.avi";
-        stereo->imageR_filename = "/home/nicolas/workspace/data/right/video15.avi";
-        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/intrinsics.yml";
-        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam1/extrinsics.yml";
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/left/video15.avi";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/right/video15.avi";
+        stereo->calib.intrinsicsFileName = "../config/calib/cam1/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "../config/calib/cam1/extrinsics.yml";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=true;
         break;
     case 6:
-        stereo->imageL_filename = "/home/nicolas/workspace/data/20011.avi";
-        stereo->imageR_filename = "/home/nicolas/workspace/data/30011.avi";
-        stereo->calib.intrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam2/intrinsics.yml";
-        stereo->calib.extrinsicsFileName = "/home/nicolas/repository/StereoVision/Qt Creator/stereovision_GUI/config/calib/cam2/extrinsics.yml";
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/20011.avi";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/30011.avi";
+        stereo->calib.intrinsicsFileName = "../config/calib/cam2/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "../config/calib/cam2/extrinsics.yml";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
     case 7:
-        stereo->imageL_filename = "../data/left/left2.png";
-        stereo->imageR_filename = "../data/right/right2.png";
+        stereo->calib.imageL_FileName = "../data/left/left2.png";
+        stereo->calib.imageR_FileName = "../data/right/right2.png";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
     case 8:
-        stereo->imageL_filename = "../data/left/left3.png";
-        stereo->imageR_filename = "../data/right/right3.png";
+        stereo->calib.imageL_FileName = "../data/left/left3.png";
+        stereo->calib.imageR_FileName = "../data/right/right3.png";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
     }
 
     /* Identify the type of the input file. */
-    if(stereo->imageL_filename.substr(stereo->imageL_filename.find_last_of(".") + 1) == "avi"){
+    if(stereo->calib.imageL_FileName.substr(stereo->calib.imageL_FileName.find_last_of(".") + 1) == "avi"){
         stereo->calib.inputType = StereoCalib::VideoFile;
 
-        stereo->capL.open(stereo->imageL_filename);
-        stereo->capR.open(stereo->imageR_filename);
+        stereo->capL.open(stereo->calib.imageL_FileName);
+        stereo->capR.open(stereo->calib.imageR_FileName);
 
         if(!stereo->capL.isOpened() || !stereo->capR.isOpened()){		// Check if it succeeded
             cerr <<  "Could not open or find the input videos!" << endl ;
@@ -397,13 +390,13 @@ void MainWindow::openStereoSource(int inputNum){
     }else{
         cout << "It is not a Video file" << endl;
         ui->textBoxOutput->appendPlainText(QString( "It is not a Video file"));
-        if(stereo->imageL_filename.substr(stereo->imageL_filename.find_last_of(".") + 1) == "jpg" || stereo->imageL_filename.substr(stereo->imageL_filename.find_last_of(".") + 1) == "png"){
+        if(stereo->calib.imageL_FileName.substr(stereo->calib.imageL_FileName.find_last_of(".") + 1) == "jpg" || stereo->calib.imageL_FileName.substr(stereo->calib.imageL_FileName.find_last_of(".") + 1) == "png"){
             cout << "It's a Image file" << endl;
             ui->textBoxOutput->appendPlainText(QString( "It's a Image file"));
             stereo->calib.inputType = StereoCalib::ImageFile;
 
-            stereo->imageL[0] = imread(stereo->imageL_filename, CV_LOAD_IMAGE_COLOR);
-            stereo->imageR[0] = imread(stereo->imageR_filename, CV_LOAD_IMAGE_COLOR);
+            stereo->imageL[0] = imread(stereo->calib.imageL_FileName, CV_LOAD_IMAGE_COLOR);
+            stereo->imageR[0] = imread(stereo->calib.imageR_FileName, CV_LOAD_IMAGE_COLOR);
 
             if(!stereo->imageL[0].data || !stereo->imageR[0].data){      // Check if it succeeded
                 ui->textBoxOutput->appendPlainText(QString("Could not open or find the input images!"));
@@ -836,4 +829,18 @@ void MainWindow::updateDisplayWindows(){
         ui->toggleBtnShowDispDepth->hide();
         ui->toggleBtnShowLeftImage->hide();
     }
+}
+
+void MainWindow::uiText1(){
+    QString text = QString("Input Resolution(Width,Height): (")+
+                   QString::number(stereo->calib.getResolution_width())+
+                   QString(",")+QString::number(stereo->calib.getResolution_height())+
+                   QString(")")+
+                   QString("\nDesired Resolution(Width,Height): (")+
+                   QString::number(stereo->calib.getResolutionDesired_width())+
+                   QString(",")+
+                   QString::number(stereo->calib.getResolutionDesired_height())+
+                   QString(")");
+
+    ui->textBoxOutput->appendPlainText(text);
 }
