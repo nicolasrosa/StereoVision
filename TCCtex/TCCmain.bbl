@@ -25,6 +25,12 @@ M.W.M.G. Dissanayake, P.~Newman, S.~Clark, H.F. Durrant-Whyte, and M.~Csorba.
 \newblock {\em IEEE Transactions on Robotics and Automation}, 17(3):229--241,
   2001.
 
+\bibitem{Barry2015}
+Andrew~J. Barry, Helen Oleynikova, Dominik Honegger, Marc Pollefeys, and Russ
+  Tedrake.
+\newblock {Fast Onboard Stereo Vision for UAVs}.
+\newblock page~7, 2015.
+
 \bibitem{Lemaire2007}
 Thomas Lemaire, Cyrille Berger, Il-Kyun Jung, and Simon Lacroix.
 \newblock {Vision-Based SLAM: Stereo and Monocular Approaches}.

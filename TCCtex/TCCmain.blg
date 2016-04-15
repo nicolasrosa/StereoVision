@@ -4,50 +4,51 @@ The top-level auxiliary file: TCCmain.aux
 The style file: unsrt.bst
 Database file #1: ./Content/References.bib
 Warning--empty publisher in Bradski2008
+Warning--empty journal in Barry2015
 Warning--empty journal in Shah2014
 Warning--there's a number but no series in JunhwanKim2003
 Warning--empty year in ShinzatoP
 Warning--there's a number but no volume in Nagappa2013
 Warning--there's a number but no volume in Monish2011
-You've used 23 entries,
+You've used 24 entries,
             1791 wiz_defined-function locations,
-            585 strings with 7852 characters,
-and the built_in function-call counts, 4516 in all, are:
-= -- 394
-> -- 189
-< -- 5
-+ -- 75
-- -- 52
-* -- 255
-:= -- 703
-add.period$ -- 64
-call.type$ -- 23
-change.case$ -- 20
+            590 strings with 8006 characters,
+and the built_in function-call counts, 4746 in all, are:
+= -- 409
+> -- 206
+< -- 6
++ -- 81
+- -- 57
+* -- 270
+:= -- 742
+add.period$ -- 67
+call.type$ -- 24
+change.case$ -- 21
 chr.to.int$ -- 0
-cite$ -- 29
-duplicate$ -- 196
-empty$ -- 473
-format.name$ -- 52
-if$ -- 1008
+cite$ -- 31
+duplicate$ -- 208
+empty$ -- 491
+format.name$ -- 57
+if$ -- 1059
 int.to.chr$ -- 0
-int.to.str$ -- 23
-missing$ -- 16
-newline$ -- 113
-num.names$ -- 22
-pop$ -- 98
+int.to.str$ -- 24
+missing$ -- 17
+newline$ -- 118
+num.names$ -- 23
+pop$ -- 104
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 100
+skip$ -- 105
 stack$ -- 0
-substring$ -- 248
-swap$ -- 46
-text.length$ -- 5
+substring$ -- 250
+swap$ -- 49
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 6
-while$ -- 45
-width$ -- 25
-write$ -- 230
-(There were 6 warnings)
+warning$ -- 7
+while$ -- 47
+width$ -- 26
+write$ -- 240
+(There were 7 warnings)

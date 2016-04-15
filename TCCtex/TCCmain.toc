@@ -16,7 +16,9 @@
 \contentsline {subsubsection}{Mapa de disparidades - \textit {Disparity Map}}{36}{section*.6}
 \contentsline {subsubsection}{M\IeC {\'e}todos Est\IeC {\'e}reo}{36}{section*.7}
 \contentsline {subsection}{\numberline {2.1.6}Aplica\IeC {\c c}\IeC {\~o}es em Rob\IeC {\'o}tica}{37}{subsection.2.1.6}
-\contentsline {section}{\numberline {2.2}Acelera\IeC {\c c}\IeC {\~a}o em Hardware - CUDA}{39}{section.2.2}
+\contentsline {section}{\numberline {2.2}OpenCV}{39}{section.2.2}
+\contentsline {section}{\numberline {2.3}Linux Embarcado}{39}{section.2.3}
+\contentsline {section}{\numberline {2.4}Acelera\IeC {\c c}\IeC {\~a}o em Hardware - CUDA}{39}{section.2.4}
 \contentsline {chapter}{\numberline {3}Materiais e M\IeC {\'e}todos}{41}{chapter.3}
 \contentsline {section}{\numberline {3.1}Materiais}{41}{section.3.1}
 \contentsline {subsection}{\numberline {3.1.1}C\IeC {\^a}meras est\IeC {\'e}reo}{41}{subsection.3.1.1}

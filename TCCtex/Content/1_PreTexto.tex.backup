@@ -9,6 +9,7 @@
 		\vspace{0.01\textheight}
 		\huge{DEPARTAMENTO DE ENGENHARIA ELÉTRICA}\\
 		\vspace{0.2\textheight}
+		% TODO: Mudar Título
 		\huge{\textbf{Desenvolvimento de algoritmo de visão para VANTS sobre Linux Embarcado}}
 		\vspace{0.2\textheight}
 	\end{center}
@@ -40,6 +41,7 @@
 	%\thispagestyle{empty}
 		\Large{\textbf{Nícolas dos Santos Rosa}}\\
 		\vspace{0.15\textheight}
+		% TODO: Mudar Título
 		\Huge{\textbf{Desenvolvimento de algoritmo de visão para VANTS sobre Linux Embarcado}} 
 		\vspace{0.08\textheight}
 	\end{center}
@@ -127,7 +129,7 @@ Aos meus amigos de curso, pelos ótimos momentos que vivemos juntos nestes anos,
 Aos membros do grupo extracurricular Warthog Robotics, por partilhar um interesse em comum e pelas incontáveis horas de dedicação gastas no laboratório.
 
 Por fim, agradeço a todos os envolvidos no desenvolvimento deste trabalho.
-		
+
 \begin{flushright}
 Nícolas dos Santos Rosa.
 \end{flushright}
@@ -199,7 +201,7 @@ Palavras-Chave: Visão estéreo, Detecção de Obstáculos, Sistemas Embarcados,
 
 \vspace{0.05\textheight}	
 		
-Currently, unmanned aerial vehicles (UAV) is becoming a recurring theme in the scientific realm. These vehicles, because of their mobility and artificial intelligence, have been adapted to perform in different environments, thus performing various activities ranging from
+Currently, unmanned aerial vehicles (UAV) are becoming a recurring theme in the scientific realm. These vehicles, because of their mobility and artificial intelligence, have been adapted to perform in different environments, thus performing various activities ranging from
 military applications, agronomic, spacial, cinematographic, among others.
 However, this performance is not wider due to  problems related to the recognition of the surrounding environment and the detectition objects and obstacles. In this paper, it will be studied the use of stereoscopic vision in embedded systems to recognize obstacles that threaten the mobility of the autonomous vehicle. Finally, an algorithm using computer vision to estimate the distances of objects near the mobile vehicle will be developed.
 
@@ -253,6 +255,7 @@ Keywords: Stereo Vision, Obstacle Detection, Embedded Systems, Unmanned aerial V
 \> GPGPU 	\> \textit{General Purpose Graphics Processing Unit} -  								\\
 \>		\> Unidade de Processamento Gráfico de Propósito Geral									\\
 \> GPS 	 	\> \textit{Global Positioning System} - Sistema de Posicionamento Global						\\
+\> LIDAR 	\> \textit{LIght Detection And Ranging}											\\
 \> LMR 	 	\> Laboratório de Robótica Móvel											\\
 \> MAVS  	\> \textit{Micro Air Vehicle} - Micro Veículo Aéreo									\\
 \> MIT 	 	\> \textit{Massachusetts Institute of Technology}									\\
