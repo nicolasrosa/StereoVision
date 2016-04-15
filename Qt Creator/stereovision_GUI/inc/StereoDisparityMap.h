@@ -20,6 +20,8 @@ public:
     StereoDisparityMap();
     ~StereoDisparityMap();
 
+    void computeDispDepthInformation();
+
     /* Raw Disparities Maps */
     Mat disp_16S;
     Mat disp_8U;

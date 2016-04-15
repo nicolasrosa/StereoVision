@@ -59,8 +59,8 @@ void TrackObject::trackFilteredObject(int &x, int &y, Mat threshold, Mat &camera
 	}
 }
 
-void TrackObject::drawObject(int x, int y,Mat &frame){
 
+void TrackObject::drawObject(int x, int y,Mat &frame){
 	//use some of the openCV drawing functions to draw crosshairs
 	//on your tracked image!
 
@@ -84,4 +84,3 @@ void TrackObject::drawObject(int x, int y,Mat &frame){
 
     putText(frame,utils.intToString(x)+","+utils.intToString(y),Point(x,y+30),1,1,Scalar(0,255,0),2);
 }
-
