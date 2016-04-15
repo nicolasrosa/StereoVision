@@ -17,7 +17,7 @@
 #define THRESH_VALUE   100
 #define EROSION_SIZE     5
 #define DILATION_SIZE    5
-#define BLUR_SIZE        3
+#define BLUR_SIZE        5
 
 using namespace cv;
 using namespace std;
@@ -28,16 +28,27 @@ public:
     StereoMorphology();
     ~StereoMorphology();
 
+    void computeOverlayView(Mat imageL,Mat disp_BGR);
+    void computeWarningEdgesView();
     void applyMorphology(Mat src,Mat trackingView,bool isTrackingObjects,int inputType,bool enableLightingNoiseDetector);
+
     void apply_preFiltering(Mat *src,Mat *dst);
     void apply_lightingNoiseDetector();
     void apply_harris(Mat src);
     void apply_watershed(Mat src);
-    void Disp_diff(Mat disp8U,Mat disp87_last,Mat disp8U_diff);
+    void Disp_diff(Mat disp8U,Mat disp8U_last,Mat disp8U_diff);
+    //void addRedLines();
     //void cornerHarris_demo(int,void*);
 
     TrackObject trackObject;
     StereoUtils utils;
+
+    /* OverlayView */
+    Mat dispBGR_Filtered;
+    Mat disp_BGR_channels[3];
+
+    /* WarningEdgesView */
+    //Mat imgDiff;
 
     /* Dilation and Erosion Elements */
     Mat erosionElement;
@@ -50,6 +61,7 @@ public:
     Mat imgThreshold;
     Mat imgThresholdDraw;
     Mat trackingView;
+    Mat overlayView;
 };
 
 #endif // STEREOMORPHOLOGY_H

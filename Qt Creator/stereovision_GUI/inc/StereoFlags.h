@@ -28,7 +28,8 @@ public:
     bool showWarningLines;
     bool showHistograms;
     bool showDispDepth;
-    bool showLeftOnRightWindow;
+    bool showLeftOnLeftWindow;
+    bool showOverlayOnRightWindow;
 };
 
 #endif // STEREOFLAGS_H

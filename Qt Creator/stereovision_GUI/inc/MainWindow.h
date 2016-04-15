@@ -92,6 +92,8 @@ private slots:
     void on_inputSelector_activated(int index);
     void on_toggleBtnShowLeftImage_toggled(bool checked);
 
+    void on_toggleBtnShowOverlay_toggled(bool checked);
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void mousePressEvent(QMouseEvent *e);

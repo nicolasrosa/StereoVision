@@ -35,6 +35,7 @@ public:
 
     double alpha;
     double beta;
+    double gamma;
     Mat res_ADD;
 };
 

@@ -13,6 +13,7 @@ StereoDiff::StereoDiff(){
     StartDiff=false;
     alpha = 0.5;
     beta = (1.0-alpha);
+    gamma = 0.0;
 }
 
 StereoDiff::~StereoDiff(){}
@@ -37,7 +38,7 @@ void StereoDiff::addRedLines(){
     res_AND_BGR_channels[1] = Mat::zeros(res_AND.rows,res_AND.cols,CV_8UC1);
     cv::merge(res_AND_BGR_channels,3,res_AND_BGR);
 
-    addWeighted(imageL,alpha,res_AND_BGR,beta, 0.0,res_ADD);
+    addWeighted(imageL,alpha,res_AND_BGR,beta, gamma,res_ADD);
 
     //imshow("Add",res_ADD);
 }

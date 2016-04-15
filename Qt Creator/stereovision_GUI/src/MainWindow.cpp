@@ -63,12 +63,14 @@ void MainWindow::setupUi_Custom(){
     ui->toggleBtnShowXYZ->setCheckable(true);
     ui->toggleBtnShowDispDepth->setCheckable(true);
     ui->toggleBtnShowLeftImage->setCheckable(true);
+    ui->toggleBtnShowOverlay->setCheckable(true);
 
     /* Hides all Auxiliary Buttons */
     ui->toggleBtnShowHist->hide();
     ui->toggleBtnShowXYZ->hide();
     ui->toggleBtnShowDispDepth->hide();
     ui->toggleBtnShowLeftImage->hide();
+    ui->toggleBtnShowOverlay->hide();
 
     ui->statusBar->showMessage("Running...");
 }
@@ -195,6 +197,10 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
             ui->textBoxOutput->appendPlainText(QString("This feature is not supported, because of the Input file type (Image File).1"));
             break;
         }
+    }
+
+    if(stereo->flags.showDisparityMap && stereo->flags.showOverlayOnRightWindow){
+        stereo->morph.computeOverlayView(stereo->imageL[0],stereo->disp.disp_BGR);
     }
 
     if(stereo->flags.showHistograms){
@@ -696,14 +702,23 @@ void MainWindow::on_toggleBtnShowDispDepth_toggled(bool checked){
 
 void MainWindow::on_toggleBtnShowLeftImage_toggled(bool checked){
     if(checked){
-        cout << "Show Disp BGR Image on the Right Window: On" << endl;
-        stereo->flags.showLeftOnRightWindow = true;
+        cout << "Show Left Image on the Left Window: On" << endl;
+        stereo->flags.showLeftOnLeftWindow = true;
     }else{
-        cout << "Show Disp BGR Image on the Right Window: Off" << endl;
-        stereo->flags.showLeftOnRightWindow = false;
+        cout << "Show Left Image on the Left Window: Off" << endl;
+        stereo->flags.showLeftOnLeftWindow = false;
     }
 }
 
+void MainWindow::on_toggleBtnShowOverlay_toggled(bool checked){
+    if(checked){
+        cout << "Show Overlay Image on the Right Window: On" << endl;
+        stereo->flags.showOverlayOnRightWindow = true;
+    }else{
+        cout << "Show Overlay Image on the Right Window: Off" << endl;
+        stereo->flags.showOverlayOnRightWindow = false;
+    }
+}
 
 void MainWindow::mousePressEvent(QMouseEvent *e){
     int x_clickedPos;
@@ -761,27 +776,35 @@ void MainWindow::updateDisplayWindows(){
         putImage(stereo->imageL[0],LEFT_WINDOW);
         putImage(stereo->imageR[0],RIGHT_WINDOW);
 
-
         ui->toggleBtnShowHist->hide();
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->hide();
         ui->toggleBtnShowLeftImage->hide();
+        ui->toggleBtnShowOverlay->hide();
     }
 
     if(stereo->flags.showDisparityMap){
-        if(stereo->flags.showLeftOnRightWindow){
+        if(stereo->flags.showLeftOnLeftWindow){
             putImage(stereo->imageL[0],LEFT_WINDOW);
             ui->toggleBtnShowLeftImage->setText("ShowDisp");
         }else{
             putImage(stereo->disp.disp_8U,LEFT_WINDOW);
             ui->toggleBtnShowLeftImage->setText("ShowLeft");
         }
-        putImage(stereo->disp.disp_BGR,RIGHT_WINDOW);
+
+        if(stereo->flags.showOverlayOnRightWindow){
+            putImage(stereo->morph.overlayView,RIGHT_WINDOW);
+            ui->toggleBtnShowOverlay->setText("ShowDispBGR");
+        }else{
+            putImage(stereo->disp.disp_BGR,RIGHT_WINDOW);
+            ui->toggleBtnShowOverlay->setText("ShowOverlay");
+        }
 
         ui->toggleBtnShowHist->show();
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->show();
         ui->toggleBtnShowLeftImage->show();
+        ui->toggleBtnShowOverlay->show();
     }
 
     if(stereo->flags.show3Dreconstruction){
@@ -792,10 +815,11 @@ void MainWindow::updateDisplayWindows(){
         ui->toggleBtnShowXYZ->show();
         ui->toggleBtnShowDispDepth->hide();
         ui->toggleBtnShowLeftImage->hide();
+        ui->toggleBtnShowOverlay->hide();
     }
 
     if(stereo->flags.showTrackingObjectView){
-        if(stereo->flags.showLeftOnRightWindow){
+        if(stereo->flags.showLeftOnLeftWindow){
             putImage(stereo->disp.disp_8U,LEFT_WINDOW);
             ui->toggleBtnShowLeftImage->setText("ShowTrack");
         }else{
@@ -808,6 +832,7 @@ void MainWindow::updateDisplayWindows(){
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->hide();
         ui->toggleBtnShowLeftImage->show();
+        ui->toggleBtnShowOverlay->hide();
     }
 
     if(stereo->flags.showDiffImage && stereo->diff.StartDiff){
@@ -818,6 +843,7 @@ void MainWindow::updateDisplayWindows(){
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->hide();
         ui->toggleBtnShowLeftImage->hide();
+        ui->toggleBtnShowOverlay->hide();
     }
 
     if(stereo->flags.showWarningLines && stereo->diff.StartDiff){
@@ -828,6 +854,7 @@ void MainWindow::updateDisplayWindows(){
         ui->toggleBtnShowXYZ->hide();
         ui->toggleBtnShowDispDepth->hide();
         ui->toggleBtnShowLeftImage->hide();
+        ui->toggleBtnShowOverlay->hide();
     }
 }
 

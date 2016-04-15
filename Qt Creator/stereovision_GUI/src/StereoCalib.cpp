@@ -17,9 +17,9 @@ StereoCalib::StereoCalib(){
     hasQMatrix=false;
 }
 
-StereoCalib::~StereoCalib(){
 
-}
+StereoCalib::~StereoCalib(){}
+
 
 /* Instance Methods */
 /*** Stereo Calibration function

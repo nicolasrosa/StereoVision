@@ -728,6 +728,19 @@
      <string>ShowLeft</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="toggleBtnShowOverlay">
+    <property name="geometry">
+     <rect>
+      <x>1148</x>
+      <y>10</y>
+      <width>111</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ShowOverlay</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

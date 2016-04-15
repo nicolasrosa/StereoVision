@@ -27,6 +27,7 @@ int max_thresh = 255;
 const string source_window = "Source image";
 const string corners_window = "Corners detected";
 
+
 /** @function cornerHarris_demo */
 void cornerHarris_demo(int,void*)
 {
@@ -70,7 +71,35 @@ void cornerHarris_demo(int,void*)
 }
 
 
-void StereoMorphology::applyMorphology(Mat src, Mat cameraFeedL,bool isTrackingObjects,int inputType,bool enableLightingNoiseDetector){
+void StereoMorphology::computeOverlayView(Mat leftView,Mat dispBGR){
+    /* Computes Overlay View */
+    apply_preFiltering(&dispBGR,&dispBGR_Filtered);
+
+    /* Splits the BGR image */
+    split(dispBGR_Filtered,disp_BGR_channels);
+
+    /* Set values of the Blue Channel to zero */
+    disp_BGR_channels[0] = Mat::zeros(dispBGR_Filtered.rows,dispBGR_Filtered.cols,CV_8UC1);
+
+    /* Merges the BGR image */
+    cv::merge(disp_BGR_channels,3,dispBGR_Filtered);
+
+    cv::addWeighted(leftView,0.5,dispBGR_Filtered,0.5,0.0,overlayView);
+
+    //Debug
+    //imshow("disp_BGR without the Blue Channel",dispBGR_Filtered);
+    //imshow("Overlay", overlayView);
+}
+
+
+void StereoMorphology::computeWarningEdgesView(){
+
+
+}
+
+
+void StereoMorphology::applyMorphology(Mat src, Mat leftView,bool isTrackingObjects,int inputType,bool enableLightingNoiseDetector){
+    //TODO: Separate all process and create one function for each image processing. E.g.: computeThreshold
     /* Local Variables */
     Mat srcFiltered;
 
@@ -91,15 +120,15 @@ void StereoMorphology::applyMorphology(Mat src, Mat cameraFeedL,bool isTrackingO
 
     /* Tracking Object */
     if(isTrackingObjects){
-        cameraFeedL.copyTo(trackingView);
+        leftView.copyTo(trackingView);
         if(inputType == StereoCalib::VideoFile){
            trackObject.trackFilteredObject(x,y,imgThreshold,trackingView);
         }
     }
 
     //! Testing Methods !//
-    imshow("RAW",src);
-    imshow("Filtered", srcFiltered);
+    //imshow("RAW",src);
+    //imshow("Filtered", srcFiltered);
 
     //! Testing Blobs !//
     // Setup SimpleBlobDetector parameters.
@@ -143,7 +172,7 @@ void StereoMorphology::applyMorphology(Mat src, Mat cameraFeedL,bool isTrackingO
     drawKeypoints( srcFiltered, keypoints, im_with_keypoints, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS );
 
     // Show blobs
-    imshow("keypoints", im_with_keypoints );
+    //imshow("keypoints", im_with_keypoints );
 
     /* Harris - Corner Detector */
     //apply_harris(src);
@@ -170,8 +199,7 @@ void StereoMorphology::apply_preFiltering(Mat *src,Mat *dst){
     Mat imgED      ,imgEDBGR;
     Mat imgEDMedian,imgEDMedianBGR;
 
-    /* Erosion and Dilation */
-    // Take out spurious noise
+    /* Erosion and Dilation - Takes out spurious noise */
     erode(*src,imgE,erosionElement);
     dilate(imgE,imgED,erosionElement);
 
@@ -179,7 +207,7 @@ void StereoMorphology::apply_preFiltering(Mat *src,Mat *dst){
     //GaussianBlur(imgED,imgEDMedian,Size(3,3),0,0);
 
     /* Median Filter */
-    medianBlur(imgED,imgEDMedian,5);
+    medianBlur(imgED,imgEDMedian,BLUR_SIZE);
 
     /* Result */
     imgEDMedian.copyTo(*dst);
