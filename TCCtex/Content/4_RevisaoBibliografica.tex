@@ -183,46 +183,37 @@ Correspondência estéreo não é nada mais que a utilização de métodos esté
  	\label{homologous_points _stereo}
 \end{figure}
 
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Mapa de disparidades - \textit{Disparity Map}}
 
 Como já foi dito anteriormente, disparidade é o deslocamento dos pontos homólogos entre as duas imagens. Nos métodos estéreo, o valor da disparidade é codificada em escala de cinza, a qual é inversamente proporcional à distância do objeto. Portanto, níveis de cinza mais altos (tons claros) correspondem a disparidades maiores (perto) e níveis de cinza mais baixos (tons escuros) correspondem a disparidades mais baixas (distante). Devido a sua relação com a distância, este conceito é comumente atrelado à percepção de profundidade.
 
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Métodos Estéreo}
 
 Abaixo, encontra-se apresentado um pequeno resumo de como são os operadores dos métodos estéreo utilizado neste trabalho.
+
 \begin{enumerate}
- \item \textbf{\textit{Block Matching} - BM:} Este algoritmo é um método local, no qual utiliza soma das diferenças ao quadrado (SSD - \textit{Sum of Squared Differences}) para a determinação de correspondências. O tamanho da vizinhança deve ser avaliado, visto que a densidade do mapa gerado, nível de detalhamento e intensidade de ruído dependem disso. Caso o bloco seja pequeno, o mapa apresentará detalhes mais nítidos, porém adicionará ruídos ao mapa. Por outro lado, um bloco maior reduz o nível de ruído, porém diminui o nível de detalhaento do mapa. As limitações serviram de motivação para a criação do método a seguir \cite{Hirschmuller2008}.   
+ \item \textbf{\textit{Block Matching} - BM:} Este algoritmo é um método local, no qual utiliza soma das diferenças ao quadrado (SSD - \textit{Sum of Squared Differences}) para a determinação de correspondências. O tamanho da vizinhança deve ser avaliado, visto que a densidade do mapa gerado, nível de detalhamento e intensidade de ruído dependem disso. Caso o bloco seja pequeno, o mapa apresentará detalhes mais nítidos, porém adicionará ruídos ao mapa. Por outro lado, um bloco maior reduz o nível de ruído, porém diminui o nível de detalhamento do mapa. As limitações serviram de motivação para a criação do método a seguir \cite{Hirschmuller2008}.   
+ 
  \item \textbf{\textit{Semi-global Block Matching} - SGBM:} Este algoritmo é um método global e também visa a obtenção de uma correspondência estéreo mais precisa, para isso, além da etapa de agregação de custo (cálculo da similaridade), modela-se o sistema como um problema de minimização energética \cite{JunhwanKim2003}. Por conta disso, este método é mais lento que o apresentado anterior, porém é mais denso ao comparar-se o nível de detalhamento para um bloco de tamanho pequeno \cite{Hirschmuller2008}.
  
- \item \textbf{\textit{Block Matching with GPU Acceleration} - BMGPU:} Método é igual ao primeiro apresentado, diferindo do fato que as suas bibliotecas e métodos implementados são voltados para a aceleração em GPU. Dado o paralelismo inerente dos aceleradores gráficos de hoje, esse tipo de \textit{hardware} permite a descentralização e processamento simultâneo dos dados. Uma imp
+ \item \textbf{\textit{Block Matching with GPU Acceleration} - BMGPU:} Método é igual ao primeiro apresentado, diferindo do fato que as suas bibliotecas e métodos implementados são voltados para a aceleração em GPU. Dado o paralelismo inerente dos aceleradores gráficos de hoje, esse tipo de \textit{hardware} permite o processamento simultâneo dos dados. 
  \end{enumerate}
 
- 
+Atualmente,
 
-% Remover Depois
+% TODO: Escrever sobre os dois tipos de pesquisa que existem atualmente: Fast Stereo vs. High-Confidence Stereo
+% TODO: Escrever os melhores metódos estéreo que existem hoje: http://www.cvlibs.net/datasets/kitti/eval_stereo_flow.php?benchmark=stereo.
 
-% Falar sobre os dois tipos de pesquisa que existem atualmente: fast stereo/high-confidence stereo
-% Falar dos melhores methods estereo que existem hj -> http://www.cvlibs.net/datasets/kitti/eval_stereo_flow.php?benchmark=stereo.
-
-
-% Pegar alguma das referências abaixo
-% Métodos Estéreos
-% Os métodos estéreos objetivam achar pontos homólogos em um par de imagens estéreo, a Figura
-% 2.9 ilustra o problema. Mesmo em imagens retificadas o custo computacional de um método
-% estéreo é alto, grande parte dos métodos existentes não são passíveis de serem usados em tempo
-% real (Wang et. al., 2006b). Distorção projetiva, oclusão, descontinuidade e ambiguidade são
-% alguns dos desafios que estes métodos tem de superar (Mattoccia, 2010). Por contar com tantos
-% desafios, este tema é um dos mais investigados da área de visão computacional (Scharstein e
-% Szeliski, 2002). Uma revisão geral sobre o tema é apresentada por Scharstein (1999) e Schars-
-% tein e Szeliski (2002).
-
-
+% TODO: Escrever seção de Projeção Tridimensional(Opcional)
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %\section{Projeção Tridimensional - \textit{3D Reprojection}}
 
 
+% TODO: Escrever seção de Reconhecimento de Objetos(Opcional)
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %\section{Reconhecimento de Objeto - \textit{Object Recognition}}
 %\subsection{Segmentação - \textit{Image Segmentation}}
@@ -240,18 +231,18 @@ Nos dias de hoje, as empresas automobilísticas vem participando de uma verdadei
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.35]{./Resources/caminhao_autonomo.jpg}
+ 	\includegraphics[scale=0.40]{./Resources/caminhao_autonomo.jpg}
  	\caption{Caminhão Autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP em parceria com a Scania.}
  	\label{caminhao_autonomo}
 \end{figure}
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \textit{Micro Air Vehicle} (MAVS) desenvolvido pelo \textit{Massachusetts Institute of Technology} (MIT) permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obstáculos voando a um velocidade de 30 mph (48 $km/h$). A figura \ref{mit_drones} apresenta o trabalho desenvolvido, o qual é um comparativo de desempenho de uma implementação em hardware utilizando \textit{Field-programmable gate array} (FPGA) e um processador ARM para processamento embarcado do método \textit{Semi-Global Block Matching} (SGBM) \cite{BarryMIT}.
+No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \textit{Micro Air Vehicle} (MAVS) desenvolvido pelo \textit{Massachusetts Institute of Technology} (MIT) permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obstáculos voando a um velocidade de 30 mph (48 $km/h$). A figura \ref{mit_drones} apresenta o trabalho desenvolvido, o qual é um comparativo de desempenho de uma implementação em hardware utilizando \textit{Field-programmable gate array} (FPGA) e um processador ARM para processamento embarcado do método SGBM \cite{BarryMIT}.
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.30]{./Resources/mit_drones.png}
+ 	\includegraphics[scale=0.26]{./Resources/mit_drones.png}
  	\caption{Plataformas experimentais de aeronaves com o Sistema Estéreo - FPGA (frente) e o Sistema Estéreo - Pushbroom (trás). Câmaras são montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas células.}
  	\label{mit_drones}
 \end{figure}
@@ -267,4 +258,13 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
  	\label{G500}
 \end{figure}
 
+
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\section{Aceleração em Hardware - CUDA}
+
+\textit{Compute Unified Device Architecture} (CUDA) é uma tecnologia desenvolvida pela NVIDIA e em sua essência é uma plataforma de computação paralela de propósito geral, cujo objetivo é tirar proveito das unidades de processamento gráfico (GPU), assim, acelerando consideralmente a execução de algoritmos computacionais complexos ao comparar-se com o desempenho da CPU.
+
+Atualmente, a maioria das placas de video da NVIDIA contam com essa tecnologia, por conta disso os pesquisadores e desenvolvidores de software estão voltando suas pesquisas para o desenvolvimento e otimização de algoritmos que possam explorar todo o poder de processamento destes dispositivos. Alguns exemplos de aplicações são identificação de placas ocultas em artérias, análise do fluxo de tráfego aéreo \cite{Monish2011} e visualização de moléculas \cite{Stone2015}.
+
+Historicamente, a implementação de algoritmos em GPU mostrou-se bastante obscura, visto que sua programação era bastante atrelada ao hardware a ser utilizado, mesmo com linguagens de programação gráfica como o OpenGL. Em 2003, um grupo de pesquisadores de Stanford, apresentaram o primeiro compilador, Brook, que facilitaria a implementação de software, visto que permitia a lidar de uma maneira mais maleável o fluxo de dados, podendo principalmente paralelizá-los. Em 2006, a NVIDIA juntamente com Ian Buck, criador do Brook, desenvolveram uma plataforma (CUDA) mais intuitiva e que permitisse a utilização de uma linguagem de alto nível e tornasse a GPU em um processador de propósito geral (GPGPU)\cite{NVIDIA}.

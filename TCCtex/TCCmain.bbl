@@ -21,7 +21,7 @@ D~Scharstein and R~Szeliski.
 \bibitem{Dissanayake2001}
 M.W.M.G. Dissanayake, P.~Newman, S.~Clark, H.F. Durrant-Whyte, and M.~Csorba.
 \newblock {A solution to the simultaneous localization and map building
-  (SLAM)$\backslash$nproblem}.
+  (SLAM)}.
 \newblock {\em IEEE Transactions on Robotics and Automation}, 17(3):229--241,
   2001.
 
@@ -100,6 +100,21 @@ Sharad Nagappa, Narc{\'{\i}}s Palomeras, Chee~Sing Lee, Nuno Gracias, Daniel~E.
 \newblock {Single cluster PHD SLAM: Application to autonomous underwater
   vehicles using stereo vision}.
 \newblock {\em 2013 MTS/IEEE OCEANS-Bergen}, (Ref 288273):1--9, 2013.
+
+\bibitem{Monish2011}
+DT~Monish and Sandy Wiraatmadja.
+\newblock {High-Speed Prediction of Air Traffic for Real-Time Decision
+  Support}.
+\newblock {\em AIAA Guidance, Navigation, and Control Conference},
+  (August):1--15, 2011.
+
+\bibitem{Stone2015}
+John {E. Stone}, Michael {J. Hallock}, James {C. Phillips}, Joseph {R.
+  Peterson}, Kirby {L. Vandivort}, Zaida Luthey-Schulten, and Klaus Schulten.
+\newblock {Evaluation of Emerging Energy-Efficient Heterogeneous Computing
+  Platforms for Biomolecular and Cellular Simulation Workloads}.
+\newblock {\em Parallel and Distributed Processing Symposium Workshop (IPDPSW),
+  2016 IEEE International}, 2015.
 
 \bibitem{NVIDIA}
 NVIDIA.

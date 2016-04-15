@@ -16,6 +16,7 @@
 \contentsline {subsubsection}{Mapa de disparidades - \textit {Disparity Map}}{36}{section*.6}
 \contentsline {subsubsection}{M\IeC {\'e}todos Est\IeC {\'e}reo}{36}{section*.7}
 \contentsline {subsection}{\numberline {2.1.6}Aplica\IeC {\c c}\IeC {\~o}es em Rob\IeC {\'o}tica}{37}{subsection.2.1.6}
+\contentsline {section}{\numberline {2.2}Acelera\IeC {\c c}\IeC {\~a}o em Hardware - CUDA}{39}{section.2.2}
 \contentsline {chapter}{\numberline {3}Materiais e M\IeC {\'e}todos}{41}{chapter.3}
 \contentsline {section}{\numberline {3.1}Materiais}{41}{section.3.1}
 \contentsline {subsection}{\numberline {3.1.1}C\IeC {\^a}meras est\IeC {\'e}reo}{41}{subsection.3.1.1}
@@ -27,25 +28,25 @@
 \contentsline {section}{\numberline {3.2}M\IeC {\'e}todos}{47}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Cen\IeC {\'a}rios}{47}{subsection.3.2.1}
 \contentsline {subsubsection}{Cen\IeC {\'a}rio 1}{47}{section*.11}
-\contentsline {subsubsection}{Cen\IeC {\'a}rio 2}{48}{section*.12}
-\contentsline {subsubsection}{Cen\IeC {\'a}rio 3}{48}{section*.13}
+\contentsline {subsubsection}{Cen\IeC {\'a}rio 2}{47}{section*.12}
+\contentsline {subsubsection}{Cen\IeC {\'a}rio 3}{47}{section*.13}
 \contentsline {subsection}{\numberline {3.2.2}Processamento de Imagem}{49}{subsection.3.2.2}
 \contentsline {subsection}{\numberline {3.2.3}Acelera\IeC {\c c}\IeC {\~a}o em Hardware - \textit {Hardware Acceleration}}{50}{subsection.3.2.3}
 \contentsline {subsubsection}{CUDA}{50}{section*.14}
 \contentsline {subsubsection}{NEON}{51}{section*.15}
 \contentsline {subsection}{\numberline {3.2.4}Jetson TK1 - Configura\IeC {\c c}\IeC {\~a}o da Plataforma}{51}{subsection.3.2.4}
-\contentsline {chapter}{\numberline {4}Resultados}{55}{chapter.4}
-\contentsline {section}{\numberline {4.1}Interface Gr\IeC {\'a}fica - \textit {StereoVisionGUI}}{55}{section.4.1}
-\contentsline {section}{\numberline {4.2}Compara\IeC {\c c}\IeC {\~a}o de Desempenho: Desktop x BBB x Jetson TK1}{60}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Desktop}{61}{subsection.4.2.1}
-\contentsline {subsubsection}{CPU}{61}{section*.16}
-\contentsline {subsubsection}{GPU}{61}{section*.17}
-\contentsline {subsection}{\numberline {4.2.2}BeagleBone Black(BBB)}{61}{subsection.4.2.2}
-\contentsline {subsubsection}{CPU2}{61}{section*.18}
-\contentsline {subsubsection}{NEON}{61}{section*.19}
-\contentsline {subsection}{\numberline {4.2.3}Jetson TK1}{61}{subsection.4.2.3}
-\contentsline {subsubsection}{CPU}{61}{section*.20}
-\contentsline {subsubsection}{GPU}{61}{section*.21}
-\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o}{63}{chapter.5}
+\contentsline {chapter}{\numberline {4}Resultados}{53}{chapter.4}
+\contentsline {section}{\numberline {4.1}Interface Gr\IeC {\'a}fica - \textit {StereoVisionGUI}}{53}{section.4.1}
+\contentsline {section}{\numberline {4.2}Compara\IeC {\c c}\IeC {\~a}o de Desempenho: Desktop x BBB x Jetson TK1}{58}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Desktop}{59}{subsection.4.2.1}
+\contentsline {subsubsection}{CPU}{59}{section*.16}
+\contentsline {subsubsection}{GPU}{59}{section*.17}
+\contentsline {subsection}{\numberline {4.2.2}BeagleBone Black(BBB)}{59}{subsection.4.2.2}
+\contentsline {subsubsection}{CPU2}{59}{section*.18}
+\contentsline {subsubsection}{NEON}{59}{section*.19}
+\contentsline {subsection}{\numberline {4.2.3}Jetson TK1}{59}{subsection.4.2.3}
+\contentsline {subsubsection}{CPU}{59}{section*.20}
+\contentsline {subsubsection}{GPU}{59}{section*.21}
+\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o}{61}{chapter.5}
 \contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{67}{appendix.A}
 \contentsline {chapter}{\numberline {I}Anexo 1}{69}{appendix.A}

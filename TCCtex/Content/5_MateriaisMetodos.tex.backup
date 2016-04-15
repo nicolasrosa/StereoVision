@@ -7,19 +7,19 @@
 % 2) Há informação suficiente e clara sobre os materiais e sobre os métodos adotados?
 % Não há necessidade de reproduzir (copiar) as obras que embasam o trabalho e sim colocar o suficiente para o entendimento do trabalho e citar as referências.
 
-Nesta seção serão apresentados os equipamentos necessários e métodos utilizados para o desenvolvimento do projeto. No caso dos equipamentos, serão apresentados todas as especificações técnicas e sua importância para o trabalho. Na seção destinada aos métodos, os algoritmos desenvolvidos para identificação e reconhecimento de objetos serão descritos.
+Nesta seção, serão apresentados os equipamentos necessários e métodos utilizados para o desenvolvimento do projeto. No caso dos equipamentos, serão apresentados todas as especificações técnicas e sua importância para o trabalho. Na seção destinada aos métodos, os algoritmos desenvolvidos para identificação e reconhecimento de objetos serão descritos.
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Materiais}
 
-Com relação aos equipamentos é possível classificá-los em três grupos distintos: Câmeras estereoscópicas, Unidades de Processamento, e Equipamentos auxiliares.
+Com relação aos equipamentos é possível classificá-los em três grupos distintos: câmeras estéreo, unidades de processamento, e equipamentos auxiliares.
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-\subsection{Câmeras estereoscópicas}
+\subsection{Câmeras estéreo}
 
-O projeto já utilizou duas câmeras estereoscópicas. Primeiramente, utilizou-se a \textit{webcam} Minoru(veja figura \ref{minoru}), visto que apresentava preço totalmente acessível e cumpria o requisito de realizar \textit{streaming} via USB. Deste modo, tornou-se um equipamento essencial para a implementação dos métodos para encontro de correspondências entre as câmeras. A tabela \ref{minoru_tab}	 apresenta as especificações da \textit{webcam}.
+O projeto já utilizou duas câmeras estéreo. Primeiramente, utilizou-se a \textit{webcam} Minoru (veja figura \ref{minoru}), visto que apresentava preço totalmente acessível e cumpria o requisito de realizar \textit{streaming} via USB. Deste modo, tornou-se um equipamento essencial para a implementação dos métodos para encontro de correspondências entre as câmeras. A tabela \ref{minoru_tab} apresenta as especificações da \textit{webcam}.
 
 \begin{figure}[H]
 	\centering
@@ -44,7 +44,7 @@ O projeto já utilizou duas câmeras estereoscópicas. Primeiramente, utilizou-s
 \end{tabular}
 \end{table}
 
-Atualmente, a câmera utilizada é uma câmera digital 3D W3 fabricada pela Fujifilm (veja figura \ref{fujiW3}). A primeira câmera foi substituída, pois o controlador USB não permitia que a webcam realizasse \textit{streaming} na máxima resolução. Deste modo, optou-se por uma câmera com maior resolução e que apresentasse lentes com baixa distorção. Entretanto, essa câmera não apresenta \textit{streaming} via USB, assim é necessário que os vídeos sejam processados \textit{offline}. Visto que o projeto preocupa-se principalmente na identificação de obstáculos, isso não oferece nenhuma desvantagem para o desenvolvimento do algoritmo. Todavia, para uma aplicação real, a câmera instalada no veículo deve apresentar esse aspecto. A tabela \ref{fujiW3_tab} apresenta as especificações da câmera.
+Atualmente, a câmera utilizada é a digital 3D W3 fabricada pela Fujifilm (veja figura \ref{fujiW3}). A primeira câmera foi substituída, pois o controlador USB não permitia que a webcam realizasse \textit{streaming} na máxima resolução. Deste modo, optou-se por uma com maior resolução e que apresentasse lentes com baixa distorção. Entretanto, essa não apresenta \textit{streaming} via USB, assim é necessário que os vídeos sejam processados \textit{offline}. Visto que o projeto preocupa-se principalmente na identificação de obstáculos, isso não oferece nenhuma desvantagem para o desenvolvimento do trabalho. Todavia, para uma aplicação real, a câmera instalada no veículo deve apresentar esse aspecto. A tabela \ref{fujiW3_tab} apresenta as especificações da câmera em questão.
 
 \begin{table}[]
 \centering
@@ -72,13 +72,13 @@ Atualmente, a câmera utilizada é uma câmera digital 3D W3 fabricada pela Fuji
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Unidades de Processamento}
 
-Visto que este trabalho também busca a implementação dos algoritmos de detecção de obstáculos em quadricópteros, tem-se como objetivo sua implementação para Linux embarcado (\textit{Embedded Linux}).Abaixo estão apresentadas as plataformas que serão utilizadas para este propósito.
+Visto que este trabalho busca a implementação dos métodos estéreo em quadricópteros, tem-se como objetivo sua implementação para Linux embarcado (\textit{Embedded Linux}). Em seguida, estão apresentadas as plataformas que foram utilizadas para este propósito.
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{BeagleBone Black}
 
-A primeira a ser utilizada e estudada é a plataforma aberta BeagleBone Black (BBB), ilustrada pela figura \ref{bbb}. Esta plataforma foi escolhida devido ao seu tamanho reduzido, podendo ser facilmente embarcada, isto é, é possível adaptá-la mecanicamente ao veículo, e ao seu poder de processamento, utiliza Cortex-A8 operando à 1 GHz. A tabela \ref{bbb_tab} apresenta as especificações da plataforma.
+A primeira a ser utilizada e estudada é a plataforma aberta BeagleBone Black (BBB), ilustrada pela figura \ref{bbb}. Esta plataforma foi escolhida devido ao seu tamanho reduzido, podendo ser facilmente embarcada, isto é, é possível adaptá-la mecanicamente ao veículo. Com relação ao seu poder de processamento, ela apresenta um processador ARM Cortex-A8 operando à 1 GHz. A tabela \ref{bbb_tab} apresenta as especificações da plataforma.
 
 \begin{table}[]
 \centering
@@ -135,9 +135,35 @@ A segunda a ser utilizada e estudada é a plataforma Jetson TK1 produzida pela N
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{Notebook Asus Q550LF}
+
+A terceira plataforma utilizada é um \textit{Notebook} Asus Q550LF, ela foi utilizada para o desenvolvimento de todos os programas contidos neste trabalho e para estudo de desempenho comparativo com as plataformas embarcadas. A interface desenvolvida, \textit{StereoVisionGUI}, foi desenvolvida para ser executada nesta máquina e em computadores com arquitetura x86 e x64. As espeficações desta plataforma estão apresentadas pela tabela \ref{asusQ550LF}.
+
+\begin{table}[]
+\centering
+\caption{Especificações - Asus Q550LF}
+\label{asusQ550LF}
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Especificações CPU}}                                                   \\ \hline
+\textbf{CPU}             & Intel Core i7 (4th Gen) 4500U / 1.8~3.0 GHz                              \\ \hline
+\textbf{Number of Cores} & Dual-Core                                                                \\ \hline
+\textbf{Memory}          & DDR3 SDRAM 8 GB                                                          \\ \hline
+\multicolumn{2}{|c|}{\textbf{Espeficações de GPU}}                                                  \\ \hline
+\textbf{Chipset}         & NVIDIA                                                                   \\ \hline
+\textbf{Architecture}    & Kepler                                                                   \\ \hline
+\textbf{GPU}             & GK107 384 @ 837 MHz                                                      \\ \hline
+\textbf{Memory}          & DDR3 - 2048 MB - 128 Bit @ 1800 MHz                                      \\ \hline
+\textbf{CUDA Cores}      & 384 Cores                                                                \\ \hline
+\textbf{Features}        & Optimus, GPU Boost 2.0, PhysX, Verde Drivers, CUDA, 3D Vision, 3DTV Play \\ \hline
+\end{tabular}
+\end{table}
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Equipamentos auxiliares}
 
-Abaixo estão apresentados os equipamentos auxiliares para o desenvolvimento do trabalho. 
+Nesta seção, estão apresentados os equipamentos auxiliares para o desenvolvimento do trabalho. 
 
 Os métodos para a identificação de correspondências entre as câmeras requerem que a imagem estejam calibradas e retificadas. Por conta disso, utiliza-se o padrão de calibração de dimensão 7x10, apresentado na figura \ref{calibration_pattern}, para este propósito. Deste modo, é possível caracterizar as distorções das lentes, parâmetros intrínsecos, e o posicionamento de uma das câmeras com relação a outra, parâmetros extrínsecos.  
 
@@ -148,7 +174,7 @@ Os métodos para a identificação de correspondências entre as câmeras requer
 	\label{calibration_pattern}
 \end{figure}
 
-A motivação deste trabalho é a sua utilização em veículos aéreos. Por conta disso, é indispensável que se tenha algum desses veículos. O trabalho conta com a utilização de um quadricóptero produzido pela 3DR, porém este apresenta modificações visando o seu desenvolvimento para navegação autônoma. Deste modo, tem-se a adição de \textit{propellers guards}, objetivando o aumento da segurança do veículo e das pessoas que o operam. Além disso, o \textit{drone} conta com suportes para a câmera estereoscópica e para a plataforma embarcada. Como pode ser observado pela figura \ref{quad_camera_support}, todas as peças foram produzidas utilizando impressora 3D.
+A motivação deste trabalho é a sua utilização em veículos aéreos. Por conta disso, é indispensável que se tenha algum desses veículos. O trabalho conta com a utilização de um quadricóptero produzido pela 3DR, porém este apresenta modificações visando o seu desenvolvimento para navegação autônoma. Deste modo, tem-se a adição de \textit{propellers guards}, objetivando o aumento da segurança do veículo e das pessoas que o operam. Além disso, o \textit{drone} conta com suportes para a câmera estéreo e para a plataforma embarcada. Como pode ser observado na figura \ref{quad_camera_support}, todas as peças foram produzidas utilizando impressora 3D.
 
 \begin{figure}[H]
 	\centering
@@ -161,7 +187,8 @@ A motivação deste trabalho é a sua utilização em veículos aéreos. Por con
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Métodos}
 
-Nesta seção serão apresentados os cenários e os métodos utilizado para o desenvolvimento do algoritmo para a detecção de obstáculos.
+Nesta seção, serão apresentados os cenários e os procedimentos utilizados na implementação dos métodos estéreo apresentados.
+
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Cenários}
@@ -176,7 +203,7 @@ O cenário da figura \ref{thumb_video10_l} foi utilizado para estudo das condiç
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.50]{./Resources/thumb_video10_l.png}
+	\includegraphics[scale=0.50]{./Resources/thumbs/thumb_video10_l.png}
 	\caption{Cenário 1 - Ambiente Externo - Árvore}
 	\label{thumb_video10_l}
 \end{figure}
@@ -189,7 +216,7 @@ O cenário da figura \ref{thumb_video12_l} foi utilizado para estudo das condiç
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.50]{./Resources/thumb_video12_l.png}
+	\includegraphics[scale=0.50]{./Resources/thumbs/thumb_video12_l.png}
 	\caption{Cenário 2 - Ambiente Interno - Mesa/Cadeira/Estantes}
 	\label{thumb_video12_l}
 \end{figure}
@@ -202,7 +229,7 @@ O cenário da figura \ref{thumb_video15} foi utilizado para estudo das condiçõ
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.50]{./Resources/thumb_video15.png}
+	\includegraphics[scale=0.50]{./Resources/thumbs/thumb_video15.png}
 	\caption{Cenário 3 - Bancada/Quadricóptero}
 	\label{thumb_video15}
 \end{figure}
@@ -213,7 +240,7 @@ O cenário da figura \ref{thumb_video15} foi utilizado para estudo das condiçõ
 
 Nessa seção será apresentado o processamento de imagens utilizado para a identificação de obstáculos. Como pode ser visto na figura \ref{stereo_processor_steps}, todo o processo conta com seis etapas.
 
-\textbf{Câmeras:} O primeiro passo do processo é a captura das imagens da câmera estereoscópica. Idealmente, as imagens deve ser capturadas ao mesmo instante e as lentes não apresentarem distorções.   
+\textbf{Câmeras:} O primeiro passo do processo é a captura das imagens da câmera estéreo. Idealmente, as imagens deve ser capturadas ao mesmo instante e as lentes não apresentarem distorções.   
 
 \textbf{Calibração e Retificação:} Na prática, as lentes apresentam distorção. Com base nos parâmetros obtidos após a calibração das câmeras é possível retificá-las. 
 
@@ -232,15 +259,6 @@ Nessa seção será apresentado o processamento de imagens utilizado para a iden
 	\label{stereo_processor_steps}
 \end{figure}
 
-
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-\subsection{Correspondência Estéreo - \textit{Stereo Correspondence}}
-
-\subsubsection{Método Estéreo - \textit{Block Matching} - BM}
-
-\subsubsection{Método Estéreo Semi-global - \textit{Semi-global Block Matching} - SGBM}
-
-\subsubsection{Método Estéreo Local com Aceleração de GPU - \textit{Block Matching with GPU Acceleration} - BMGPU}
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Aceleração em Hardware - \textit{Hardware Acceleration}}
@@ -273,7 +291,7 @@ Neste trabalho, utilizou-se diferentes versões desta plataforma para o desenvol
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Jetson TK1 - Configuração da Plataforma}
 
-A execução das rotinas de visão estereoscópica com aceleração via GPU requisitam que a plataforma de desenvolvimento esteja corretamente configurada. Abaixo encontra-se o tutorial para configurá-la para a operação desejada, isto é,basicamente, configurá-la para o correto funcionamento da CUDA e do OpenCV2. 
+A execução das rotinas de visão estéreo com aceleração via GPU requisitam que a plataforma de desenvolvimento esteja corretamente configurada. Abaixo, encontra-se o tutorial para configurá-la para a operação desejada, isto é,basicamente, configurá-la para o correto funcionamento da CUDA e do OpenCV2. 
 
 \begin{enumerate}
   \item Baixando o JetPack L4T
