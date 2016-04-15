@@ -14,8 +14,6 @@
 #include "inc/MainWindow.h"
 #include "ui_mainwindow.h"
 
-/* Global Variables */
-
 /* Constructor and Destructor */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     uiConfiguration();
@@ -602,7 +600,6 @@ void MainWindow::on_methodSelector_activated(int index){
         cout << "Chose Method: BM_GPU" <<endl;
         stereo->method = StereoProcessor::BM_GPU;
         break;
-
     }
 }
 
@@ -710,6 +707,7 @@ void MainWindow::on_toggleBtnShowLeftImage_toggled(bool checked){
     }
 }
 
+
 void MainWindow::on_toggleBtnShowOverlay_toggled(bool checked){
     if(checked){
         cout << "Show Overlay Image on the Right Window: On" << endl;
@@ -719,6 +717,7 @@ void MainWindow::on_toggleBtnShowOverlay_toggled(bool checked){
         stereo->flags.showOverlayOnRightWindow = false;
     }
 }
+
 
 void MainWindow::mousePressEvent(QMouseEvent *e){
     int x_clickedPos;
@@ -770,6 +769,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         break;
     }
 }
+
 
 void MainWindow::updateDisplayWindows(){
     if(stereo->flags.showInputImages){
@@ -857,6 +857,7 @@ void MainWindow::updateDisplayWindows(){
         ui->toggleBtnShowOverlay->hide();
     }
 }
+
 
 void MainWindow::uiText1(){
     QString text = QString("Input Resolution(Width,Height): (")+
