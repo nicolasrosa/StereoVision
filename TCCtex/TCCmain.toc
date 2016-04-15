@@ -13,41 +13,39 @@
 \contentsline {subsubsection}{Par\IeC {\^a}metros extr\IeC {\'\i }nsecos}{33}{section*.5}
 \contentsline {subsection}{\numberline {2.1.4}Retifica\IeC {\c c}\IeC {\~a}o das Imagens - \textit {Rectification}}{35}{subsection.2.1.4}
 \contentsline {subsection}{\numberline {2.1.5}Correspond\IeC {\^e}ncia Est\IeC {\'e}reo - \textit {Stereo Correspondence}}{36}{subsection.2.1.5}
-\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo - \textit {Block Matching} - BM}{36}{section*.6}
-\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Semi-global - \textit {Semi-global Block Matching} - SGBM}{36}{section*.7}
-\contentsline {subsubsection}{M\IeC {\'e}todo Est\IeC {\'e}reo Local com Acelera\IeC {\c c}\IeC {\~a}o de GPU - \textit {Block Matching with GPU Acceleration} - BMGPU}{36}{section*.8}
-\contentsline {subsubsection}{Mapa de disparidades - \textit {Disparity Map}}{36}{section*.9}
-\contentsline {subsection}{\numberline {2.1.6}Aplica\IeC {\c c}\IeC {\~o}es em Rob\IeC {\'o}tica}{36}{subsection.2.1.6}
+\contentsline {subsubsection}{Mapa de disparidades - \textit {Disparity Map}}{36}{section*.6}
+\contentsline {subsubsection}{M\IeC {\'e}todos Est\IeC {\'e}reo}{36}{section*.7}
+\contentsline {subsection}{\numberline {2.1.6}Aplica\IeC {\c c}\IeC {\~o}es em Rob\IeC {\'o}tica}{37}{subsection.2.1.6}
 \contentsline {chapter}{\numberline {3}Materiais e M\IeC {\'e}todos}{41}{chapter.3}
 \contentsline {section}{\numberline {3.1}Materiais}{41}{section.3.1}
 \contentsline {subsection}{\numberline {3.1.1}C\IeC {\^a}meras est\IeC {\'e}reo}{41}{subsection.3.1.1}
 \contentsline {subsection}{\numberline {3.1.2}Unidades de Processamento}{43}{subsection.3.1.2}
-\contentsline {subsubsection}{BeagleBone Black}{43}{section*.10}
-\contentsline {subsubsection}{Jetson TK1}{44}{section*.11}
-\contentsline {subsubsection}{Notebook Asus Q550LF}{45}{section*.12}
+\contentsline {subsubsection}{BeagleBone Black}{43}{section*.8}
+\contentsline {subsubsection}{Jetson TK1}{44}{section*.9}
+\contentsline {subsubsection}{Notebook Asus Q550LF}{45}{section*.10}
 \contentsline {subsection}{\numberline {3.1.3}Equipamentos auxiliares}{45}{subsection.3.1.3}
 \contentsline {section}{\numberline {3.2}M\IeC {\'e}todos}{47}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Cen\IeC {\'a}rios}{47}{subsection.3.2.1}
-\contentsline {subsubsection}{Cen\IeC {\'a}rio 1}{47}{section*.13}
-\contentsline {subsubsection}{Cen\IeC {\'a}rio 2}{48}{section*.14}
-\contentsline {subsubsection}{Cen\IeC {\'a}rio 3}{48}{section*.15}
+\contentsline {subsubsection}{Cen\IeC {\'a}rio 1}{47}{section*.11}
+\contentsline {subsubsection}{Cen\IeC {\'a}rio 2}{48}{section*.12}
+\contentsline {subsubsection}{Cen\IeC {\'a}rio 3}{48}{section*.13}
 \contentsline {subsection}{\numberline {3.2.2}Processamento de Imagem}{49}{subsection.3.2.2}
 \contentsline {subsection}{\numberline {3.2.3}Acelera\IeC {\c c}\IeC {\~a}o em Hardware - \textit {Hardware Acceleration}}{50}{subsection.3.2.3}
-\contentsline {subsubsection}{CUDA}{50}{section*.16}
-\contentsline {subsubsection}{NEON}{51}{section*.17}
+\contentsline {subsubsection}{CUDA}{50}{section*.14}
+\contentsline {subsubsection}{NEON}{51}{section*.15}
 \contentsline {subsection}{\numberline {3.2.4}Jetson TK1 - Configura\IeC {\c c}\IeC {\~a}o da Plataforma}{51}{subsection.3.2.4}
 \contentsline {chapter}{\numberline {4}Resultados}{55}{chapter.4}
 \contentsline {section}{\numberline {4.1}Interface Gr\IeC {\'a}fica - \textit {StereoVisionGUI}}{55}{section.4.1}
 \contentsline {section}{\numberline {4.2}Compara\IeC {\c c}\IeC {\~a}o de Desempenho: Desktop x BBB x Jetson TK1}{60}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}Desktop}{61}{subsection.4.2.1}
-\contentsline {subsubsection}{CPU}{61}{section*.18}
-\contentsline {subsubsection}{GPU}{61}{section*.19}
+\contentsline {subsubsection}{CPU}{61}{section*.16}
+\contentsline {subsubsection}{GPU}{61}{section*.17}
 \contentsline {subsection}{\numberline {4.2.2}BeagleBone Black(BBB)}{61}{subsection.4.2.2}
-\contentsline {subsubsection}{CPU2}{61}{section*.20}
-\contentsline {subsubsection}{NEON}{61}{section*.21}
+\contentsline {subsubsection}{CPU2}{61}{section*.18}
+\contentsline {subsubsection}{NEON}{61}{section*.19}
 \contentsline {subsection}{\numberline {4.2.3}Jetson TK1}{61}{subsection.4.2.3}
-\contentsline {subsubsection}{CPU}{61}{section*.22}
-\contentsline {subsubsection}{GPU}{61}{section*.23}
+\contentsline {subsubsection}{CPU}{61}{section*.20}
+\contentsline {subsubsection}{GPU}{61}{section*.21}
 \contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o}{63}{chapter.5}
 \contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{67}{appendix.A}
 \contentsline {chapter}{\numberline {I}Anexo 1}{69}{appendix.A}

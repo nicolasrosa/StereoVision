@@ -15,8 +15,10 @@ year = {2001}
 
 @misc{AAVC,
 mendeley-groups = {TCC},
-title = {{Autonomous Aerial Vehicle Competition}},
-url = {http://www.flyaavc.org/}
+title = {{FLYAAVC. Autonomous Aerial Vehicle Competition}},
+url = {http://www.flyaavc.org/},
+howpublished={\url{http://www.flyaavc.org/}},
+year=2015
 }
 
 @article{Lemaire2007,
@@ -148,6 +150,7 @@ keywords = {CUDA,GPU,Jetson TK1,OpenCV},
 mendeley-groups = {TCC},
 title = {{Installing OpenCV (including the GPU module) on Jetson TK1}},
 url = {http://elinux.org/Jetson/Installing{\_}OpenCV},
+howpublished={\url{http://elinux.org/Jetson/Installing_OpenCV}},
 urldate = {2016-03-16}
 }
 
@@ -175,7 +178,52 @@ booktitle = {OpenCV 2.4.12.0 documentation},
 mendeley-groups = {TCC},
 title = {{Camera Calibration and 3D Reconstruction}},
 url = {http://docs.opencv.org/2.4/modules/calib3d/doc/camera{\_}calibration{\_}and{\_}3d{\_}reconstruction.html},
+howpublished={\url{http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html}},
 urldate = {2016-03-30},
 year = {2014}
 }
+
+@misc{Bouguet1999,
+abstract = {This is a release of a Camera Calibration Toolbox for Matlab® with a complete documentation. This document may also be used as a tutorial on camera calibration since it includes general information about calibration, references and related links.},
+author = {Bouguet, Jean-Yves},
+booktitle = {Jean-Yves Bouguet's Homepage},
+mendeley-groups = {TCC},
+title = {{Complete Camera Calibration Toolbox for Matlab}},
+url = {http://www.vision.caltech.edu/bouguetj/},
+year = {1999}
+}
+
+@article{Scharstein2003,
+abstract = {Progress in stereo algorithm performance is quickly outpacing the ability of existing stereo data sets to discriminate among the best-performing algorithms, motivating the need for more challenging scenes with accurate ground truth information. This paper describes a method for acquiring high-complexity stereo image pairs with pixel-accurate correspondence information using structured light. Unlike traditional range-sensing approaches, our method does not require the calibration of the light sources and yields registered disparity maps between all pairs of cameras and illumination projectors. We present new stereo data sets acquired with our method and demonstrate their suitability for stereo algorithm evaluation. Our results are available at http://www.middlebury.edu/stereo/.},
+author = {Scharstein, D and Szeliski, R},
+doi = {10.1109/CVPR.2003.1211354},
+isbn = {0-7695-1900-8},
+issn = {1063-6919},
+journal = {Computer Vision and Pattern Recognition, 2003. Proceedings. 2003 IEEE Computer Society Conference on},
+keywords = {cameras,computer vision,image texture,stereo image processing},
+mendeley-groups = {TCC},
+number = {June},
+pages = {I--195 -- I--202},
+title = {{High-accuracy stereo depth maps using structured light}},
+volume = {1},
+year = {2003}
+}
+
+@article{Hirschmuller2008,
+abstract = {This paper describes the Semi-Global Matching (SGM) stereo method. It uses a pixelwise, Mutual Information based matching cost for compensating radiometric differences of input images. Pixelwise matching is supported by a smoothness constraint that is usually expressed as a global cost function. SGM performs a fast approximation by pathwise optimizations from all directions. The discussion also addresses occlusion detection, subpixel refinement and multi-baseline matching. Additionally, postprocessing steps for removing outliers, recovering from specific problems of structured environments and the interpolation of gaps are presented. Finally, strategies for processing almost arbitrarily large images and fusion of disparity images using orthographic projection are proposed.A comparison on standard stereo images shows that SGM is among the currently top-ranked algorithms and is best, if subpixel accuracy is considered. The complexity is linear to the number of pixels and disparity range, which results in a runtime of just 1-2s on typical test images. An in depth evaluation of the Mutual Information based matching cost demonstrates a tolerance against a wide range of radiometric transformations. Finally, examples of reconstructions from huge aerial frame and pushbroom images demonstrate that the presented ideas are working well on practical problems.},
+author = {Hirschm{\"{u}}ller, Heiko},
+doi = {10.1109/TPAMI.2007.1166},
+isbn = {0769523722},
+issn = {01628828},
+journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+keywords = {Global optimization,Multibaseline,Mutual information,Stereo},
+mendeley-groups = {TCC},
+number = {2},
+pages = {328--341},
+pmid = {18084062},
+title = {{Stereo processing by semiglobal matching and mutual information}},
+volume = {30},
+year = {2008}
+}
+
 

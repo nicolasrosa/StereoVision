@@ -208,3 +208,37 @@ title = {{High-accuracy stereo depth maps using structured light}},
 volume = {1},
 year = {2003}
 }
+
+@article{Hirschmuller2008,
+abstract = {This paper describes the Semi-Global Matching (SGM) stereo method. It uses a pixelwise, Mutual Information based matching cost for compensating radiometric differences of input images. Pixelwise matching is supported by a smoothness constraint that is usually expressed as a global cost function. SGM performs a fast approximation by pathwise optimizations from all directions. The discussion also addresses occlusion detection, subpixel refinement and multi-baseline matching. Additionally, postprocessing steps for removing outliers, recovering from specific problems of structured environments and the interpolation of gaps are presented. Finally, strategies for processing almost arbitrarily large images and fusion of disparity images using orthographic projection are proposed.A comparison on standard stereo images shows that SGM is among the currently top-ranked algorithms and is best, if subpixel accuracy is considered. The complexity is linear to the number of pixels and disparity range, which results in a runtime of just 1-2s on typical test images. An in depth evaluation of the Mutual Information based matching cost demonstrates a tolerance against a wide range of radiometric transformations. Finally, examples of reconstructions from huge aerial frame and pushbroom images demonstrate that the presented ideas are working well on practical problems.},
+author = {Hirschm{\"{u}}ller, Heiko},
+doi = {10.1109/TPAMI.2007.1166},
+isbn = {0769523722},
+issn = {01628828},
+journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+keywords = {Global optimization,Multibaseline,Mutual information,Stereo},
+mendeley-groups = {TCC},
+number = {2},
+pages = {328--341},
+pmid = {18084062},
+title = {{Stereo processing by semiglobal matching and mutual information}},
+volume = {30},
+year = {2008}
+}
+
+@inproceedings{JunhwanKim2003,
+abstract = {We address visual correspondence problems without assuming that scene points have similar intensities in different views. This situation is common, usually due to nonLambertian scenes or to differences between cameras. We use maximization of mutual information, a powerful technique for registering images that requires no a priori model of the relationship between scene intensities in different views. However, it has proven difficult to use mutual information to compute dense visual correspondence. Comparing fixed-size windows via mutual information suffers from the well-known problems of fixed windows, namely poor performance at discontinuities and in low-texture regions. In this paper, we show how to compute visual correspondence using mutual information without suffering from these problems. Using a simple approximation, mutual information can be incorporated into the standard energy minimization framework used in early vision. The energy can then be efficiently minimized using graph cuts, which preserve discontinuities and handle low-texture regions. The resulting algorithm combines the accurate disparity maps that come from graph cuts with the tolerance for intensity changes that comes from mutual information.},
+author = {{Junhwan Kim} and Kolmogorov and Zabih},
+booktitle = {Proceedings Ninth IEEE International Conference on Computer Vision},
+doi = {10.1109/ICCV.2003.1238463},
+isbn = {0-7695-1950-4},
+mendeley-groups = {TCC},
+number = {Iccv},
+pages = {1033--1040 vol.2},
+title = {{Visual correspondence using energy minimization and mutual information}},
+url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1238463},
+year = {2003}
+}
+
+
+

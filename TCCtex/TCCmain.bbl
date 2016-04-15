@@ -67,6 +67,19 @@ OpenCV {Development Team}.
 Jean-Yves Bouguet.
 \newblock {Complete Camera Calibration Toolbox for Matlab}, 1999.
 
+\bibitem{Hirschmuller2008}
+Heiko Hirschm{\"{u}}ller.
+\newblock {Stereo processing by semiglobal matching and mutual information}.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  30(2):328--341, 2008.
+
+\bibitem{JunhwanKim2003}
+{Junhwan Kim}, Kolmogorov, and Zabih.
+\newblock {Visual correspondence using energy minimization and mutual
+  information}.
+\newblock In {\em Proceedings Ninth IEEE International Conference on Computer
+  Vision}, number Iccv, pages 1033--1040 vol.2, 2003.
+
 \bibitem{ShinzatoP}
 D.~F. {Shinzato, P. Y. ; Os{\'{o}}rio, F. S. ; Wolf}.
 \newblock {Visual Road Recognition Using Artificial Neural Networks and Stereo

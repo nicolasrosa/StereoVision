@@ -40,20 +40,22 @@ Geometria epipolar corresponde à estrutura básica de um sistema estéreo, na q
  	\label{geometry_epipolar}
 \end{figure}
 
-Projeta-se o ponto P no centros de projeção $O^e$ e $O^d$, as linha que interligam o ponto P à esses centros interceptam os planos $\Pi_e$ e $\Pi_d$ nos pontos $p_e$ e $p_d$. Os pontos epipolares (\textit{epipoles}) $e_e$ e $e_d$ estão localizados nos pontos de intersecção da linha que interliga os centros de projeção e os planos projetivos \cite{Mendes2012}. O conhecimento desta geometria é importante pra o entendimento da chamada restrição epipolar (\textit{epipolar constraint}). 
+Projeta-se o ponto P no centros de projeção $O^e$ e $O^d$, as linha que interligam o ponto P à esses centros interceptam os planos $\Pi_e$ e $\Pi_d$ nos pontos $p_e$ e $p_d$. Os pontos epipolares (\textit{epipoles}) $e_e$ e $e_d$ estão localizados nos pontos de intersecção da linha que interliga os centros de projeção e os planos projetivos \cite{Mendes2012}. O conhecimento desta geometria é importante pra o entendimento da chamada restrição epipolar (\textit{epipolar constraint}). Esta geometria 
 
-Considerando um sistema estéreo e um certo ponto $P$, deseja-se localizar na imagem da direita o seu ponto homólogo $P'$, isto é, sua projeção no plano projetivo direito. Sem a restrição, faz-se necessário a busca bidimensional em todo espaço do plano $\Pi_d$. Entretanto, a restrição epipolar garante que o ponto homólogo deve estar sobre a linha epipolar da imagem direita. Deste modo, é possível restringir a busca à uma única dimensão, busca somente sobre a linha epipolar, reduzindo consideravelmente o custo computacional \cite{Bradski2008}. Todavia, o sistema estéreo deve estar corretamente calibrado para que possa tomar mão desta restrição. A expressão \ref{epipolar_constraint} representa a restrição epipolar é dada relação entre a matriz fundamental F e os dois pontos correspondentes, em coordenadas de pixel \cite{RobertLaganiere}.
+Considerando um sistema estéreo e um certo ponto $P$, deseja-se localizar na imagem da direita o seu ponto homólogo $P'$, isto é, sua projeção no plano projetivo direito. Sem a restrição, faz-se necessário a busca bidimensional em todo espaço do plano $\Pi_d$. Por outro lado, esta restrição garante que o ponto homólogo deve estar sobre a linha epipolar da imagem direita. Deste modo, é possível restringir a busca à uma única dimensão, busca somente sobre a linha epipolar, reduzindo consideravelmente o custo computacional \cite{Bradski2008}. Todavia, o sistema estéreo deve estar corretamente calibrado para que possa tomar mão desta restrição. A expressão \ref{epipolar_constraint} representa a restrição epipolar é dada relação entre a matriz fundamental F e os dois pontos correspondentes, em coordenadas de pixel \cite{RobertLaganiere}.
 
 \begin{equation}
  \label{epipolar_constraint}
  p'^TFp = 0
 \end{equation}
 
+Hartley2004
+
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Calibração das Câmeras- \textit{Calibration}}
 
-Até o presente momento, todos os conceitos apresentados assumiam que as câmeras são idealmente alinhadas e que suas lentes não apresentavam distorção. Na realidade, os centros ópticos não são perfeitamente alinhados e a lente introduz distorções à imagem projetada no sensor da câmera. Deste modo, faz-se necessário o processo de calibração, o qual mensura estas deformidades e estima os parâmetros que consigam anular ou minimizar estas imperfeições. Isto permite que os métodos computacionais obtenham resultados mais coerentes com a realidade.  Estes parâmetros são classificadas em dois tipos específicos: intrínsecos e extrínsecos.
+Até o presente momento, todos os conceitos apresentados assumiam que as câmeras são idealmente alinhadas e que suas lentes não apresentavam distorção. Na realidade, os centros ópticos não são perfeitamente alinhados e a lente introduz distorções à imagem projetada no sensor da câmera. Deste modo, faz-se necessário o processo de calibração, o qual mensura estas deformidades e estima os parâmetros que consigam anular ou minimizar estas imperfeições. Isso permite que os métodos computacionais obtenham resultados mais coerentes com a realidade.  Estes parâmetros são classificadas em dois tipos específicos: intrínsecos e extrínsecos.
 
 
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -152,44 +154,52 @@ Devido ao desalinhamento entre as câmeras, torna-se necessário estimar estas v
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.70]{./Resources/stereo_calib_extrinsic.png}
- 	\caption{Calibração estéreo dos parâmetros extrínsecos - Estimativa do posicionamento da câmera direita$^2$}
+ 	\caption{Calibração estéreo dos parâmetros extrínsecos - Estimativa do posicionamento da câmera direita$^2$ em relação à câmera esquerda$^1$.}
  	\label{stereo_calib_extrinsic}
 \end{figure}
 
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-\subsection{Retificação de Imagens  - \textit{Rectification}}
+\subsection{Retificação das Imagens  - \textit{Rectification}}
 
-O processo de retificação é responsável por realizar as correções com relação à distorção das lentes e ao alinhamento das câmeras, com base nos parâmetros obtidos pelo processo de calibração apresentados no tópico anterior. Ao fim deste processo, deseja-se que o par de imagens estéreo estejam retificadas e sem distorções, preparadas para a aplicação dos métodos estéreo.
+O processo de retificação é responsável por realizar as correções com relação à distorção das lentes e ao alinhamento das câmeras, de acordo com os parâmetros obtidos pelo processo de calibração apresentado no tópico anterior. Ao fim deste processo, deseja-se que o par de imagens estéreo estejam retificadas e sem distorções, preparadas para a aplicação dos métodos estéreo, assim como ilustrado na figura \ref{rectification_process}.
 
-% Retificação
-% O processo de retificação consiste em realizar uma transformação no par de imagens estéreo
-% para alinhá-las horizontalmente, limitando assim a busca realizada pelo método estéreo, de
-% duas, para uma dimensão. Utilizando as informações vindas da calibração os algoritmos de
-% retificação objetivam minimizar a distorção a ser realizada nas imagens e ao mesmo tempo
-% maximizar a área vista em comum pelas câmeras (Bradski e Kaehler, 2008). A Figura 2.8
-% ilustra o resultado da retificação.
-% 2.1.7
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.32]{./Resources/bradski/rectification_process.png}
+ 	\caption{Retificação de Imagens - Processo de retificação estéreo. Imagem retirada de \cite{Bradski2008}.}
+ 	\label{rectification_process}
+\end{figure}
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Correspondência Estéreo - \textit{Stereo Correspondence}}
 
-Correspondência estéreo não é nada mais que a utilização de métodos estéreo, os quais são responsáveis pela procura de pontos homólogos nos pares de imagens estéreo. Como visto anteriormente, devido ao distanciamento das câmeras $(T)$ e ao distanciamento do objeto com relação às câmeras $(Z)$, o mesmo ponto apresenta diferentes posicionamento nos planos das câmeras $x^l$ e $x^r$. A figura \ref{homologous_points _stereo} ilustra um par de imagens estéreo (esquerda e direita), nas quais pixeis homólogos estão destacados. Os métodos estéreo utilizam da restrição epipolar o que reduzir o espaço de busca e de diferentes meios para encontrá-los. Mesmo com essa essa restrição e com a retificação das imagens, os métodos ainda assim apresenta um elevado custo computacional, além de que ainda estão sujeitos à encontrarem falsas correspondências \cite{Bradski2008}. 
+Correspondência estéreo não é nada mais que a utilização de métodos estéreo, os quais são responsáveis pela procura de pontos homólogos nos pares de imagens estéreo. Como visto anteriormente, devido ao distanciamento das câmeras $(T)$ e ao distanciamento do objeto com relação às câmeras $(Z)$, o mesmo ponto apresenta diferentes posicionamento nos planos das câmeras $x^l$ e $x^r$. A figura \ref{homologous_points _stereo} ilustra um par de imagens estéreo (esquerda e direita) e o mapa de disparidades gerado pela cena, nas quais os pixeis homólogos estão destacados. Os métodos estéreo utilizam da restrição epipolar o que reduzir o espaço de busca e de diferentes meios para encontrá-los. Mesmo com essa essa restrição e com a retificação das imagens, os métodos ainda assim apresenta um elevado custo computacional, além de que ainda estão sujeitos à encontrarem falsas correspondências. 
 
 \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.35]{./Resources/homologous_points_stereo.png}
+ 	\includegraphics[scale=0.33]{./Resources/homologous_points_stereo.png}
  	\caption{Correspondência de pontos homólogos em um par de imagens estéreo. Imagem original retirada de \cite{Scharstein2003}.}
  	\label{homologous_points _stereo}
 \end{figure}
 
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{Mapa de disparidades - \textit{Disparity Map}}
+
+Como já foi dito anteriormente, disparidade é o deslocamento dos pontos homólogos entre as duas imagens. Nos métodos estéreo, o valor da disparidade é codificada em escala de cinza, a qual é inversamente proporcional à distância do objeto. Portanto, níveis de cinza mais altos (tons claros) correspondem a disparidades maiores (perto) e níveis de cinza mais baixos (tons escuros) correspondem a disparidades mais baixas (distante). Devido a sua relação com a distância, este conceito é comumente atrelado à percepção de profundidade.
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{Métodos Estéreo}
+
 Abaixo, encontra-se apresentado um pequeno resumo de como são os operadores dos métodos estéreo utilizado neste trabalho.
+\begin{enumerate}
+ \item \textbf{\textit{Block Matching} - BM:} Este algoritmo é um método local, no qual utiliza soma das diferenças ao quadrado (SSD - \textit{Sum of Squared Differences}) para a determinação de correspondências. O tamanho da vizinhança deve ser avaliado, visto que a densidade do mapa gerado, nível de detalhamento e intensidade de ruído dependem disso. Caso o bloco seja pequeno, o mapa apresentará detalhes mais nítidos, porém adicionará ruídos ao mapa. Por outro lado, um bloco maior reduz o nível de ruído, porém diminui o nível de detalhaento do mapa. As limitações serviram de motivação para a criação do método a seguir \cite{Hirschmuller2008}.   
+ \item \textbf{\textit{Semi-global Block Matching} - SGBM:} Este algoritmo é um método global e também visa a obtenção de uma correspondência estéreo mais precisa, para isso, além da etapa de agregação de custo (cálculo da similaridade), modela-se o sistema como um problema de minimização energética \cite{JunhwanKim2003}. Por conta disso, este método é mais lento que o apresentado anterior, porém é mais denso ao comparar-se o nível de detalhamento para um bloco de tamanho pequeno \cite{Hirschmuller2008}.
+ 
+ \item \textbf{\textit{Block Matching with GPU Acceleration} - BMGPU:}
+ \end{enumerate}
 
-\subsubsection{Método Estéreo - \textit{Block Matching} - BM}
-
-\subsubsection{Método Estéreo Semi-global - \textit{Semi-global Block Matching} - SGBM}
-
-\subsubsection{Método Estéreo Local com Aceleração de GPU - \textit{Block Matching with GPU Acceleration} - BMGPU}
+ 
 
 % Remover Depois
 
@@ -210,10 +220,6 @@ Abaixo, encontra-se apresentado um pequeno resumo de como são os operadores dos
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-\subsubsection{Mapa de disparidades - \textit{Disparity Map}}
-
-
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %\section{Projeção Tridimensional - \textit{3D Reprojection}}
 
 
@@ -231,15 +237,18 @@ Nesta seção, serão apresentados alguns dos trabalhos que têm como principais
 
 Nos dias de hoje, as empresas automobilísticas vem participando de uma verdadeira corrida tecnológica para o desenvolvimento de automóveis totalmente autônomos e economicamente viáveis. As universidades não ficaram para trás e também apresentam pesquisas envolvendo desenvolvimento de algoritmos de controle e sensores, tornando essa corrida ainda mais acirrada. Os resultados apresentados são realmente promissores, o que concretizam cada vez mais essa realidade tida até então como distante. Na figura \ref{caminhao_autonomo}, é possível observar o projeto de caminhão autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP. O caminhão conta com diversos sensores, dentre eles câmeras estéreo, que identificam outros automóveis, pessoas e faixas de sinalização \cite{ShinzatoP}. 
 
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/caminhao_autonomo.jpg}
- 	\caption{Caminhão Autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP em parceria com a Scania}
+ 	\caption{Caminhão Autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP em parceria com a Scania.}
  	\label{caminhao_autonomo}
 \end{figure}
 
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \textit{Micro Air Vehicle} (MAVS) desenvolvido pelo \textit{Massachusetts Institute of Technology} (MIT) permite que estas pequenas aeronaves consigam navegar autonomamente e desviar de obstáculos voando a um velocidade de 30 mph (48 $km/h$). A figura \ref{mit_drones} apresenta o trabalho desenvolvido, o qual é um comparativo de desempenho de uma implementação em hardware utilizando \textit{Field-programmable gate array} (FPGA) e um processador ARM para processamento embarcado do método \textit{Semi-Global Block Matching} (SGBM) \cite{BarryMIT}.
 
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.30]{./Resources/mit_drones.png}
@@ -247,14 +256,15 @@ No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \tex
  	\label{mit_drones}
 \end{figure}
 
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 No caso de navegação autônoma para ambiente subaquático, um exemplo de \textit{autonomous underwater vehicle} (AUV) é o projeto desenvolvido pela Universidade espanhola de Girona (veja figura \ref{G500}). O trabalho propõe a utilização do método de Mapeamento e Localização Simultânea (SLAM), juntamente com câmera estéreo, para o reconhecimento do ambiente, aprimorando assim o erro de rastreamento dos objetos \cite{Nagappa2013}.
 
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.1]{./Resources/G500.jpg}
  	\caption{Veículo Submarino Autônomo - Girona 500}
  	\label{G500}
 \end{figure}
-
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
