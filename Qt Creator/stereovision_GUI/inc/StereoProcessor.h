@@ -61,6 +61,7 @@ public:
     void captureFrames();
     void applyRectification();
     void calculateDisparities();
+    void calculateTrueMap();
     void calculate3DReconstruction();
     void saveLastFrames();
     void videoLooper();
@@ -99,6 +100,9 @@ public:
 
     /* Mouse Coordinates */
     int x,y;
+
+    /* Result */
+    Mat true_dmap;
 
 private:
     int inputNum;

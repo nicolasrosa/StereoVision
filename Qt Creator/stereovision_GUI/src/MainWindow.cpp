@@ -14,6 +14,12 @@
 #include "inc/MainWindow.h"
 #include "ui_mainwindow.h"
 
+//TODO: Mover as Bibliotecas do PCL Visualizer pra outro lugar
+#include <pcl/common/common_headers.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/visualization/pcl_visualizer.h>
+#include <boost/thread/thread.hpp>
+
 /* Constructor and Destructor */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     uiConfiguration();
@@ -178,6 +184,8 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     /* (9) Disparities Calculation */
     if(stereo->flags.showDisparityMap || stereo->flags.show3Dreconstruction || stereo->flags.showTrackingObjectView || stereo->flags.showDiffImage || stereo->flags.showWarningLines){
         stereo->calculateDisparities();
+        stereo->calculateTrueMap();
+        //stereo->utils.writeMatToFile(stereo->true_dmap,"truemap.txt");
     }
 
     /* (10) Projecting 3D point cloud to image */

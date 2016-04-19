@@ -396,6 +396,10 @@ void StereoProcessor::calculateDisparities(){
     }
 }
 
+void StereoProcessor::calculateTrueMap(){
+    disp.disp_16S.convertTo(true_dmap, CV_32F, 1.0/16.0, 0.0);
+}
+
 void StereoProcessor::calculate3DReconstruction(){
     //view3D.fillOcclusion(disp.disp_16S,16,false);
 

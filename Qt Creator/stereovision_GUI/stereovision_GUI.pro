@@ -11,8 +11,28 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 # Libraries
-INCLUDEPATH += /usr/local/include/opencv
-LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu
+INCLUDEPATH += /usr/local/include/opencv \
+               /usr/include/vtk-5.8 \
+               /usr/include/boost
+LIBS += `pkg-config --cflags --libs opencv ` -lopencv_gpu -lboost_system
+
+# PCL Libraries
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += pcl_registration-1.7
+unix: PKGCONFIG += pcl_geometry-1.7
+unix: PKGCONFIG += pcl_features-1.7
+unix: PKGCONFIG += pcl_search-1.7
+unix: PKGCONFIG += pcl_kdtree-1.7
+unix: PKGCONFIG += pcl_filters-1.7
+unix: PKGCONFIG += pcl_surface-1.7
+unix: PKGCONFIG += pcl_octree-1.7
+unix: PKGCONFIG += pcl_sample_consensus-1.7
+unix: PKGCONFIG += pcl_segmentation-1.7
+unix: PKGCONFIG += pcl_visualization-1.7
+unix: PKGCONFIG += pcl_io-1.7
+unix: PKGCONFIG += pcl_apps-1.7
+unix: PKGCONFIG += pcl_keypoints-1.7
+unix: PKGCONFIG += pcl_tracking-1.7
 
 # Sources
 SOURCES += src/main.cpp \
