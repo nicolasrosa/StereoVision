@@ -714,6 +714,16 @@
       <string>Input 7</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>Input 8</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Input 9</string>
+     </property>
+    </item>
    </widget>
    <widget class="QPushButton" name="toggleBtnShowLeftImage">
     <property name="geometry">

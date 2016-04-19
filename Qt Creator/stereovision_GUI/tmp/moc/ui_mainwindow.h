@@ -233,6 +233,8 @@ public:
          << QApplication::translate("MainWindow", "Input 5", 0)
          << QApplication::translate("MainWindow", "Input 6", 0)
          << QApplication::translate("MainWindow", "Input 7", 0)
+         << QApplication::translate("MainWindow", "Input 8", 0)
+         << QApplication::translate("MainWindow", "Input 9", 0)
         );
         toggleBtnShowLeftImage->setText(QApplication::translate("MainWindow", "ShowLeft", 0));
         toggleBtnShowOverlay->setText(QApplication::translate("MainWindow", "ShowOverlay", 0));

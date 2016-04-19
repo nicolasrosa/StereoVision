@@ -22,6 +22,8 @@ StereoFlags::StereoFlags(){
     showWarningLines=false;
     showHistograms=false;
     showDispDepth=false;
+    showLeftOnLeftWindow=false;
+    showOverlayOnRightWindow=false;
 }
 
 StereoFlags::~StereoFlags(){}

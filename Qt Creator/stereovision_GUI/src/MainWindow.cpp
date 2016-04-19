@@ -364,8 +364,8 @@ void MainWindow::openStereoSource(int inputNum){
         stereo->calib.hasQMatrix=false;
         break;
     case 7:
-        stereo->calib.imageL_FileName = "../data/left/left2.png";
-        stereo->calib.imageR_FileName = "../data/right/right2.png";
+        stereo->calib.imageL_FileName = "/home/nicolas/repository/StereoVision/data/dog_l.png";
+        stereo->calib.imageR_FileName = "/home/nicolas/repository/StereoVision/data/dog_r.png";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
