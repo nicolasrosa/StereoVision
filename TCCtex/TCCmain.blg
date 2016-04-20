@@ -10,45 +10,45 @@ Warning--there's a number but no series in JunhwanKim2003
 Warning--empty year in ShinzatoP
 Warning--there's a number but no volume in Nagappa2013
 Warning--there's a number but no volume in Monish2011
-You've used 24 entries,
+You've used 30 entries,
             1791 wiz_defined-function locations,
-            590 strings with 8006 characters,
-and the built_in function-call counts, 4746 in all, are:
-= -- 409
-> -- 206
-< -- 6
-+ -- 81
-- -- 57
-* -- 270
-:= -- 742
-add.period$ -- 67
-call.type$ -- 24
-change.case$ -- 21
+            630 strings with 9105 characters,
+and the built_in function-call counts, 5654 in all, are:
+= -- 496
+> -- 230
+< -- 7
++ -- 93
+- -- 63
+* -- 286
+:= -- 883
+add.period$ -- 87
+call.type$ -- 30
+change.case$ -- 27
 chr.to.int$ -- 0
-cite$ -- 31
-duplicate$ -- 208
-empty$ -- 491
-format.name$ -- 57
-if$ -- 1059
+cite$ -- 37
+duplicate$ -- 247
+empty$ -- 604
+format.name$ -- 63
+if$ -- 1278
 int.to.chr$ -- 0
-int.to.str$ -- 24
-missing$ -- 17
-newline$ -- 118
-num.names$ -- 23
-pop$ -- 104
+int.to.str$ -- 30
+missing$ -- 18
+newline$ -- 150
+num.names$ -- 29
+pop$ -- 136
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 105
+skip$ -- 125
 stack$ -- 0
-substring$ -- 250
-swap$ -- 49
-text.length$ -- 6
+substring$ -- 266
+swap$ -- 60
+text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 7
-while$ -- 47
-width$ -- 26
-write$ -- 240
+while$ -- 56
+width$ -- 32
+write$ -- 306
 (There were 7 warnings)

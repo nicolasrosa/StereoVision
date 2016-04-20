@@ -1,13 +1,15 @@
 \chapter{Introdução}
 \label{Introducao}
 
-A pesquisa em veículos aéreos não tripulado (VANTs) vem se tornando um assunto recorrente no âmbito científico. A real motivação para seu desenvolvimento levanta diversas questões éticas e legais, visto que foram inicialmente motivados para fins militares. Por outro lado, esse tipo de plataforma também possui aplicações tais como: cultivo e pulverização de culturas, produção cinematográfica, operações de busca e salvamento, inspeção de linhas elétricas de alta tensão, entrega de mercadorias e encomendas.
+A pesquisa em veículos aéreos não tripulados (VANTs) vêm se tornando um assunto recorrente no âmbito científico. A real motivação para seu desenvolvimento levanta diversas questões éticas e legais, visto que foram inicialmente motivados para fins militares. Por outro lado, esse tipo de plataforma também possui aplicações tais como: cultivo e pulverização de culturas, produção cinematográfica, operações de busca e salvamento, inspeção de linhas elétricas de alta tensão, entrega de mercadorias e encomendas.
 
-A navegação de um micro veículo aéreo em espaço confinado é um desafio significante. Atualmente, a navegação autônoma enfrenta o problema de localização e mapeamento simultâneo, mais conhecido como SLAM (\textit{Simultaneous Localization and Mapping}) \cite{Dissanayake2001}. SLAM apresenta quatro etapas: Mapeamento, Percepção, Localização e Modelagem. A complexidade deste problema encontra-se no fato de que o veículo necessita navegar em um espaço desconhecido, extrair características importantes do ambiente, construir um mapa com os dados obtidos e simultaneamente localizar-se dentro deste. O sensoriamento pode ser realizado tanto por visão computacional utilizando câmeras ou por sensores ópticos, como, por exemplo, o LIDAR (Light Detection And Ranging). 
+A navegação de um micro veículo aéreo em espaço confinado é um desafio significante. Atualmente, a navegação autônoma enfrenta o problema de localização e mapeamento simultâneo, mais conhecido como SLAM (\textit{Simultaneous Localization and Mapping}) \cite{Dissanayake2001}. O SLAM apresenta quatro etapas: Mapeamento, Percepção, Localização e Modelagem. A complexidade deste problema encontra-se no fato de que o veículo necessita navegar em um espaço desconhecido, extrair características importantes do ambiente, construir um mapa com os dados obtidos e simultaneamente localizar-se dentro deste. O sensoriamento pode ser realizado tanto por visão computacional utilizando câmeras ou por sensores ópticos, como, por exemplo, o LIDAR (Light Detection And Ranging) \cite{Barry2015}. 
 
-O processo de desenvolvimento do veículo consiste em quatro passos: estrutura, circuito, controle e navegação. Os dois primeiros itens compõem o hardware, o qual estabelece as conexões físicas necessárias para integrar os sistemas de alimentação, comunicação e controle. A parte de software engloba o desenvolvimento de algoritmos visando o controle e navegação, mais especificamente o desenvolvimento do código para visão estéreo (\textit{Stereo Vision}) \cite{Lemaire2007}, planejamento de caminho (\textit{Path Planning}) e arquitetura de máquina de estados (\textit{Decision Making}).
+O processo de desenvolvimento do veículo consiste em quatro passos: estrutura, circuito, controle e navegação. Os dois primeiros itens compõem o hardware, o qual estabelece as conexões físicas necessárias para integrar os sistemas de alimentação, comunicação e controle. A parte de software engloba o desenvolvimento de algoritmos visando o controle e navegação, mais especificamente o desenvolvimento do código para visão estéreo (\textit{Stereo Vision}), planejamento de caminho (\textit{Path Planning}) e arquitetura de máquina de estados (\textit{Decision Making}) \cite{Lemaire2007}.
 
-Um sistema autônomo também implica o processamento de navegação, detecção de obstáculos, tomada de decisão, sejam embarcados, isto é, todo processamento necessário deve ser realizado \textit{Online}. Este trabalho objetiva-se no estudo das ações que devam ser tomadas para que o algoritmo de detecção de obstáculos utilizando visão estéreo seja embarcado. Deste modo, as plataformas de desenvolvimento BeagleBone Black e NVIDIA Jetson TK1 serão analisadas e suas performances avaliadas ao executar o algoritmo desenvolvido \cite{Shah2014}. 
+Um sistema autônomo também implica que o processamento de navegação, detecção de obstáculos, tomada de decisão, sejam embarcados, isto é, todo processamento necessário deve ser realizado \textit{online}. 
+
+Este trabalho concentra-se no estudo e na implementação do algoritmo de detecção de obstáculos utilizando visão estéreo, tomando as ações cabíveis para que seja embarcado. Deste modo, as plataformas de desenvolvimento BeagleBone Black e NVIDIA Jetson TK1 serão analisadas e suas performances avaliadas ao executar o algoritmo desenvolvido \cite{Shah2014}. 
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -16,29 +18,18 @@ Um sistema autônomo também implica o processamento de navegação, detecção 
 \begin{enumerate}
 	\item Estudo e aplicação de técnicas de visão computacional para visão estéreo.
 	\item Desenvolvimento de uma interface de apoio para o monitoramento de um veículo autônomo.
-	\item Desenvolvimento de algoritmo de visão estéreo para Linux Embarcado e aplicação em Quadricópteros.
-	\item Comparativo de desempenho do algoritmo desenvolvido em diferentes plataformas.
+	\item Implementação de algoritmos de visão estéreo para Linux embarcado para aplicação em Quadricópteros.
+	\item Comparativo de desempenho do algoritmo implementado em diferentes plataformas.
+	\item Estudo e aplicação de métodos para a aceleração em hardware dos algoritmos implementados.
+%	\item Utilização da Plataforma ROS (Robot Operating System)	%
 \end{enumerate}
-
-% Objetivos Antigos
-%\textcolor{red}{\textbf{Dica:} Apresente "somente" os objetivos - podem ser gerais e/ou específicos}
-%s
-%\textcolor{red}{
-%\begin{enumerate}
-%	\item Desenvolvimento de um algoritmo de controle para veículo aéreo autônomo
-%	\item Estudo e aplicação do algoritmo de localização e mapeamento simultâneo baseado em Visão (Vision-based SLAM)
-%	\item Desenvolvimento de código da Visão do Quadricóptero para Linux Embarcado
-%	\item Utilização da Plataforma ROS (Robot Operating System)
-%	\item Reproduzir o desafio proposto pela AAVC Competition	
-%\end{enumerate}
-%}
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Justificativa}
 % Dica: Explanação sobre porque o trabalho se justifica e quais os pontos de relevância do mesmo.
 
-A pouco mais de 30 anos, o VANT BQM-1BR realizava seu primeiro voo em espaço aéreo brasileiro. Deste então, mesmo a após a recente popularização dos \textit{Drones}, a legislação com relação à esses veículos ainda é obscura. José Luiz Boa Nova Filho, gerente-adjunto do projeto VANT da Polícia Federal, apresenta o histórico e introduz a atual conjuntura na qual se encontra o processo legislativo \cite{Filho2014}. No dia 19/11/2015, o Departamento de Controle do Espaço Aéreo da Aeronáutica (DECEA) e a Agência Nacional de Aviação Civil (ANAC) publicaram a nova regulamentação para a utilização dos \textit{Remotely-Piloted Aircraft} (RPA), termo adotado para se referir aos VANTs, traduzido como "Aeronave Remotamente Pilotada", substituindo assim a Circular de Informações Aeronáuticas AIC N 21/10. A regulação segue o modelo proposto pela Organização de Aviação Civil Internacional (OACI), a qual preza integralmente pela priorização da segurança, tanto da aeronave quanto dos civis e propriedades \cite{DECEA2015}. 
+Há pouco mais de trinta anos, o VANT BQM-1BR realizava seu primeiro voo em espaço aéreo brasileiro. Deste então, mesmo a após a recente popularização dos \textit{Drones}, a legislação com relação à esses veículos ainda é obscura. José Luiz Boa Nova Filho, gerente-adjunto do projeto VANT da Polícia Federal, apresenta o histórico e introduz a atual conjuntura na qual se encontra o processo legislativo \cite{Filho2014}. No dia 19/11/2015, o Departamento de Controle do Espaço Aéreo da Aeronáutica (DECEA) e a Agência Nacional de Aviação Civil (ANAC) publicaram a nova regulamentação para a utilização dos \textit{Remotely-Piloted Aircraft} (RPA), termo adotado para se referir aos VANTs, traduzido como "Aeronave Remotamente Pilotada", substituindo assim a Circular de Informações Aeronáuticas AIC N 21/10. A regulação segue o modelo proposto pela Organização de Aviação Civil Internacional (OACI), a qual preza integralmente pela priorização da segurança, tanto da aeronave quanto dos civis e propriedades \cite{DECEA2015}. 
 
 A \textit{Federal Aviation Administration} (FAA) apresenta as mesmas dificuldades para a integração deste dispositivos em seu espaço aéreo, visto que este é o mais complexo e movimentado do mundo. Deste modo, mesmo sem uma legislação madura, rígidas restrições são impostas para voos em ambientes abertos. Entretanto, assim como as agências brasileiras, a FAA ainda não apresentou uma regulamentação clara envolvendo veículos totalmente autônomos. 
 
@@ -49,13 +40,13 @@ Conclui-se que, mesmo sem um posicionamento concreto das agências reguladoras, 
 \section{Motivação}
 % Dica: Um pequeno texto sobre o que motivou o desenvolvimento do Trabalho.
 
-A proposta deste trabalho de conclusão de curso é auxiliar o primeiro passo de mapeamento de ambientes através de visão estéreo. Este trabalho é motivado pela tentativa de reproduzir-se o desafio proposto pela \textit{Autonomous Aerial Vehicle Competition} (AAVC)\cite{AAVC}, competição organizada pelo Laboratório de Pesquisas da Forca Aérea Americana (AFRL) e sediada em Dayton-OH. Esta competição incentiva o estudo de veículos aéreos autônomos, convidando diversas universidades a compartilhar seus avanços nesta área de pesquisa. O competidor é motivado a adaptar um modelo de quadricóptero $3DRobotics^{\textcopyright}$, assim este veículo precisa cumprir um certo percurso com caixas como obstáculos, detectar e reportar à estação base a posição de um objeto.
+A proposta deste trabalho de conclusão de curso é auxiliar o primeiro passo de mapeamento de ambientes através de visão estéreo. Também é motivado pela tentativa de reproduzir-se o desafio proposto pela \textit{Autonomous Aerial Vehicle Competition} (AAVC)\cite{AAVC}, competição organizada pelo Laboratório de Pesquisas da Forca Aérea Americana (AFRL) e sediada em Dayton-OH. Esta competição incentiva o estudo de veículos aéreos autônomos, convidando diversas universidades a compartilhar seus avanços nesta área de pesquisa. O competidor é motivado a adaptar um modelo de quadricóptero $3DRobotics^{\textcopyright}$, assim este veículo precisa cumprir um certo percurso com caixas como obstáculos, detectar e reportar à estação base a posição de um objeto.
 
-A segunda motivação para o desenvolvimento deste trabalho é o crescente número de aplicações de visão estéreo em plataformas robótica. Atualmente, existem diversas pesquisas voltadas ao desenvolvimento de veículos autônomos para navegação terrestre, aérea e subaquática (veja seção \ref{aplicacoes_robotica}).
+A segunda motivação para o desenvolvimento deste trabalho é o crescente número de aplicações de visão estéreo em plataformas robóticas. Atualmente, existem diversas pesquisas voltadas ao desenvolvimento de veículos autônomos para navegação terrestre, aérea e subaquática. A seção \ref{aplicacoes_robotica} traz mais detalhes.
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Organização do trabalho}
 % Dica: Apresente o que tem em cada capítulo.
 
-Esta monografia encontra-se estruturada em 5 capítulos: Introdução, Fundamentos Teóricos, Materiais e Métodos, Resultados e Conclusão. O primeiro capítulo sintetiza o trabalho desenvolvido e apresenta ao leitor suas reais prentensões. O capítulo 2 tem como conteúdo os principais conceitos teóricos para o seu entendimento, onde todo equacionamento e trabalhos similares são apresentados. O terceiro capítulo descreve todos os elementos necessários e técnicas utilizadas para sua realização. O quarto capítulo apresenta os resultados obtidos, onde são interpretados no último capítulo, o de Conclusão.
+Esta monografia encontra-se estruturada em 5 capítulos: Introdução, Fundamentos Teóricos, Materiais e Métodos, Resultados e Conclusão. O primeiro capítulo sintetiza o trabalho desenvolvido e apresenta ao leitor suas reais pretensões. O capítulo 2 tem como conteúdo os principais conceitos teóricos para o seu entendimento, onde todo equacionamento e trabalhos similares são apresentados. O terceiro capítulo descreve todos os elementos necessários e técnicas utilizadas para sua realização. O quarto capítulo apresenta os resultados obtidos, onde são interpretados no último capítulo, o de Conclusão.

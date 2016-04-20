@@ -25,6 +25,17 @@ Andrew~J Barry, Helen Oleynikova, Dominik Honegger, Marc Pollefeys, and Russ
 \newblock {\em Vision-based Control and Navigation of Small Lightweight UAVs,
   IROS Workshop}, pages 1--6, 2015.
 
+\bibitem{Bouguet1999}
+Jean-Yves Bouguet.
+\newblock {Complete Camera Calibration Toolbox for Matlab}, 1999.
+
+\bibitem{MatlabStereoApp}
+MatLab~MathWorks Inc.
+\newblock {Stereo Camera Calibrator}.
+\newblock
+  \url{http://www.mathworks.com/help/vision/ug/stereo-camera-calibrator-app.html},
+  Acesso em: 20 de Abril de 2016.
+
 \bibitem{Dissanayake2001}
 M.W.M.G. Dissanayake, P.~Newman, S.~Clark, H.F. Durrant-Whyte, and M.~Csorba.
 \newblock {A solution to the simultaneous localization and map building
@@ -43,10 +54,27 @@ Thomas Lemaire, Cyrille Berger, Il-Kyun Jung, and Simon Lacroix.
 \newblock {Vision-Based SLAM: Stereo and Monocular Approaches}.
 \newblock {\em International Journal of Computer Vision}, 74(3):343--364, 2007.
 
+\bibitem{BeagleBoardOrg}
+BeagleBoard.org.
+\newblock {BeagleBone Black}.
+\newblock \url{https://beagleboard.org/}, Acesso em: 20 de Abril de 2016.
+
+\bibitem{JetsonTK1}
+NVIDIA.
+\newblock {Jetson TK1}.
+\newblock \url{https://developer.nvidia.com/embedded/develop/hardware}, Acesso
+  em: 20 de Abril de 2016.
+
 \bibitem{Shah2014}
 Sunil Shah.
 \newblock {Real-time Image Processing on Low Cost Embedded Computers}.
 \newblock pages 1--29, 2014.
+
+\bibitem{Magno2009}
+Victor M.~G. Paula.
+\newblock {O vant {\`{a}} jato brasileiro}.
+\newblock {\em Centro de Pesquisas Estrat{\'{e}}gicas “Paulino Soares de
+  Sousa”}, pages 1--3, Acesso em: 20 de Abril de 2016.
 
 \bibitem{Filho2014}
 Jos{\'{e}} Luiz~Boanova Filho.
@@ -58,11 +86,13 @@ Jos{\'{e}} Luiz~Boanova Filho.
 \bibitem{DECEA2015}
 {Departamento de Controle do Espa{\c{c}}o A{\'{e}}reo da Aeron{\'{a}}utica}.
 \newblock {DECEA publica nova regulamenta{\c{c}}{\~{a}}o para voos de RPAS
-  (drones)}, 2015.
+  (drones)}.
+\newblock \url{http://www.decea.gov.br/?p=8465}, Acesso em: 06 de dezembro de
+  2015.
 
 \bibitem{AAVC}
 {FLYAAVC. Autonomous Aerial Vehicle Competition}.
-\newblock \url{http://www.flyaavc.org/}, 2015.
+\newblock \url{http://www.flyaavc.org/}, Acesso em: 09 de novembro de 2015.
 
 \bibitem{RobertLaganiere}
 Robert Laganière.
@@ -74,11 +104,7 @@ OpenCV {Development Team}.
 \newblock {Camera Calibration and 3D Reconstruction}.
 \newblock
   \url{http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html},
-  2014.
-
-\bibitem{Bouguet1999}
-Jean-Yves Bouguet.
-\newblock {Complete Camera Calibration Toolbox for Matlab}, 1999.
+  Acesso em: 30 de março de 2016.
 
 \bibitem{Hirschmuller2008}
 Heiko Hirschm{\"{u}}ller.
@@ -107,6 +133,17 @@ Sharad Nagappa, Narc{\'{\i}}s Palomeras, Chee~Sing Lee, Nuno Gracias, Daniel~E.
   vehicles using stereo vision}.
 \newblock {\em 2013 MTS/IEEE OCEANS-Bergen}, (Ref 288273):1--9, 2013.
 
+\bibitem{ItseezOpenCVinfo}
+Itseez.
+\newblock {OpenCV Informations}.
+\newblock \url{http://itseez.com/opencv/}, Acesso em: 20 de Abril de 2016.
+
+\bibitem{ItseezOpenCVPlatforms}
+Itseez.
+\newblock {OpenCV Platforms}.
+\newblock \url{http://opencv.org/platforms.html}, Acesso em: 20 de Abril de
+  2016.
+
 \bibitem{Monish2011}
 DT~Monish and Sandy Wiraatmadja.
 \newblock {High-Speed Prediction of Air Traffic for Real-Time Decision
@@ -124,13 +161,15 @@ John {E. Stone}, Michael {J. Hallock}, James {C. Phillips}, Joseph {R.
 
 \bibitem{NVIDIA}
 NVIDIA.
-\newblock Cuda - plataforma paralela de computação.
-\newblock \url{http://www.nvidia.com.br/object/cuda_home_new_br.html}, 2016.
+\newblock Cuda™ - plataforma paralela de computação.
+\newblock \url{http://www.nvidia.com.br/object/cuda_home_new_br.html}, Acesso
+  em: 03 de março de 2015.
 
 \bibitem{eLinuxJetsonOpenCV}
 Embedded~Linux Wiki.
 \newblock {Installing OpenCV (including the GPU module) on Jetson TK1}.
-\newblock \url{http://elinux.org/Jetson/Installing_OpenCV}.
+\newblock \url{http://elinux.org/Jetson/Installing_OpenCV}, Acesso em: 16 de
+  março de 2016.
 
 \bibitem{UEDA2011}
 Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.
@@ -138,6 +177,8 @@ Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.
 
 \bibitem{Hounslow2013}
 Kyle Hounslow.
-\newblock {Real-Time Object Tracking Using OpenCV}, 2013.
+\newblock {Real-Time Object Tracking Using OpenCV}.
+\newblock \url{https://www.youtube.com/watch?v=bSeFrPrqZ2A}, Acesso em: 05 de
+  dezembro de 2015.
 
 \end{thebibliography}

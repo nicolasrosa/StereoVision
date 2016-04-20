@@ -53,7 +53,7 @@ Considerando um sistema estéreo e um certo ponto $P$, deseja-se localizar na im
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Calibração das Câmeras - \textit{Calibration}}
 
-Até o presente momento, todos os conceitos apresentados assumiam que as câmeras são idealmente alinhadas e que suas lentes não apresentavam distorção. Na realidade, os centros ópticos não são perfeitamente alinhados e a lente introduz distorções à imagem projetada no sensor da câmera. Deste modo, faz-se necessário o processo de calibração, o qual mensura estas deformidades e estima os parâmetros que consigam anular ou minimizar estas imperfeições. Assim, é possível obter resultados mais coerentes com a realidade. Estes parâmetros são classificados em dois tipos específicos: intrínsecos e extrínsecos.
+Até o presente momento, todos os conceitos apresentados assumiam que as câmeras são idealmente alinhadas e que suas lentes não apresentavam distorção. Na realidade, os centros ópticos não são perfeitamente alinhados e a lente introduz distorções à imagem projetada no sensor da câmera. Deste modo, faz-se necessário o processo de calibração, o qual mensura estas deformidades e estima os parâmetros que consigam anular ou minimizar estas imperfeições. Isso permite que os métodos computacionais obtenham resultados mais precisos. Estes parâmetros são classificados em dois tipos específicos: intrínsecos e extrínsecos.
 
 
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -85,14 +85,6 @@ f_x & 0   & c_x\\
   
   $p_1,p_2$: Coeficientes de distorção tangencial (descentrada)
 \end{center}
-
-\begin{figure}[H]
- 	\centering
- 	\includegraphics[scale=0.20]{./Resources/distortion/lenses_distortion.jpg}
- 	\caption{Calibração estéreo dos parâmetros intrínsecos - Modelo de Distorções da câmera esquerda e direita, respectivamente.}
- 	\label{lenses_distortion}
-\end{figure}
-
 
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Parâmetros extrínsecos}
@@ -146,15 +138,8 @@ Z \\
 \end{figure}
 
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Devido ao desalinhamento entre as câmeras, torna-se necessário estimar estas variáveis, aumentando, assim, a eficiência dos métodos estéreo ao procurarem pelas correspondências entre as duas imagens. A figura \ref{stereo_calib_extrinsic}, ilustra o processo de calibração dos parâmetros extrínsecos, no qual utiliza-se um conjunto de imagens do padrão de calibração. Ao fim deste processo, é possível aferir o posicionamento da segunda câmera com relação à primeira\cite{Bouguet1999}.
+Devido ao desalinhamento entre as câmeras, torna-se necessário estimar estas variáveis, aumentando, assim, a eficiência dos métodos estéreo ao procurarem pelas correspondências entre as duas imagens. A figura \ref{stereo_calib_extrinsic}, ilustra o processo de calibração dos parâmetros extrínsecos, no qual utiliza-se um conjunto de imagens do padrão de calibração. Ao fim deste processo, é possível aferir o posicionamento da segunda câmera com relação à primeira \cite{Bouguet1999}.
 
-%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-\begin{figure}[H]
- 	\centering
- 	\includegraphics[scale=0.70]{./Resources/stereo_calib_extrinsic.png}
- 	\caption{Calibração estéreo dos parâmetros extrínsecos - Estimativa do posicionamento da câmera direita$^2$ em relação à câmera esquerda$^1$.}
- 	\label{stereo_calib_extrinsic}
-\end{figure}
 
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Retificação das Imagens - \textit{Rectification}}
@@ -185,9 +170,15 @@ Correspondência estéreo não é nada mais que a utilização de métodos esté
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Mapa de disparidades - \textit{Disparity Map}}
 
-Como já foi dito anteriormente, disparidade é o deslocamento dos pontos homólogos entre as duas imagens. Nos métodos estéreo, o valor da disparidade é codificada em escala de cinza, a qual é inversamente proporcional à distância do objeto. Assim, níveis de cinza mais altos (tons claros) correspondem a disparidades maiores (perto) e níveis de cinza mais baixos (tons escuros) correspondem a disparidades mais baixas (distante). Devido a sua relação com a distância, este conceito é comumente atrelado à percepção de profundidade.
+Como já foi dito anteriormente, disparidade é o deslocamento dos pontos homólogos entre as duas imagens. Nos métodos estéreo, o valor da disparidade é codificada em escala de cinza, a qual é inversamente proporcional à distância do objeto, assim como representado na figura \ref{depth_disparity}. Assim, níveis de cinza mais altos (tons claros) correspondem a disparidades maiores (perto) e níveis de cinza mais baixos (tons escuros) correspondem a disparidades mais baixas (distante). Devido a sua relação com a distância, este conceito é comumente atrelado à percepção de profundidade.
 
-% TODO: Adicionar Figura mostrando a relação inversamente proporcional de Distância x Disparidade
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.3]{./Resources/bradski/depth_disparity.png}
+ 	\caption{Relação inversamente proporcional entre distância e disparidade. Imagem retirada de \cite{Bradski2008}}
+ 	\label{depth_disparity}
+\end{figure}
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Métodos Estéreo}
 
@@ -259,6 +250,9 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{OpenCV}
 %TODO: Escrever sobre OpenCV, sobre os métodos estéreo disponíveis nesta biblioteca...
+\textit{Open Source Computer Vision Library} (OpenCV) é uma biblioteca de código aberto, a qual reúne diversos algoritmos relacionados a visão computacional. O OpenCV foi criado pelo centro de pesquisa da \textit{Intel}, e atualmente é mantido pelo time de pesquisadores da companhia \textit{Itseez} \cite{ItseezOpenCVinfo}. A biblioteca é estruturada em diferentes módulos, os quais agrupam os algoritmos relacionados a tópicos como processamento de imagem, estimativa de movimento, correspondência estéreo, extratores de características, criação de interfaces de usuário e aceleração em \textit{hardware}. O OpenCV foi criado com a intensão de ser multiplataforma, por conta disso, em sua maior parte, foi escrito em linguagem C/C++, o que o torna facilmente portável para diversas plataformas como Windows, Linux, Android, MacOS, iOS, dentre outros. Recentemente, módulos dando suporte à CUDA (seção \ref{cuda}) e OpenGL foram incorporados à biblioteca expandindo ainda mais o número de aplicações possíveis \cite{ItseezOpenCVPlatforms}. 
+
+
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Linux Embarcado}
@@ -267,9 +261,10 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Aceleração em Hardware - CUDA}
+\label{cuda}
 
 \textit{Compute Unified Device Architecture} (CUDA) é uma tecnologia desenvolvida pela NVIDIA e em sua essência é uma plataforma de computação paralela de propósito geral, cujo objetivo é tirar proveito das unidades de processamento gráfico (GPU), assim, acelerando consideralmente a execução de algoritmos computacionais complexos ao comparar-se com o desempenho da CPU.
 
 Atualmente, a maioria das placas de video da NVIDIA contam com essa tecnologia, por conta disso os pesquisadores e desenvolvidores de software estão voltando suas pesquisas para o desenvolvimento e otimização de algoritmos que possam explorar todo o poder de processamento destes dispositivos. Alguns exemplos de aplicações são identificação de placas ocultas em artérias, análise do fluxo de tráfego aéreo \cite{Monish2011} e visualização de moléculas \cite{Stone2015}.
 
-Historicamente, a implementação de algoritmos em GPU mostrou-se bastante obscura, visto que sua programação era bastante atrelada ao hardware a ser utilizado, mesmo com linguagens de programação gráfica como o OpenGL. Em 2003, um grupo de pesquisadores de Stanford, apresentou o primeiro compilador, Brook, que facilitaria a implementação de software, visto que permitia lidar de uma maneira mais maleável o fluxo de dados, podendo principalmente paralelizá-los. Em 2006, a NVIDIA juntamente com Ian Buck, criador do Brook, desenvolveram uma plataforma (CUDA) mais intuitiva e que permitisse a utilização de uma linguagem de alto nível e tornasse a GPU em um processador de propósito geral (GPGPU)\cite{NVIDIA}.
+Historicamente, a implementação de algoritmos em GPU mostrou-se bastante obscura, visto que sua programação era bastante atrelada ao hardware a ser utilizado, mesmo com linguagens de programação gráfica como o OpenGL. Em 2003, um grupo de pesquisadores de Stanford, apresentou o primeiro compilador, Brook, que facilitaria a implementação de software, visto que permitia lidar de uma maneira mais maleável o fluxo de dados, podendo principalmente paralelizá-los. Em 2006, a NVIDIA juntamente com Ian Buck, criador do Brook, desenvolveram uma plataforma (CUDA) mais intuitiva e que permitisse a utilização de uma linguagem de alto nível e tornasse a GPU em um processador de propósito geral (GPGPU) \cite{NVIDIA}.

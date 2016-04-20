@@ -239,6 +239,31 @@ O cenário da figura \ref{thumb_video15} foi utilizado para estudo das condiçõ
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsection{Calibração}
+% TODO: Descrever sucintamente o processo de calibração utilizado, colocar as matrizes encontradas.
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{Parâmetros intrínsecos}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.20]{./Resources/distortion/lenses_distortion.jpg}
+ 	\caption{Calibração estéreo dos parâmetros intrínsecos - Modelo de Distorções da câmera esquerda e direita, respectivamente. Imagem obtida utilizando \textit{Camera Calibration Toolbox for Matlab} \cite{Bouguet1999}.}
+ 	\label{lenses_distortion}
+\end{figure}
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{Parâmetros extrínsecos}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.70]{./Resources/stereo_calib_extrinsic.png}
+ 	\caption{Calibração estéreo dos parâmetros extrínsecos - Estimativa do posicionamento da câmera direita$^2$ em relação à câmera esquerda$^1$. Imagem obtida utilizando o aplicativo \textit{Stereo Calibration App} do Matlab \cite{MatlabStereoApp}}.
+ 	\label{stereo_calib_extrinsic}
+\end{figure}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Processamento de Imagem}
 
 Nessa seção será apresentado o processamento de imagens utilizado para a identificação de obstáculos. Como pode ser visto na figura \ref{stereo_processor_steps}, todo o processo conta com seis etapas.
@@ -282,7 +307,7 @@ Neste trabalho, utilizou-se diferentes versões desta plataforma para o desenvol
 \end{table}
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-% TODO: NEON
+% TODO: Escrever sobre Neon
 \subsubsection{NEON}
 
 
