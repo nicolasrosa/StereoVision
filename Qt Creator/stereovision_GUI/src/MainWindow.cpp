@@ -370,8 +370,8 @@ void MainWindow::openStereoSource(int inputNum){
         stereo->calib.hasQMatrix=false;
         break;
     case 8:
-        stereo->calib.imageL_FileName = "../data/left/left3.png";
-        stereo->calib.imageR_FileName = "../data/right/right3.png";
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/dataset/dataset3/squirrel_l.avi";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/dataset/dataset3/squirrel_r.avi";
         stereo->calib.needCalibration=false;
         stereo->calib.hasQMatrix=false;
         break;
