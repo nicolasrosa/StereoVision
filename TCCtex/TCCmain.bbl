@@ -27,10 +27,10 @@ Andrew~J Barry, Helen Oleynikova, Dominik Honegger, Marc Pollefeys, and Russ
 
 \bibitem{Bouguet1999}
 Jean-Yves Bouguet.
-\newblock {Complete Camera Calibration Toolbox for Matlab}, 1999.
+\newblock {Complete Camera Calibration Toolbox for MATLAB}, 1999.
 
 \bibitem{MatlabStereoApp}
-MatLab~MathWorks Inc.
+MATLAB~MathWorks Inc.
 \newblock {Stereo Camera Calibrator}.
 \newblock
   \url{http://www.mathworks.com/help/vision/ug/stereo-camera-calibrator-app.html},
@@ -99,7 +99,7 @@ Robert Laganière.
 \newblock {\em OpenCV 2 Computer Vision Application Programming Cookbook}.
 \newblock Packt Publishing, 2011.
 
-\bibitem{DevelopmentTeam2016}
+\bibitem{OpenCVCalibrationModule}
 OpenCV {Development Team}.
 \newblock {Camera Calibration and 3D Reconstruction}.
 \newblock
@@ -164,6 +164,13 @@ NVIDIA.
 \newblock Cuda™ - plataforma paralela de computação.
 \newblock \url{http://www.nvidia.com.br/object/cuda_home_new_br.html}, Acesso
   em: 03 de março de 2015.
+
+\bibitem{OpenCVCalibrationTutorial}
+OpenCV {Development Team}.
+\newblock {Camera Calibration with OpenCV}.
+\newblock
+  \url{http://docs.opencv.org/2.4/doc/tutorials/calib3d/camera_calibration/camera_calibration.html},
+  Acesso em: 27 de Abril de 2016.
 
 \bibitem{eLinuxJetsonOpenCV}
 Embedded~Linux Wiki.

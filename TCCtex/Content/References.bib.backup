@@ -130,7 +130,7 @@ year = {Acesso em: 05 de dezembro de 2015}
 @misc{NVIDIA,
 author = {NVIDIA},
 mendeley-groups = {TCC},
-title = {CUDA - Plataforma Paralela de Computação},
+title = {CUDA™ - Plataforma Paralela de Computação},
 howpublished={\url{http://www.nvidia.com.br/object/cuda_home_new_br.html}},
 urldate = {2015-03-03},
 year = {Acesso em: 03 de março de 2015}
@@ -158,7 +158,7 @@ year = {Acesso em: 06 de dezembro de 2015}
 
 @misc{eLinuxJetsonOpenCV,
 author = {Wiki, Embedded Linux},
-keywords = {CUDA,GPU,Jetson TK1,OpenCV},
+keywords = {CUDA™,GPU,Jetson TK1,OpenCV},
 mendeley-groups = {TCC},
 title = {{Installing OpenCV (including the GPU module) on Jetson TK1}},
 howpublished={\url{http://elinux.org/Jetson/Installing_OpenCV}},
@@ -192,12 +192,32 @@ howpublished={\url{http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibra
 year = {Acesso em: 30 de março de 2016}
 }
 
+@misc{OpenCVCalibrationModule,
+author = {{Development Team}, OpenCV},
+booktitle = {OpenCV 2.4.12.0 documentation},
+mendeley-groups = {TCC},
+title = {{Camera Calibration and 3D Reconstruction}},
+howpublished={\url{http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html}},
+year = {Acesso em: 30 de março de 2016}
+}
+
+@misc{OpenCVCalibrationTutorial,
+author = {{Development Team}, OpenCV},
+booktitle = {OpenCV 2.4.12.0 documentation},
+mendeley-groups = {TCC},
+title = {{Camera Calibration and 3D Reconstruction}},
+howpublished={\url{http://docs.opencv.org/2.4/doc/tutorials/calib3d/camera_calibration/camera_calibration.html}},
+year = {Acesso em: 27 de Abril de 2016}
+}
+
+
+
 @misc{Bouguet1999,
 abstract = {This is a release of a Camera Calibration Toolbox for Matlab® with a complete documentation. This document may also be used as a tutorial on camera calibration since it includes general information about calibration, references and related links.},
 author = {Bouguet, Jean-Yves},
 booktitle = {Jean-Yves Bouguet's Homepage},
 mendeley-groups = {TCC},
-title = {{Complete Camera Calibration Toolbox for Matlab}},
+title = {{Complete Camera Calibration Toolbox for MATLAB}},
 url = {http://www.vision.caltech.edu/bouguetj/},
 year = {1999}
 }
@@ -277,7 +297,7 @@ year = {2015}
 
 
 @misc{MatlabStereoApp,
-author = {Matab - MathWorks Inc.},
+author = {MATLAB - MathWorks Inc.},
 mendeley-groups = {TCC},
 title = {{Stereo Camera Calibrator}},
 howpublished={\url{http://www.mathworks.com/help/vision/ug/stereo-camera-calibrator-app.html}},
@@ -301,5 +321,42 @@ title = {{OpenCV Platforms}},
 url = {http://opencv.org/platforms.html},
 howpublished={\url{http://opencv.org/platforms.html}},
 urldate = {2016-04-20},
+year={Acesso em: 20 de Abril de 2016}
+}
+
+
+@article{Magno2009,
+author = {Victor M. G. Paula},
+booktitle = {03-Aug-2009},
+file = {:home/nicolas/Desktop/BQM1BR.pdf:pdf},
+journal = {Centro de Pesquisas Estrat{\'{e}}gicas “Paulino Soares de Sousa”},
+pages = {1--3},
+title = {{O vant {\`{a}} jato brasileiro}},
+howpublished={\url{http://www.ecsbdefesa.com.br/defesa/index.php?option=com_content&task=view&id=1677&Itemid=40}},
+urldate = {2014-04-20},
+year = {Acesso em: 20 de Abril de 2016}
+}
+  
+@misc{BeagleBoardOrg,
+author = {BeagleBoard.org},
+booktitle = {BeagleBone Black},
+title = {{BeagleBone Black}},
+howpublished={\url{https://beagleboard.org/}},
+year = {Acesso em: 20 de Abril de 2016}
+}
+
+@misc{JetsonTK1,
+author = {NVIDIA},
+mendeley-groups = {TCC},
+title = {{Jetson TK1}},
+howpublished={\url{https://developer.nvidia.com/embedded/develop/hardware}},
+year={Acesso em: 20 de Abril de 2016}
+}
+
+@misc{OpenCVCalibration,
+author = {NVIDIA},
+mendeley-groups = {TCC},
+title = {{Jetson TK1}},
+howpublished={\url{https://developer.nvidia.com/embedded/develop/hardware}},
 year={Acesso em: 20 de Abril de 2016}
 }

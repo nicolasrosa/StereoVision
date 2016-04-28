@@ -32,7 +32,7 @@
 \contentsline {subsubsection}{Cen\IeC {\'a}rio 1}{47}{section*.11}
 \contentsline {subsubsection}{Cen\IeC {\'a}rio 2}{47}{section*.12}
 \contentsline {subsubsection}{Cen\IeC {\'a}rio 3}{47}{section*.13}
-\contentsline {subsection}{\numberline {3.2.2}Calibra\IeC {\c c}\IeC {\~a}o}{50}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.2}Calibra\IeC {\c c}\IeC {\~a}o}{49}{subsection.3.2.2}
 \contentsline {subsubsection}{Par\IeC {\^a}metros intr\IeC {\'\i }nsecos}{50}{section*.14}
 \contentsline {subsubsection}{Par\IeC {\^a}metros extr\IeC {\'\i }nsecos}{51}{section*.15}
 \contentsline {subsection}{\numberline {3.2.3}Processamento de Imagem}{51}{subsection.3.2.3}

@@ -52,6 +52,7 @@ Considerando um sistema estéreo e um certo ponto $P$, deseja-se localizar na im
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Calibração das Câmeras - \textit{Calibration}}
+\label{theory_calib}
 
 Até o presente momento, todos os conceitos apresentados assumiam que as câmeras são idealmente alinhadas e que suas lentes não apresentavam distorção. Na realidade, os centros ópticos não são perfeitamente alinhados e a lente introduz distorções à imagem projetada no sensor da câmera. Deste modo, faz-se necessário o processo de calibração, o qual mensura estas deformidades e estima os parâmetros que consigam anular ou minimizar estas imperfeições. Isso permite que os métodos computacionais obtenham resultados mais precisos. Estes parâmetros são classificados em dois tipos específicos: intrínsecos e extrínsecos.
 
@@ -60,7 +61,7 @@ Até o presente momento, todos os conceitos apresentados assumiam que as câmera
 \subsubsection{Parâmetros intrínsecos}
 
 Correspondem às propriedades intrínsecas de cada câmera, as quais são descritas pela matriz M (\textit{Intrinsic Matrix}) e o vetor D (\textit{Distortion Coefficients Vector}). A figura \ref{lenses_distortion} ilustra o modelo completo, componente radial e componente tangencial do modelo de distorções das lentes da câmera esquerda e direita, respectivamente.
-\cite{DevelopmentTeam2016}.
+\cite{OpenCVCalibrationModule}.
 
 \begin{equation}
  M = \begin{pmatrix}
@@ -249,9 +250,7 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{OpenCV}
-%TODO: Escrever sobre OpenCV, sobre os métodos estéreo disponíveis nesta biblioteca...
 \textit{Open Source Computer Vision Library} (OpenCV) é uma biblioteca de código aberto, a qual reúne diversos algoritmos relacionados a visão computacional. O OpenCV foi criado pelo centro de pesquisa da \textit{Intel}, e atualmente é mantido pelo time de pesquisadores da companhia \textit{Itseez} \cite{ItseezOpenCVinfo}. A biblioteca é estruturada em diferentes módulos, os quais agrupam os algoritmos relacionados a tópicos como processamento de imagem, estimativa de movimento, correspondência estéreo, extratores de características, criação de interfaces de usuário e aceleração em \textit{hardware}. O OpenCV foi criado com a intensão de ser multiplataforma, por conta disso, em sua maior parte, foi escrito em linguagem C/C++, o que o torna facilmente portável para diversas plataformas como Windows, Linux, Android, MacOS, iOS, dentre outros. Recentemente, módulos dando suporte à CUDA (seção \ref{cuda}) e OpenGL foram incorporados à biblioteca expandindo ainda mais o número de aplicações possíveis \cite{ItseezOpenCVPlatforms}. 
-
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -263,7 +262,7 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
 \section{Aceleração em Hardware - CUDA}
 \label{cuda}
 
-\textit{Compute Unified Device Architecture} (CUDA) é uma tecnologia desenvolvida pela NVIDIA e em sua essência é uma plataforma de computação paralela de propósito geral, cujo objetivo é tirar proveito das unidades de processamento gráfico (GPU), assim, acelerando consideralmente a execução de algoritmos computacionais complexos ao comparar-se com o desempenho da CPU.
+\textit{Compute Unified Device Architecture} (CUDA) é uma tecnologia desenvolvida pela NVIDIA e em sua essência é uma plataforma de computação paralela de propósito geral, cujo objetivo é tirar proveito das unidades de processamento gráfico (GPU), assim, acelerando consideravelmente a execução de algoritmos computacionais complexos ao comparar-se com o desempenho da CPU.
 
 Atualmente, a maioria das placas de video da NVIDIA contam com essa tecnologia, por conta disso os pesquisadores e desenvolvidores de software estão voltando suas pesquisas para o desenvolvimento e otimização de algoritmos que possam explorar todo o poder de processamento destes dispositivos. Alguns exemplos de aplicações são identificação de placas ocultas em artérias, análise do fluxo de tráfego aéreo \cite{Monish2011} e visualização de moléculas \cite{Stone2015}.
 

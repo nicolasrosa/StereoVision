@@ -193,7 +193,7 @@ Nesta seção, serão apresentados os cenários e os procedimentos utilizados na
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Cenários}
 
-O algoritmo de detecção de obstáculos desenvolvido tenta contornar todas as adversidades propostas pelos seguintes cenários. Propôs-se que ele deve ser flexível à variações na luminosidade, capaz de detectar obstáculos estáticos e móveis, e ser imune à vibrações. Deste modo, dois cenários em ambiente confinado e um em ambiente aberto foram analisados. Deseja-se a navegação autônoma ocorra até mesmo em casos que o sinal do Sistema de Posicionamento Global (GPS) seja perdido, por conta disso escolheu-se a utilização dos ambientes confinados. O ambiente externo foi escolhido devido a quantidade de fatores que poderiam atrapalhar e tornar o algoritmo mais robusto.
+O pós-processamento do mapa de disparidades foi voltado para a identificação e detecção de obstáculos. Deste modo, os seguintes cenários propõe uma série de adversidades, as quais o algoritmo implementado tenta contorná-las. Propôs-se que ele deve ser flexível à variações na luminosidade, capaz de detectar obstáculos estáticos e móveis, e ser imune à vibrações. Deste modo, dois cenários em ambiente confinado e um em ambiente aberto foram analisados. Deseja-se a navegação autônoma ocorra até mesmo em casos que o sinal do Sistema de Posicionamento Global (GPS) seja perdido, por conta disso escolheu-se a utilização dos ambientes confinados. O ambiente externo foi escolhido devido a quantidade de fatores externos que poderiam atrapalhar a detecção de obstáculos. O tratamento destes percalços tornam o programa mais robusto.
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -201,25 +201,11 @@ O algoritmo de detecção de obstáculos desenvolvido tenta contornar todas as a
 
 O cenário da figura \ref{thumb_video10_l} foi utilizado para estudo das condições de ambiente externo, o qual está sujeito grandes variações de luminosidade e um número menor de movimentos, o que permite uma análise de alcances maiores. O principal  obstáculo deste cenário é uma árvore. 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.50]{./Resources/thumbs/thumb_video10_l.png}
-	\caption{Cenário 1 - Ambiente Externo - Árvore}
-	\label{thumb_video10_l}
-\end{figure}
-
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Cenário 2}
 
 O cenário da figura \ref{thumb_video12_l} foi utilizado para estudo das condições de ambiente interno, o qual também apresenta certa variação de luminosidade, porém apresenta um número maior de movimentos, permitindo uma análise de objetos estáticos à curta e média distância. Os principais obstáculos deste cenário são uma mesa, uma cadeira e duas estantes.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.50]{./Resources/thumbs/thumb_video12_l.png}
-	\caption{Cenário 2 - Ambiente Interno - Mesa/Cadeira/Estantes}
-	\label{thumb_video12_l}
-\end{figure}
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -227,13 +213,61 @@ O cenário da figura \ref{thumb_video12_l} foi utilizado para estudo das condiç
 
 O cenário da figura \ref{thumb_video15} foi utilizado para estudo das condições de ambiente interno, o qual também apresenta certa variação de luminosidade, apresenta um número muito maior de movimentos e permite a análise de objetos móveis à curto e médio alcance. Os principais obstáculos deste cenário  é uma bancada e um outro quadricóptero no campo de visão do veículo pilotado.
 
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+% Figuras
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.50]{./Resources/thumbs/thumb_video15.png}
+	\includegraphics[scale=0.55]{./Resources/thumbs/thumb_video10_l.png}
+	\caption{Cenário 1 - Ambiente Externo - Árvore}
+	\label{thumb_video10_l}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/thumbs/thumb_video12_l.png}
+	\caption{Cenário 2 - Ambiente Interno - Mesa/Cadeira/Estantes}
+	\label{thumb_video12_l}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/thumbs/thumb_video15.png}
 	\caption{Cenário 3 - Bancada/Quadricóptero}
 	\label{thumb_video15}
 \end{figure}
 
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsection{Calibração}
+% TODO: Inserir Referencia site: http://docs.opencv.org/2.4/doc/tutorials/calib3d/camera_calibration/camera_calibration.html
+O processo de calibração pode ser realizado de duas maneiras diferentes. 
+
+O primeiro método é utilizando a rotina disponibilizada pelo OpenCV \cite{}, no qual algumas informações relevantes precisam ser informadas ao executá-la, tais como, tipo do padrão utilizado, o tamanho do padrão e número de quadros. Este método, dispensa que seja passado um conjunto de imagens para o processo de calibração, pois o próprio, automaticamente, se encarrega de detectar o patrão de calibragem e gravar as imagens utilizadas no processo. Ao fim da execução, as imagens são analisadas e os arquivos \textit{"intrinsics.yml"} e \textit{"extrinsics.yml"} são gerados, os quais contêm as matrizes que corrigem as distorções apresentadas na seção \ref{theory_calib}
+
+O segundo método é utilizando o aplicativo \textit{Stereo Camera Calibrator} presente no MatLab. O aplicativo apresenta uma análise mais profunda das distorções das lentes, como o erro de reprojeção 2D de cada imagem ou por pixel, e também gerando as mesmas informações anteriores, 
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{Parâmetros intrínsecos}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.20]{./Resources/distortion/lenses_distortion.jpg}
+ 	\caption{Calibração estéreo dos parâmetros intrínsecos - Modelo de Distorções da câmera esquerda e direita, respectivamente. Imagem obtida utilizando \textit{Camera Calibration Toolbox for Matlab} \cite{Bouguet1999}.}
+ 	\label{lenses_distortion}
+\end{figure}
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{Parâmetros extrínsecos}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.70]{./Resources/stereo_calib_extrinsic.png}
+ 	\caption{Calibração estéreo dos parâmetros extrínsecos - Estimativa do posicionamento da câmera direita$^2$ em relação à câmera esquerda$^1$. Imagem obtida utilizando o aplicativo \textit{Stereo Calibration App} do Matlab \cite{MatlabStereoApp}}.
+ 	\label{stereo_calib_extrinsic}
+\end{figure}
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Processamento de Imagem}
@@ -264,12 +298,6 @@ Nessa seção será apresentado o processamento de imagens utilizado para a iden
 \subsection{Aceleração em Hardware - \textit{Hardware Acceleration}}
 \subsubsection{CUDA}
 
-\textit{Compute Unified Device Architecture} (CUDA) é uma tecnologia desenvolvida pela NVIDIA e em sua essência é uma plataforma de computação paralela de propósito geral, cujo objetivo é tirar proveito das unidades de processamento gráfico(GPU), assim, acelerando consideralmente a execução de algoritmos computacionais complexos ao comparar-se com o desempenho da CPU.
-
-Atualmente, a maioria das placas de video da NVIDIA contam com essa tecnologia, por conta disso os pesquisadores e desenvolvidores de software estão voltando suas pesquisas para o desenvolvimento e otimização de algoritmos que possam explorar todo o poder de processamento destes dispositivos. Alguns exemplos de aplicações são identificação de placas ocultas em artérias, análise do fluxo de tráfego aéreo e visualização de moléculas
-
-Historicamente, a implementação de algoritmos em GPU mostrou-se bastante obscura, visto que sua programação era bastante atrelada ao hardware a ser utilizado, mesmo com linguagens de programação gráfica como o OpenGL. Em 2003, um grupo de pesquisadores de Stanford, apresentaram o primeiro compilador, Brook, que facilitaria a implementação de software, visto que permitia a lidar de uma maneira mais maleável o fluxo de dados, podendo principalmente paralelizá-los. Em 2006, a NVIDIA juntamente com Ian Buck, criador do Brook, desenvolveram uma plataforma (CUDA) mais intuitiva e que permitisse a utilização de uma linguagem de alto nível e tornasse a GPU em um processador de propósito geral (GPGPU)\cite{NVIDIA}.
-
 Neste trabalho, utilizou-se diferentes versões desta plataforma para o desenvolvimento para \textit{Desktop} e Jetson TK1. Neste contexto, essas versões não oferencem nenhuma alteração visível, visto que não foi desenvolvido nenhum tipo de rotina espeficamente para execução em GPU. Na verdade, utilizou-se as funções disponíveis na biblioteca OpenCV, as quais opcionalmente podem ser executadas pela CPU ou GPU. A tabela \ref{cudaopencv} informa as versões do pacote de ferramentas da plataforma CUDA e da biblioteca OpenCV utilizadas. 
 
 \begin{table}[]
@@ -285,6 +313,7 @@ Neste trabalho, utilizou-se diferentes versões desta plataforma para o desenvol
 \end{table}
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+% TODO: Escrever sobre Neon
 \subsubsection{NEON}
 
 

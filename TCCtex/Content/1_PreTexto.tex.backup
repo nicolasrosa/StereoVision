@@ -9,8 +9,7 @@
 		\vspace{0.01\textheight}
 		\huge{DEPARTAMENTO DE ENGENHARIA ELÉTRICA}\\
 		\vspace{0.2\textheight}
-		% TODO: Mudar Título
-		\huge{\textbf{Desenvolvimento de algoritmo de visão para VANTS sobre Linux Embarcado}}
+		\huge{\textbf{Mapeamento de ambientes baseado em algoritmos de visão estéreo para VANTs sobre Linux Embarcado}}
 		\vspace{0.2\textheight}
 	\end{center}
 		
@@ -41,8 +40,7 @@
 	%\thispagestyle{empty}
 		\Large{\textbf{Nícolas dos Santos Rosa}}\\
 		\vspace{0.15\textheight}
-		% TODO: Mudar Título
-		\Huge{\textbf{Desenvolvimento de algoritmo de visão para VANTS sobre Linux Embarcado}} 
+		\Huge{\textbf{Mapeamento de ambientes baseado em algoritmos de visão estéreo para VANTs sobre Linux Embarcado}} 
 		\vspace{0.08\textheight}
 	\end{center}
 		
@@ -165,6 +163,8 @@ Isaac Newton
 \cleardoublepage
 
 %------------------------------------- RESUMO - PORTUGUÊS -------------------------------------------
+%TODO: O Resumo deve estar completo, ou seja, com todas as partes do trabalho, resumidamente. Aqui vc apresentou somente a introdução. Deve conter a proposta do trabalho (quais algoritmos utilizados para a abordagem, quais ferramentas, etc...), os resultados e a conclusão principal....tudo resumidamente...
+
 \
 \vspace{0.11\textheight} 
 
@@ -177,16 +177,15 @@ Isaac Newton
 %Palavras-chave: Logo abaixo do Resumo/Abstract.}
 
 \vspace{0.05\textheight}
+Rosa, Nícolas \textbf{Mapeamento de ambientes baseado em algorítmos de visão estéreo para VANTs sobre Linux Embarcado}. Trabalho de Conclusão de Curso -- Escola de Engenharia de São Carlos, Universidade de São Paulo, 2015.
 
-Rosa, Nícolas \textbf{Desenvolvimento de algoritmo de visão para VANTS sobre Linux Embarcado}. Trabalho de Conclusão de Curso -- Escola de Engenharia de São Carlos, Universidade de São Paulo, 2015.
-
-Atualmente, veículos aéreos não tripulado (VANT) vem tornando-se um assunto recorrente no âmbito científico. Estes veículos, devido a sua mobilidade e inteligência artificial, vem sendo adaptados para a atuação em diferentes ambientes, desempenhando assim diversas atividades que vão desde
+Atualmente, veículos aéreos não tripulados (VANT) vêm tornando-se um assunto recorrente no âmbito científico. Estes veículos, devido a sua mobilidade e inteligência artificial, vêm sendo adaptados para a atuação em diferentes ambientes, desempenhando assim diversas atividades que vão desde
 aplicações militares, agronômicas, espaciais, cinematográficas,entre outras.    
-Entretanto, essa atuação só não é mais ampla devido a problemas relacionados ao reconhecimento do ambiente ao seu redor e detecção de objetos e obstáculos. Neste trabalho, estuda-se a utilização de visão estéreo em sistemas embarcados para reconhecimento de obstáculos que ameacem a locomoção do veículo autônomo. Por fim, será desenvolvido um algoritmo utilizando visão computacional que estime as distâncias de objetos próximos ao veículo móvel.
+Entretanto, essa atuação só não é mais ampla devido a problemas relacionados ao reconhecimento do ambiente ao seu redor e detecção de objetos e obstáculos. Neste trabalho, estudou-se a utilização de visão estéreo em sistemas embarcados para reconhecimento de obstáculos que ameacem a locomoção do veículo autônomo. Por fim, será desenvolvido um algoritmo utilizando visão computacional que estime as distâncias de objetos próximos ao veículo móvel.
 
 \vspace{0.05\textheight}
 	
-Palavras-Chave: Visão estéreo, Detecção de Obstáculos, Sistemas Embarcados, Veículos Aéreos Não Tripulado - VANT, Visão Computacional.
+Palavras-Chave: Visão estéreo, Detecção de Obstáculos, Sistemas Embarcados, Veículos Aéreos Não Tripulados - VANT, Visão Computacional.
 
 %------------------------------------- INSERÇÃO PÁGINA EM BRANCO ------------------------------------ 
 \cleardoublepage
@@ -263,7 +262,7 @@ Keywords: Stereo Vision, Obstacle Detection, Embedded Systems, Unmanned aerial V
 \> RPA 	 	\> \textit{Remotely Piloted Aircraft} - Aeronave Remotamente Pilotada							\\
 \> SGBM  	\> \textit{Semi-Global Block Matching}	- Método Estéreo Semi-global							\\
 \> SLAM  	\> \textit{Simultaneous Localization and Mapping} - Localização e Mapeamento Simultâneo					\\
-\> UAV/VANT 	\> \textit{Unmanned aerial vehicle} - Veículo Aéreo não tripulado 							\\
+\> UAV/VANT 	\> \textit{Unmanned aerial vehicle} - Veículo Aéreo não tripulados 							\\
 
 \end{tabbing}
 \cleardoublepage
