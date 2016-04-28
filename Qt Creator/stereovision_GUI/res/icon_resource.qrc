@@ -1,10 +1,11 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>icon/helicopter_cyan.png</file>
-        <file>icon/helicopter_green.png</file>
-        <file>icon/helicopter_orange.png</file>
-        <file>icon/helicopter_black.png</file>
-        <file>icon/helicopter_white.png</file>
-        <file>icon/spydrone_black.png</file>
+        <file>icon/drone_blue.png</file>
+        <file>icon/drone_purple.png</file>
+        <file>icon/drone_black.png</file>
+        <file>icon/drone_white.png</file>
+        <file>icon/drone_orange.png</file>
+        <file>icon/drone_green.png</file>
+        <file>icon/drone_cyan.png</file>
     </qresource>
 </RCC>

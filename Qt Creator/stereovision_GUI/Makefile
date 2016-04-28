@@ -343,12 +343,13 @@ compiler_rcc_make_all: tmp/rc/qrc_icon_resource.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) tmp/rc/qrc_icon_resource.cpp
 tmp/rc/qrc_icon_resource.cpp: res/icon_resource.qrc \
-		res/icon/helicopter_white.png \
-		res/icon/helicopter_black.png \
-		res/icon/spydrone_black.png \
-		res/icon/helicopter_orange.png \
-		res/icon/helicopter_cyan.png \
-		res/icon/helicopter_green.png
+		res/icon/drone_blue.png \
+		res/icon/drone_cyan.png \
+		res/icon/drone_green.png \
+		res/icon/drone_purple.png \
+		res/icon/drone_orange.png \
+		res/icon/drone_white.png \
+		res/icon/drone_black.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name icon_resource res/icon_resource.qrc -o tmp/rc/qrc_icon_resource.cpp
 
 compiler_moc_header_make_all: tmp/moc/moc_MainWindow.cpp tmp/moc/moc_StereoSetParamsWindow.cpp
@@ -976,7 +977,9 @@ tmp/obj/main.o: src/main.cpp inc/MainWindow.h \
 		/usr/include/qt5/QtWidgets/qapplication.h \
 		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
 		/usr/include/qt5/QtGui/qguiapplication.h \
-		/usr/include/qt5/QtGui/qinputmethod.h
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QSplashScreen \
+		/usr/include/qt5/QtWidgets/qsplashscreen.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/main.o src/main.cpp
 
 tmp/obj/MainWindow.o: src/MainWindow.cpp inc/MainWindow.h \
