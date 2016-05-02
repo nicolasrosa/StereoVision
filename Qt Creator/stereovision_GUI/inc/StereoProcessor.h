@@ -59,6 +59,7 @@ public:
     int getNumChannels();
 
     void captureFrames();
+    void initRectification();
     void applyRectification();
     void calculateDisparities();
     void calculateTrueMap();

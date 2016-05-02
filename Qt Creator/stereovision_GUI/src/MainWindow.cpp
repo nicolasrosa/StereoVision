@@ -14,12 +14,6 @@
 #include "inc/MainWindow.h"
 #include "ui_mainwindow.h"
 
-//TODO: Mover as Bibliotecas do PCL Visualizer pra outro lugar
-#include <pcl/common/common_headers.h>
-#include <pcl/io/pcd_io.h>
-#include <pcl/visualization/pcl_visualizer.h>
-#include <boost/thread/thread.hpp>
-
 /* Constructor and Destructor */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow){
     uiConfiguration();
@@ -44,6 +38,18 @@ MainWindow::~MainWindow(){
     closeEventOccured = true;
 }
 
+//TODO: Mover essa Função
+//This function creates a PCL visualizer, sets the point cloud to view and returns a pointer
+//boost::shared_ptr<pcl::visualization::PCLVisualizer> createVisualizer (pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud){
+// boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer (new pcl::visualization::PCLVisualizer ("3D Viewer"));
+//  viewer->setBackgroundColor (0, 0, 0);
+//  pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(cloud);
+//  viewer->addPointCloud<pcl::PointXYZRGB> (cloud, rgb, "reconstruction");
+//  //viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "reconstruction");
+//  viewer->addCoordinateSystem ( 1.0 );
+//  viewer->initCameraParameters ();
+//  return (viewer);
+//}
 
 /* Instance Methods */
 void MainWindow::uiConfiguration(){
@@ -95,6 +101,8 @@ void MainWindow::stereoVisionProcessInit(){
         stereo->calib.setResolution(stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH),stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT));
         break;
     case StereoCalib::ImageFile:
+        //FIXME: Setando 0. Usar teddy como input pra reproduzir o problema.
+        cout << "Cols:" << stereo->imageL[0].cols << endl;
         stereo->calib.setResolution(stereo->imageL[0].cols,stereo->imageL[0].rows);
         break;
     }
@@ -164,6 +172,9 @@ void MainWindow::stereoVisionProcessInit(){
 
     /* (5) Point Cloud Initialization */
     stereo->view3D.PointCloudInit(stereo->calib.baseline,true);
+
+    /* (6) Rectification Initialization */
+    stereo->initRectification();
 }
 
 
@@ -328,12 +339,6 @@ void MainWindow::openStereoSource(int inputNum){
         stereo->calib.hasQMatrix=true;
         break;
     case 2:
-        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/dataset/Piano-perfect/im0.png";
-        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/dataset/Piano-perfect/im1.png";
-        stereo->calib.needCalibration=false;
-        stereo->calib.hasQMatrix=false;
-        break;
-    case 3:
         stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/20004.avi";
         stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/30004.avi";
         stereo->calib.intrinsicsFileName = "../config/calib/cam2/intrinsics.yml";
@@ -341,27 +346,33 @@ void MainWindow::openStereoSource(int inputNum){
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
         break;
-    case 4:
-        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/teddy_l.png";
-        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/teddy_r.png";
-        stereo->calib.needCalibration=false;
-        stereo->calib.hasQMatrix=false;
-        break;
-    case 5:
-        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/left/video15.avi";
-        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/right/video15.avi";
-        stereo->calib.intrinsicsFileName = "../config/calib/cam1/intrinsics.yml";
-        stereo->calib.extrinsicsFileName = "../config/calib/cam1/extrinsics.yml";
-        stereo->calib.needCalibration=true;
-        stereo->calib.hasQMatrix=true;
-        break;
-    case 6:
+    case 3:
         stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/20011.avi";
         stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/30011.avi";
         stereo->calib.intrinsicsFileName = "../config/calib/cam2/intrinsics.yml";
         stereo->calib.extrinsicsFileName = "../config/calib/cam2/extrinsics.yml";
         stereo->calib.needCalibration=true;
         stereo->calib.hasQMatrix=false;
+        break;
+    case 4:
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/dataset/dataset1/Piano-perfect/im0.png";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/dataset/dataset1/Piano-perfect/im1.png";
+        stereo->calib.needCalibration=false;
+        stereo->calib.hasQMatrix=false;
+        break;
+    case 5:
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/teddy_l.png";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/teddy_r.png";
+        stereo->calib.needCalibration=false;
+        stereo->calib.hasQMatrix=false;
+        break;
+    case 6:
+        stereo->calib.imageL_FileName = "/home/nicolas/workspace/data/left/video15.avi";
+        stereo->calib.imageR_FileName = "/home/nicolas/workspace/data/right/video15.avi";
+        stereo->calib.intrinsicsFileName = "../config/calib/cam1/intrinsics.yml";
+        stereo->calib.extrinsicsFileName = "../config/calib/cam1/extrinsics.yml";
+        stereo->calib.needCalibration=true;
+        stereo->calib.hasQMatrix=true;
         break;
     case 7:
         stereo->calib.imageL_FileName = "/home/nicolas/repository/StereoVision/data/dog_l.png";
@@ -880,3 +891,60 @@ void MainWindow::uiText1(){
 
     ui->textBoxOutput->appendPlainText(text);
 }
+
+
+//TODO: Arrumar Função
+//void MainWindow::pcl_function(){
+//    double Q03, Q13, Q23, Q32, Q33;
+//    Q03 = stereo->calib.Q.at<double>(0,3);
+//    Q13 = stereo->calib.Q.at<double>(1,3);
+//    Q23 = stereo->calib.Q.at<double>(2,3);
+//    Q32 = stereo->calib.Q.at<double>(3,2);
+//    Q33 = stereo->calib.Q.at<double>(3,3);
+
+//    //Create point cloud and fill it
+//    std::cout << "Creating Point Cloud..." <<std::endl;
+//    pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_ptr (new pcl::PointCloud<pcl::PointXYZRGB>);
+
+//    double px, py, pz;
+//    uchar pr, pg, pb;
+
+//    for (int i = 0; i < stereo->imageL[0].rows; i++){
+//      uchar* rgb_ptr = stereo->imageL[0].ptr<uchar>(i);
+//      uchar* disp_ptr = stereo->disp.disp_8U.ptr<uchar>(i);
+//  for (int j = 0; j < stereo->imageL[0].cols; j++){
+//        //Get 3D coordinates
+//        uchar d = disp_ptr[j];
+//        if ( d == 0 ) continue; //Discard bad pixels
+//        double pw = -1.0 * static_cast<double>(d) * Q32 + Q33;
+//        px = static_cast<double>(j) + Q03;
+//        py = static_cast<double>(i) + Q13;
+//        pz = Q23;
+
+//        px = px/pw;
+//        py = py/pw;
+//        pz = pz/pw;
+
+//        //Get RGB info
+//        pb = rgb_ptr[3*j];
+//        pg = rgb_ptr[3*j+1];
+//        pr = rgb_ptr[3*j+2];
+
+//        //Insert info into point cloud structure
+//        pcl::PointXYZRGB point;
+//        point.x = px;
+//        point.y = py;
+//        point.z = pz;
+//        uint32_t rgb = (static_cast<uint32_t>(pr) << 16 |
+//                static_cast<uint32_t>(pg) << 8 | static_cast<uint32_t>(pb));
+//        point.rgb = *reinterpret_cast<float*>(&rgb);
+//        point_cloud_ptr->points.push_back (point);
+//      }
+//    }
+//    point_cloud_ptr->width = (int) point_cloud_ptr->points.size();
+//    point_cloud_ptr->height = 1;
+
+//    //Create Visualizer
+//    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
+//    viewer = createVisualizer( point_cloud_ptr );
+//}

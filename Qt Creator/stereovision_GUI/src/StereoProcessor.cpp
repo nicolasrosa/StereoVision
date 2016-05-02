@@ -320,17 +320,26 @@ void StereoProcessor::captureFrames(){
     utils.resizeFrames(&imageL[0],&imageR[0],calib.getResolutionDesired());
 }
 
-void StereoProcessor::applyRectification(){
-    calib.setResolution(imageL[0].size().width,imageL[0].size().height);
-    stereoRectify(calib.M1,calib.D1,calib.M2,calib.D2,calib.getResolution(),calib.R,calib.T,calib.R1,calib.R2,calib.P1,calib.P2,calib.Q,CALIB_ZERO_DISPARITY,-1,calib.getResolution(),&calib.roi1,&calib.roi2);
+void StereoProcessor::initRectification(){
+    // Debug
+    //cout << "Res: " << calib.getResolution() << endl;
+    //cout << "ResD:" << calib.getResolutionDesired() << endl;
 
-    Mat rmap[2][2];
-    initUndistortRectifyMap(calib.M1, calib.D1, calib.R1, calib.P1, calib.getResolution(), CV_16SC2, rmap[0][0], rmap[0][1]);
-    initUndistortRectifyMap(calib.M2, calib.D2, calib.R2, calib.P2, calib.getResolution(), CV_16SC2, rmap[1][0], rmap[1][1]);
+    stereoRectify(calib.M1,calib.D1,calib.M2,calib.D2,calib.getResolutionDesired(),calib.R,calib.T,calib.R1,calib.R2,calib.P1,calib.P2,calib.Q,CALIB_ZERO_DISPARITY,-1,calib.getResolutionDesired(),&calib.roi1,&calib.roi2);
+
+    //TODO: Desabilitar pra ficar rápido
+    initUndistortRectifyMap(calib.M1, calib.D1, calib.R1, calib.P1, calib.getResolutionDesired(), CV_16SC2, calib.rmap[0][0], calib.rmap[0][1]);
+//    initUndistortRectifyMap(calib.M2, calib.D2, calib.R2, calib.P2, calib.getResolutionDesired(), CV_16SC2, calib.rmap[1][0], calib.rmap[1][1]);
+}
+
+void StereoProcessor::applyRectification(){
+    //TODO: Remover
+    initUndistortRectifyMap(calib.M1, calib.D1, calib.R1, calib.P1, calib.getResolutionDesired(), CV_16SC2, calib.rmap[0][0], calib.rmap[0][1]);
+    initUndistortRectifyMap(calib.M2, calib.D2, calib.R2, calib.P2, calib.getResolutionDesired(), CV_16SC2, calib.rmap[1][0], calib.rmap[1][1]);
 
     Mat imageLr, imageRr;
-    remap(imageL[0], imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
-    remap(imageR[0], imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
+    remap(imageL[0], imageLr, calib.rmap[0][0], calib.rmap[0][1], INTER_LINEAR);
+    remap(imageR[0], imageRr, calib.rmap[1][0], calib.rmap[1][1], INTER_LINEAR);
 
     imageL[0] = imageLr;
     imageR[0] = imageRr;

@@ -6,6 +6,7 @@
  */
 
 /* Libraries */
+//TODO: Remover Biblioteca e Arquivos do Método de Visualização 3D Antigo
 #include "inc/Reconstruction3D.h"
 
 /* Constructor and Destructor */

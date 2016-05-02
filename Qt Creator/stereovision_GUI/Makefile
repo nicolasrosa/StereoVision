@@ -15,10 +15,10 @@ CXX           = g++
 DEFINES       = -DQT_DECLARATIVE_DEBUG -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m64 -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 CXXFLAGS      = -m64 -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -I/usr/local/include/opencv -I/usr/include/vtk-5.8 -I/usr/include/boost -I/usr/include/pcl-1.7 -I/usr/include/ni -I/usr/include/openni2 -I/usr/include/eigen3 -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -Itmp/moc -Itmp/moc
+INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -I/usr/local/include/opencv -I/usr/include/vtk-5.8 -I/usr/include/boost -I/usr/include/pcl-1.7 -I/usr/include/eigen3 -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -Itmp/moc -Itmp/moc
 LINK          = g++
 LFLAGS        = -m64
-LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 `pkg-config --cflags --libs opencv ` -lopencv_gpu -lboost_system -lpcl_registration -lpcl_surface -lpcl_segmentation -L/usr/lib/OpenNI2/Drivers -lpcl_visualization -lpcl_io -lOpenNI -lOpenNI2 -lDummyDevice -lOniFile -lPS1080 -lpcl_apps -lpcl_keypoints -lpcl_features -lpcl_tracking -lpcl_filters -lpcl_sample_consensus -lpcl_search -lpcl_kdtree -lpcl_octree -lflann_cpp -lpcl_common -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 `pkg-config --cflags --libs opencv` -lopencv_gpu -lboost_system -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
@@ -126,7 +126,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/link_pkgconfig.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/declarative_debug.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qml_debug.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/unix/gdb_dwarf_index.prf \
@@ -224,7 +223,6 @@ Makefile: stereovision_GUI.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-6
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/link_pkgconfig.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/declarative_debug.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qml_debug.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/unix/gdb_dwarf_index.prf \
@@ -291,7 +289,6 @@ Makefile: stereovision_GUI.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-6
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf:
-/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/link_pkgconfig.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/declarative_debug.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qml_debug.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/unix/gdb_dwarf_index.prf:
@@ -343,13 +340,13 @@ compiler_rcc_make_all: tmp/rc/qrc_icon_resource.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) tmp/rc/qrc_icon_resource.cpp
 tmp/rc/qrc_icon_resource.cpp: res/icon_resource.qrc \
-		res/icon/drone_blue.png \
-		res/icon/drone_cyan.png \
 		res/icon/drone_green.png \
-		res/icon/drone_purple.png \
 		res/icon/drone_orange.png \
 		res/icon/drone_white.png \
-		res/icon/drone_black.png
+		res/icon/drone_black.png \
+		res/icon/drone_purple.png \
+		res/icon/drone_blue.png \
+		res/icon/drone_cyan.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name icon_resource res/icon_resource.qrc -o tmp/rc/qrc_icon_resource.cpp
 
 compiler_moc_header_make_all: tmp/moc/moc_MainWindow.cpp tmp/moc/moc_StereoSetParamsWindow.cpp
@@ -581,10 +578,9 @@ tmp/moc/moc_MainWindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtGui/QCloseEvent \
+		/usr/include/qt5/QtWidgets/QSplashScreen \
+		/usr/include/qt5/QtWidgets/qsplashscreen.h \
 		inc/StereoProcessor.h \
-		inc/MainWindow.h \
-		inc/StereoSetParamsWindow.h \
-		/usr/include/qt5/QtWidgets/QDialog \
 		inc/Reconstruction3D.h \
 		inc/StereoInput.h \
 		inc/StereoCalib.h \
@@ -596,6 +592,8 @@ tmp/moc/moc_MainWindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		inc/StereoMorphology.h \
 		inc/trackObject.h \
 		inc/StereoUtils.h \
+		inc/StereoSetParamsWindow.h \
+		/usr/include/qt5/QtWidgets/QDialog \
 		inc/MainWindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include inc/MainWindow.h -o tmp/moc/moc_MainWindow.cpp
 
@@ -959,6 +957,8 @@ tmp/obj/main.o: src/main.cpp inc/MainWindow.h \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtGui/QCloseEvent \
+		/usr/include/qt5/QtWidgets/QSplashScreen \
+		/usr/include/qt5/QtWidgets/qsplashscreen.h \
 		inc/StereoProcessor.h \
 		inc/Reconstruction3D.h \
 		inc/StereoInput.h \
@@ -977,9 +977,7 @@ tmp/obj/main.o: src/main.cpp inc/MainWindow.h \
 		/usr/include/qt5/QtWidgets/qapplication.h \
 		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
 		/usr/include/qt5/QtGui/qguiapplication.h \
-		/usr/include/qt5/QtGui/qinputmethod.h \
-		/usr/include/qt5/QtWidgets/QSplashScreen \
-		/usr/include/qt5/QtWidgets/qsplashscreen.h
+		/usr/include/qt5/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/main.o src/main.cpp
 
 tmp/obj/MainWindow.o: src/MainWindow.cpp inc/MainWindow.h \
@@ -1209,6 +1207,8 @@ tmp/obj/MainWindow.o: src/MainWindow.cpp inc/MainWindow.h \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtGui/QCloseEvent \
+		/usr/include/qt5/QtWidgets/QSplashScreen \
+		/usr/include/qt5/QtWidgets/qsplashscreen.h \
 		inc/StereoProcessor.h \
 		inc/Reconstruction3D.h \
 		inc/StereoInput.h \
@@ -1276,385 +1276,7 @@ tmp/obj/MainWindow.o: src/MainWindow.cpp inc/MainWindow.h \
 		/usr/include/qt5/QtWidgets/qabstractbutton.h \
 		/usr/include/qt5/QtWidgets/QStatusBar \
 		/usr/include/qt5/QtWidgets/qstatusbar.h \
-		/usr/include/qt5/QtWidgets/QWidget \
-		/usr/include/pcl-1.7/pcl/common/common_headers.h \
-		/usr/include/pcl-1.7/pcl/common/common.h \
-		/usr/include/pcl-1.7/pcl/pcl_base.h \
-		/usr/include/pcl-1.7/pcl/pcl_macros.h \
-		/usr/include/pcl-1.7/pcl/pcl_config.h \
-		/usr/include/eigen3/Eigen/StdVector \
-		/usr/include/eigen3/Eigen/Core \
-		/usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
-		/usr/include/eigen3/Eigen/src/Core/util/Macros.h \
-		/usr/include/eigen3/Eigen/src/Core/util/MKL_support.h \
-		/usr/include/eigen3/Eigen/src/Core/util/Constants.h \
-		/usr/include/eigen3/Eigen/src/Core/util/ForwardDeclarations.h \
-		/usr/include/eigen3/Eigen/src/Core/util/Meta.h \
-		/usr/include/eigen3/Eigen/src/Core/util/StaticAssert.h \
-		/usr/include/eigen3/Eigen/src/Core/util/XprHelper.h \
-		/usr/include/eigen3/Eigen/src/Core/util/Memory.h \
-		/usr/include/eigen3/Eigen/src/Core/NumTraits.h \
-		/usr/include/eigen3/Eigen/src/Core/MathFunctions.h \
-		/usr/include/eigen3/Eigen/src/Core/GenericPacketMath.h \
-		/usr/include/eigen3/Eigen/src/Core/arch/SSE/PacketMath.h \
-		/usr/include/eigen3/Eigen/src/Core/arch/SSE/MathFunctions.h \
-		/usr/include/eigen3/Eigen/src/Core/arch/SSE/Complex.h \
-		/usr/include/eigen3/Eigen/src/Core/arch/AltiVec/PacketMath.h \
-		/usr/include/eigen3/Eigen/src/Core/arch/AltiVec/Complex.h \
-		/usr/include/eigen3/Eigen/src/Core/arch/NEON/PacketMath.h \
-		/usr/include/eigen3/Eigen/src/Core/arch/NEON/Complex.h \
-		/usr/include/eigen3/Eigen/src/Core/arch/Default/Settings.h \
-		/usr/include/eigen3/Eigen/src/Core/Functors.h \
-		/usr/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h \
-		/usr/include/eigen3/Eigen/src/Core/DenseBase.h \
-		/usr/include/eigen3/Eigen/src/plugins/BlockMethods.h \
-		/usr/include/eigen3/Eigen/src/Core/MatrixBase.h \
-		/usr/include/eigen3/Eigen/src/plugins/CommonCwiseUnaryOps.h \
-		/usr/include/eigen3/Eigen/src/plugins/CommonCwiseBinaryOps.h \
-		/usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h \
-		/usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h \
-		/usr/include/eigen3/Eigen/src/Core/EigenBase.h \
-		/usr/include/eigen3/Eigen/src/Core/Assign.h \
-		/usr/include/eigen3/Eigen/src/Core/util/BlasUtil.h \
-		/usr/include/eigen3/Eigen/src/Core/DenseStorage.h \
-		/usr/include/eigen3/Eigen/src/Core/NestByValue.h \
-		/usr/include/eigen3/Eigen/src/Core/ForceAlignedAccess.h \
-		/usr/include/eigen3/Eigen/src/Core/ReturnByValue.h \
-		/usr/include/eigen3/Eigen/src/Core/NoAlias.h \
-		/usr/include/eigen3/Eigen/src/Core/PlainObjectBase.h \
-		/usr/include/eigen3/Eigen/src/Core/Matrix.h \
-		/usr/include/eigen3/Eigen/src/Core/Array.h \
-		/usr/include/eigen3/Eigen/src/Core/CwiseBinaryOp.h \
-		/usr/include/eigen3/Eigen/src/Core/CwiseUnaryOp.h \
-		/usr/include/eigen3/Eigen/src/Core/CwiseNullaryOp.h \
-		/usr/include/eigen3/Eigen/src/Core/CwiseUnaryView.h \
-		/usr/include/eigen3/Eigen/src/Core/SelfCwiseBinaryOp.h \
-		/usr/include/eigen3/Eigen/src/Core/Dot.h \
-		/usr/include/eigen3/Eigen/src/Core/StableNorm.h \
-		/usr/include/eigen3/Eigen/src/Core/MapBase.h \
-		/usr/include/eigen3/Eigen/src/Core/Stride.h \
-		/usr/include/eigen3/Eigen/src/Core/Map.h \
-		/usr/include/eigen3/Eigen/src/Core/Block.h \
-		/usr/include/eigen3/Eigen/src/Core/VectorBlock.h \
-		/usr/include/eigen3/Eigen/src/Core/Ref.h \
-		/usr/include/eigen3/Eigen/src/Core/Transpose.h \
-		/usr/include/eigen3/Eigen/src/Core/DiagonalMatrix.h \
-		/usr/include/eigen3/Eigen/src/Core/Diagonal.h \
-		/usr/include/eigen3/Eigen/src/Core/DiagonalProduct.h \
-		/usr/include/eigen3/Eigen/src/Core/PermutationMatrix.h \
-		/usr/include/eigen3/Eigen/src/Core/Transpositions.h \
-		/usr/include/eigen3/Eigen/src/Core/Redux.h \
-		/usr/include/eigen3/Eigen/src/Core/Visitor.h \
-		/usr/include/eigen3/Eigen/src/Core/Fuzzy.h \
-		/usr/include/eigen3/Eigen/src/Core/IO.h \
-		/usr/include/eigen3/Eigen/src/Core/Swap.h \
-		/usr/include/eigen3/Eigen/src/Core/CommaInitializer.h \
-		/usr/include/eigen3/Eigen/src/Core/Flagged.h \
-		/usr/include/eigen3/Eigen/src/Core/ProductBase.h \
-		/usr/include/eigen3/Eigen/src/Core/GeneralProduct.h \
-		/usr/include/eigen3/Eigen/src/Core/TriangularMatrix.h \
-		/usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h \
-		/usr/include/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
-		/usr/include/eigen3/Eigen/src/Core/products/Parallelizer.h \
-		/usr/include/eigen3/Eigen/src/Core/products/CoeffBasedProduct.h \
-		/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h \
-		/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix.h \
-		/usr/include/eigen3/Eigen/src/Core/SolveTriangular.h \
-		/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h \
-		/usr/include/eigen3/Eigen/src/Core/products/SelfadjointMatrixVector.h \
-		/usr/include/eigen3/Eigen/src/Core/products/SelfadjointMatrixMatrix.h \
-		/usr/include/eigen3/Eigen/src/Core/products/SelfadjointProduct.h \
-		/usr/include/eigen3/Eigen/src/Core/products/SelfadjointRank2Update.h \
-		/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixVector.h \
-		/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix.h \
-		/usr/include/eigen3/Eigen/src/Core/products/TriangularSolverMatrix.h \
-		/usr/include/eigen3/Eigen/src/Core/products/TriangularSolverVector.h \
-		/usr/include/eigen3/Eigen/src/Core/BandMatrix.h \
-		/usr/include/eigen3/Eigen/src/Core/CoreIterators.h \
-		/usr/include/eigen3/Eigen/src/Core/BooleanRedux.h \
-		/usr/include/eigen3/Eigen/src/Core/Select.h \
-		/usr/include/eigen3/Eigen/src/Core/VectorwiseOp.h \
-		/usr/include/eigen3/Eigen/src/Core/Random.h \
-		/usr/include/eigen3/Eigen/src/Core/Replicate.h \
-		/usr/include/eigen3/Eigen/src/Core/Reverse.h \
-		/usr/include/eigen3/Eigen/src/Core/ArrayBase.h \
-		/usr/include/eigen3/Eigen/src/plugins/ArrayCwiseUnaryOps.h \
-		/usr/include/eigen3/Eigen/src/plugins/ArrayCwiseBinaryOps.h \
-		/usr/include/eigen3/Eigen/src/Core/ArrayWrapper.h \
-		/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix_MKL.h \
-		/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixVector_MKL.h \
-		/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrixTriangular_MKL.h \
-		/usr/include/eigen3/Eigen/src/Core/products/SelfadjointMatrixMatrix_MKL.h \
-		/usr/include/eigen3/Eigen/src/Core/products/SelfadjointMatrixVector_MKL.h \
-		/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix_MKL.h \
-		/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixVector_MKL.h \
-		/usr/include/eigen3/Eigen/src/Core/products/TriangularSolverMatrix_MKL.h \
-		/usr/include/eigen3/Eigen/src/Core/Assign_MKL.h \
-		/usr/include/eigen3/Eigen/src/Core/GlobalFunctions.h \
-		/usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
-		/usr/include/eigen3/Eigen/Eigen2Support \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Macros.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Memory.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Meta.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Lazy.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Cwise.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/CwiseOperators.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/TriangularSolver.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Block.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/VectorBlock.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Minor.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/MathFunctions.h \
-		/usr/include/eigen3/Eigen/src/StlSupport/StdVector.h \
-		/usr/include/eigen3/Eigen/src/StlSupport/details.h \
-		/usr/include/pcl-1.7/pcl/point_cloud.h \
-		/usr/include/eigen3/Eigen/Geometry \
-		/usr/include/eigen3/Eigen/SVD \
-		/usr/include/eigen3/Eigen/QR \
-		/usr/include/eigen3/Eigen/Cholesky \
-		/usr/include/eigen3/Eigen/src/misc/Solve.h \
-		/usr/include/eigen3/Eigen/src/Cholesky/LLT.h \
-		/usr/include/eigen3/Eigen/src/Cholesky/LDLT.h \
-		/usr/include/eigen3/Eigen/src/Cholesky/LLT_MKL.h \
-		/usr/include/eigen3/Eigen/Jacobi \
-		/usr/include/eigen3/Eigen/src/Jacobi/Jacobi.h \
-		/usr/include/eigen3/Eigen/Householder \
-		/usr/include/eigen3/Eigen/src/Householder/Householder.h \
-		/usr/include/eigen3/Eigen/src/Householder/HouseholderSequence.h \
-		/usr/include/eigen3/Eigen/src/Householder/BlockHouseholder.h \
-		/usr/include/eigen3/Eigen/src/QR/HouseholderQR.h \
-		/usr/include/eigen3/Eigen/src/QR/FullPivHouseholderQR.h \
-		/usr/include/eigen3/Eigen/src/QR/ColPivHouseholderQR.h \
-		/usr/include/eigen3/Eigen/src/QR/HouseholderQR_MKL.h \
-		/usr/include/eigen3/Eigen/src/QR/ColPivHouseholderQR_MKL.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/QR.h \
-		/usr/include/eigen3/Eigen/Eigenvalues \
-		/usr/include/eigen3/Eigen/LU \
-		/usr/include/eigen3/Eigen/src/misc/Kernel.h \
-		/usr/include/eigen3/Eigen/src/misc/Image.h \
-		/usr/include/eigen3/Eigen/src/LU/FullPivLU.h \
-		/usr/include/eigen3/Eigen/src/LU/PartialPivLU.h \
-		/usr/include/eigen3/Eigen/src/LU/PartialPivLU_MKL.h \
-		/usr/include/eigen3/Eigen/src/LU/Determinant.h \
-		/usr/include/eigen3/Eigen/src/LU/Inverse.h \
-		/usr/include/eigen3/Eigen/src/LU/arch/Inverse_SSE.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/LU.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/Tridiagonalization.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/RealSchur.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/EigenSolver.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/ComplexSchur.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/RealQZ.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/RealSchur_MKL.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/ComplexSchur_MKL.h \
-		/usr/include/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_MKL.h \
-		/usr/include/eigen3/Eigen/src/SVD/JacobiSVD.h \
-		/usr/include/eigen3/Eigen/src/SVD/JacobiSVD_MKL.h \
-		/usr/include/eigen3/Eigen/src/SVD/UpperBidiagonalization.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/SVD.h \
-		/usr/include/eigen3/Eigen/src/Geometry/OrthoMethods.h \
-		/usr/include/eigen3/Eigen/src/Geometry/EulerAngles.h \
-		/usr/include/eigen3/Eigen/src/Geometry/Homogeneous.h \
-		/usr/include/eigen3/Eigen/src/Geometry/RotationBase.h \
-		/usr/include/eigen3/Eigen/src/Geometry/Rotation2D.h \
-		/usr/include/eigen3/Eigen/src/Geometry/Quaternion.h \
-		/usr/include/eigen3/Eigen/src/Geometry/AngleAxis.h \
-		/usr/include/eigen3/Eigen/src/Geometry/Transform.h \
-		/usr/include/eigen3/Eigen/src/Geometry/Translation.h \
-		/usr/include/eigen3/Eigen/src/Geometry/Scaling.h \
-		/usr/include/eigen3/Eigen/src/Geometry/Hyperplane.h \
-		/usr/include/eigen3/Eigen/src/Geometry/ParametrizedLine.h \
-		/usr/include/eigen3/Eigen/src/Geometry/AlignedBox.h \
-		/usr/include/eigen3/Eigen/src/Geometry/Umeyama.h \
-		/usr/include/eigen3/Eigen/src/Geometry/arch/Geometry_SSE.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/All.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/RotationBase.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/Rotation2D.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/Quaternion.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/AngleAxis.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/Transform.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/Translation.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/Scaling.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/AlignedBox.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/Hyperplane.h \
-		/usr/include/eigen3/Eigen/src/Eigen2Support/Geometry/ParametrizedLine.h \
-		/usr/include/pcl-1.7/pcl/PCLHeader.h \
-		/usr/include/pcl-1.7/pcl/exceptions.h \
-		/usr/include/pcl-1.7/pcl/point_traits.h \
-		/usr/include/pcl-1.7/pcl/PCLPointField.h \
-		/usr/include/pcl-1.7/pcl/PointIndices.h \
-		/usr/include/pcl-1.7/pcl/PCLPointCloud2.h \
-		/usr/include/pcl-1.7/pcl/impl/pcl_base.hpp \
-		/usr/include/pcl-1.7/pcl/console/print.h \
-		/usr/include/pcl-1.7/pcl/pcl_exports.h \
-		/usr/include/pcl-1.7/pcl/common/impl/common.hpp \
-		/usr/include/pcl-1.7/pcl/point_types.h \
-		/usr/include/pcl-1.7/pcl/register_point_struct.h \
-		/usr/include/pcl-1.7/pcl/impl/point_types.hpp \
-		/usr/include/pcl-1.7/pcl/common/point_tests.h \
-		/usr/include/pcl-1.7/pcl/common/norms.h \
-		/usr/include/pcl-1.7/pcl/common/impl/norms.hpp \
-		/usr/include/pcl-1.7/pcl/common/angles.h \
-		/usr/include/pcl-1.7/pcl/common/impl/angles.hpp \
-		/usr/include/pcl-1.7/pcl/common/time.h \
-		/usr/include/pcl-1.7/pcl/common/file_io.h \
-		/usr/include/pcl-1.7/pcl/common/impl/file_io.hpp \
-		/usr/include/pcl-1.7/pcl/common/eigen.h \
-		/usr/include/pcl-1.7/pcl/ModelCoefficients.h \
-		/usr/include/eigen3/Eigen/Dense \
-		/usr/include/pcl-1.7/pcl/common/impl/eigen.hpp \
-		/usr/include/pcl-1.7/pcl/io/pcd_io.h \
-		/usr/include/pcl-1.7/pcl/io/file_io.h \
-		/usr/include/pcl-1.7/pcl/common/io.h \
-		/usr/include/pcl-1.7/pcl/conversions.h \
-		/usr/include/pcl-1.7/pcl/PCLImage.h \
-		/usr/include/pcl-1.7/pcl/for_each_type.h \
-		/usr/include/pcl-1.7/pcl/common/impl/io.hpp \
-		/usr/include/pcl-1.7/pcl/common/concatenate.h \
-		/usr/include/pcl-1.7/pcl/common/copy_point.h \
-		/usr/include/pcl-1.7/pcl/common/impl/copy_point.hpp \
-		/usr/include/pcl-1.7/pcl/io/boost.h \
-		/usr/include/pcl-1.7/pcl/PolygonMesh.h \
-		/usr/include/pcl-1.7/pcl/Vertices.h \
-		/usr/include/pcl-1.7/pcl/TextureMesh.h \
-		/usr/include/pcl-1.7/pcl/io/impl/pcd_io.hpp \
-		/usr/include/pcl-1.7/pcl/io/lzf.h \
-		/usr/include/pcl-1.7/pcl/visualization/pcl_visualizer.h \
-		/usr/include/pcl-1.7/pcl/correspondence.h \
-		/usr/include/pcl-1.7/pcl/visualization/common/actor_map.h \
-		/usr/include/pcl-1.7/pcl/visualization/point_cloud_handlers.h \
-		/usr/include/pcl-1.7/pcl/visualization/point_cloud_geometry_handlers.h \
-		/usr/include/vtk-5.8/vtkSmartPointer.h \
-		/usr/include/vtk-5.8/vtkSmartPointerBase.h \
-		/usr/include/vtk-5.8/vtkObjectBase.h \
-		/usr/include/vtk-5.8/vtkIndent.h \
-		/usr/include/vtk-5.8/vtkSystemIncludes.h \
-		/usr/include/vtk-5.8/vtkWin32Header.h \
-		/usr/include/vtk-5.8/vtkConfigure.h \
-		/usr/include/vtk-5.8/vtkABI.h \
-		/usr/include/vtk-5.8/vtkIOStreamFwd.h \
-		/usr/include/vtk-5.8/vtkIOStream.h \
-		/usr/include/vtk-5.8/vtkType.h \
-		/usr/include/vtk-5.8/vtkOStreamWrapper.h \
-		/usr/include/vtk-5.8/vtkOStrStreamWrapper.h \
-		/usr/include/vtk-5.8/vtkPoints.h \
-		/usr/include/vtk-5.8/vtkObject.h \
-		/usr/include/vtk-5.8/vtkSetGet.h \
-		/usr/include/vtk-5.8/vtkTimeStamp.h \
-		/usr/include/vtk-5.8/vtkWeakPointerBase.h \
-		/usr/include/vtk-5.8/vtkDataArray.h \
-		/usr/include/vtk-5.8/vtkAbstractArray.h \
-		/usr/include/vtk-5.8/vtkVariant.h \
-		/usr/include/vtk-5.8/vtkStdString.h \
-		/usr/include/vtk-5.8/vtkstd/string \
-		/usr/include/vtk-5.8/vtkUnicodeString.h \
-		/usr/include/vtk-5.8/vtkstd/vector \
-		/usr/include/vtk-5.8/vtkVariantInlineOperators.h \
-		/usr/include/vtk-5.8/vtkFloatArray.h \
-		/usr/include/vtk-5.8/vtkDataArrayTemplate.h \
-		/usr/include/vtk-5.8/vtkDataArrayTemplateImplicit.txx \
-		/usr/include/vtk-5.8/vtkDataArrayTemplate.txx \
-		/usr/include/vtk-5.8/vtkArrayIteratorTemplate.h \
-		/usr/include/vtk-5.8/vtkArrayIterator.h \
-		/usr/include/vtk-5.8/vtkArrayIteratorTemplateImplicit.txx \
-		/usr/include/vtk-5.8/vtkArrayIteratorTemplate.txx \
-		/usr/include/vtk-5.8/vtkObjectFactory.h \
-		/usr/include/vtk-5.8/vtkIdList.h \
-		/usr/include/vtk-5.8/vtkInformation.h \
-		/usr/include/vtk-5.8/vtkInformationDoubleVectorKey.h \
-		/usr/include/vtk-5.8/vtkInformationKey.h \
-		/usr/include/vtk-5.8/vtkCommonInformationKeyManager.h \
-		/usr/include/vtk-5.8/vtkDebugLeaksManager.h \
-		/usr/include/vtk-5.8/vtkInformationInformationVectorKey.h \
-		/usr/include/vtk-5.8/vtkInformationVector.h \
-		/usr/include/vtk-5.8/vtkSortDataArray.h \
-		/usr/include/vtk-5.8/vtkTypeTraits.h \
-		/usr/include/vtk-5.8/vtkstd/new \
-		/usr/include/vtk-5.8/vtkstd/exception \
-		/usr/include/vtk-5.8/vtkstd/utility \
-		/usr/include/vtk-5.8/vtkstd/algorithm \
-		/usr/include/vtk-5.8/vtkstd/map \
-		/usr/include/pcl-1.7/pcl/visualization/impl/point_cloud_geometry_handlers.hpp \
-		/usr/include/pcl-1.7/pcl/visualization/point_cloud_color_handlers.h \
-		/usr/include/pcl-1.7/pcl/visualization/common/common.h \
-		/usr/include/pcl-1.7/pcl/visualization/eigen.h \
-		/usr/include/vtk-5.8/vtkMatrix4x4.h \
-		/usr/include/pcl-1.7/pcl/visualization/common/impl/common.hpp \
-		/usr/include/vtk-5.8/vtkUnsignedCharArray.h \
-		/usr/include/pcl-1.7/pcl/visualization/impl/point_cloud_color_handlers.hpp \
-		/usr/include/vtk-5.8/vtkLODActor.h \
-		/usr/include/vtk-5.8/vtkActor.h \
-		/usr/include/vtk-5.8/vtkProp3D.h \
-		/usr/include/vtk-5.8/vtkProp.h \
-		/usr/include/pcl-1.7/pcl/visualization/boost.h \
-		/usr/include/pcl-1.7/pcl/visualization/point_picking_event.h \
-		/usr/include/vtk-5.8/vtkCommand.h \
-		/usr/include/pcl-1.7/pcl/visualization/area_picking_event.h \
-		/usr/include/pcl-1.7/pcl/visualization/interactor_style.h \
-		/usr/include/pcl-1.7/pcl/visualization/common/ren_win_interact_map.h \
-		/usr/include/pcl-1.7/pcl/visualization/keyboard_event.h \
-		/usr/include/pcl-1.7/pcl/visualization/mouse_event.h \
-		/usr/include/vtk-5.8/vtkInteractorStyleRubberBandPick.h \
-		/usr/include/vtk-5.8/vtkInteractorStyleTrackballCamera.h \
-		/usr/include/vtk-5.8/vtkInteractorStyle.h \
-		/usr/include/vtk-5.8/vtkInteractorObserver.h \
-		/usr/include/pcl-1.7/pcl/visualization/impl/pcl_visualizer.hpp \
-		/usr/include/vtk-5.8/vtkVersion.h \
-		/usr/include/vtk-5.8/vtksys/DateStamp.h \
-		/usr/include/vtk-5.8/vtkCellArray.h \
-		/usr/include/vtk-5.8/vtkIdTypeArray.h \
-		/usr/include/vtk-5.8/vtkCell.h \
-		/usr/include/vtk-5.8/vtkCellType.h \
-		/usr/include/vtk-5.8/vtkLeaderActor2D.h \
-		/usr/include/vtk-5.8/vtkActor2D.h \
-		/usr/include/vtk-5.8/vtkCoordinate.h \
-		/usr/include/vtk-5.8/vtkVectorText.h \
-		/usr/include/vtk-5.8/vtkPolyDataAlgorithm.h \
-		/usr/include/vtk-5.8/vtkAlgorithm.h \
-		/usr/include/vtk-5.8/vtkPolyData.h \
-		/usr/include/vtk-5.8/vtkPointSet.h \
-		/usr/include/vtk-5.8/vtkDataSet.h \
-		/usr/include/vtk-5.8/vtkDataObject.h \
-		/usr/include/vtk-5.8/vtkCellTypes.h \
-		/usr/include/vtk-5.8/vtkIntArray.h \
-		/usr/include/vtk-5.8/vtkCellLinks.h \
-		/usr/include/vtk-5.8/vtkAlgorithmOutput.h \
-		/usr/include/vtk-5.8/vtkFollower.h \
-		/usr/include/vtk-5.8/vtkSphereSource.h \
-		/usr/include/vtk-5.8/vtkProperty2D.h \
-		/usr/include/vtk-5.8/vtkDataSetSurfaceFilter.h \
-		/usr/include/vtk-5.8/vtkPointData.h \
-		/usr/include/vtk-5.8/vtkDataSetAttributes.h \
-		/usr/include/vtk-5.8/vtkFieldData.h \
-		/usr/include/vtk-5.8/vtkPolyDataMapper.h \
-		/usr/include/vtk-5.8/vtkMapper.h \
-		/usr/include/vtk-5.8/vtkAbstractMapper3D.h \
-		/usr/include/vtk-5.8/vtkAbstractMapper.h \
-		/usr/include/vtk-5.8/vtkScalarsToColors.h \
-		/usr/include/vtk-5.8/vtkTexture.h \
-		/usr/include/vtk-5.8/vtkImageAlgorithm.h \
-		/usr/include/vtk-5.8/vtkProperty.h \
-		/usr/include/vtk-5.8/vtkCellData.h \
-		/usr/include/vtk-5.8/vtkDataSetMapper.h \
-		/usr/include/vtk-5.8/vtkRenderer.h \
-		/usr/include/vtk-5.8/vtkViewport.h \
-		/usr/include/vtk-5.8/vtkVolumeCollection.h \
-		/usr/include/vtk-5.8/vtkPropCollection.h \
-		/usr/include/vtk-5.8/vtkCollection.h \
-		/usr/include/vtk-5.8/vtkVolume.h \
-		/usr/include/vtk-5.8/vtkActorCollection.h \
-		/usr/include/vtk-5.8/vtkRendererCollection.h \
-		/usr/include/vtk-5.8/vtkAppendPolyData.h \
-		/usr/include/vtk-5.8/vtkTextProperty.h \
-		/usr/include/pcl-1.7/pcl/visualization/common/shapes.h \
-		/usr/include/pcl-1.7/pcl/geometry/planar_polygon.h \
-		/usr/include/pcl-1.7/pcl/visualization/common/impl/shapes.hpp \
-		/usr/include/vtk-5.8/vtkPolygon.h \
-		/usr/include/vtk-5.8/vtkUnstructuredGrid.h
+		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tmp/obj/MainWindow.o src/MainWindow.cpp
 
 tmp/obj/trackObject.o: src/trackObject.cpp inc/trackObject.h \
@@ -1888,6 +1510,8 @@ tmp/obj/StereoProcessor.o: src/StereoProcessor.cpp inc/MainWindow.h \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtGui/QCloseEvent \
+		/usr/include/qt5/QtWidgets/QSplashScreen \
+		/usr/include/qt5/QtWidgets/qsplashscreen.h \
 		inc/StereoProcessor.h \
 		inc/Reconstruction3D.h \
 		inc/StereoInput.h \
@@ -2092,118 +1716,6 @@ tmp/obj/StereoSetParamsWindow.o: src/StereoSetParamsWindow.cpp /usr/include/qt5/
 		/usr/include/qt5/QtWidgets/qlabel.h \
 		inc/StereoSetParamsWindow.h \
 		inc/StereoProcessor.h \
-		inc/MainWindow.h \
-		/usr/include/qt5/QtWidgets/QMainWindow \
-		/usr/include/qt5/QtWidgets/qmainwindow.h \
-		/usr/include/qt5/QtCore/QtCore \
-		/usr/include/qt5/QtCore/QtCoreDepends \
-		/usr/include/qt5/QtCore/qabstractanimation.h \
-		/usr/include/qt5/QtCore/qanimationgroup.h \
-		/usr/include/qt5/QtCore/qparallelanimationgroup.h \
-		/usr/include/qt5/QtCore/qpauseanimation.h \
-		/usr/include/qt5/QtCore/qpropertyanimation.h \
-		/usr/include/qt5/QtCore/qvariantanimation.h \
-		/usr/include/qt5/QtCore/qeasingcurve.h \
-		/usr/include/qt5/QtCore/qsequentialanimationgroup.h \
-		/usr/include/qt5/QtCore/qtextcodec.h \
-		/usr/include/qt5/QtCore/qendian.h \
-		/usr/include/qt5/QtCore/qlibraryinfo.h \
-		/usr/include/qt5/QtCore/qdatetime.h \
-		/usr/include/qt5/QtCore/qnumeric.h \
-		/usr/include/qt5/QtCore/qbuffer.h \
-		/usr/include/qt5/QtCore/qdir.h \
-		/usr/include/qt5/QtCore/qfileinfo.h \
-		/usr/include/qt5/QtCore/qdiriterator.h \
-		/usr/include/qt5/QtCore/qfileselector.h \
-		/usr/include/qt5/QtCore/QObject \
-		/usr/include/qt5/QtCore/QStringList \
-		/usr/include/qt5/QtCore/qfilesystemwatcher.h \
-		/usr/include/qt5/QtCore/qlockfile.h \
-		/usr/include/qt5/QtCore/qloggingcategory.h \
-		/usr/include/qt5/QtCore/qprocess.h \
-		/usr/include/qt5/QtCore/qresource.h \
-		/usr/include/qt5/QtCore/qsavefile.h \
-		/usr/include/qt5/QtCore/qsettings.h \
-		/usr/include/qt5/QtCore/qstandardpaths.h \
-		/usr/include/qt5/QtCore/qtemporarydir.h \
-		/usr/include/qt5/QtCore/QScopedPointer \
-		/usr/include/qt5/QtCore/qtemporaryfile.h \
-		/usr/include/qt5/QtCore/qabstractproxymodel.h \
-		/usr/include/qt5/QtCore/qidentityproxymodel.h \
-		/usr/include/qt5/QtCore/qsortfilterproxymodel.h \
-		/usr/include/qt5/QtCore/qstringlistmodel.h \
-		/usr/include/qt5/QtCore/qjsonarray.h \
-		/usr/include/qt5/QtCore/qjsonvalue.h \
-		/usr/include/qt5/QtCore/qjsondocument.h \
-		/usr/include/qt5/QtCore/qjsonobject.h \
-		/usr/include/qt5/QtCore/qabstracteventdispatcher.h \
-		/usr/include/qt5/QtCore/qabstractnativeeventfilter.h \
-		/usr/include/qt5/QtCore/qbasictimer.h \
-		/usr/include/qt5/QtCore/qmath.h \
-		/usr/include/qt5/QtCore/qmetaobject.h \
-		/usr/include/qt5/QtCore/qmimedata.h \
-		/usr/include/qt5/QtCore/qobjectcleanuphandler.h \
-		/usr/include/qt5/QtCore/qpointer.h \
-		/usr/include/qt5/QtCore/qsharedmemory.h \
-		/usr/include/qt5/QtCore/qsignalmapper.h \
-		/usr/include/qt5/QtCore/qsocketnotifier.h \
-		/usr/include/qt5/QtCore/qsystemsemaphore.h \
-		/usr/include/qt5/QtCore/qtimer.h \
-		/usr/include/qt5/QtCore/qtranslator.h \
-		/usr/include/qt5/QtCore/qwineventnotifier.h \
-		/usr/include/qt5/QtCore/qmimedatabase.h \
-		/usr/include/qt5/QtCore/qmimetype.h \
-		/usr/include/qt5/QtCore/qfactoryinterface.h \
-		/usr/include/qt5/QtCore/qlibrary.h \
-		/usr/include/qt5/QtCore/qplugin.h \
-		/usr/include/qt5/QtCore/qpluginloader.h \
-		/usr/include/qt5/QtCore/quuid.h \
-		/usr/include/qt5/QtCore/qabstractstate.h \
-		/usr/include/qt5/QtCore/qabstracttransition.h \
-		/usr/include/qt5/QtCore/qeventtransition.h \
-		/usr/include/qt5/QtCore/qfinalstate.h \
-		/usr/include/qt5/QtCore/qhistorystate.h \
-		/usr/include/qt5/QtCore/qsignaltransition.h \
-		/usr/include/qt5/QtCore/qstate.h \
-		/usr/include/qt5/QtCore/qstatemachine.h \
-		/usr/include/qt5/QtCore/qexception.h \
-		/usr/include/qt5/QtCore/qfuture.h \
-		/usr/include/qt5/QtCore/qfutureinterface.h \
-		/usr/include/qt5/QtCore/qrunnable.h \
-		/usr/include/qt5/QtCore/qresultstore.h \
-		/usr/include/qt5/QtCore/qfuturesynchronizer.h \
-		/usr/include/qt5/QtCore/qfuturewatcher.h \
-		/usr/include/qt5/QtCore/qreadwritelock.h \
-		/usr/include/qt5/QtCore/qsemaphore.h \
-		/usr/include/qt5/QtCore/qthread.h \
-		/usr/include/qt5/QtCore/qthreadpool.h \
-		/usr/include/qt5/QtCore/qthreadstorage.h \
-		/usr/include/qt5/QtCore/qwaitcondition.h \
-		/usr/include/qt5/QtCore/qarraydataops.h \
-		/usr/include/qt5/QtCore/qarraydatapointer.h \
-		/usr/include/qt5/QtCore/qbitarray.h \
-		/usr/include/qt5/QtCore/qbytearraymatcher.h \
-		/usr/include/qt5/QtCore/qcache.h \
-		/usr/include/qt5/QtCore/qcollator.h \
-		/usr/include/qt5/QtCore/qcommandlineoption.h \
-		/usr/include/qt5/QtCore/qcommandlineparser.h \
-		/usr/include/qt5/QtCore/qcryptographichash.h \
-		/usr/include/qt5/QtCore/qelapsedtimer.h \
-		/usr/include/qt5/QtCore/qlinkedlist.h \
-		/usr/include/qt5/QtCore/qmessageauthenticationcode.h \
-		/usr/include/qt5/QtCore/qqueue.h \
-		/usr/include/qt5/QtCore/qscopedvaluerollback.h \
-		/usr/include/qt5/QtCore/qstack.h \
-		/usr/include/qt5/QtCore/qtextboundaryfinder.h \
-		/usr/include/qt5/QtCore/qtimeline.h \
-		/usr/include/qt5/QtCore/qtimezone.h \
-		/usr/include/qt5/QtCore/qxmlstream.h \
-		/usr/include/qt5/QtCore/qtcoreversion.h \
-		/usr/include/qt5/QtWidgets/QShortcut \
-		/usr/include/qt5/QtWidgets/qshortcut.h \
-		/usr/include/qt5/QtWidgets/QMessageBox \
-		/usr/include/qt5/QtWidgets/qmessagebox.h \
-		/usr/include/qt5/QtGui/QCloseEvent \
 		inc/Reconstruction3D.h \
 		inc/StereoInput.h \
 		inc/StereoCalib.h \

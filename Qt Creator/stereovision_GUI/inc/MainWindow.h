@@ -8,12 +8,18 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wunused-value"
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+//#pragma GCC diagnostic ignored "-Wall"
+
 /* Qt Libraries */
 #include <QMainWindow>
 #include <QtCore>
 #include <QShortcut>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QSplashScreen>
 
 /* OpenCV Libraries */
 #include <opencv2/opencv.hpp>
@@ -23,7 +29,6 @@
 #include "StereoProcessor.h"
 #include "StereoSetParamsWindow.h"
 
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 using namespace cv;
 using namespace std;
@@ -50,6 +55,9 @@ public:
     void printHelp();
     void openStereoSource(int inputNum);
     void deleteStereoObj();
+
+    //TODO: Arrumar escopo da funçao
+    void pcl_function();
 
     /* App TextBox */
     void uiText1();

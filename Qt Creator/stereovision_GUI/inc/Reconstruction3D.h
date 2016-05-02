@@ -11,6 +11,12 @@
 /* Libraries */
 #include "opencv2/opencv.hpp"
 
+//TODO: Arrumar Bibliotecas
+//#include <pcl/common/common_headers.h>
+//#include <pcl/io/pcd_io.h>
+//#include <pcl/visualization/pcl_visualizer.h>
+//#include <boost/thread/thread.hpp>
+
 using namespace cv;
 using namespace std;
 

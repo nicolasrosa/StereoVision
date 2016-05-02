@@ -63,7 +63,6 @@ public:
     string StereoSGBMConfigFileName;
     string StereoBM_GPUConfigFileName;
 
-
     Point2d imageCenter;
 
     Mat K,Q;
@@ -74,6 +73,9 @@ public:
     Mat R,T,R1,P1,R2,P2;
     Rect roi1, roi2;
     bool isKcreated;
+
+    //TODO: Fazer Privada
+    Mat rmap[2][2];
 
 private:
     Size resolution;
