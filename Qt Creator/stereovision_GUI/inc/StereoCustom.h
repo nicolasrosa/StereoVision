@@ -14,7 +14,5 @@
 using namespace std;
 
 /* Global Variables */
-const string trackbarWindowName = "Stereo Param Setup";
-//bool isVideoFile=false,isImageFile=false,needCalibration=false,isStereoParamSetupTrackbarsCreated=false,isTrackingObjects=true;;
 
 #endif // STEREOCUSTOM_H

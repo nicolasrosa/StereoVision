@@ -26,6 +26,7 @@
 #include "StereoFlags.h"
 #include "StereoMorphology.h"
 #include "StereoUtils.h"
+#include "StereoRectify.h"
 
 using namespace cv;
 using namespace std;
@@ -59,8 +60,6 @@ public:
     int getNumChannels();
 
     void captureFrames();
-    void initRectification();
-    void applyRectification();
     void calculateDisparities();
     void calculateTrueMap();
     void calculate3DReconstruction();
@@ -89,6 +88,7 @@ public:
 
     //StereoInput input;
     StereoCalib calib;
+    StereoRectify rect;
     StereoDisparityMap disp;
     Reconstruction3D view3D;
     StereoDiff diff;

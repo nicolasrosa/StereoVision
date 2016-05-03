@@ -20,7 +20,6 @@
 using namespace cv;
 using namespace std;
 
-/* Class Declaration */
 class Reconstruction3D{
 public:
     /* Constructor and Destructor */

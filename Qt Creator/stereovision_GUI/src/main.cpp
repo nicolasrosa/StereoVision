@@ -6,8 +6,7 @@
  */
 
 /* Libraries */
-#include "inc/MainWindow.h"
-#include <QApplication>
+#include "inc/main.h"
 
 //#define ENABLE_SPLASH
 

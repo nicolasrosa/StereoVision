@@ -155,12 +155,12 @@ void MainWindow::stereoVisionProcessInit(){
         }
 
         /* Calculate the K Matrix */
-        ////        // Checking Intrinsic Matrix
-        ////        if(stereo->calib.isKcreated){
-        ////           cout << "The Intrinsic Matrix is already Created." << endl << endl;
-        ////        }else{
-        //            //createKMatrix();
-        // //       }
+        // Checking Intrinsic Matrix
+//                if(stereo->calib.isKcreated){
+        //            cout << "The Intrinsic Matrix is already Created." << endl << endl;
+        //        }else{
+        //            createKMatrix();
+        //        }
         stereo->calib.createKMatrix();
     }else{
         cout << "Calibration: OFF" << endl << endl;
@@ -174,7 +174,9 @@ void MainWindow::stereoVisionProcessInit(){
     stereo->view3D.PointCloudInit(stereo->calib.baseline,true);
 
     /* (6) Rectification Initialization */
-    stereo->initRectification();
+    if(stereo->calib.needCalibration){
+        stereo->rect.initRectification(&stereo->calib);
+    }
 }
 
 
@@ -186,9 +188,9 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
         /* (7) Frames Capture */
         stereo->captureFrames();
 
-        /* (8) Camera Retification */
+        /* (8) Camera Rectification */
         if(stereo->calib.needCalibration){
-            stereo->applyRectification();
+            stereo->rect.applyRectification(&stereo->imageL[0],&stereo->imageR[0]);
         }
     }
 
@@ -669,14 +671,14 @@ QImage MainWindow::Mat2QImage(const Mat& mat){
 
 void MainWindow::putImage(const Mat& src,int windowID){
     switch(windowID){
-        case LEFT_WINDOW:
-            qimageL = Mat2QImage(src);
-            ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
-            break;
-        case RIGHT_WINDOW:
-            qimageR = Mat2QImage(src);
-            ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
-            break;
+    case LEFT_WINDOW:
+        qimageL = Mat2QImage(src);
+        ui->lblOriginalLeft->setPixmap(QPixmap::fromImage(qimageL));
+        break;
+    case RIGHT_WINDOW:
+        qimageR = Mat2QImage(src);
+        ui->lblOriginalRight->setPixmap(QPixmap::fromImage(qimageR));
+        break;
     }
 }
 
@@ -880,14 +882,14 @@ void MainWindow::updateDisplayWindows(){
 
 void MainWindow::uiText1(){
     QString text = QString("Input Resolution(Width,Height): (")+
-                   QString::number(stereo->calib.getResolution_width())+
-                   QString(",")+QString::number(stereo->calib.getResolution_height())+
-                   QString(")")+
-                   QString("\nDesired Resolution(Width,Height): (")+
-                   QString::number(stereo->calib.getResolutionDesired_width())+
-                   QString(",")+
-                   QString::number(stereo->calib.getResolutionDesired_height())+
-                   QString(")");
+            QString::number(stereo->calib.getResolution_width())+
+            QString(",")+QString::number(stereo->calib.getResolution_height())+
+            QString(")")+
+            QString("\nDesired Resolution(Width,Height): (")+
+            QString::number(stereo->calib.getResolutionDesired_width())+
+            QString(",")+
+            QString::number(stereo->calib.getResolutionDesired_height())+
+            QString(")");
 
     ui->textBoxOutput->appendPlainText(text);
 }

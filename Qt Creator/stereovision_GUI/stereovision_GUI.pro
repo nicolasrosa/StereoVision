@@ -33,7 +33,8 @@ SOURCES += src/main.cpp \
         src/StereoConfig.cpp \
         src/StereoMorphology.cpp \
         src/StereoSetParamsWindow.cpp \
-        src/StereoInput.cpp
+        src/StereoInput.cpp \
+        src/StereoRectify.cpp
 
 HEADERS += \ inc/MainWindow.h \
         inc/StereoProcessor.h \
@@ -48,7 +49,9 @@ HEADERS += \ inc/MainWindow.h \
         inc/StereoSetParamsWindow.h \
         inc/trackObject.h \
         inc/Reconstruction3D.h \
-        inc/StereoInput.h
+        inc/StereoInput.h \
+        inc/StereoRectify.h \
+        inc/main.h
 
 FORMS   += forms/mainwindow.ui \
         forms/setstereoparams.ui \

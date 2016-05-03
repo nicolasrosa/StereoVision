@@ -8,27 +8,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wunused-value"
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-//#pragma GCC diagnostic ignored "-Wall"
-
-/* Qt Libraries */
-#include <QMainWindow>
-#include <QtCore>
-#include <QShortcut>
-#include <QMessageBox>
-#include <QCloseEvent>
-#include <QSplashScreen>
-
-/* OpenCV Libraries */
-#include <opencv2/opencv.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-
 /* Custom Libraries */
-#include "StereoProcessor.h"
-#include "StereoSetParamsWindow.h"
-
+#include "inc/main.h"
+#include "inc/MainWindow.h"
+#include "inc/StereoProcessor.h"
+#include "inc/StereoSetParamsWindow.h"
 
 using namespace cv;
 using namespace std;
@@ -64,9 +48,11 @@ public:
 
     /* App Windows */
     void updateDisplayWindows();
-    QImage Mat2QImage(const Mat& mat);
-    enum{LEFT_WINDOW,RIGHT_WINDOW};
     void putImage(const Mat& src,int windowID);
+
+    QImage Mat2QImage(const Mat& mat);
+
+    enum{LEFT_WINDOW,RIGHT_WINDOW};
 
 private:
     Ui::MainWindow  *ui;
