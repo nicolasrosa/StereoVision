@@ -74,13 +74,9 @@ public:
     Rect roi1, roi2;
     bool isKcreated;
 
-    //TODO: Fazer Privada
-    Mat rmap[2][2];
-
 private:
     Size resolution;
     Size resolutionDesired;
-
 };
 
 #endif // STEREOCALIB_H

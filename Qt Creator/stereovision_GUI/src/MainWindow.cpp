@@ -175,7 +175,7 @@ void MainWindow::stereoVisionProcessInit(){
 
     /* (6) Rectification Initialization */
     if(stereo->calib.needCalibration){
-        stereo->rect.initRectification(&stereo->calib);
+        stereo->rect.initRectification();
     }
 }
 
@@ -190,7 +190,7 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
 
         /* (8) Camera Rectification */
         if(stereo->calib.needCalibration){
-            stereo->rect.applyRectification(&stereo->imageL[0],&stereo->imageR[0]);
+            stereo->rect.applyRectification();
         }
     }
 

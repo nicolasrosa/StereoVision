@@ -18,17 +18,32 @@ using namespace std;
 class StereoRectify{
 public:
     /* Constructor and Destructor */
-    StereoRectify();
+    StereoRectify(StereoCalib *ptr,Mat *ptrL,Mat *ptrR);
     ~StereoRectify();
 
-    void initRectification(StereoCalib *ptr);
-    void applyRectification(Mat *imageL,Mat *imageR);
+    void initRectification();
+    void applyRectification();
+
+    Mat getImageLr();
+    Mat getImageRr();
+//    Mat getImageLrc();
+//    Mat getImageRrc();
 
     StereoCalib *calib_ptr;
+    Mat *imageL_ptr;
+    Mat *imageR_ptr;
 
 private:
+    enum{LEFT,RIGHT};
+    enum{X,Y};
+
+    Mat rmap[2][2];
+
     /* Results */
     Mat imageLr,imageRr;
+
+    //TODO: Ativar caso deseja-se utilizar 'Cropped Images'
+    //Mat imageLrc,imageRrc;
 };
 
 #endif // STEREORECTIFY_H
