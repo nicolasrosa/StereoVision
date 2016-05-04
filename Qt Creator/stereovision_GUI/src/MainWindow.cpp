@@ -182,7 +182,7 @@ void MainWindow::stereoVisionProcessInit(){
 
 void MainWindow::stereoVisionProcess_UpdateGUI(){
     /* (6) Rendering Loop */
-    stereo->utils.startClock();
+    stereo->utils.startClock(&stereo->utils.clockInitial);
 
     if(stereo->calib.inputType == StereoCalib::VideoFile){
         /* (7) Frames Capture */
@@ -263,9 +263,10 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     stereo->videoLooper();
 
     /* (15) Performance Measurement - FPS */
-    stereo->utils.stopClock();
+    stereo->utils.stopClock(&stereo->utils.clockFinal);
+    stereo->utils.calculateFPS();
     //stereo->utils.showFPS();
-    ui->lcdNumber->display((int)stereo->utils.fps);
+    ui->lcdNumber->display((int)stereo->utils.getFPS());
 
     if(closeEventOccured){
         cout << "----------------------------- END ------------------------------------" << endl;

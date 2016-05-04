@@ -8,6 +8,8 @@
 #ifndef STEREOUTILS_H
 #define STEREOUTILS_H
 
+/* Libraries */
+#include <QThread>
 #include <opencv2/opencv.hpp>
 #include <fstream>
 #include <time.h>
@@ -15,6 +17,7 @@
 using namespace cv;
 using namespace std;
 
+namespace StereoTime{
 class StereoUtils{
 public:
     /* Constructor and Destructor */
@@ -29,22 +32,35 @@ public:
     string intToString(int number);
 
     /* Timing */
-    void startClock();
-    void stopClock();
+    void startClock(int64 *initial);
+    void stopClock(int64 *final);
+    void calculateFPS();
+    void printElapsedTime(int64 initial,int64 final);
     void showFPS();
     int getFPS();
 
     int64 clockInitial;
+    int64 clockFinal;
+
+    /* Elapsed time calculating the disparities correspondenses */
+    int64 clockInitial_d;
+    int64 clockFinal_d;
+
     int64 d;
     double f;
-    double fps;
 
 private:
 //    struct timespec start,end;
-//    int fps;
-
-
-
+    double fps;
 };
+
+/* Delay */
+class Sleeper : public QThread{
+public:
+    static void usleep(unsigned long usecs){QThread::usleep(usecs);}
+    static void msleep(unsigned long msecs){QThread::msleep(msecs);}
+    static void sleep(unsigned long secs){QThread::sleep(secs);}
+};
+}
 
 #endif // STEREOUTILS_H

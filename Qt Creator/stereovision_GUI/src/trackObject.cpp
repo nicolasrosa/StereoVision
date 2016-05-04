@@ -10,7 +10,12 @@
 
 /* Constructor and Destructor */
 TrackObject::TrackObject():FRAME_WIDTH(640),FRAME_HEIGHT(480),MAX_NUM_OBJECTS(50),MIN_OBJECT_AREA(20*20),
-                           MAX_OBJECT_AREA(FRAME_HEIGHT*FRAME_WIDTH/1.5){}
+                           MAX_OBJECT_AREA(FRAME_HEIGHT*FRAME_WIDTH/1.5){
+//TrackObject::TrackObject(StereoTime::StereoUtils **ptr):FRAME_WIDTH(640),FRAME_HEIGHT(480),MAX_NUM_OBJECTS(50),MIN_OBJECT_AREA(20*20),
+//                           MAX_OBJECT_AREA(FRAME_HEIGHT*FRAME_WIDTH/1.5){
+    /* Linking Pointers */
+    //utils_ptr = *ptr;
+}
 
 TrackObject::~TrackObject(){}
 
@@ -83,4 +88,5 @@ void TrackObject::drawObject(int x, int y,Mat &frame){
     else line(frame,Point(x,y),Point(FRAME_WIDTH,y),Scalar(0,255,0),2);
 
     putText(frame,utils.intToString(x)+","+utils.intToString(y),Point(x,y+30),1,1,Scalar(0,255,0),2);
+    //putText(frame,utils_ptr->intToString(x)+","+utils_ptr->intToString(y),Point(x,y+30),1,1,Scalar(0,255,0),2);
 }

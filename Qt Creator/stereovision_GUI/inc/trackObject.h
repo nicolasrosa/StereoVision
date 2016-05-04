@@ -10,8 +10,9 @@
 #define SRC_TRACKOBJECT_H_
 
 /* Libraries */
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 #include "inc/StereoUtils.h"
+#include "inc/StereoCalib.h"
 
 using namespace cv;
 using namespace std;
@@ -19,6 +20,7 @@ using namespace std;
 class TrackObject{
 public:
     /* Constructor and Destructor */
+//    TrackObject(StereoTime::StereoUtils **ptr);
     TrackObject();
     ~TrackObject();
 
@@ -26,7 +28,10 @@ public:
     void drawObject(int x, int y,Mat &frame);
     string intToString(int number);
 
-    StereoUtils utils;
+    //TODO: Remover e passar pra ponteiro
+    //StereoTime::StereoUtils *utils_ptr;
+    StereoTime::StereoUtils utils;
+
 private:
     /* Default capture width and height */
     const int FRAME_WIDTH;

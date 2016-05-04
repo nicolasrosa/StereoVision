@@ -9,10 +9,12 @@
 #include <opencv2/opencv.hpp>
 #include "inc/StereoCalib.h"
 #include "inc/trackObject.h"
+//#include "inc/StereoUtils.h"
 
 #ifndef STEREOMORPHOLOGY_H
 #define STEREOMORPHOLOGY_H
 
+//Incorporar na Classe e inicializar com o construtor
 /* Threshold, Erosion, Dilation and Blur Constants */
 #define THRESH_VALUE   100
 #define EROSION_SIZE     5
@@ -25,6 +27,7 @@ using namespace std;
 class StereoMorphology{
 public:
     /* Constructor and Destructor */
+//    StereoMorphology(StereoTime::StereoUtils *ptr);
     StereoMorphology();
     ~StereoMorphology();
 
@@ -40,8 +43,11 @@ public:
     //void addRedLines();
     //void cornerHarris_demo(int,void*);
 
-    TrackObject trackObject;
-    StereoUtils utils;
+    //TODO: Remover objeto e criar ponteiro
+    //StereoTime::StereoUtils *utils_ptr;
+    StereoTime::StereoUtils utils;
+
+    TrackObject trackObj;
 
     /* OverlayView */
     Mat dispBGR_Filtered;

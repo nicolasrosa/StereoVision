@@ -10,6 +10,10 @@
 
 /* Constructor and Destructor */
 StereoMorphology::StereoMorphology(){
+//StereoMorphology::StereoMorphology(StereoTime::StereoUtils *ptr):trackObj(&utils_ptr){
+    /* Linking Pointers */
+    //utils_ptr = ptr;
+
     erosionElement  = getStructuringElement(MORPH_RECT,Size(2*EROSION_SIZE +1, 2*EROSION_SIZE+1 ),Point(EROSION_SIZE,  EROSION_SIZE ));
     dilationElement = getStructuringElement(MORPH_RECT,Size(2*DILATION_SIZE+1, 2*DILATION_SIZE+1),Point(DILATION_SIZE, DILATION_SIZE));
 }
@@ -111,6 +115,7 @@ void StereoMorphology::applyMorphology(Mat src, Mat leftView,bool isTrackingObje
     int T_Otsu = threshold(srcFiltered, imgThreshold, 0, 255, THRESH_BINARY | THRESH_OTSU);
     imgThreshold.copyTo(imgThresholdDraw);
     putText(imgThresholdDraw,"T: "+utils.intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
+	//putText(imgThresholdDraw,"T: "+utils_ptr->intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
 
     /* Lighting Noise Detector*/
     //TODO: Solve Lighting Noise Problem
@@ -122,7 +127,7 @@ void StereoMorphology::applyMorphology(Mat src, Mat leftView,bool isTrackingObje
     if(isTrackingObjects){
         leftView.copyTo(trackingView);
         if(inputType == StereoCalib::VideoFile){
-           trackObject.trackFilteredObject(x,y,imgThreshold,trackingView);
+           trackObj.trackFilteredObject(x,y,imgThreshold,trackingView);
         }
     }
 

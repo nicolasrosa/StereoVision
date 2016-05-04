@@ -9,9 +9,11 @@
 #include "inc/MainWindow.h"
 #include "inc/StereoProcessor.h"
 #include "inc/trackObject.h"
+#include "inc/StereoUtils.h"
 
 /* Constructor and Destructor */
 StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]){
+//StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]),morph(&utils){
     method = BM;
 
     inputNum=number;
@@ -331,8 +333,11 @@ void StereoProcessor::calculateDisparities(){
     /* Computing Disparities - Disparity Map */
     switch(method){
     case StereoProcessor::BM:
+        this->utils.startClock(&utils.clockInitial_d);
         bm->compute(imageL_grey[0],imageR_grey[0],disp.disp_16S);
-
+        //StereoTime::Sleeper::msleep(100);
+        this->utils.stopClock(&utils.clockFinal_d);
+        this->utils.printElapsedTime(utils.clockInitial_d,utils.clockFinal_d);
         break;
     case StereoProcessor::SGBM:
         sgbm->compute(imageL[0],imageR[0],disp.disp_16S);
@@ -342,45 +347,6 @@ void StereoProcessor::calculateDisparities(){
         d_imageR.upload(imageR_grey[0]);
         bm_gpu->compute(d_imageL,d_imageR,d_disp_16S);
         d_disp_16S.download(disp.disp_16S);
-
-        //TODO: Checar Comportamento com as imagens Crop
-//        /// DO BLOCK MATCHING
-//        cv::Mat disp(rect.getImageLr().rows,rect.getImageLr().cols,CV_8UC1);	/// Disparity images
-//        cv::Mat disp8(rect.getImageLr().rows,rect.getImageLr().cols,CV_8UC1);
-
-//        cv::cuda::GpuMat gpuLeft, gpuRight, gpuDispReal;
-//        cv::cuda::GpuMat gpuDisp(rect.getImageLrc().rows,rect.getImageLrc().cols,CV_16S);
-//        cv::cuda::GpuMat gpuColor(rect.getImageLrc().rows,rect.getImageLrc().cols,CV_8UC4);
-
-//        Mat imageLrc_grey,imageRrc_grey;
-//        cvtColor(rect.getImageLrc(),imageLrc_grey,CV_BGR2GRAY);
-//        cvtColor(rect.getImageRrc(),imageRrc_grey,CV_BGR2GRAY);
-
-//        gpuLeft.upload(imageLrc_grey);
-//        gpuRight.upload(imageRrc_grey);
-//        gpuDisp.upload(disp);
-
-//        bm_gpu->compute(gpuLeft,gpuRight,gpuDisp);
-//        gpuDisp.download(disp);
-
-//        cv::cuda::drawColorDisp(gpuDisp,gpuColor,256);
-//        cv::Mat color;
-//        gpuColor.download(color);
-
-//        imshow("gpuColor",color);
-
-//        cv::cuda::GpuMat gpuXYZ(gpuDisp.size(), CV_32FC4);
-//        cv::Mat gpuQ(4,4,CV_32F);
-//        gpuQ = calib.Q;
-//        calib.Q.convertTo(gpuQ,CV_32F);
-//        cv::cuda::reprojectImageTo3D(gpuDisp,gpuXYZ,gpuQ);
-//        cv::Mat threed;
-//        gpuXYZ.download(threed);
-
-//         *xyz = threed;
-//         get first 3 channels
-//        cv::cvtColor(threed, *xyz, CV_BGRA2BGR);
-
         break;
     }
 
