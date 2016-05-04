@@ -1,0 +1,12 @@
+<map id="StereoProcessor" name="StereoProcessor">
+<area shape="rect" id="node2" href="$class_stereo_config.html" title="StereoConfig" alt="" coords="220,17,319,43"/>
+<area shape="rect" id="node3" href="$class_stereo_disparity_map.html" title="StereoDisparityMap" alt="" coords="201,93,338,119"/>
+<area shape="rect" id="node4" href="$class_stereo_calib.html" title="StereoCalib" alt="" coords="7,162,97,189"/>
+<area shape="rect" id="node5" href="$class_stereo_rectify.html" title="StereoRectify" alt="" coords="218,206,321,233"/>
+<area shape="rect" id="node6" href="$class_stereo_utils_1_1_time.html" title="StereoUtils::Time" alt="" coords="207,257,331,283"/>
+<area shape="rect" id="node7" href="$class_reconstruction3_d.html" title="Reconstruction3D" alt="" coords="206,307,333,334"/>
+<area shape="rect" id="node8" href="$class_stereo_morphology.html" title="StereoMorphology" alt="" coords="206,358,333,385"/>
+<area shape="rect" id="node9" href="$class_track_object.html" title="TrackObject" alt="" coords="5,358,99,385"/>
+<area shape="rect" id="node10" href="$class_stereo_flags.html" title="StereoFlags" alt="" coords="223,409,315,435"/>
+<area shape="rect" id="node11" href="$class_stereo_diff.html" title="StereoDiff" alt="" coords="229,459,310,486"/>
+</map>

@@ -1,0 +1,59 @@
+\hypertarget{class_stereo_rectify}{}\section{Stereo\+Rectify Class Reference}
+\label{class_stereo_rectify}\index{Stereo\+Rectify@{Stereo\+Rectify}}
+
+
+Collaboration diagram for Stereo\+Rectify\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=158pt]{class_stereo_rectify__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Stereo\+Rectify} (\hyperlink{class_stereo_calib}{Stereo\+Calib} $\ast$ptr, Mat $\ast$ptrL, Mat $\ast$ptrR)\hypertarget{class_stereo_rectify_aed135d14152045de85f94bbac897abbd}{}\label{class_stereo_rectify_aed135d14152045de85f94bbac897abbd}
+
+\item 
+void {\bfseries init\+Rectification} ()\hypertarget{class_stereo_rectify_a257b2a3103f32c3fc305e0a49f7a246b}{}\label{class_stereo_rectify_a257b2a3103f32c3fc305e0a49f7a246b}
+
+\item 
+void \hyperlink{class_stereo_rectify_ab30b0c556bc470fdcc1c672ade8bcf50}{apply\+Rectification} ()
+\item 
+Mat {\bfseries get\+Image\+Lr} ()\hypertarget{class_stereo_rectify_ac92b1d24352fb5c4208574c2a1528ec8}{}\label{class_stereo_rectify_ac92b1d24352fb5c4208574c2a1528ec8}
+
+\item 
+Mat {\bfseries get\+Image\+Rr} ()\hypertarget{class_stereo_rectify_a1f9abe1a2b245ee51fd5844810e85b83}{}\label{class_stereo_rectify_a1f9abe1a2b245ee51fd5844810e85b83}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_stereo_calib}{Stereo\+Calib} $\ast$ {\bfseries calib\+\_\+ptr}\hypertarget{class_stereo_rectify_a239c33a6951cd35c1ac14bad887f3aeb}{}\label{class_stereo_rectify_a239c33a6951cd35c1ac14bad887f3aeb}
+
+\item 
+Mat $\ast$ {\bfseries image\+L\+\_\+ptr}\hypertarget{class_stereo_rectify_a991cbbd311edb0f921cec0d835fc92ea}{}\label{class_stereo_rectify_a991cbbd311edb0f921cec0d835fc92ea}
+
+\item 
+Mat $\ast$ {\bfseries image\+R\+\_\+ptr}\hypertarget{class_stereo_rectify_ab9f6de69df67791f800a57acc4464969}{}\label{class_stereo_rectify_ab9f6de69df67791f800a57acc4464969}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Stereo\+Rectify@{Stereo\+Rectify}!apply\+Rectification@{apply\+Rectification}}
+\index{apply\+Rectification@{apply\+Rectification}!Stereo\+Rectify@{Stereo\+Rectify}}
+\subsubsection[{\texorpdfstring{apply\+Rectification()}{applyRectification()}}]{\setlength{\rightskip}{0pt plus 5cm}void Stereo\+Rectify\+::apply\+Rectification (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_stereo_rectify_ab30b0c556bc470fdcc1c672ade8bcf50}{}\label{class_stereo_rectify_ab30b0c556bc470fdcc1c672ade8bcf50}
+Do remapping of imageL to image\+Lr using map11, map12
+
+Do remapping of imageR to image\+Rr using map21, map22 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+inc/Stereo\+Rectify.\+h\item 
+src/Stereo\+Rectify.\+cpp\end{DoxyCompactItemize}

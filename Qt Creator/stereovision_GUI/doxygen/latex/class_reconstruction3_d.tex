@@ -1,0 +1,86 @@
+\hypertarget{class_reconstruction3_d}{}\section{Reconstruction3D Class Reference}
+\label{class_reconstruction3_d}\index{Reconstruction3D@{Reconstruction3D}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries set\+View\+Point} (double x, double y, double z)\hypertarget{class_reconstruction3_d_a009c31d0f4ea78d4cc2caa3179085a59}{}\label{class_reconstruction3_d_a009c31d0f4ea78d4cc2caa3179085a59}
+
+\item 
+void {\bfseries set\+Look\+At\+Point} (double x, double y, double z)\hypertarget{class_reconstruction3_d_a0ab55481261b0a6f8c238a9944cb3377}{}\label{class_reconstruction3_d_a0ab55481261b0a6f8c238a9944cb3377}
+
+\item 
+void {\bfseries Point\+Cloud\+Init} (double baseline, bool is\+Sub)\hypertarget{class_reconstruction3_d_a3aa623f596ea3fbb9aec4e2bd8149778}{}\label{class_reconstruction3_d_a3aa623f596ea3fbb9aec4e2bd8149778}
+
+\item 
+void {\bfseries eular2rot} (double yaw, double pitch, double roll, Mat \&dest)\hypertarget{class_reconstruction3_d_a5c411c85a0c7bfe6d5d2bc6e06da324e}{}\label{class_reconstruction3_d_a5c411c85a0c7bfe6d5d2bc6e06da324e}
+
+\item 
+void {\bfseries lookat} (Point3d from, Point3d to, Mat \&destR)\hypertarget{class_reconstruction3_d_aa87d4367eee898a16c82cef4266e43ab}{}\label{class_reconstruction3_d_aa87d4367eee898a16c82cef4266e43ab}
+
+\item 
+void {\bfseries project\+Imagefrom\+X\+YZ} (Mat \&image, Mat \&destimage, Mat \&disp, Mat \&destdisp, Mat \&xyz, Mat \&R, Mat \&t, Mat \&K, Mat \&dist, bool is\+Sub)\hypertarget{class_reconstruction3_d_a771b752742d2a939b66b561946628df7}{}\label{class_reconstruction3_d_a771b752742d2a939b66b561946628df7}
+
+\item 
+void {\bfseries fill\+Occlusion} (Mat \&src, int invalidvalue, bool is\+Inv)\hypertarget{class_reconstruction3_d_a2b5edbc0e4ed41ed0bd4e3bbb9aa46ae}{}\label{class_reconstruction3_d_a2b5edbc0e4ed41ed0bd4e3bbb9aa46ae}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\static void {\bfseries project\+Imagefrom\+X\+Y\+Z\+\_\+} (Mat \&image, Mat \&destimage, Mat \&disp, Mat \&destdisp, Mat \&xyz, Mat \&R, Mat \&t, Mat \&K, Mat \&dist, Mat \&mask, bool is\+Sub)\hypertarget{class_reconstruction3_d_a0224a67026665053a6e73733c2cf8384}{}\label{class_reconstruction3_d_a0224a67026665053a6e73733c2cf8384}
+
+\item 
+{\footnotesize template$<$class T $>$ }\\static void {\bfseries fill\+Occlusion\+\_\+} (Mat \&src, T invalidvalue)\hypertarget{class_reconstruction3_d_af7400ace09cc0c4f6dd1a9cd3596b46c}{}\label{class_reconstruction3_d_af7400ace09cc0c4f6dd1a9cd3596b46c}
+
+\item 
+{\footnotesize template$<$class T $>$ }\\static void {\bfseries fill\+Occlusion\+Inv\+\_\+} (Mat \&src, T invalidvalue)\hypertarget{class_reconstruction3_d_a6222d1f7eaffb47789bf199fbf332bac}{}\label{class_reconstruction3_d_a6222d1f7eaffb47789bf199fbf332bac}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Mat {\bfseries disp3\+Dviewer}\hypertarget{class_reconstruction3_d_ab2a2dea7c42277f492ca369a0d681e49}{}\label{class_reconstruction3_d_ab2a2dea7c42277f492ca369a0d681e49}
+
+\item 
+Mat {\bfseries disp3D}\hypertarget{class_reconstruction3_d_af9ce9c97b445a5fd8c262284d6ed6aee}{}\label{class_reconstruction3_d_af9ce9c97b445a5fd8c262284d6ed6aee}
+
+\item 
+Mat {\bfseries disp3\+D\+\_\+8U}\hypertarget{class_reconstruction3_d_a896f2d6a8f2de090fb327d64e7c7e011}{}\label{class_reconstruction3_d_a896f2d6a8f2de090fb327d64e7c7e011}
+
+\item 
+Mat {\bfseries disp3\+D\+\_\+\+B\+GR}\hypertarget{class_reconstruction3_d_acc370e95411f18c09d378c3f2329f246}{}\label{class_reconstruction3_d_acc370e95411f18c09d378c3f2329f246}
+
+\item 
+Point3d {\bfseries viewpoint}\hypertarget{class_reconstruction3_d_a1994dca14df6d422c5c26ba90348614f}{}\label{class_reconstruction3_d_a1994dca14df6d422c5c26ba90348614f}
+
+\item 
+Point3d {\bfseries lookatpoint}\hypertarget{class_reconstruction3_d_acb4dd7f64781294fda22b5b8c0dc4617}{}\label{class_reconstruction3_d_acb4dd7f64781294fda22b5b8c0dc4617}
+
+\item 
+Mat {\bfseries dist}\hypertarget{class_reconstruction3_d_a65036ce8c5e8339e344455c9791319f4}{}\label{class_reconstruction3_d_a65036ce8c5e8339e344455c9791319f4}
+
+\item 
+Mat {\bfseries Rotation}\hypertarget{class_reconstruction3_d_aaa29e57ad3d91a75e3851cb932749cf0}{}\label{class_reconstruction3_d_aaa29e57ad3d91a75e3851cb932749cf0}
+
+\item 
+Mat {\bfseries t}\hypertarget{class_reconstruction3_d_aed09f325136179447d9525f6cc9ef467}{}\label{class_reconstruction3_d_aed09f325136179447d9525f6cc9ef467}
+
+\item 
+Mat {\bfseries xyz}\hypertarget{class_reconstruction3_d_a49b7b052f6f77d90a07097f235cba985}{}\label{class_reconstruction3_d_a49b7b052f6f77d90a07097f235cba985}
+
+\item 
+Mat {\bfseries depth}\hypertarget{class_reconstruction3_d_a00af4dca9c1d488144ce23329ce66e99}{}\label{class_reconstruction3_d_a00af4dca9c1d488144ce23329ce66e99}
+
+\item 
+double {\bfseries step}\hypertarget{class_reconstruction3_d_a41852efe3e2a50a2e80c4d8dd4f77773}{}\label{class_reconstruction3_d_a41852efe3e2a50a2e80c4d8dd4f77773}
+
+\item 
+bool {\bfseries is\+Sub}\hypertarget{class_reconstruction3_d_a67df1a6fff82ecbd603eea2dc8bc6235}{}\label{class_reconstruction3_d_a67df1a6fff82ecbd603eea2dc8bc6235}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+inc/Reconstruction3\+D.\+h\item 
+src/Reconstruction3\+D.\+cpp\end{DoxyCompactItemize}
