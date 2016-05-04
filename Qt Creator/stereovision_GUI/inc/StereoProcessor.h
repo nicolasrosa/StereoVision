@@ -93,7 +93,7 @@ public:
     Reconstruction3D view3D;
     StereoDiff diff;
     StereoFlags flags;
-    StereoTime::StereoUtils utils;
+    StereoUtils::Time time;
     StereoMorphology morph;
 
     int frameCounter;

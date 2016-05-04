@@ -12,7 +12,6 @@
 /* Libraries */
 #include <opencv2/opencv.hpp>
 #include "inc/StereoUtils.h"
-#include "inc/StereoCalib.h"
 
 using namespace cv;
 using namespace std;
@@ -27,10 +26,6 @@ public:
     void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed);
     void drawObject(int x, int y,Mat &frame);
     string intToString(int number);
-
-    //TODO: Remover e passar pra ponteiro
-    //StereoTime::StereoUtils *utils_ptr;
-    StereoTime::StereoUtils utils;
 
 private:
     /* Default capture width and height */

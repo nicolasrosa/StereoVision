@@ -319,7 +319,7 @@ void StereoProcessor::captureFrames(){
     capR >> imageR[0];
 
     /* Resizing the Input Resolution to the Desired Resolution */
-    utils.resizeFrames(&imageL[0],&imageR[0],calib.getResolutionDesired());
+    StereoUtils::Resizer::resizeFrames(&imageL[0],&imageR[0],calib.getResolutionDesired());
 }
 
 
@@ -333,11 +333,11 @@ void StereoProcessor::calculateDisparities(){
     /* Computing Disparities - Disparity Map */
     switch(method){
     case StereoProcessor::BM:
-        this->utils.startClock(&utils.clockInitial_d);
+        StereoUtils::Time::startClock(&time.clockInitial_d);
         bm->compute(imageL_grey[0],imageR_grey[0],disp.disp_16S);
-        //StereoTime::Sleeper::msleep(100);
-        this->utils.stopClock(&utils.clockFinal_d);
-        this->utils.printElapsedTime(utils.clockInitial_d,utils.clockFinal_d);
+        //StereoUtils::Sleeper::msleep(100);
+        StereoUtils::Time::stopClock(&time.clockFinal_d);
+        StereoUtils::Time::printElapsedTime(time.clockInitial_d,time.clockFinal_d);
         break;
     case StereoProcessor::SGBM:
         sgbm->compute(imageL[0],imageR[0],disp.disp_16S);
@@ -378,9 +378,9 @@ void StereoProcessor::calculateDisparities(){
         else line(disp.disp_8U,Point(x,y),Point(640,y),Scalar(255,255,255),2);
 
         /* CrossHair Information */
-        putText(disp.disp_8U,utils.intToString(disparity),Point(x,y-20),1,1,Scalar(255,255,255),2);
+        putText(disp.disp_8U,StereoUtils::Extras::intToString(disparity),Point(x,y-20),1,1,Scalar(255,255,255),2);
         //putText(disp.disp_8U,utils.intToString((int)depth),Point(x,y-20),1,1,Scalar(255,255,255),2);
-        putText(disp.disp_8U,utils.intToString(x)+","+utils.intToString(y),Point(x,y+30),1,1,Scalar(255,255,255),2);
+        putText(disp.disp_8U,StereoUtils::Extras::intToString(x)+","+StereoUtils::Extras::intToString(y),Point(x,y+30),1,1,Scalar(255,255,255),2);
 
         cout << "P(" << x << "," << y << ")"<< "\t" << "Disparity: " << disparity << "\t" << "Depth: " << depth << endl;
     }

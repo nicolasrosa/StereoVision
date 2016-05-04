@@ -43,10 +43,6 @@ public:
     //void addRedLines();
     //void cornerHarris_demo(int,void*);
 
-    //TODO: Remover objeto e criar ponteiro
-    //StereoTime::StereoUtils *utils_ptr;
-    StereoTime::StereoUtils utils;
-
     TrackObject trackObj;
 
     /* OverlayView */

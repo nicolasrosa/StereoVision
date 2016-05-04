@@ -9,36 +9,42 @@
 #include "inc/StereoUtils.h"
 
 /* Constructor and Destructor */
-StereoTime::StereoUtils::StereoUtils(){}
-StereoTime::StereoUtils::~StereoUtils(){}
+StereoUtils::Time::Time(){}
+StereoUtils::Time::~Time(){}
 
-void StereoTime::StereoUtils::startClock(int64 *initial){
+
+void StereoUtils::Time::startClock(int64 *initial){
     //lastTime = clock();
     //clock_gettime(CLOCK_REALTIME,&start);
 
     *initial = getTickCount();
 }
 
-void StereoTime::StereoUtils::stopClock(int64 *final){
+
+void StereoUtils::Time::stopClock(int64 *final){
     *final = getTickCount();
 }
 
-void StereoTime::StereoUtils::calculateFPS(){
+
+void StereoUtils::Time::calculateFPS(){
     d = clockFinal - clockInitial;
     f = getTickFrequency();
     fps = f/d;
 }
 
-void StereoTime::StereoUtils::printElapsedTime(int64 initial,int64 final){
+
+void StereoUtils::Time::printElapsedTime(int64 initial,int64 final){
     int64 elapsed_time = final - initial;
     cout << "t: " << elapsed_time << endl;
 }
 
-void StereoTime::StereoUtils::showFPS(){
+
+void StereoUtils::Time::showFPS(){
     cout << "FPS: " << fps << endl;
 }
 
-int StereoTime::StereoUtils::getFPS(){
+
+int StereoUtils::Time::getFPS(){
 //    //fps = (int) (1000/((currentTime/1000) - lastTime)); // time stuff
 //    //lastTime = currentTime/1000;
 //    //cout << "FPS: " << fps << endl;
@@ -49,7 +55,8 @@ int StereoTime::StereoUtils::getFPS(){
     return fps;
 }
 
-void StereoTime::StereoUtils::writeMatToFile(cv::Mat& m, const char* filename){
+
+void StereoUtils::Extras::writeMatToFile(cv::Mat& m, const char* filename){
     ofstream fout(filename);
 
     if(!fout){
@@ -67,7 +74,15 @@ void StereoTime::StereoUtils::writeMatToFile(cv::Mat& m, const char* filename){
 }
 
 
-void StereoTime::StereoUtils::change_resolution(VideoCapture* capL,VideoCapture* capR,Size resolution){
+void StereoUtils::Resizer::resizeFrames(Mat* frame1,Mat* frame2,Size resolution){
+    if(frame1->cols != 0 || !frame2->cols != 0){
+        resize(*frame1, *frame1, resolution, 0, 0, INTER_CUBIC);
+        resize(*frame2, *frame2, resolution, 0, 0, INTER_CUBIC);
+    }
+}
+
+
+void StereoUtils::Resizer::changeResolution(VideoCapture* capL,VideoCapture* capR,Size resolution){
     capL->set(CV_CAP_PROP_FRAME_WIDTH, resolution.width);
     capL->set(CV_CAP_PROP_FRAME_HEIGHT,resolution.height);
     capR->set(CV_CAP_PROP_FRAME_WIDTH, resolution.width);
@@ -79,7 +94,7 @@ void StereoTime::StereoUtils::change_resolution(VideoCapture* capL,VideoCapture*
 }
 
 
-void StereoTime::StereoUtils::contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
+void StereoUtils::Extras::contrast_and_brightness(Mat &left,Mat &right,float alpha,float beta){
     //Contrast and Brightness. Do the operation: new_image(i,j) = alpha*image(i,j) + beta
     for( int y = 0; y < left.rows; y++ ){
         for( int x = 0; x < left.cols; x++ ){
@@ -91,14 +106,8 @@ void StereoTime::StereoUtils::contrast_and_brightness(Mat &left,Mat &right,float
     }
 }
 
-void StereoTime::StereoUtils::resizeFrames(Mat* frame1,Mat* frame2,Size resolution){
-    if(frame1->cols != 0 || !frame2->cols != 0){
-        resize(*frame1, *frame1, resolution, 0, 0, INTER_CUBIC);
-        resize(*frame2, *frame2, resolution, 0, 0, INTER_CUBIC);
-    }
-}
 
-void StereoTime::StereoUtils::calculateHist(Mat &src,const string histName){
+void StereoUtils::Extras::calculateHist(Mat &src,const string histName){
     // Establish the number of bins
     int histSize = 256;
 
@@ -175,9 +184,9 @@ void StereoTime::StereoUtils::calculateHist(Mat &src,const string histName){
     }
 }
 
-string StereoTime::StereoUtils::intToString(int number){
+
+string StereoUtils::Extras::intToString(int number){
     stringstream ss;
     ss << number;
     return ss.str();
 }
-

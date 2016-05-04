@@ -124,7 +124,7 @@ void MainWindow::stereoVisionProcessInit(){
 
     /* Resizing the Input Resolution to the Desired Resolution*/
     if(stereo->calib.inputType == StereoCalib::ImageFile && (stereo->calib.getResolution_width() != stereo->calib.getResolutionDesired_width())){
-        stereo->utils.resizeFrames(&stereo->imageL[0],&stereo->imageR[0],stereo->calib.getResolutionDesired());
+        StereoUtils::Resizer::resizeFrames(&stereo->imageL[0],&stereo->imageR[0],stereo->calib.getResolutionDesired());
     }
 
     /* (3) Stereo Initialization */
@@ -182,7 +182,7 @@ void MainWindow::stereoVisionProcessInit(){
 
 void MainWindow::stereoVisionProcess_UpdateGUI(){
     /* (6) Rendering Loop */
-    stereo->utils.startClock(&stereo->utils.clockInitial);
+    StereoUtils::Time::startClock(&stereo->time.clockInitial);
 
     if(stereo->calib.inputType == StereoCalib::VideoFile){
         /* (7) Frames Capture */
@@ -223,8 +223,8 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     }
 
     if(stereo->flags.showHistograms){
-        stereo->utils.calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
-        stereo->utils.calculateHist(stereo->imageL[0],"Left Image Histogram");
+        StereoUtils::Extras::calculateHist(stereo->disp.disp_8U,"Disparity Map Histogram");
+        StereoUtils::Extras::calculateHist(stereo->imageL[0],"Left Image Histogram");
     }
 
     /* (12) Movement Difference between Frames */
@@ -263,10 +263,10 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     stereo->videoLooper();
 
     /* (15) Performance Measurement - FPS */
-    stereo->utils.stopClock(&stereo->utils.clockFinal);
-    stereo->utils.calculateFPS();
+    StereoUtils::Time::stopClock(&stereo->time.clockFinal);
+    stereo->time.calculateFPS();
     //stereo->utils.showFPS();
-    ui->lcdNumber->display((int)stereo->utils.getFPS());
+    ui->lcdNumber->display((int)stereo->time.getFPS());
 
     if(closeEventOccured){
         cout << "----------------------------- END ------------------------------------" << endl;

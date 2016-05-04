@@ -114,7 +114,7 @@ void StereoMorphology::applyMorphology(Mat src, Mat leftView,bool isTrackingObje
     /* Threshold */
     int T_Otsu = threshold(srcFiltered, imgThreshold, 0, 255, THRESH_BINARY | THRESH_OTSU);
     imgThreshold.copyTo(imgThresholdDraw);
-    putText(imgThresholdDraw,"T: "+utils.intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
+    putText(imgThresholdDraw,"T: "+StereoUtils::Extras::intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
 	//putText(imgThresholdDraw,"T: "+utils_ptr->intToString(T_Otsu),Point(0,25),1,1,Scalar(255,255,255),2);
 
     /* Lighting Noise Detector*/
