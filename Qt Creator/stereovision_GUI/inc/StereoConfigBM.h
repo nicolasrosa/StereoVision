@@ -1,28 +1,34 @@
 /*
- * StereoConfig.h
+ * StereoConfigBM.h
  *
- *  Created on: Dec 3, 2015
+ *  Created on: May 4, 2016
  *      Author: nicolasrosa
  */
 
-#ifndef STEREOCONFIG_H
-#define STEREOCONFIG_H
+#ifndef STEREOCONFIGBM_H
+#define STEREOCONFIGBM_H
 
 /* Libraries */
 #include <string>
 #include <iostream>
+#include <opencv2/opencv.hpp>
 
-//using namespace cv;
+using namespace cv;
 using namespace std;
 
-class StereoConfig{
+class StereoConfigBM{
 public:
     /* Constructor and Destructor */
-    StereoConfig();
-    ~StereoConfig();
+    StereoConfigBM();
+    ~StereoConfigBM();
 
     void showConfigValues();
+    void readStereoBMConfigFile();
 
+    /* Method Configuration Files Path */
+    string StereoBMConfigFileName;
+
+    //TODO: Checar se são todos os parâmetros possíveis para configurar o MethodBM
     string methodName;
     int preFilterSize;
     int preFilterCap;
@@ -36,4 +42,4 @@ public:
     int disp12MaxDiff;
 };
 
-#endif // STEREOCONFIG_H
+#endif // STEREOCONFIGBM_H
