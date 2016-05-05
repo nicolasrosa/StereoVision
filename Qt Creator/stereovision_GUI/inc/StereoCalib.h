@@ -58,11 +58,6 @@ public:
     bool needCalibration;
     bool hasQMatrix;
 
-    /* Method Configuration Files Path */
-    string StereoBMConfigFileName;
-    string StereoSGBMConfigFileName;
-    string StereoBM_GPUConfigFileName;
-
     Point2d imageCenter;
 
     Mat K,Q;

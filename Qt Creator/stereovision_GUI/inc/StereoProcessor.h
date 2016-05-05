@@ -20,7 +20,9 @@
 #include "StereoInput.h"
 #include "StereoCalib.h"
 #include "StereoCustom.h"
-#include "StereoConfig.h"
+#include "StereoConfigBM.h"
+#include "StereoConfigSGBM.h"
+#include "StereoConfigBMGPU.h"
 #include "StereoDiff.h"
 #include "StereoDisparityMap.h"
 #include "StereoFlags.h"
@@ -31,7 +33,7 @@
 using namespace cv;
 using namespace std;
 
-class StereoProcessor : public StereoConfig{
+class StereoProcessor{
 public:
     /* Constructor and Destructor */
     StereoProcessor(int inputNum);
@@ -40,9 +42,6 @@ public:
     int getInputNum();
 
     void readConfigFile();
-    void readStereoBMConfigFile();
-    void readStereoSGBMConfigFile();
-    void readStereoBM_GPUConfigFile();
 
     void stereoBM_Init();
     void stereoSGBM_Init();
@@ -74,15 +73,15 @@ public:
     /* Stereo Methods */
     /* BM */
     Ptr<StereoBM> bm;
-    StereoConfig cfgBM;
+    StereoConfigBM cfgBM;
 
     /* SGBM */
     Ptr<StereoSGBM> sgbm;
-    StereoConfig cfgSGBM;
+    StereoConfigSGBM cfgSGBM;
 
     /* BM_GPU */
     Ptr<cuda::StereoBM> bm_gpu;
-    StereoConfig cfgBM_GPU;
+    StereoConfigBMGPU cfgBM_GPU;
 
     enum {BM, SGBM, BM_GPU} method;
 
