@@ -20,38 +20,42 @@ LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu -lboost_system
 
 # Sources
 SOURCES += src/main.cpp \
-        src/MainWindow.cpp \
-        src/trackObject.cpp \
-        src/StereoProcessor.cpp \
-        src/StereoCustom.cpp \
-        src/StereoFlags.cpp \
-        src/StereoDiff.cpp \
-        src/StereoCalib.cpp \
-        src/StereoDisparityMap.cpp \
-        src/StereoUtils.cpp \
-        src/Reconstruction3D.cpp \
-        src/StereoConfig.cpp \
-        src/StereoMorphology.cpp \
-        src/StereoSetParamsWindow.cpp \
-        src/StereoInput.cpp \
-        src/StereoRectify.cpp
+           src/MainWindow.cpp \
+           src/trackObject.cpp \
+           src/StereoProcessor.cpp \
+           src/StereoCustom.cpp \
+           src/StereoFlags.cpp \
+           src/StereoDiff.cpp \
+           src/StereoCalib.cpp \
+           src/StereoDisparityMap.cpp \
+           src/StereoUtils.cpp \
+           src/Reconstruction3D.cpp \
+           src/StereoMorphology.cpp \
+           src/StereoSetParamsWindow.cpp \
+           src/StereoInput.cpp \
+           src/StereoRectify.cpp \
+           src/StereoConfigBM.cpp \
+           src/StereoConfigSGBM.cpp \
+           src/StereoConfigBMGPU.cpp
 
-HEADERS += \ inc/MainWindow.h \
-        inc/StereoProcessor.h \
-        inc/StereoCustom.h \
-        inc/StereoFlags.h \
-        inc/StereoDiff.h \
-        inc/StereoCalib.h \
-        inc/StereoDisparityMap.h \
-        inc/StereoUtils.h \
-        inc/StereoConfig.h \
-        inc/StereoMorphology.h \
-        inc/StereoSetParamsWindow.h \
-        inc/trackObject.h \
-        inc/Reconstruction3D.h \
-        inc/StereoInput.h \
-        inc/StereoRectify.h \
-        inc/main.h
+HEADERS += inc/MainWindow.h \
+           inc/StereoProcessor.h \
+           inc/StereoCustom.h \
+           inc/StereoFlags.h \
+           inc/StereoDiff.h \
+           inc/StereoCalib.h \
+           inc/StereoDisparityMap.h \
+           inc/StereoUtils.h \
+           inc/StereoMorphology.h \
+           inc/StereoSetParamsWindow.h \
+           inc/trackObject.h \
+           inc/Reconstruction3D.h \
+           inc/StereoInput.h \
+           inc/StereoRectify.h \
+           inc/main.h \
+           inc/StereoConfigBM.h \
+           inc/StereoConfigSGBM.h \
+           inc/StereoConfigBMGPU.h
 
 FORMS   += forms/mainwindow.ui \
         forms/setstereoparams.ui \
