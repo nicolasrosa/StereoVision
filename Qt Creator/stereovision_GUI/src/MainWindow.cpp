@@ -90,9 +90,9 @@ void MainWindow::stereoVisionProcessInit(){
     /* (1) Open Image Source */
     openStereoSource(stereo->getInputNum());
     stereo->readConfigFile();
-    stereo->readStereoBMConfigFile();
-    stereo->readStereoSGBMConfigFile();
-    stereo->readStereoBM_GPUConfigFile();
+    stereo->cfgBM.readStereoBMConfigFile();
+    stereo->cfgSGBM.readStereoSGBMConfigFile();
+    stereo->cfgBM_GPU.readStereoBM_GPUConfigFile();
 
     /* (2) Camera Setting */
     /* Getting Input Resolution */

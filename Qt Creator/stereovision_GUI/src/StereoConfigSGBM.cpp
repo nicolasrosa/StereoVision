@@ -6,7 +6,7 @@
  */
 
 /* Libraries */
-#include "StereoConfigSGBM.h"
+#include "inc/StereoConfigSGBM.h"
 
 /* Constructor and Destructor */
 StereoConfigSGBM::StereoConfigSGBM(){}

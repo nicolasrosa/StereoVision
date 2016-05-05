@@ -25,6 +25,7 @@ StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]){
     y=0;
 }
 
+//FIXME: StereoProcessor Destructor
 StereoProcessor::~StereoProcessor(){
     //    delete bm;
     //    delete sgbm;
@@ -59,9 +60,9 @@ void StereoProcessor::readConfigFile(){
     //    fs["Intrinsics Path"] >> calib.intrinsicsFileName;
     //    fs["Extrinsics Path"] >> calib.extrinsicsFileName;
     fs["Q Matrix Path"]   >> calib.QmatrixFileName;
-    fs["StereoBM Parameters Path"] >> calib.StereoBMConfigFileName;
-    fs["StereoSGBM Parameters Path"] >> calib.StereoSGBMConfigFileName;
-    fs["StereoBM_GPU Parameters Path"] >> calib.StereoBM_GPUConfigFileName;
+    fs["StereoBM Parameters Path"] >> cfgBM.StereoBMConfigFileName;
+    fs["StereoSGBM Parameters Path"] >> cfgSGBM.StereoSGBMConfigFileName;
+    fs["StereoBM_GPU Parameters Path"] >> cfgBM_GPU.StereoBM_GPUConfigFileName;
 
     fs.release();
 
@@ -69,93 +70,13 @@ void StereoProcessor::readConfigFile(){
     cout << "Intrinsics Path: "             << calib.intrinsicsFileName           << endl;
     cout << "Extrinsics Path: "             << calib.extrinsicsFileName           << endl;
     cout << "Q Matrix Path: "               << calib.QmatrixFileName              << endl;
-    cout << "StereoBM Parameters Path:"     << calib.StereoBMConfigFileName       << endl;
-    cout << "StereoSGBM Parameters Path:"   << calib.StereoSGBMConfigFileName     << endl;
-    cout << "StereoBM_GPU Parameters Path:" << calib.StereoBM_GPUConfigFileName   << endl;
+    cout << "StereoBM Parameters Path:"     << cfgBM.StereoBMConfigFileName       << endl;
+    cout << "StereoSGBM Parameters Path:"   << cfgSGBM.StereoSGBMConfigFileName     << endl;
+    cout << "StereoBM_GPU Parameters Path:" << cfgBM_GPU.StereoBM_GPUConfigFileName   << endl;
     cout << "Config.yml Read Successfully." << endl << endl ;
     //cout << "----------------------------------------------------------------------"    << endl;
 }
 
-void StereoProcessor::readStereoBMConfigFile(){
-    FileStorage fs(calib.StereoBMConfigFileName, FileStorage::READ);
-    if(!fs.isOpened()){
-        cerr << "Failed to open stereoBM.yml file!" << endl;
-        return;
-    }
-
-    fs["methodName"] >> cfgBM.methodName;
-    fs["preFilterSize"] >> cfgBM.preFilterSize;
-    fs["preFilterCap"] >> cfgBM.preFilterCap;
-    fs["SADWindowSize"] >> cfgBM.SADWindowSize;
-    fs["minDisparity"] >> cfgBM.minDisparity;
-    fs["numberOfDisparities"] >> cfgBM.numberOfDisparities;
-    fs["textureThreshold"] >> cfgBM.textureThreshold;
-    fs["uniquenessRatio"] >> cfgBM.uniquenessRatio;
-    fs["speckleWindowSize"] >> cfgBM.speckleWindowSize;
-    fs["speckleRange"] >> cfgBM.speckleRange;
-    fs["disp12MaxDiff"] >> cfgBM.disp12MaxDiff;
-
-    fs.release();
-
-    // Display
-    cfgBM.showConfigValues();
-    cout << "stereoBM.yml Read Successfully."  << endl << endl;
-    //cout << "----------------------------------------------------------------------" << endl << endl;
-}
-
-void StereoProcessor::readStereoSGBMConfigFile(){
-    FileStorage fs(calib.StereoSGBMConfigFileName, FileStorage::READ);
-    if(!fs.isOpened()){
-        cerr << "Failed to open stereoSGBM.yml file!" << endl;
-        return;
-    }
-
-    fs["methodName"] >> cfgSGBM.methodName;
-    fs["preFilterSize"] >> cfgSGBM.preFilterSize;
-    fs["preFilterCap"] >> cfgSGBM.preFilterCap;
-    fs["SADWindowSize"] >> cfgSGBM.SADWindowSize;
-    fs["minDisparity"] >> cfgSGBM.minDisparity;
-    fs["numberOfDisparities"] >> cfgSGBM.numberOfDisparities;
-    fs["textureThreshold"] >> cfgSGBM.textureThreshold;
-    fs["uniquenessRatio"] >> cfgSGBM.uniquenessRatio;
-    fs["speckleWindowSize"] >> cfgSGBM.speckleWindowSize;
-    fs["speckleRange"] >> cfgSGBM.speckleRange;
-    fs["disp12MaxDiff"] >> cfgSGBM.disp12MaxDiff;
-
-    fs.release();
-
-    // Display
-    cfgSGBM.showConfigValues();
-    cout << "stereoSGBM.yml Read Successfully."  << endl << endl;
-    //cout << "----------------------------------------------------------------------" << endl << endl;
-}
-
-void StereoProcessor::readStereoBM_GPUConfigFile(){
-    FileStorage fs(calib.StereoBM_GPUConfigFileName, FileStorage::READ);
-    if(!fs.isOpened()){
-        cerr << "Failed to open stereoBM_GPU.yml file!" << endl;
-        return;
-    }
-
-    fs["methodName"] >> cfgBM_GPU.methodName;
-    fs["preFilterSize"] >> cfgBM_GPU.preFilterSize;
-    fs["preFilterCap"] >> cfgBM_GPU.preFilterCap;
-    fs["SADWindowSize"] >> cfgBM_GPU.SADWindowSize;
-    fs["minDisparity"] >> cfgBM_GPU.minDisparity;
-    fs["numberOfDisparities"] >> cfgBM_GPU.numberOfDisparities;
-    fs["textureThreshold"] >> cfgBM_GPU.textureThreshold;
-    fs["uniquenessRatio"] >> cfgBM_GPU.uniquenessRatio;
-    fs["speckleWindowSize"] >> cfgBM_GPU.speckleWindowSize;
-    fs["speckleRange"] >> cfgBM_GPU.speckleRange;
-    fs["disp12MaxDiff"] >> cfgBM_GPU.disp12MaxDiff;
-
-    fs.release();
-
-    // Display
-    cfgBM_GPU.showConfigValues();
-    cout << "stereoBM_GPU.yml Read Successfully."  << endl << endl;
-    //cout << "----------------------------------------------------------------------" << endl << endl;
-}
 
 /*** StereoBM Initialization function
   ** Description: Executes the PreSetup of parameters of the StereoBM object
@@ -176,7 +97,7 @@ void StereoProcessor::stereoBM_Init(){
     bm->setUniquenessRatio(cfgBM.uniquenessRatio);
     bm->setSpeckleWindowSize(cfgBM.speckleWindowSize);
     bm->setSpeckleRange(cfgBM.speckleRange);
-    bm->setDisp12MaxDiff(disp12MaxDiff);
+    bm->setDisp12MaxDiff(cfgBM.disp12MaxDiff);
 }
 
 void StereoProcessor::stereoSGBM_Init(){

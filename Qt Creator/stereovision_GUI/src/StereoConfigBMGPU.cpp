@@ -6,7 +6,7 @@
  */
 
 /* Libraries */
-#include "StereoConfigBMGPU.h"
+#include "inc/StereoConfigBMGPU.h"
 
 /* Constructor and Destructor */
 StereoConfigBMGPU::StereoConfigBMGPU(){}
