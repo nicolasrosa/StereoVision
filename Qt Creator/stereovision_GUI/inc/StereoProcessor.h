@@ -97,6 +97,7 @@ public:
 
     int frameCounter;
 
+    //TODO: Pensar em um Lugar melhor pra alocar essas variáveis
     /* Mouse Coordinates */
     int x,y;
 

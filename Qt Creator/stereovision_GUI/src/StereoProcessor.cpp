@@ -12,17 +12,13 @@
 #include "inc/StereoUtils.h"
 
 /* Constructor and Destructor */
-StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]){
-    //StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]),morph(&utils){
+StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]),disp(&view3D,&calib,&x,&y){
     method = BM;
 
     inputNum=number;
     frameCounter=0;
 
     //lastImgThreshold = Mat::zeros(calib.imageSizeDesired,CV_8U);
-
-    x=0;
-    y=0;
 }
 
 //FIXME: StereoProcessor Destructor
@@ -310,33 +306,7 @@ void StereoProcessor::calculateDisparities(){
     applyColorMap(disp.disp_8U,disp.disp_BGR, COLORMAP_JET);
 
     if(flags.showDispDepth){
-        /* Forces the initialization of the 3DReconstruction Method for obtaining the Depth Values */
-        cv::reprojectImageTo3D(disp.disp_16S,view3D.depth,calib.Q);
-
-        float disparity = disp.disp_16S.at<uchar>(y,x);
-        float depth = view3D.depth.at<Vec3f>(y,x)[2];
-
-        /* Draw White Cross */
-        circle(disp.disp_8U,Point(x,y),10,Scalar(255,255,255),2);
-        if(y-25>0)
-            line(disp.disp_8U,Point(x,y-5),Point(x,y-15),Scalar(255,255,255),2);
-        else line(disp.disp_8U,Point(x,y),Point(x,0),Scalar(255,255,255),2);
-        if(y+25<480)
-            line(disp.disp_8U,Point(x,y+5),Point(x,y+15),Scalar(255,255,255),2);
-        else line(disp.disp_8U,Point(x,y),Point(x,480),Scalar(255,255,255),2);
-        if(x-25>0)
-            line(disp.disp_8U,Point(x-5,y),Point(x-15,y),Scalar(255,255,255),2);
-        else line(disp.disp_8U,Point(x,y),Point(0,y),Scalar(255,255,255),2);
-        if(x+25<640)
-            line(disp.disp_8U,Point(x+5,y),Point(x+15,y),Scalar(255,255,255),2);
-        else line(disp.disp_8U,Point(x,y),Point(640,y),Scalar(255,255,255),2);
-
-        /* CrossHair Information */
-        putText(disp.disp_8U,StereoUtils::Extras::intToString(disparity),Point(x,y-20),1,1,Scalar(255,255,255),2);
-        //putText(disp.disp_8U,utils.intToString((int)depth),Point(x,y-20),1,1,Scalar(255,255,255),2);
-        putText(disp.disp_8U,StereoUtils::Extras::intToString(x)+","+StereoUtils::Extras::intToString(y),Point(x,y+30),1,1,Scalar(255,255,255),2);
-
-        cout << "P(" << x << "," << y << ")"<< "\t" << "Disparity: " << disparity << "\t" << "Depth: " << depth << endl;
+        disp.computeDispDepthInformation();
     }
 }
 
