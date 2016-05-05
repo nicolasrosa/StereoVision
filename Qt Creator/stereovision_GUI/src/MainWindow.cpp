@@ -101,7 +101,6 @@ void MainWindow::stereoVisionProcessInit(){
         stereo->calib.setResolution(stereo->capL.get(CV_CAP_PROP_FRAME_WIDTH),stereo->capL.get(CV_CAP_PROP_FRAME_HEIGHT));
         break;
     case StereoCalib::ImageFile:
-        //FIXME: Setando 0. Usar teddy como input pra reproduzir o problema.
         cout << "Cols:" << stereo->imageL[0].cols << endl;
         stereo->calib.setResolution(stereo->imageL[0].cols,stereo->imageL[0].rows);
         break;
@@ -182,7 +181,7 @@ void MainWindow::stereoVisionProcessInit(){
 
 void MainWindow::stereoVisionProcess_UpdateGUI(){
     /* (6) Rendering Loop */
-    StereoUtils::Time::startClock(&stereo->time.clockInitial);
+    StereoUtils::Timer::startClock(&stereo->time.clockInitial_loop);
 
     if(stereo->calib.inputType == StereoCalib::VideoFile){
         /* (7) Frames Capture */
@@ -263,9 +262,9 @@ void MainWindow::stereoVisionProcess_UpdateGUI(){
     stereo->videoLooper();
 
     /* (15) Performance Measurement - FPS */
-    StereoUtils::Time::stopClock(&stereo->time.clockFinal);
+    StereoUtils::Timer::stopClock(&stereo->time.clockFinal_loop);
     stereo->time.calculateFPS();
-    //stereo->utils.showFPS();
+    //stereo->time.printFPS();
     ui->lcdNumber->display((int)stereo->time.getFPS());
 
     if(closeEventOccured){

@@ -9,44 +9,44 @@
 #include "inc/StereoUtils.h"
 
 /* Constructor and Destructor */
-StereoUtils::Time::Time(){}
-StereoUtils::Time::~Time(){}
+StereoUtils::Timer::Timer(){}
+StereoUtils::Timer::Timer::~Timer(){}
 
 
-void StereoUtils::Time::startClock(int64 *initial){
-    //lastTime = clock();
-    //clock_gettime(CLOCK_REALTIME,&start);
+void StereoUtils::Timer::startClock(int64 *initial){
+    //lastTimer = clock();
+    //clock_getTimer(CLOCK_REALTimer,&start);
 
     *initial = getTickCount();
 }
 
 
-void StereoUtils::Time::stopClock(int64 *final){
+void StereoUtils::Timer::stopClock(int64 *final){
     *final = getTickCount();
 }
 
 
-void StereoUtils::Time::calculateFPS(){
-    d = clockFinal - clockInitial;
+void StereoUtils::Timer::calculateFPS(){
+    d = clockFinal_loop - clockInitial_loop;
     f = getTickFrequency();
     fps = f/d;
 }
 
 
-void StereoUtils::Time::printElapsedTime(int64 initial,int64 final){
-    int64 elapsed_time = final - initial;
-    cout << "t: " << elapsed_time << endl;
+void StereoUtils::Timer::printElapsedTime(int64 initial,int64 final){
+    int64 elapsed_Timer = final - initial;
+    cout << "t: " << elapsed_Timer << endl;
 }
 
 
-void StereoUtils::Time::showFPS(){
+void StereoUtils::Timer::printFPS(){
     cout << "FPS: " << fps << endl;
 }
 
 
-int StereoUtils::Time::getFPS(){
-//    //fps = (int) (1000/((currentTime/1000) - lastTime)); // time stuff
-//    //lastTime = currentTime/1000;
+int StereoUtils::Timer::getFPS(){
+//    //fps = (int) (1000/((currentTimer/1000) - lastTimer)); // Timer stuff
+//    //lastTimer = currentTimer/1000;
 //    //cout << "FPS: " << fps << endl;
 
 //    double difference = (end.tv_sec - start.tv_sec) + (double)(end.tv_nsec - start.tv_nsec)/1000000000.0d;

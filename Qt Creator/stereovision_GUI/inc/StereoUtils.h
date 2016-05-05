@@ -18,22 +18,22 @@ using namespace cv;
 using namespace std;
 
 namespace StereoUtils{
-class Time{
+class Timer{
 public:
     /* Constructor and Destructor */
-    Time();
-    ~Time();
+    Timer();
+    ~Timer();
 
     /* Timing */
     static void startClock(int64 *initial);
     static void stopClock(int64 *final);
     void calculateFPS();
     static void printElapsedTime(int64 initial,int64 final);
-    void showFPS();
+    void printFPS();
     int getFPS();
 
-    int64 clockInitial;
-    int64 clockFinal;
+    int64 clockInitial_loop;
+    int64 clockFinal_loop;
 
     /* Elapsed time calculating the disparities correspondenses */
     int64 clockInitial_d;
@@ -45,6 +45,14 @@ public:
 private:
 //    struct timespec start,end;
     double fps;
+};
+
+class Sleeper : public QThread{
+public:
+    /* Delay */
+    static void usleep(unsigned long usecs){QThread::usleep(usecs);}
+    static void msleep(unsigned long msecs){QThread::msleep(msecs);}
+    static void sleep(unsigned long secs){QThread::sleep(secs);}
 };
 
 class Resizer{
@@ -63,14 +71,6 @@ public:
 
     static string intToString(int number);
 private:
-};
-
-class Sleeper : public QThread{
-public:
-    /* Delay */
-    static void usleep(unsigned long usecs){QThread::usleep(usecs);}
-    static void msleep(unsigned long msecs){QThread::msleep(msecs);}
-    static void sleep(unsigned long secs){QThread::sleep(secs);}
 };
 }
 

@@ -13,7 +13,7 @@
 
 /* Constructor and Destructor */
 StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]){
-//StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]),morph(&utils){
+    //StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]),morph(&utils){
     method = BM;
 
     inputNum=number;
@@ -26,22 +26,22 @@ StereoProcessor::StereoProcessor(int number):rect(&calib,&imageL[0],&imageR[0]){
 }
 
 StereoProcessor::~StereoProcessor(){
-//    delete bm;
-//    delete sgbm;
-//    delete bm_gpu;
+    //    delete bm;
+    //    delete sgbm;
+    //    delete bm_gpu;
 
-//    calib.~StereoCalib();
+    //    calib.~StereoCalib();
 
-//    cfgBM.~StereoConfig();
-//    cfgSGBM.~StereoConfig();
-//    cfgBM_GPU.~StereoConfig();
+    //    cfgBM.~StereoConfig();
+    //    cfgSGBM.~StereoConfig();
+    //    cfgBM_GPU.~StereoConfig();
 
-//    disp.~StereoDisparityMap();
-//    view3D.~Reconstruction3D();
-//    diff.~StereoDiff();
-//    flags.~StereoFlags();
-//    utils.~StereoUtils();
-//    morph.~StereoMorphology();
+    //    disp.~StereoDisparityMap();
+    //    view3D.~Reconstruction3D();
+    //    diff.~StereoDiff();
+    //    flags.~StereoFlags();
+    //    utils.~StereoUtils();
+    //    morph.~StereoMorphology();
 }
 
 int StereoProcessor::getInputNum(){
@@ -56,8 +56,8 @@ void StereoProcessor::readConfigFile(){
         cerr << "Failed to open config.yml file!" << endl;
         return;
     }
-//    fs["Intrinsics Path"] >> calib.intrinsicsFileName;
-//    fs["Extrinsics Path"] >> calib.extrinsicsFileName;
+    //    fs["Intrinsics Path"] >> calib.intrinsicsFileName;
+    //    fs["Extrinsics Path"] >> calib.extrinsicsFileName;
     fs["Q Matrix Path"]   >> calib.QmatrixFileName;
     fs["StereoBM Parameters Path"] >> calib.StereoBMConfigFileName;
     fs["StereoSGBM Parameters Path"] >> calib.StereoSGBMConfigFileName;
@@ -331,23 +331,56 @@ void StereoProcessor::calculateDisparities(){
     }
 
     /* Computing Disparities - Disparity Map */
+    //#define MEASURE_TIME_BM
+    //#define MEASURE_TIME_SGBM
+    //#define MEASURE_TIME_BMGPU
+
     switch(method){
-    case StereoProcessor::BM:
-        StereoUtils::Time::startClock(&time.clockInitial_d);
-        bm->compute(imageL_grey[0],imageR_grey[0],disp.disp_16S);
-        //StereoUtils::Sleeper::msleep(100);
-        StereoUtils::Time::stopClock(&time.clockFinal_d);
-        StereoUtils::Time::printElapsedTime(time.clockInitial_d,time.clockFinal_d);
-        break;
-    case StereoProcessor::SGBM:
-        sgbm->compute(imageL[0],imageR[0],disp.disp_16S);
-        break;
-    case StereoProcessor::BM_GPU:
-        d_imageL.upload(imageL_grey[0]);
-        d_imageR.upload(imageR_grey[0]);
-        bm_gpu->compute(d_imageL,d_imageR,d_disp_16S);
-        d_disp_16S.download(disp.disp_16S);
-        break;
+        case StereoProcessor::BM:
+            #ifdef MEASURE_TIME_BM
+                    //! START CLOCK !//
+                    StereoUtils::Timer::startClock(&time.clockInitial_d);
+                    bm->compute(imageL_grey[0],imageR_grey[0],disp.disp_16S);
+                    StereoUtils::Timer::stopClock(&time.clockFinal_d);
+                    //! STOP CLOCK !//
+
+                    StereoUtils::Timer::printElapsedTime(time.clockInitial_d,time.clockFinal_d);
+            #else
+                    bm->compute(imageL_grey[0],imageR_grey[0],disp.disp_16S);
+            #endif
+            break;
+        case StereoProcessor::SGBM:
+            #ifdef MEASURE_TIME_SGBM
+                    //! START CLOCK !//
+                    StereoUtils::Timer::startClock(&time.clockInitial_d);
+                    sgbm->compute(imageL[0],imageR[0],disp.disp_16S);
+                    StereoUtils::Timer::stopClock(&time.clockFinal_d);
+                    //! STOP CLOCK !//
+
+                    StereoUtils::Timer::printElapsedTime(time.clockInitial_d,time.clockFinal_d);
+            #else
+                    sgbm->compute(imageL[0],imageR[0],disp.disp_16S);
+            #endif
+            break;
+        case StereoProcessor::BM_GPU:
+            #ifdef MEASURE_TIME_BMGPU
+                    //! START CLOCK !//
+                    StereoUtils::Timer::startClock(&time.clockInitial_d);
+                    d_imageL.upload(imageL_grey[0]);
+                    d_imageR.upload(imageR_grey[0]);
+                    bm_gpu->compute(d_imageL,d_imageR,d_disp_16S);
+                    d_disp_16S.download(disp.disp_16S);
+                    StereoUtils::Timer::stopClock(&time.clockFinal_d);
+                    //! STOP CLOCK !//
+
+                    StereoUtils::Timer::printElapsedTime(time.clockInitial_d,time.clockFinal_d);
+            #else
+                    d_imageL.upload(imageL_grey[0]);
+                    d_imageR.upload(imageR_grey[0]);
+                    bm_gpu->compute(d_imageL,d_imageR,d_disp_16S);
+                    d_disp_16S.download(disp.disp_16S);
+            #endif
+            break;
     }
 
     normalize(disp.disp_16S, disp.disp_8U, 0, 255, CV_MINMAX, CV_8U);
