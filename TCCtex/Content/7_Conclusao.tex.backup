@@ -10,7 +10,6 @@ Acredita-se que o trabalho desenvolvido até então está em dia com o cronogram
 
 Deste modo, duas providencias  são cruciais para a continuidade do trabalho. A primeira é a otimização das rotinas utilizadas pelo algoritmo, sendo essa uma tentativa para a melhora do desempenho geral do método. A segunda é a execução de uma ampla revisão bibliográfica, incluindo principalmente trabalhos que apresentem comparativos de desempenho entre plataformas e que tenham realizados algum tipo de aceleração por \textit{hardware}, sejam eles envolvendo paralelização de processos, implementação em FPGA ou utilizando a plataforma de computação paralela CUDA (\textit{Compute Unified Device Architecture}). Deste modo, será possível identificar a plataforma mais adequada para este propósito. 
 
-%TODO: Atividades futuras, falar sobre SLAM, falar que atualmente sistema embarcado é a jetson é a melhor alternativa falar pra testar com a nova Jetson TX1, estudar novas alternativas de aceleração em hardware como por exemplo FPGA/ARM, falar que talvez o problema de processamento possa ser resolvido se utilizamos uma camera stereo que ja realize disponibilize o mapa de disparidades e a plataforma fique sómente pra realizar um pós processamento do mapa obtido. falar o quao inviavel eh utilizar a BBB pra aplicação. Falar sobre implementar as diretivas de GPU para um método que apresente maior confiança (pesquisar algo do tipo "SGBM_GPU")
 Atividades Futuras:
 
 \begin{itemize}
@@ -26,7 +25,6 @@ Atividades Futuras:
 	\item Implementar os algoritmos de Visão na Jetson TK1
 	\item Comparação de Desempenho: Desktop x BBB x Jetson TK1
 \end{itemize}
-
 
 
 
