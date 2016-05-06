@@ -43,15 +43,15 @@
 \contentsline {chapter}{\numberline {4}Resultados}{55}{chapter.4}
 \contentsline {section}{\numberline {4.1}Interface Gr\IeC {\'a}fica - \textit {StereoVisionGUI}}{55}{section.4.1}
 \contentsline {section}{\numberline {4.2}Compara\IeC {\c c}\IeC {\~a}o de Desempenho: Desktop x BBB x Jetson TK1}{60}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Desktop}{61}{subsection.4.2.1}
-\contentsline {subsubsection}{CPU}{61}{section*.18}
-\contentsline {subsubsection}{GPU}{61}{section*.19}
-\contentsline {subsection}{\numberline {4.2.2}BeagleBone Black(BBB)}{61}{subsection.4.2.2}
-\contentsline {subsubsection}{CPU2}{61}{section*.20}
-\contentsline {subsubsection}{NEON}{61}{section*.21}
-\contentsline {subsection}{\numberline {4.2.3}Jetson TK1}{61}{subsection.4.2.3}
-\contentsline {subsubsection}{CPU}{61}{section*.22}
-\contentsline {subsubsection}{GPU}{61}{section*.23}
-\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o}{63}{chapter.5}
-\contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{69}{appendix.A}
-\contentsline {chapter}{\numberline {I}Anexo 1}{71}{appendix.A}
+\contentsline {subsection}{\numberline {4.2.1}Desktop}{60}{subsection.4.2.1}
+\contentsline {subsubsection}{CPU}{60}{section*.18}
+\contentsline {subsubsection}{GPU}{60}{section*.19}
+\contentsline {subsection}{\numberline {4.2.2}BeagleBone Black(BBB)}{60}{subsection.4.2.2}
+\contentsline {subsubsection}{CPU2}{60}{section*.20}
+\contentsline {subsubsection}{NEON}{60}{section*.21}
+\contentsline {subsection}{\numberline {4.2.3}Jetson TK1}{60}{subsection.4.2.3}
+\contentsline {subsubsection}{CPU}{60}{section*.22}
+\contentsline {subsubsection}{GPU}{60}{section*.23}
+\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o}{61}{chapter.5}
+\contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{67}{appendix.A}
+\contentsline {chapter}{\numberline {I}Anexo 1}{69}{appendix.A}

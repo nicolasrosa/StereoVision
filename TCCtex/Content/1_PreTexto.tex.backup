@@ -91,10 +91,10 @@ página com a folha de aprovação (página ímpar). \cleardoublepage
 \begin{center}
 \textbf{\Huge{Dedicatória}}
 \end{center}
-\vspace{0.05\textheight}	
-		
+\vspace{0.05\textheight}
+
 Este trabalho de conclusão de curso é dedicado a minha mãe, meu pai, minha irmã, meus padrinhos e toda minha família.
-		
+
 \begin{flushright}
 Nícolas dos Santos Rosa.
 \end{flushright}
@@ -103,7 +103,6 @@ Nícolas dos Santos Rosa.
 \cleardoublepage
 
 %------------------------------------- Agradecimentos -----------------------------------------------
-\
 \vspace{0.11\textheight} 
 
 \begin{center}
@@ -161,7 +160,6 @@ Isaac Newton
 \cleardoublepage
 
 %------------------------------------- RESUMO - PORTUGUÊS -------------------------------------------
-\
 \vspace{0.11\textheight} 
 
 \begin{center}
@@ -183,7 +181,6 @@ Palavras-Chave: Visão estéreo, Detecção de Obstáculos, Sistemas Embarcados,
 \cleardoublepage
 
 %------------------------------------- RESUMO - INGLÊS ----------------------------------------------
-\
 \vspace{0.11\textheight} 
 
 \begin{center}
@@ -219,7 +216,6 @@ Keywords: Stereo Vision, Obstacle Detection, Embedded Systems, Unmanned aerial V
 \cleardoublepage
 
 %------------------------------------- LISTA DE ABREVIATURAS ----------------------------------------
-\
 \vspace{0.11\textheight} 
 
 \textbf{\Huge{Siglas}}

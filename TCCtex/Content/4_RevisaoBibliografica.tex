@@ -187,11 +187,9 @@ A seguir, encontra-se apresentado um pequeno resumo de como são os operadores d
 
 \begin{enumerate}
  \item \textbf{\textit{Block Matching} - BM:} Este algoritmo é um método local, no qual utiliza soma das diferenças ao quadrado (SSD - \textit{Sum of Squared Differences}) para a determinação de correspondências. O tamanho da vizinhança deve ser avaliado, visto que a densidade do mapa gerado, nível de detalhamento e intensidade de ruído dependem disso. Caso o bloco seja pequeno, o mapa apresentará detalhes mais nítidos, porém adicionará ruídos ao mapa. Por outro lado, um bloco maior reduz o nível de ruído, porém diminui o nível de detalhamento do mapa. As limitações serviram de motivação para a criação do método a seguir \cite{Hirschmuller2008}.   
- 
  \item \textbf{\textit{Semi-global Block Matching} - SGBM:} Este algoritmo é um método global e também visa a obtenção de uma correspondência estéreo mais precisa, para isso, além da etapa de agregação de custo (cálculo da similaridade), modela-se o sistema como um problema de minimização energética \cite{JunhwanKim2003}. Por conta disso, este método é mais lento que o apresentado anteriormente, porém é mais denso ao comparar-se o nível de detalhamento para um bloco de tamanho pequeno \cite{Hirschmuller2008}.
- 
  \item \textbf{\textit{Block Matching with GPU Acceleration} - BMGPU:} Método é igual ao primeiro apresentado, diferindo do fato que as suas bibliotecas e métodos implementados são voltados para a aceleração em GPU (\textit{Graphics Processing Unit}). Dado o paralelismo inerente dos aceleradores gráficos de hoje, esse tipo de \textit{hardware} permite o processamento simultâneo dos dados. 
- \end{enumerate}
+\end{enumerate}
 
 
 % TODO: Escrever sobre os dois tipos de pesquisa que existem atualmente: Fast Stereo vs. High-Confidence Stereo

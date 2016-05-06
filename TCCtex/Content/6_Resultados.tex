@@ -6,12 +6,11 @@
 \chapter{Resultados}
 \label{Resultados}
 
-Os resultados apresentados neste capítulo estão inteiramente relacionados as funções fundamentais presentes na interface gráfica desenvolvida. Além disso, tem-se presente a seção que apresenta 
-os dados obtidos através dos testes de desempenho dos métodos de \textit{Stereo Matching} nas plataformas utilizadas.
-
+Os resultados apresentados neste capítulo estão divididos em duas partes. Os resultados da seção \ref{resultsGUI} estão inteiramente relacionados as funções fundamentais presentes na interface gráfica desenvolvida. Já na seção \ref{resultsComparison}, tem-se presente os resultados que apresentam os dados obtidos através dos testes de desempenho dos métodos de \textit{Stereo Matching} nas plataformas utilizadas.
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Interface Gráfica - \textit{StereoVisionGUI}}
+\label{resultsGUI}
 
 Nesta seção, o software desenvolvido apresenta uma interface gráfica (GUI -- \textit{Graphical User Interface}) amigável, a qual facilita a visualização das imagens da câmera estéreo, 
 dos mapas de disparidades, da reconstrução tridimensional e do método de processamento de imagens desenvolvido. Atualmente, o software conta com três métodos para encontrar correspondências 
@@ -29,6 +28,21 @@ estéreo (BM, SGBM e BMGPU) e com 8 opções das quais 6 delas são destinadas a
 O botão \textit{Show Left/Right} seleciona a opção na qual a interface gráfica permite a visualização simultânea das imagens retificadas de ambas câmera. A figura \ref{gui_showleftright_view} 
 ilustra o comportamento do software quando essa opção é selecionada. 
 
+O botão \textit{Show Disparity Map} seleciona a opção na qual a interface gráfica permite a visualização simultânea dos mapas de disparidade em escala de cinza e RGB. A figura 
+\ref{gui_showdisparitymap_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+O botão \textit{Show 3D Reconstruction} seleciona a opção na qual a interface gráfica permite a visualização simultânea dos mapas tridimensionais do ambiente reconstruído em escala de cinza e 
+RGB. A figura \ref{gui_show3dreconstruction_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+O botão \textit{Show Tracking Object View} seleciona a opção na qual a interface gráfica permite a visualização simultânea da imagem da câmera Esquerda com o indicador de objeto rastreado e 
+imagem binária resultante da limiarização por distância. A figura \ref{gui_show_tracking_object_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+O botão \textit{Show DiffImage} seleciona a opção na qual a interface gráfica permite a visualização simultânea da imagem resultante do processo de detecção de movimentos e imagem resultante do 
+processo de detecção de movimentos limiarizada por distância. A figura \ref{gui_showdiffimage_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+O botão \textit{Show Warning Edges} seleciona a opção na qual a interface gráfica permite a visualização simultânea da imagem resultante da adição da imagem à direita com a imagem da câmera esquerda e imagem resultante do processo de realce das bordas dos objetos em movimento próximos ao veículo. A figura \ref{gui_showwarningedges_view} ilustra o comportamento do software quando essa opção é selecionada. 
+
+
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/gui_showleftright_view.png}
@@ -36,8 +50,6 @@ ilustra o comportamento do software quando essa opção é selecionada.
  	\label{gui_showleftright_view}
 \end{figure}
 
-O botão \textit{Show Disparity Map} seleciona a opção na qual a interface gráfica permite a visualização simultânea dos mapas de disparidade em escala de cinza e RGB. A figura 
-\ref{gui_showdisparitymap_view} ilustra o comportamento do software quando essa opção é selecionada. 
 
 \begin{figure}[H]
  	\centering
@@ -46,8 +58,6 @@ O botão \textit{Show Disparity Map} seleciona a opção na qual a interface gr�
  	\label{gui_showdisparitymap_view}
 \end{figure}
 
-O botão \textit{Show 3D Reconstruction} seleciona a opção na qual a interface gráfica permite a visualização simultânea dos mapas tridimensionais do ambiente reconstruído em escala de cinza e 
-RGB. A figura \ref{gui_show3dreconstruction_view} ilustra o comportamento do software quando essa opção é selecionada. 
 
 \begin{figure}[H]
  	\centering
@@ -56,8 +66,6 @@ RGB. A figura \ref{gui_show3dreconstruction_view} ilustra o comportamento do sof
  	\label{gui_show3dreconstruction_view}
 \end{figure}
 
-O botão \textit{Show Tracking Object View} seleciona a opção na qual a interface gráfica permite a visualização simultânea da imagem da câmera Esquerda com o indicador de objeto rastreado e 
-imagem binária resultante da limiarização por distância. A figura \ref{gui_show_tracking_object_view} ilustra o comportamento do software quando essa opção é selecionada. 
 
 \begin{figure}[H]
  	\centering
@@ -66,8 +74,6 @@ imagem binária resultante da limiarização por distância. A figura \ref{gui_s
  	\label{gui_show_tracking_object_view}
 \end{figure}
 
-O botão \textit{Show DiffImage} seleciona a opção na qual a interface gráfica permite a visualização simultânea da imagem resultante do processo de detecção de movimentos e imagem resultante do 
-processo de detecção de movimentos limiarizada por distância. A figura \ref{gui_showdiffimage_view} ilustra o comportamento do software quando essa opção é selecionada. 
 
 \begin{figure}[H]
  	\centering
@@ -76,9 +82,6 @@ processo de detecção de movimentos limiarizada por distância. A figura \ref{g
  	\label{gui_showdiffimage_view}
 \end{figure}
 
-O botão \textit{Show DiffImage} seleciona a opção na qual a interface gráfica permite a visualização simultânea da imagem resultante da adição da imagem à direita com a imagem da câmera esquerda 
-e imagem resultante do processo de realce das bordas dos objetos em movimento próximos ao veículo. A figura \ref{gui_showwarningedges_view} ilustra o comportamento do software quando essa opção 
-é selecionada. 
 
 \begin{figure}[H]
  	\centering
@@ -91,6 +94,7 @@ e imagem resultante do processo de realce das bordas dos objetos em movimento pr
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Comparação de Desempenho: Desktop x BBB x Jetson TK1}
+\label{resultsComparison}
 
 Nesta seção, estão apresentados os resultados práticos das diferentes implementações dos métodos de visão estéreo nas plataformas abordadas. O Método utilizado foi o BM para a comparação das plataformas, visto que é o que requisita menor processamento dentre os outros métodos mais conhecidos (SGBM, BP, CSBP, AD Census, ...). A tabela \ref{resultsCPUGPU} abaixo, apresenta o resultado de desempenhos obtidos nas plataformas, apresentando comparativamente seu desempenho quando o processado utilizando CPU ou GPU/NEON (Caso da BBB).
 

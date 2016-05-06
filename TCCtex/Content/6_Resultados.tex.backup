@@ -1,4 +1,4 @@
-%---------------------------------------------------- Resultados ----------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 % Resultados/Discussões: 
 % Aqui se mostra o que o trabalho permitiu produzir, e às vezes o que pode ser comparado com outros trabalhos
 % Aqui ficam claras se as propostas do trabalho são relevantes ou não, pois devem permitir a discussão do trabalho;
@@ -6,20 +6,21 @@
 \chapter{Resultados}
 \label{Resultados}
 
-Os resultados apresentados neste capítulo estão inteiramente relacionados as funções fundamentais presentes na interface gráfica desenvolvida. Além disso, tem-se presente a seção que apresenta 
+Os resultados apresentados neste capítulo estão divididos em duas partes. A primeira seção \ estão inteiramente relacionados as funções fundamentais presentes na interface gráfica desenvolvida. Além disso, tem-se presente a seção que apresenta 
 os dados obtidos através dos testes de desempenho dos métodos de \textit{Stereo Matching} nas plataformas utilizadas.
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Interface Gráfica - \textit{StereoVisionGUI}}
+\label{resultsGUI}
 
-Nesta seção, o software desenvolvido apresenta uma interface gráfica (GUI -- \textit{Graphical User Interface}) amigável, a qual facilita a visualização das imagens da câmera estereoscópica, 
+Nesta seção, o software desenvolvido apresenta uma interface gráfica (GUI -- \textit{Graphical User Interface}) amigável, a qual facilita a visualização das imagens da câmera estéreo, 
 dos mapas de disparidades, da reconstrução tridimensional e do método de processamento de imagens desenvolvido. Atualmente, o software conta com três métodos para encontrar correspondências 
 estéreo (BM, SGBM e BMGPU) e com 8 opções das quais 6 delas são destinadas a visualização das seguintes perspectivas:
 
 \begin{enumerate}
   \item Imagens retificadas das câmeras esquerda e direita
-  \item Mapa de disparidade em Escala de Cinza e RGB
+  \item Mapa de disparidades em Escala de Cinza e RGB
   \item Mapa tridimensional do ambiente reconstruído em Escala de Cinza e RGB
   \item Imagem da Câmera Esquerda com o indicador de objeto rastreado e Imagem binária resultante da limiarização por distância.
   \item Imagem resultante do processo de detecção de movimentos e Imagem resultante do processo de detecção de movimentos limiarizada por distância. 
@@ -42,7 +43,7 @@ O botão \textit{Show Disparity Map} seleciona a opção na qual a interface gr�
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/gui_showdisparitymap_view.png}
- 	\caption{Interface Gráfica - Visualização dos Mapa de disparidade em Escala de Cinza e RGB}
+ 	\caption{Interface Gráfica - Visualização dos Mapa de disparidades em Escala de Cinza e RGB}
  	\label{gui_showdisparitymap_view}
 \end{figure}
 
@@ -52,7 +53,7 @@ RGB. A figura \ref{gui_show3dreconstruction_view} ilustra o comportamento do sof
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/gui_show3dreconstruction_view.png}
- 	\caption{Interface Gráfica - Visualização dos Mapa de disparidade em Escala de Cinza e RGB}
+ 	\caption{Interface Gráfica - Visualização dos Mapa de disparidades em Escala de Cinza e RGB}
  	\label{gui_show3dreconstruction_view}
 \end{figure}
 
@@ -92,7 +93,7 @@ e imagem resultante do processo de realce das bordas dos objetos em movimento pr
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Comparação de Desempenho: Desktop x BBB x Jetson TK1}
 
-Nesta seção, estão apresentados os resultados práticos das diferentes implementações dos métodos de visão estereoscópica nas plataformas abordadas. O Método utilizado foi o BM para a comparação das plataformas, visto que é o que requisita menor processamento dentre os outros métodos mais conhecidos (SGBM, BP, CSBP, AD Census, ...). A tabela \ref{resultsCPUGPU} abaixo, apresenta o resultado de desempenhos obtidos nas plataformas, apresentando comparativamente seu desempenho quando o processamento foi realizado em CPU ou GPU ou NEON (Caso da BBB).
+Nesta seção, estão apresentados os resultados práticos das diferentes implementações dos métodos de visão estéreo nas plataformas abordadas. O Método utilizado foi o BM para a comparação das plataformas, visto que é o que requisita menor processamento dentre os outros métodos mais conhecidos (SGBM, BP, CSBP, AD Census, ...). A tabela \ref{resultsCPUGPU} abaixo, apresenta o resultado de desempenhos obtidos nas plataformas, apresentando comparativamente seu desempenho quando o processado utilizando CPU ou GPU/NEON (Caso da BBB).
 
 \begin{table}[]
 \centering
