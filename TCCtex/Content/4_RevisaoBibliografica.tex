@@ -193,9 +193,10 @@ A seguir, encontra-se apresentado um pequeno resumo de como são os operadores d
  \item \textbf{\textit{Block Matching with GPU Acceleration} - BMGPU:} Método é igual ao primeiro apresentado, diferindo do fato que as suas bibliotecas e métodos implementados são voltados para a aceleração em GPU (\textit{Graphics Processing Unit}). Dado o paralelismo inerente dos aceleradores gráficos de hoje, esse tipo de \textit{hardware} permite o processamento simultâneo dos dados. 
  \end{enumerate}
 
-Atualmente,
 
 % TODO: Escrever sobre os dois tipos de pesquisa que existem atualmente: Fast Stereo vs. High-Confidence Stereo
+%Atualmente,
+
 % TODO: Escrever os melhores metódos estéreo que existem hoje: http://www.cvlibs.net/datasets/kitti/eval_stereo_flow.php?benchmark=stereo.
 
 % TODO: Escrever seção de Projeção Tridimensional(Opcional)
@@ -255,9 +256,13 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Linux Embarcado}
-%TODO: Escrever sobre Linux Embarcado. Por quê linux embarcado? Por quê não uma FPGA?
 
-Linux é um sistema operacional de código-aberto que é amplamente utilizado, cujo \textit{Kernel} pode suportar diversos designs de sistemas podendo ser um computador pessoal, um supercomputador ou \textit{cluster}, ou até mesmo sistemas \textit{System-on-Chip} (SoC), com arquiteturas de processadores variáveis como x86{\_}64, PowerPC, ARM, MIPS, StrongARM, XScale, dentre outras \cite{Wang2011}.
+Linux é um sistema operacional de código-aberto que é amplamente utilizado, cujo \textit{Kernel}, originalmente escrito por Linus Torvalds, pode suportar diversos designs de sistemas podendo ser um computador pessoal, um supercomputador ou \textit{cluster}, ou até mesmo sistemas \textit{System-on-Chip} (SoC). Este sistema é capaz de suportar diversas arquiteturas de processadores como x86{\_}64, PowerPC, ARM, MIPS, StrongARM, XScale, dentre outras \cite{Wang2011}.
+
+O popularização do termo Linux fez com que atualmente exista uma certa confusão sobre a distinção de um \textit{Kernel} de um sistema operacional e do sistema operacional propriamente dito. A maior razão desta confusão é a variedade de distribuições desenvolvidas pela comunidade, visto a facilidade para customizar seus módulos, pacotes, sistemas de arquivo e servidores gráficos. Dada sua versatilidade, logo tornou-se a peça chave para o desenvolvimento de sistemas embarcados, os quais são computadores completamente especializados para a realização de tarefas específicas. Esses sistemas diferem de computadores de propósito geral e comumente apresentam certa restrições de dimensão, condições de operação, ou limitação de recursos computacionais como menor poder de processamento ou menor capacidade de armazenamento. 
+
+Assim, começaram a surgir distribuições de Linux, os chamados \textit{Embedded Linux}, que apresentavam menores requisitos de sistemas, devido à remoção de módulos que não são utilizados em determinados sistemas ou à otimização desses módulos para aquela atividade específica \cite{Yaghmour2008}.
+
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Aceleração em Hardware - CUDA}
@@ -265,6 +270,6 @@ Linux é um sistema operacional de código-aberto que é amplamente utilizado, c
 
 \textit{Compute Unified Device Architecture} (CUDA) é uma tecnologia desenvolvida pela NVIDIA e em sua essência é uma plataforma de computação paralela de propósito geral, cujo objetivo é tirar proveito das unidades de processamento gráfico (GPU), assim, acelerando consideravelmente a execução de algoritmos computacionais complexos ao comparar-se com o desempenho da CPU.
 
-Atualmente, a maioria das placas de video da NVIDIA contam com essa tecnologia, por conta disso os pesquisadores e desenvolvidores de software estão voltando suas pesquisas para o desenvolvimento e otimização de algoritmos que possam explorar todo o poder de processamento destes dispositivos. Alguns exemplos de aplicações são identificação de placas ocultas em artérias, análise do fluxo de tráfego aéreo \cite{Monish2011} e visualização de moléculas \cite{Stone2015}.
+Atualmente, a maioria das placas de video da NVIDIA contam com essa tecnologia, por conta disso os pesquisadores e desenvolvedores de software estão voltando suas pesquisas para o desenvolvimento e otimização de algoritmos que possam explorar todo o poder de processamento destes dispositivos. Alguns exemplos de aplicações são identificação de placas ocultas em artérias, análise do fluxo de tráfego aéreo \cite{Monish2011} e visualização de moléculas \cite{Stone2015}.
 
 Historicamente, a implementação de algoritmos em GPU mostrou-se bastante obscura, visto que sua programação era bastante atrelada ao hardware a ser utilizado, mesmo com linguagens de programação gráfica como o OpenGL. Em 2003, um grupo de pesquisadores de Stanford, apresentou o primeiro compilador, Brook, que facilitaria a implementação de software, visto que permitia lidar de uma maneira mais maleável o fluxo de dados, podendo principalmente paralelizá-los. Em 2006, a NVIDIA juntamente com Ian Buck, criador do Brook, desenvolveram uma plataforma (CUDA) mais intuitiva e que permitisse a utilização de uma linguagem de alto nível e tornasse a GPU em um processador de propósito geral (GPGPU) \cite{NVIDIA}.

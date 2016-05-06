@@ -240,12 +240,11 @@ O cenário da figura \ref{thumb_video15} foi utilizado para estudo das condiçõ
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Calibração}
-% TODO: Inserir Referencia site: http://docs.opencv.org/2.4/doc/tutorials/calib3d/camera_calibration/camera_calibration.html
 O processo de calibração pode ser realizado de duas maneiras diferentes. 
 
-O primeiro método é utilizando a rotina disponibilizada pelo OpenCV \cite{}, no qual algumas informações relevantes precisam ser informadas ao executá-la, tais como, tipo do padrão utilizado, o tamanho do padrão e número de quadros. Este método, dispensa que seja passado um conjunto de imagens para o processo de calibração, pois o próprio, automaticamente, se encarrega de detectar o patrão de calibragem e gravar as imagens utilizadas no processo. Ao fim da execução, as imagens são analisadas e os arquivos \textit{"intrinsics.yml"} e \textit{"extrinsics.yml"} são gerados, os quais contêm as matrizes que corrigem as distorções apresentadas na seção \ref{theory_calib}
+O primeiro método é utilizando a rotina disponibilizada pelo OpenCV \cite{OpenCVCalibrationTutorial}, no qual algumas informações relevantes, como o tipo do padrão utilizado, o tamanho do padrão e o número de quadros, precisam ser informadas ao executá-la. Este método dispensa um conjunto de imagens de entrada para o processo de calibração, pois o próprio, automaticamente, se encarrega de detectar o padrão de calibragem e gravar as imagens utilizadas no processo. Ao fim da execução, as imagens são analisadas e os arquivos \textit{"intrinsics.yml"} e \textit{"extrinsics.yml"} são gerados, os quais contêm as matrizes que corrigem as distorções apresentadas na seção \ref{theory_calib}.
 
-O segundo método é utilizando o aplicativo \textit{Stereo Camera Calibrator} presente no MatLab. O aplicativo apresenta uma análise mais profunda das distorções das lentes, como o erro de reprojeção 2D de cada imagem ou por pixel, e também gerando as mesmas informações anteriores, 
+O segundo método é utilizando o aplicativo \textit{Stereo Camera Calibrator} presente no MATLAB. Ele também gera as mesmas informações anteriores, porém permite uma análise ainda mais profunda das distorções das lentes, como o erro de reprojeção 2D de cada imagem ou por pixel. Entretanto, é necessário que um conjunto de pares de imagens seja disponibilizado para o aplicativo para que a calibração seja realizada. Além disso, o MATLAB disponibiliza gráficos que representam as distorções das ambas as lentes, assim como apresentado na imagem \ref{lenses_distortion}, e a estimativa de reconstrução da cena utilizada no processo de calibração, onde estima-se o posicionamento de cada perspectiva das imagens utilizadas com relação às câmeras, assim como ilustrado na figura \ref{stereo_calib_extrinsic}.
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -254,7 +253,7 @@ O segundo método é utilizando o aplicativo \textit{Stereo Camera Calibrator} p
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.20]{./Resources/distortion/lenses_distortion.jpg}
- 	\caption{Calibração estéreo dos parâmetros intrínsecos - Modelo de Distorções da câmera esquerda e direita, respectivamente. Imagem obtida utilizando \textit{Camera Calibration Toolbox for Matlab} \cite{Bouguet1999}.}
+ 	\caption{Calibração estéreo dos parâmetros intrínsecos - Modelo de Distorções da câmera esquerda e direita, respectivamente. Imagem obtida utilizando \textit{Camera Calibration Toolbox for MATLAB} \cite{Bouguet1999}.}
  	\label{lenses_distortion}
 \end{figure}
 
@@ -265,7 +264,7 @@ O segundo método é utilizando o aplicativo \textit{Stereo Camera Calibrator} p
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.70]{./Resources/stereo_calib_extrinsic.png}
- 	\caption{Calibração estéreo dos parâmetros extrínsecos - Estimativa do posicionamento da câmera direita$^2$ em relação à câmera esquerda$^1$. Imagem obtida utilizando o aplicativo \textit{Stereo Calibration App} do Matlab \cite{MatlabStereoApp}}.
+ 	\caption{Calibração estéreo dos parâmetros extrínsecos - Estimativa do posicionamento da câmera direita$^2$ em relação à câmera esquerda$^1$. Imagem obtida utilizando o aplicativo \textit{Stereo Calibration App} do MATLAB \cite{MatlabStereoApp}.}
  	\label{stereo_calib_extrinsic}
 \end{figure}
 
@@ -284,6 +283,7 @@ Nessa seção será apresentado o processamento de imagens utilizado para a iden
 
 \textbf{Limiarização por Distância:} Visto que a disparidade apresenta uma relação com a distância, aplica-se uma operação de limiarização. Deste modo, apenas os obstáculos a uma certa distância são segmentados.
 
+% TODO: Rever esse Tópico. Remover ou Deixar?
 \textbf{Identificação de Obstáculos:} Após o passo anterior, o objeto é identificado e sua posição é rastreada. Essa informação pode ser utilizada pelo sistema de controle da aeronave para manter distância do obstáculo identificado.
 
 \begin{figure}[H]
@@ -328,12 +328,14 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
       \item Clique \href{http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/jetpack_l4t/2.1/jetpack_l4t_install.htm}{aqui} para ir ser redirecionado para a página do pacote de desenvolvimento Jetpack L4T. Caso o link esteja quebrado, vá até o página da NVIDIA e procure pelo localização correta do pacote.  
 
       \item Na máquina \textit{Host} rodando Ubuntu, crie um novo diretório para armazenar os pacotes de instalação utilizando as seguintes linhas de comando.
+      
       \begin{lstlisting}[basicstyle=\tiny]
 	$ ubuntu@ubuntu:~$ cd /home/<user>
 	$ ubuntu@ubuntu:~/home/<user>$ mkdir flash
 	$ ubuntu@ubuntu:~/home/<user>$ cd flash
 	$ ubuntu@ubuntu:~/home/<user>/flash$ 
       \end{lstlisting}
+      
       Uma ação importante que merece destaque é baixar o arquivo JetPack-\${VERSION}.run dentro do diretório criado (o caminho NÃO DEVE conter espaços).
       
       \item Dê permissão de execução para o arquivo baixado. 
@@ -346,7 +348,7 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
     \end{enumerate}
   \item Instalando o JetPack L4T
   
-    Sigua as instruções no manual de usuário do kit de desenvolvimento da Jetson TK1
+    Siga as instruções no manual de usuário do kit de desenvolvimento da Jetson TK1
     \begin{enumerate}
       \item Baixe o guia de instruções no seguinte link e clique na aba "\textit{Install Guide}". Link: \url{https://developer.nvidia.com/embedded/jetpack}
       \item Sigua as instruções do instalador do Jetpack L4T.

@@ -150,6 +150,11 @@ Shuai Wang, Heng Zhang, Han~Qing Tan, and Lin~Ying Jiang.
   S3C2440}.
 \newblock In {\em Energy Procedia}, volume~16, pages 1541--1546, 2011.
 
+\bibitem{Yaghmour2008}
+Karim Yaghmour, Jon Masters, Gilad Ben-Yossef, and Philippe Gerum.
+\newblock {\em {Building Embedded Linux Systems}}.
+\newblock O'Reilly Media, 2008.
+
 \bibitem{Monish2011}
 DT~Monish and Sandy Wiraatmadja.
 \newblock {High-Speed Prediction of Air Traffic for Real-Time Decision
