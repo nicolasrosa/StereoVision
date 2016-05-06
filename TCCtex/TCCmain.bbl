@@ -144,6 +144,12 @@ Itseez.
 \newblock \url{http://opencv.org/platforms.html}, Acesso em: 20 de Abril de
   2016.
 
+\bibitem{Wang2011}
+Shuai Wang, Heng Zhang, Han~Qing Tan, and Lin~Ying Jiang.
+\newblock {Implementation of step motor control under embedded linux based on
+  S3C2440}.
+\newblock In {\em Energy Procedia}, volume~16, pages 1541--1546, 2011.
+
 \bibitem{Monish2011}
 DT~Monish and Sandy Wiraatmadja.
 \newblock {High-Speed Prediction of Air Traffic for Real-Time Decision

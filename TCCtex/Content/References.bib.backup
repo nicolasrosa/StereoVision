@@ -13,12 +13,14 @@ volume = {17},
 year = {2001}
 }
 
+
 @misc{AAVC,
 mendeley-groups = {TCC},
 title = {{FLYAAVC. Autonomous Aerial Vehicle Competition}},
 howpublished={\url{http://www.flyaavc.org/}},
 year={Acesso em: 09 de novembro de 2015}
 }
+
 
 @article{Lemaire2007,
 author = {Lemaire, Thomas and Berger, Cyrille and Jung, Il-Kyun and Lacroix, Simon},
@@ -36,6 +38,7 @@ volume = {74},
 year = {2007}
 }
 
+
 @article{Shah2014,
 abstract = {In 2012 a federal mandate was imposed that required the FAA to integrate unmanned aerial systems (UAS) into the national airspace (NAS) by 2015 for civilian and commercial use. A significant driver for the increasing popularity of these systems is the rise in open hardware and open software solutions which allow hobbyists to build small UAS at low cost and without specialist equipment. This paper describes our work building, evaluating and improving performance of a vision-based system running on an embedded computer onboard such a small UAS. This system utilises open source software and open hardware to automatically land a multi-rotor UAS with high accuracy. Using parallel computing techniques, our final implementation runs at the maximum possible rate of 30 frames per second. This demonstrates a valid approach for implementing other real-time vision based systems onboard UAS using low power, small and economical embedded computers.},
 author = {Shah, Sunil},
@@ -45,6 +48,7 @@ pages = {1--29},
 title = {{Real-time Image Processing on Low Cost Embedded Computers}},
 year = {2014}
 }
+
 
 @book{Bradski2008,
 abstract = {Learning OpenCV puts you right in the middle of the rapidly expanding field of computer vision. Written by the creators of OpenCV, the widely used free open- source library, this book introduces you to computer vision and demonstrates how you can quickly build applications that enable computers to "see" and make decisions based on the data. Computer vision is everywhere - in security systems, manufacturing inspection systems, medical image analysis, Unmanned Aerial Vehicles, and more. It helps robot cars drive by themselves, stitches Google maps and Google Earth together, checks the pixels on your laptop's LCD screen, and makes sure the stitches in your shirt are OK. OpenCV provides an easy-to-use computer vision infrastructure along with a comprehensive library containing more than 500 functions that can run vision code in real time. With Learning OpenCV, any developer or hobbyist can get up and running with the framework quickly, whether it's to build simple or sophisticated vision applications. The book includes: A thorough introduction to OpenCV Getting input from cameras Transforming images Shape matching Pattern recognition, including face detection Segmenting images Tracking and motion in 2 and 3 dimensions Machine learning algorithms Hands-on exercises at the end of each chapter help you absorb the concepts, and an appendix explains how to set up an OpenCV project in Visual Studio. OpenCV is written in performance optimized C/C++ code, runs on Windows, Linux, and Mac OS X, and is free for commercial and research use under a BSD license. Getting machines to see is a challenging but entertaining goal. If you're intrigued by the possibilities, Learning OpenCV gets you started onbuilding computer vision applications of your own.},
@@ -61,12 +65,14 @@ volume = {1},
 year = {2008}
 }
 
+
 @article{ShinzatoP,
 author = {{Shinzato, P. Y. ; Os{\'{o}}rio, F. S. ; Wolf}, D. F.},
 journal = {IEEE/RSJ International Conference on Intelligent Robots and Systems - IROS - Workshop},
 mendeley-groups = {TCC},
 title = {{Visual Road Recognition Using Artificial Neural Networks and Stereo Vision.}}
 }
+
 
 @article{BarryMIT,
 author = {Barry, Andrew J and Oleynikova, Helen and Honegger, Dominik and Pollefeys, Marc and Tedrake, Russ},
@@ -107,6 +113,7 @@ url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6608107},
 year = {2013}
 }
 
+
 @misc{UEDA2011,
 author = {UEDA, Etsuko; and Koeda, Masanao; and Suenaga, Tsuyoshi; and Takemura, Kentaro;},
 booktitle = {Jan 05, 2011},
@@ -117,6 +124,7 @@ urldate = {Dec 5, 2015},
 year = {2011}
 }
 
+
 @misc{Hounslow2013,
 author = {Hounslow, Kyle},
 booktitle = {Mar 11, 2013},
@@ -126,6 +134,7 @@ url = {https://raw.githubusercontent.com/kylehounslow/opencv-tuts/master/object-
 howpublished={\url{https://www.youtube.com/watch?v=bSeFrPrqZ2A}},
 year = {Acesso em: 05 de dezembro de 2015}
 }
+
 
 @misc{NVIDIA,
 author = {NVIDIA},
@@ -146,6 +155,7 @@ url = {http://www.sbda.org.br/revista/1868.pdf},
 year = {2014}
 }
 
+
 @misc{DECEA2015,
 author = {{Departamento de Controle do Espa{\c{c}}o A{\'{e}}reo da Aeron{\'{a}}utica}},
 booktitle = {Nov 27,2015},
@@ -156,6 +166,7 @@ urldate = {Dec 6, 2015},
 year = {Acesso em: 06 de dezembro de 2015}
 }
 
+
 @misc{eLinuxJetsonOpenCV,
 author = {Wiki, Embedded Linux},
 keywords = {CUDA™,GPU,Jetson TK1,OpenCV},
@@ -164,6 +175,7 @@ title = {{Installing OpenCV (including the GPU module) on Jetson TK1}},
 howpublished={\url{http://elinux.org/Jetson/Installing_OpenCV}},
 year={Acesso em: 16 de março de 2016}
 }
+
 
 @phdthesis{Mendes2012,
 author = {Mendes, Caio C{\'{e}}sar Teodoro},
@@ -174,6 +186,7 @@ title = {{Navega{\c{c}}{\~{a}}o de rob{\^{o}}s m{\'{o}}veis utilizando vis{\~{a}
 year = {2012}
 }
 
+
 @book{RobertLaganiere,
   Author = {Robert Laganière},
   Title = {OpenCV 2 Computer Vision Application Programming Cookbook},
@@ -182,6 +195,7 @@ year = {2012}
   ISBN = {1849513244},
   URL = {http://www.amazon.com/OpenCV-Computer-Application-Programming-Cookbook/dp/1849513244%3FSubscriptionId%3D0JYN1NVW651KCA56C102%26tag%3Dtechkie-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1849513244}
 }
+
 
 @misc{DevelopmentTeam2016,
 author = {{Development Team}, OpenCV},
@@ -192,6 +206,7 @@ howpublished={\url{http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibra
 year = {Acesso em: 30 de março de 2016}
 }
 
+
 @misc{OpenCVCalibrationModule,
 author = {{Development Team}, OpenCV},
 booktitle = {OpenCV 2.4.12.0 documentation},
@@ -201,15 +216,15 @@ howpublished={\url{http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibra
 year = {Acesso em: 30 de março de 2016}
 }
 
+
 @misc{OpenCVCalibrationTutorial,
 author = {{Development Team}, OpenCV},
-booktitle = {OpenCV 2.4.12.0 documentation},
+booktitle = {OpenCV 2.4.13.0 documentation},
 mendeley-groups = {TCC},
-title = {{Camera Calibration and 3D Reconstruction}},
+title = {{Camera Calibration with OpenCV}},
 howpublished={\url{http://docs.opencv.org/2.4/doc/tutorials/calib3d/camera_calibration/camera_calibration.html}},
 year = {Acesso em: 27 de Abril de 2016}
 }
-
 
 
 @misc{Bouguet1999,
@@ -221,6 +236,7 @@ title = {{Complete Camera Calibration Toolbox for MATLAB}},
 url = {http://www.vision.caltech.edu/bouguetj/},
 year = {1999}
 }
+
 
 @article{Scharstein2003,
 abstract = {Progress in stereo algorithm performance is quickly outpacing the ability of existing stereo data sets to discriminate among the best-performing algorithms, motivating the need for more challenging scenes with accurate ground truth information. This paper describes a method for acquiring high-complexity stereo image pairs with pixel-accurate correspondence information using structured light. Unlike traditional range-sensing approaches, our method does not require the calibration of the light sources and yields registered disparity maps between all pairs of cameras and illumination projectors. We present new stereo data sets acquired with our method and demonstrate their suitability for stereo algorithm evaluation. Our results are available at http://www.middlebury.edu/stereo/.},
@@ -237,6 +253,7 @@ title = {{High-accuracy stereo depth maps using structured light}},
 volume = {1},
 year = {2003}
 }
+
 
 @article{Hirschmuller2008,
 abstract = {This paper describes the Semi-Global Matching (SGM) stereo method. It uses a pixelwise, Mutual Information based matching cost for compensating radiometric differences of input images. Pixelwise matching is supported by a smoothness constraint that is usually expressed as a global cost function. SGM performs a fast approximation by pathwise optimizations from all directions. The discussion also addresses occlusion detection, subpixel refinement and multi-baseline matching. Additionally, postprocessing steps for removing outliers, recovering from specific problems of structured environments and the interpolation of gaps are presented. Finally, strategies for processing almost arbitrarily large images and fusion of disparity images using orthographic projection are proposed.A comparison on standard stereo images shows that SGM is among the currently top-ranked algorithms and is best, if subpixel accuracy is considered. The complexity is linear to the number of pixels and disparity range, which results in a runtime of just 1-2s on typical test images. An in depth evaluation of the Mutual Information based matching cost demonstrates a tolerance against a wide range of radiometric transformations. Finally, examples of reconstructions from huge aerial frame and pushbroom images demonstrate that the presented ideas are working well on practical problems.},
@@ -305,6 +322,7 @@ urldate = {Apr 20, 2016},
 year = {Acesso em: 20 de Abril de 2016}
 }
 
+
 @misc{ItseezOpenCVinfo,
 author = {Itseez},
 title = {{OpenCV Informations}},
@@ -345,15 +363,8 @@ howpublished={\url{https://beagleboard.org/}},
 year = {Acesso em: 20 de Abril de 2016}
 }
 
-@misc{JetsonTK1,
-author = {NVIDIA},
-mendeley-groups = {TCC},
-title = {{Jetson TK1}},
-howpublished={\url{https://developer.nvidia.com/embedded/develop/hardware}},
-year={Acesso em: 20 de Abril de 2016}
-}
 
-@misc{OpenCVCalibration,
+@misc{JetsonTK1,
 author = {NVIDIA},
 mendeley-groups = {TCC},
 title = {{Jetson TK1}},
