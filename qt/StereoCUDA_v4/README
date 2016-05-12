@@ -12,3 +12,6 @@ Command Line Input Examples:
 
 # Platform: JetsonTK1
 
+--left /home/ubuntu/nicolas/workspace/repository/StereoVisionJetsonTK1/data/20004.avi --right /home/ubuntu/nicolas/workspace/repository/StereoVisionJetsonTK1/data/30004.avi --method BM --ndisp 64 --calib true
+
+--left /home/ubuntu/nicolas/workspace/repository/StereoVisionJetsonTK1/data/video10_l.avi --right /home/ubuntu/nicolas/workspace/repository/StereoVisionJetsonTK1/data/video10_r.avi --method BM --ndisp 64 --calib true

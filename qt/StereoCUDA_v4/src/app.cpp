@@ -97,7 +97,6 @@ void App::init(){
     /* Initializing Stereo Matching Methods - Set Common Parameters */
 #ifdef x64
     stereoBM_GPU_Init();
-    bm = cuda::createStereoBM(p.ndisp);
 
     bp = cuda::createStereoBeliefPropagation(p.ndisp);
     csbp = cuda::createStereoConstantSpaceBP(p.ndisp);
@@ -420,10 +419,11 @@ void App::handleKey(char key){
 
 //TODO: Checar se os Valores são iguais ao local na main
 void App::stereoBM_GPU_Init(){
-    bm = cuda::createStereoBM(p.ndisp);
-
     //TODO: Create initialization p.variables for the following variables
 #ifdef x64
+    bm = cuda::createStereoBM(p.ndisp);
+
+
     //    bm->setPreFilterSize(127);
     //    bm->setPreFilterCap(61);
     bm->setBlockSize(15);

@@ -34,9 +34,7 @@ UI_DIR = tmp/moc
 RCC_DIR = tmp/rc
 
 
-OTHER_FILES +=
-
-DISTFILES += \
-    config/Q.yml \
+OTHER_FILES += \
+    config/extrinsics.yml \
     config/intrinsics.yml \
-    config/extrinsics.yml
+    config/Q.yml

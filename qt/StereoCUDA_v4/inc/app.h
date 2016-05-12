@@ -67,7 +67,8 @@ private:
 
     gpu::StereoBM_GPU bm;
 
-    gpu::GpuMat d_disp(imageL.size(), CV_16S);
+    //TODO: Initialize Variable with imageL.size() like: gpu::GpuMat d_disp(imageL.size(), CV_16S);
+    gpu::GpuMat d_disp;
 #endif
 
     double clockInitial;

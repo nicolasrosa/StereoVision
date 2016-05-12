@@ -60,7 +60,7 @@ void StereoCalib::readCalibrationFiles(){
 
 void StereoCalib::readIntrinsicsFile(){
 	//TODO: Criar Método que armazene todos os path usandos no programa. Fazer isso pra todos os .yml
-    FileStorage fs("/home/nicolas/repository/StereoVisionJetsonTK1/qt/StereoCUDA_v4/config/intrinsics.yml", FileStorage::READ);
+    FileStorage fs("../config/intrinsics.yml", FileStorage::READ);
     if(!fs.isOpened()){
         cerr << "Failed to open intrinsics.yml file!" << endl;
         return;
@@ -79,7 +79,7 @@ void StereoCalib::readIntrinsicsFile(){
 }
 
 void StereoCalib::readExtrinsicsFile(){
-    FileStorage fs("/home/nicolas/repository/StereoVisionJetsonTK1/qt/StereoCUDA_v4/config/extrinsics.yml", FileStorage::READ);
+    FileStorage fs("../config/extrinsics.yml", FileStorage::READ);
     if(!fs.isOpened()){
         cerr << "Failed to open extrinsics.yml file!" << endl;
         return;
@@ -115,7 +115,7 @@ void StereoCalib::createKMatrix(){
   ** [ 0  0  -1/Tx 	(cx-cx')/Tx]
   ***/
 void StereoCalib::readQMatrix(){
-    FileStorage fs("/home/nicolas/repository/StereoVisionJetsonTK1/qt/StereoCUDA_v4/config/Q.yml", FileStorage::READ);
+    FileStorage fs("../config/Q.yml", FileStorage::READ);
 
     if(resolutionDesired.width == 640 && resolutionDesired.height == 480){
         if(!fs.isOpened()){
