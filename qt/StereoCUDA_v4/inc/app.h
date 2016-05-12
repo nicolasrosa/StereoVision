@@ -14,6 +14,7 @@ class App{
 public:
     App(const Params& p);
     void run();
+    void printHelp();
     void open();
     void init();
     void loop();

@@ -19,8 +19,11 @@ App::App(const Params& params) : p(params), running(false){
     gpu::printShortCudaDeviceInfo(gpu::getDevice());
 #endif
 
-    cout << "stereo_match_gpu sample\n";
-    cout << "\nControls:\n"
+}
+
+void App::printHelp(){
+    cout << "stereo_match_gpu sample\n"
+         << "\nControls:\n"
          << "\tesc - exit\n"
          << "\tp - print current parameters\n"
          << "\tg - convert source images into gray\n"
@@ -32,8 +35,8 @@ App::App(const Params& params) : p(params), running(false){
          << "\t4/r - increase/decrease level count (for BP and CSBP only)\n";
 }
 
-
 void App::run(){
+    App::printHelp();
     App::open();
     App::init();
     App::loop();
