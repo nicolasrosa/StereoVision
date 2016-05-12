@@ -2,7 +2,6 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
-CONFIG -= qt
 
 # Libraries
 INCLUDEPATH += /usr/local/include/opencv
@@ -10,9 +9,19 @@ LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu -I/usr/local/cuda/inclu
 
 # Sources
 SOURCES += \
-    stereocuda_v4.cpp \
-    params.cpp \
-    app.cpp
+    src/params.cpp \
+    src/app.cpp \
+    src/main.cpp \
+    src/StereoCalib.cpp \
+    src/StereoUtils.cpp
+
+# Headers
+HEADERS += \
+    inc/params.h \
+    inc/app.h \
+    inc/main.h \
+    inc/StereoCalib.h \
+    inc/StereoUtils.h
 
 # Binaries Location
 DESTDIR = bin
@@ -27,7 +36,7 @@ RCC_DIR = tmp/rc
 
 OTHER_FILES +=
 
-HEADERS += \
-    params.h \
-    app.h \
-    stereocuda.h
+DISTFILES += \
+    config/Q.yml \
+    config/intrinsics.yml \
+    config/extrinsics.yml
