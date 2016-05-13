@@ -101,11 +101,11 @@ void App::init(){
     }
 
     /* Initializing Stereo Matching Methods - Set Common Parameters */
-#ifdef x64
+    stereoBM_Init();
+    stereoSGBM_Init();
     stereoBMGPU_Init();
-    bm = StereoBM::create(16,9);
-    sgbm = StereoSGBM::create(0,16,3);
 
+#ifdef x64
     bp = cuda::createStereoBeliefPropagation(p.ndisp);
     csbp = cuda::createStereoConstantSpaceBP(p.ndisp);
 #endif
@@ -179,14 +179,18 @@ void App::calculateDisparitiesBM(){
 #endif
 
 #ifdef jetsonTK1
-    //TODO: Implementar na JetsonTK1
-
+    bm.operator ()(imageL_grey,imageR_grey,disp);
 #endif
 }
 
 void App::calculateDisparitiesSGBM(){
-    //TODO: Implementar na JetsonTK1
+#ifdef x64
     sgbm->compute(imageL,imageR,disp);
+#endif
+
+#ifdef jetsonTK1
+    sgbm.operator ()(imageL,imageR,disp);
+#endif
 }
 
 void App::calculateDisparitiesBMGPU(){
@@ -307,8 +311,8 @@ void App::printParams() const{
 #endif
 
 #ifdef jetsonTK1
-        cout << "win_size: " << bm.winSize << endl;
-        cout << "prefilter_sobel: " << bm.winSize << endl;
+        cout << "win_size: " << bm.state.obj->SADWindowSize << endl;
+        cout << "prefilter_sobel: " << bm.state.obj->SADWindowSize << endl;
 #endif
         break;
 
@@ -319,8 +323,8 @@ void App::printParams() const{
 #endif
 
 #ifdef jetsonTK1
-        cout << "win_size: " << sgbm.winSize << endl;
-        cout << "prefilter_sobel: " << sgbm.winSize << endl;
+        cout << "win_size: " << sgbm.SADWindowSize << endl;
+        cout << "prefilter_sobel: " << sgbm.SADWindowSize << endl;
 #endif
         break;
 
@@ -485,6 +489,55 @@ void App::handleKey(char key){
     }
 }
 
+void App::stereoBM_Init(){
+#ifdef x64
+
+    bm = StereoBM::create(16,9);
+
+    //    bm->setPreFilterSize(127);
+    //    bm->setPreFilterCap(61);
+    bm->setBlockSize(19);
+    //    bm->setMinDisparity(0);
+    bm->setNumDisparities(64);
+    bm->setTextureThreshold(4);
+    //    bm->setUniquenessRatio(0);
+    //    bm->setSpeckleWindowSize(0);
+    //    bm->setSpeckleRange(0);
+    //    bm->setDisp12MaxDiff(1);
+#endif
+
+#ifdef jetsonTK1
+    bm.state.obj->SADWindowSize = 65;
+    bm.state.obj->numberOfDisparities = 16;
+    bm.state.obj->uniquenessRatio = 15;
+#endif
+
+}
+
+
+void App::stereoSGBM_Init(){
+#ifdef x64
+    sgbm = StereoSGBM::create(0,16,3);
+
+    //    bm->setPreFilterSize(127);
+    //    bm->setPreFilterCap(61);
+    sgbm->setBlockSize(19);
+    //    bm->setMinDisparity(0);
+    sgbm->setNumDisparities(64);
+    sgbm->setTextureThreshold(4);
+    //    bm->setUniquenessRatio(0);
+    //    bm->setSpeckleWindowSize(0);
+    //    bm->setSpeckleRange(0);
+    //    bm->setDisp12MaxDiff(1);
+#endif
+
+#ifdef jetsonTK1
+    sgbm.SADWindowSize = 19;
+    sgbm.numberOfDisparities = 16;
+    sgbm.uniquenessRatio = 15;
+#endif
+
+}
 
 void App::stereoBMGPU_Init(){
     //TODO: Create initialization p.variables for the following variables

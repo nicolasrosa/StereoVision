@@ -24,6 +24,9 @@ public:
     void printParams() const;
 
     void captureFrames();
+
+    void stereoBM_Init();
+    void stereoSGBM_Init();
     void stereoBMGPU_Init();
 
     void StereoRectificationInit();
@@ -87,6 +90,8 @@ private:
     gpu::GpuMat d_disp;
 
     gpu::StereoBM_GPU bm_gpu;
+    StereoBM bm;
+    StereoSGBM sgbm;
 #endif
 
 };

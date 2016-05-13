@@ -2,8 +2,8 @@
 #define STEREOCUDA_H
 
 /* Deployment Platform */
-#define x64
-//#define jetsonTK1
+//#define x64
+#define jetsonTK1
 
 /* Enable Disparity Map Normalization */
 #define DISP_NORMALIZATION

@@ -37,4 +37,5 @@ RCC_DIR = tmp/rc
 OTHER_FILES += \
     config/extrinsics.yml \
     config/intrinsics.yml \
-    config/Q.yml
+    config/Q.yml \
+    README
