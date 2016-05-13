@@ -1,4 +1,4 @@
-#include "params.h"
+#include "inc/params.h"
 
 #include <iostream>
 #include <string>

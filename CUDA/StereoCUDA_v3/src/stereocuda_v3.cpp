@@ -1,6 +1,6 @@
 /* Libraries */
-#include "app.h"
-#include "params.h"
+#include "inc/app.h"
+#include "inc/params.h"
 
 using namespace cv;
 using namespace std;

@@ -10,10 +10,16 @@ LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu -I/usr/local/cuda/inclu
 
 # Sources
 SOURCES += \
-    stereocuda_v3.cpp \
-    params.cpp \
-    app.cpp \
-    StereoCalib.cpp
+    src/stereocuda_v3.cpp \
+    src/params.cpp \
+    src/app.cpp \
+    src/StereoCalib.cpp
+
+# Headers
+HEADERS += \
+    inc/params.h \
+    inc/app.h \
+    inc/StereoCalib.h
 
 # Binaries Location
 DESTDIR = bin
@@ -28,7 +34,4 @@ RCC_DIR = tmp/rc
 
 OTHER_FILES +=
 
-HEADERS += \
-    params.h \
-    app.h \
-    StereoCalib.h
+

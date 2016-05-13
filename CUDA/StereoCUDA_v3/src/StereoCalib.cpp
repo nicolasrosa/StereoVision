@@ -6,7 +6,7 @@
  */
 
 /* Libraries */
-#include "StereoCalib.h"
+#include "inc/StereoCalib.h"
 
 /* Constructor and Destructor */
 StereoCalib::StereoCalib(){

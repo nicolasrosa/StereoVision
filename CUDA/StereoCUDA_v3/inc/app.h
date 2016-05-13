@@ -30,7 +30,7 @@ public:
     void stereoBM_GPU_Init();
     void resizeFrames(Mat* frame1,Mat* frame2,Size resolution);
     void videoLooper();
-
+	
     void startClock();
     void stopClock();
 
@@ -45,17 +45,16 @@ private:
     bool isVideoFile;
     bool isImageFile;
 
-    Ptr<cuda::StereoBM> bm;
-    Ptr<cuda::StereoBeliefPropagation> bp;
-    Ptr<cuda::StereoConstantSpaceBP> csbp;
-
     VideoCapture capR;
-    VideoCapture capL;
-
-    Mat imageL_src, imageR_src;
-    Mat imageL, imageR;
+	VideoCapture capL;
+	
+	Mat imageL_src, imageR_src;
+	Mat imageL, imageR;
     cuda::GpuMat d_imageL, d_imageR;
 
+	Ptr<cuda::StereoBM> bm;
+    Ptr<cuda::StereoBeliefPropagation> bp;
+    Ptr<cuda::StereoConstantSpaceBP> csbp;
     int64 clockInitial;
     int64 d;
     double f;
