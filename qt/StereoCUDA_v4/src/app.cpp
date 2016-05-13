@@ -268,7 +268,7 @@ void App::loop(){
 
         timer1.stopClock();
         timer1.calculateFPS();
-        //timer1.printElapsedTime();
+        timer1.printElapsedTime();
 
         /* Normalization */
 #ifdef DISP_NORMALIZATION
@@ -496,9 +496,9 @@ void App::stereoBM_Init(){
 
     //    bm->setPreFilterSize(127);
     //    bm->setPreFilterCap(61);
-    bm->setBlockSize(19);
+    bm->setBlockSize(15);
     //    bm->setMinDisparity(0);
-    bm->setNumDisparities(64);
+    bm->setNumDisparities(16);
     bm->setTextureThreshold(4);
     //    bm->setUniquenessRatio(0);
     //    bm->setSpeckleWindowSize(0);
@@ -521,10 +521,10 @@ void App::stereoSGBM_Init(){
 
     //    bm->setPreFilterSize(127);
     //    bm->setPreFilterCap(61);
-    sgbm->setBlockSize(19);
+    sgbm->setBlockSize(15);
     //    bm->setMinDisparity(0);
-    sgbm->setNumDisparities(64);
-    sgbm->setTextureThreshold(4);
+    sgbm->setNumDisparities(16);
+    sgbm->setUniquenessRatio(15);
     //    bm->setUniquenessRatio(0);
     //    bm->setSpeckleWindowSize(0);
     //    bm->setSpeckleRange(0);
@@ -547,7 +547,7 @@ void App::stereoBMGPU_Init(){
 
     //    bm->setPreFilterSize(127);
     //    bm->setPreFilterCap(61);
-    bm_gpu->setBlockSize(19);
+    bm_gpu->setBlockSize(15);
     //    bm->setMinDisparity(0);
     bm_gpu->setNumDisparities(64);
     bm_gpu->setTextureThreshold(4);
