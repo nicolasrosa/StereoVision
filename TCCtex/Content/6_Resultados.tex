@@ -98,21 +98,40 @@ O botão \textit{Show Warning Edges} seleciona a opção na qual a interface gr�
 \section{Comparação de Desempenho: Desktop x BBB x Jetson TK1}
 \label{resultsComparison}
 
-Nesta seção, estão apresentados os resultados práticos das diferentes implementações dos métodos de visão estéreo nas plataformas abordadas. O Método utilizado foi o BM para a comparação das plataformas, visto que é o que requisita menor processamento dentre os outros métodos mais conhecidos (SGBM, BP, CSBP, AD Census, ...). A tabela \ref{resultsCPUGPU} abaixo, apresenta o resultado de desempenhos obtidos nas plataformas, apresentando comparativamente seu desempenho quando o processado utilizando CPU ou GPU/NEON (Caso da BBB).
+Nesta seção, estão apresentados os resultados práticos das diferentes implementações dos métodos de visão estéreo nas plataformas abordadas. Os Métodos utilizados foram BM, SGBM e BMGPU para a comparação das plataformas. O método BMGPU mostrou-se o de melhor performance, visto que é o que requisita menor processamento dentre os outros métodos mais conhecidos (SGBM, BP, CSBP, AD Census, ...) além de ser acelerado em hardware. A tabela \ref{resultsCPUGPU} abaixo, apresenta o resultado de desempenhos obtidos nas plataformas, apresentando comparativamente seu desempenho quando o processado utilizando CPU ou GPU/NEON (Caso da BBB). Com relação à configuração utilizada para a realização dos teste, utilizou-se uma resolução de 640x480, um tamanho média da janela usada para combinar blocos de pixels (\textit{SADWindowSize}) de 15 e um tamanho da gama de disparidades (\textit{NumberOfDisparities}) igual à 16, como pode ser observado na tabela \ref{teste_values}. O critério de escolha desses valores foi dado pelo balanço entre performance e qualidade do mapa de disparidades gerado, isto é, um mapa que fosse denso (confiável) e permitisse a identificação correta dos obstáculos.
 
 \begin{table}[]
 \centering
-\caption{Desempenho atingido de cada plataforma utilizando o método de correspondências BM}
-\label{resultsCPUGPU}
-\begin{tabular}{c|c|c|ll}
-\cline{2-3}
-                                          & \textbf{CPU(FPS)} & \textbf{GPU/NEON(FPS)} &  &  \\ \cline{1-3}
-\multicolumn{1}{|c|}{\textbf{Desktop}}    & 1                 & 1                      &  &  \\ \cline{1-3}
-\multicolumn{1}{|c|}{\textbf{BBB}}        & 1                 & 1                      &  &  \\ \cline{1-3}
-\multicolumn{1}{|c|}{\textbf{Jetson TK1}} & 1                 & 1                      &  &  \\ \cline{1-3}
+\caption{Configuração utilizada para Avaliação de Performance}
+\label{teste_values}
+\begin{tabular}{|c|c|}
+\hline
+                    & Configuração \\ \hline
+Resolução           & 640x480      \\ \hline
+SADWindowSize       & 15           \\ \hline
+NumberOfDisparities & 16           \\ \hline
 \end{tabular}
 \end{table}
 
+\begin{table}[]
+\centering
+\caption{Desempenho atingido por cada plataforma dos Métodos Utilizados}
+\label{resultsCPUGPU}
+\begin{tabular}{|c|c|c|c|}
+\hline
+FPS       & BM & SGBM & BM\_GPU  \\ \hline
+Desktop   & 28 & 12   & 30       \\ \hline
+BBB       & 1  & -    & -        \\ \hline
+JetsonTK1 & 6  & 2    & 7$\sim$8 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.5]{./Resources/grafico_desempenho.pdf}
+ 	\caption{Gráfico - Comparação de Desempenho dos Métodos Estéreos para cada plataforma.}
+ 	\label{grafico_desempenho}
+\end{figure}
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Desktop}
@@ -122,7 +141,7 @@ Nesta seção, estão apresentados os resultados práticos das diferentes implem
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{BeagleBone Black(BBB)}
-\subsubsection{CPU2}
+\subsubsection{CPU}
 \subsubsection{NEON}
 
 

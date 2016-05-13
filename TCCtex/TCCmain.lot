@@ -9,7 +9,8 @@
 \contentsline {table}{\numberline {3.5}{\ignorespaces Especifica\IeC {\c c}\IeC {\~o}es - Asus Q550LF}}{45}{table.3.5}
 \contentsline {table}{\numberline {3.6}{\ignorespaces Vers\IeC {\~o}es utilizadas de CUDA e OpenCV}}{52}{table.3.6}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Desempenho atingido de cada plataforma utilizando o m\IeC {\'e}todo de correspond\IeC {\^e}ncias BM}}{60}{table.4.1}
+\contentsline {table}{\numberline {4.1}{\ignorespaces Configura\IeC {\c c}\IeC {\~a}o utilizada para Avalia\IeC {\c c}\IeC {\~a}o de Performance}}{60}{table.4.1}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Desempenho atingido por cada plataforma dos M\IeC {\'e}todos Utilizados}}{60}{table.4.2}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
