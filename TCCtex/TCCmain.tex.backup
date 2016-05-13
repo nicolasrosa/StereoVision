@@ -44,11 +44,10 @@
 \usepackage[titletoc]{appendix} 			% Pacote para organizar apêndices 
 
 
-
 %------------------------------------- Configurações de Página --------------------------------------
 %\topmargin -2.1cm
 %\oddsidemargin 0.5cm 
-%\evensidemargin 0.5cm 
+%\evensidemargin 0.5cm
 %\textwidth 15cm
 %\textheight 25.1cm
 	
@@ -63,7 +62,7 @@
 %------------------------------------- Adição dos Capítulos -----------------------------------------	
 \input{./Content/2_Introducao.tex}
 \input{./Content/3_EspecificacaoProjeto.tex}
-\input{b./Content/4_RevisaoBibliografica.tex}
+\input{./Content/4_RevisaoBibliografica.tex}
 \input{./Content/5_MateriaisMetodos.tex}
 \input{./Content/6_Resultados.tex}
 \input{./Content/7_Conclusao.tex}
@@ -94,5 +93,5 @@
 \annex
 \input{./Content/9_Anexos.tex}
 %------------------------------------- Término do Documento -----------------------------------------
-\end{document}    
+\end{document}
 	
