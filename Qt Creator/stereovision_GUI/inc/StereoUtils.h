@@ -25,21 +25,21 @@ public:
     ~Timer();
 
     /* Timing */
-    static void startClock(int64 *initial);
-    static void stopClock(int64 *final);
+    static void startClock(double *initial);
+    static void stopClock(double *final);
     void calculateFPS();
-    static void printElapsedTime(int64 initial,int64 final);
+    static void printElapsedTime(double initial,double final);
     void printFPS();
     int getFPS();
 
-    int64 clockInitial_loop;
-    int64 clockFinal_loop;
+    double clockInitial_loop;
+    double clockFinal_loop;
 
     /* Elapsed time calculating the disparities correspondenses */
-    int64 clockInitial_d;
-    int64 clockFinal_d;
+    double clockInitial_d;
+    double clockFinal_d;
 
-    int64 d;
+    double d;
     double f;
 
 private:

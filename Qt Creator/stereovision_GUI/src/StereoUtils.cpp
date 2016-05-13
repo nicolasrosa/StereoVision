@@ -13,7 +13,7 @@ StereoUtils::Timer::Timer(){}
 StereoUtils::Timer::Timer::~Timer(){}
 
 
-void StereoUtils::Timer::startClock(int64 *initial){
+void StereoUtils::Timer::startClock(double *initial){
     //lastTimer = clock();
     //clock_getTimer(CLOCK_REALTimer,&start);
 
@@ -21,7 +21,7 @@ void StereoUtils::Timer::startClock(int64 *initial){
 }
 
 
-void StereoUtils::Timer::stopClock(int64 *final){
+void StereoUtils::Timer::stopClock(double *final){
     *final = getTickCount();
 }
 
@@ -33,9 +33,9 @@ void StereoUtils::Timer::calculateFPS(){
 }
 
 
-void StereoUtils::Timer::printElapsedTime(int64 initial,int64 final){
-    int64 elapsed_Timer = final - initial;
-    cout << "t: " << elapsed_Timer << endl;
+void StereoUtils::Timer::printElapsedTime(double initial,double final){
+    double elapsedTime = ((final - initial)/getTickFrequency()); //Unit: Seconds
+    cout << "t: " << elapsedTime << endl;
 }
 
 

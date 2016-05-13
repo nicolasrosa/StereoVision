@@ -25,6 +25,7 @@ public:
     StereoDisparityMap(Reconstruction3D *ptr3D,StereoCalib *ptrC, int *ptrX,int *ptrY);
     ~StereoDisparityMap();
 
+    //void calculateDisparities();
     void computeDispDepthInformation();
 
     /* Pointers */

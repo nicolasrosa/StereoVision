@@ -174,9 +174,17 @@ void StereoCalib::setResolution(int width, int height){
     resolution.height = height;
 }
 
+void StereoCalib::setResolution(Size matrixSize){
+    resolution = matrixSize;
+}
+
 void StereoCalib::setResolutionDesired(int width, int height){
     resolutionDesired.width = width;
     resolutionDesired.height = height;
+}
+
+void StereoCalib::setResolutionDesired(Size matrixSize){
+    resolutionDesired = matrixSize;
 }
 
 Size StereoCalib::getResolution(){

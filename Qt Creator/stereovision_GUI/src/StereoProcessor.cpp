@@ -239,7 +239,7 @@ void StereoProcessor::captureFrames(){
     StereoUtils::Resizer::resizeFrames(&imageL[0],&imageR[0],calib.getResolutionDesired());
 }
 
-
+//TODO: Move to StereoDisparityMap.cpp
 void StereoProcessor::calculateDisparities(){
     /* Convert BGR images to Grey Scale */
     if(method == StereoProcessor::BM || method == StereoProcessor::BM_GPU){

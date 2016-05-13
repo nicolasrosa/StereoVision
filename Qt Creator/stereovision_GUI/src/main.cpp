@@ -69,5 +69,7 @@ void init_splash(int time){
 //FIXME: Arrumar o Constructor da classe StereoDisparityMap para Alocacao de Memoria das variaveis: disp_16S,disp_8U,disp_BGR
 //FIXME: Arrumar a Feature de mostrar distância nos métodos SGBM e BM_GPU.
 
+//TODO: Copy StereoUtils Timer from StereoCuda_v4
+//TODO: Copy the Identify file routine from StereoCuda_v4
 //TODO: Give Credit to Icon's Author: "Icon made by Freepik from www.flaticon.com"
 //TODO: Enable Slash when everything is finished.

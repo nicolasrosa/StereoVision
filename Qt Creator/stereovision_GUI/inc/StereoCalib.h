@@ -31,8 +31,10 @@ public:
     void calculateQMatrix();
     void createKMatrix();
 
-    void setResolution(int width,int height);
-    void setResolutionDesired(int width,int height);
+    void setResolution(int width, int height);
+    void setResolution(Size matrixSize);
+    void setResolutionDesired(int width, int height);
+    void setResolutionDesired(Size matrixSize);
 
     Size getResolution();
     Size getResolutionDesired();
