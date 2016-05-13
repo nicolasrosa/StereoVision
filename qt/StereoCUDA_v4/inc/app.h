@@ -13,20 +13,29 @@ using namespace cv;
 class App{
 public:
     App(const Params& p);
-    void run();
+
+	void run();
+
     void printHelp();
     void open();
     void init();
     void loop();
 
-    void handleKey(char key);
     void printParams() const;
+
+    void captureFrames();
     void stereoBMGPU_Init();
-    void resizeFrames(Mat* frame1,Mat* frame2,Size resolution);
+
     void StereoRectificationInit();
+    void StereoRectificationProcess();
+
+    void calculateDisparitiesBM();
+    void calculateDisparitiesSGBM();
+    void calculateDisparitiesBMGPU();
+
     void videoLooper();
-    void startClock();
-    void stopClock();
+    void handleKey(char key);
+
     string text(int precision) const;
 
     StereoCalib calib;
@@ -44,46 +53,42 @@ private:
     VideoCapture capL;
 
     Mat imageL, imageR;
-    Mat imageL_grey, imageR_grey;
+    Mat imageLr, imageRr;
+    Mat imageL_grey,imageR_grey;
 
     /* Rectification */
     Mat rmap[2][2];
 
     /* Disparity Map Declaration */
-    //FIXME: Inicializando da variável
+    //FIXME: Allocate Obj Memory:
     //cout << "imageL Size" << imageL.size() << endl;
     //Mat disp(imageL.size(), CV_8U);
-    Mat disp;
-
-
+    //Mat disp8U(imageL_grey.size(),CV_8U);
+    Mat disp,disp8U,dispBGR;
 
 #ifdef x64
     cuda::GpuMat d_imageL, d_imageR;
+
+    //TODO: Initialize Variable with imageL.size() like: cuda::GpuMat d_disp(imageL.size(), CV_16S);
+    //FIXME: Allocate Obj Memory: cuda::GpuMat d_disp8U(imageL_grey.size(),CV_8U);
+    cuda::GpuMat d_disp,d_disp8U,d_dispBGR;
 
     Ptr<StereoBM> bm;
     Ptr<StereoSGBM> sgbm;
     Ptr<cuda::StereoBM> bm_gpu;
     Ptr<cuda::StereoBeliefPropagation> bp;
     Ptr<cuda::StereoConstantSpaceBP> csbp;
-
-    //TODO: Initialize Variable with imageL.size() like: cuda::GpuMat d_disp(imageL.size(), CV_16S);
-    cuda::GpuMat d_disp;
-
 #endif
 
 #ifdef jetsonTK1
     gpu::GpuMat d_imageL, d_imageR;
 
-    gpu::StereoBM_GPU bm_gpu;
-
-    //TODO: Initialize Variable with imageL.size() like: gpu::GpuMat d_disp(imageL.size(), CV_16S);
+    //TODO: Allocate Obj Memory: gpu::GpuMat d_disp(imageL.size(), CV_16S);
     gpu::GpuMat d_disp;
+
+    gpu::StereoBM_GPU bm_gpu;
 #endif
 
-    double clockInitial;
-    double d;
-    double f;
-    double fps;
 };
 
 #endif // APP_H

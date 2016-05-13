@@ -4,6 +4,7 @@
 
 using namespace std;
 
+/* Constructor */
 App::App(const Params& params) : p(params), running(false){
     isVideoFile=false;
     isImageFile=false;
@@ -17,6 +18,13 @@ App::App(const Params& params) : p(params), running(false){
     gpu::printShortCudaDeviceInfo(gpu::getDevice());
 #endif
 
+}
+
+void App::run(){
+    App::printHelp();
+    App::open();    //t = 0.0157288
+    App::init();    //t = 0.0525973
+    App::loop();    //t = 0.0452023
 }
 
 void App::printHelp(){
@@ -33,16 +41,8 @@ void App::printHelp(){
          << "\t4/r - increase/decrease level count (for BP and CSBP only)\n\n";
 }
 
-void App::run(){
-    App::printHelp();
-    App::open();    //t = 0.0157288
-    App::init();    //t = 0.0525973
-    App::loop();    //t = 0.0452023
-}
-
 void App::open(){
     /* Identify the type of the input file. */
-    //TODO: Add Exception
     if (p.left.substr(p.left.find_last_of(".") + 1) == "avi") p.inputType = Params::AVI;
     else if(p.left.substr(p.left.find_last_of(".") + 1) == "jpg") p.inputType = Params::JPG;
     else if(p.left.substr(p.left.find_last_of(".") + 1) == "png") p.inputType = Params::PNG;
@@ -110,7 +110,7 @@ void App::init(){
     csbp = cuda::createStereoConstantSpaceBP(p.ndisp);
 #endif
 
-    printParams();
+    App::printParams();
 
     /* (4) Stereo Calibration */
     if(p.needCalibration){
@@ -158,81 +158,113 @@ void App::StereoRectificationInit(){
     initUndistortRectifyMap(calib.M2, calib.D2, calib.R2, calib.P2, p.getResolutionDesired(), CV_16SC2, rmap[1][0], rmap[1][1]);
 }
 
-void App::loop(){
-    while (running){
-        timer1.startClock();
-        switch (p.method){
-        case Params::BM:
-        case Params::BMGPU:
-            //FIXME: Fix Loop for Image Files
-            if(isVideoFile){
-                capL >> imageL;
-                capR >> imageR;
+void App::StereoRectificationProcess(){
 
-                resizeFrames(&imageL,&imageR,p.getResolutionDesired());
+    remap(imageL, imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
+    remap(imageR, imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
 
-                /* Stereo Rectification */
-                if(p.needCalibration){
-                    Mat imageLr, imageRr;
-                    remap(imageL, imageLr, rmap[0][0], rmap[0][1], INTER_LINEAR);
-                    remap(imageR, imageRr, rmap[1][0], rmap[1][1], INTER_LINEAR);
+    imageL = imageLr;
+    imageR = imageRr;
 
-                    imageL = imageLr;
-                    imageR = imageRr;
-                }
+}
 
-                /* Converts the new frames to grey */
-                cvtColor(imageL, imageL_grey, COLOR_BGR2GRAY);
-                cvtColor(imageR, imageR_grey, COLOR_BGR2GRAY);
+void App::captureFrames(){
+    capL >> imageL;
+    capR >> imageR;
+}
 
-                d_imageL.upload(imageL_grey);
-                d_imageR.upload(imageR_grey);
-            }
-
-            timer2.startClock();
+void App::calculateDisparitiesBM(){
 #ifdef x64
-            switch(p.method){
-            case Params::BM:
-                bm->compute(imageL_grey,imageR_grey,disp);
-                break;
-            case Params::SGBM:
-                sgbm->compute(imageL,imageR,disp);
-            case Params::BMGPU:
-                bm_gpu->compute(d_imageL, d_imageR, d_disp);
-                break;
-            }
+    bm->compute(imageL_grey,imageR_grey,disp);
 #endif
 
 #ifdef jetsonTK1
-            bm_gpu.operator ()(d_imageL, d_imageR, d_disp);
+    //TODO: Implementar na JetsonTK1
+
+#endif
+}
+
+void App::calculateDisparitiesSGBM(){
+    //TODO: Implementar na JetsonTK1
+    sgbm->compute(imageL,imageR,disp);
+}
+
+void App::calculateDisparitiesBMGPU(){
+
+#ifdef x64
+    bm_gpu->compute(d_imageL, d_imageR, d_disp);
 #endif
 
-            timer2.stopClock();
-            //timer2.printElapsedTime();
+#ifdef jetsonTK1
+    bm_gpu.operator ()(d_imageL, d_imageR, d_disp);
+#endif
+}
 
-            timer1.stopClock();
-            timer1.calculateFPS();
-            //timer1.printElapsedTime();
+void App::loop(){
+    //FIXME: Fix Loop for Image Files
+    while (running){
+        timer1.startClock();
+
+        /* Common Processes */
+        if(isVideoFile){
+            captureFrames();
+            StereoUtils::Resizer::resizeFrames(&imageL,&imageR,p.getResolutionDesired());
+
+            if(p.needCalibration){
+                StereoRectificationProcess();
+            }
+        }
+
+        /* Stereo Methods */
+        switch(p.method){
+        case Params::BM:
+            /* Converts the new frames to grey */
+            cvtColor(imageL, imageL_grey, COLOR_BGR2GRAY);
+            cvtColor(imageR, imageR_grey, COLOR_BGR2GRAY);
+
+            /* Starting Clock */
+            timer2.startClock();
+
+            /* Calculating Disparities */
+            calculateDisparitiesBM();
+
+            break;
+        case Params::BMGPU:
+            /* Converts the new frames to grey */
+            cvtColor(imageL, imageL_grey, COLOR_BGR2GRAY);
+            cvtColor(imageR, imageR_grey, COLOR_BGR2GRAY);
+
+            /* Upload to GPU */
+            d_imageL.upload(imageL_grey);
+            d_imageR.upload(imageR_grey);
+
+            /* Starting Clock */
+            timer2.startClock();
+
+            calculateDisparitiesBMGPU();
+
+            /* Download from GPU */
+            d_disp.download(disp);
+
             break;
 
         case Params::SGBM:
+            /* Start Clock */
+            timer2.startClock();
+
+            /* Calculating Disparities */
+            calculateDisparitiesSGBM();
+
             break;
         }
 
-        // Show results
-        d_disp.download(disp);
+        /* Stopping Timers */
+        timer2.stopClock();
+        //timer2.printElapsedTime();
 
-        /* TODO: Remover Depois */
-#ifdef x64
-        cuda::GpuMat d_disp8U(imageL_grey.size(),CV_8U);
-#endif
-
-#ifdef jetsonTK1
-        gpu::GpuMat d_disp8U(imageL.size(),CV_8U);
-#endif
-        Mat disp8U(imageL_grey.size(),CV_8U);
-        Mat dispBGR;
-        cuda::GpuMat d_dispBGR;
+        timer1.stopClock();
+        timer1.calculateFPS();
+        //timer1.printElapsedTime();
 
         /* Normalization */
 #ifdef DISP_NORMALIZATION
@@ -481,12 +513,6 @@ void App::stereoBMGPU_Init(){
 
 }
 
-void App::resizeFrames(Mat* frame1,Mat* frame2,Size resolution){
-    if(frame1->cols != 0 || !frame2->cols != 0){
-        resize(*frame1, *frame1, resolution, 0, 0, INTER_CUBIC);
-        resize(*frame2, *frame2, resolution, 0, 0, INTER_CUBIC);
-    }
-}
 
 void App::videoLooper(){
     frameCounter += 1;
