@@ -2,8 +2,11 @@
 #define STEREOCUDA_H
 
 /* Deployment Platform */
-//#define x64
-#define jetsonTK1
+#define x64
+//#define jetsonTK1
+
+/* Enable Disparity Map Normalization */
+#define DISP_NORMALIZATION
 
 /* Libraries */
 #include <iostream>
@@ -14,6 +17,7 @@
 
 #ifdef x64
 #include <opencv2/core/utility.hpp>
+#include <opencv2/opencv.hpp>
 #include <opencv2/cudastereo.hpp>
 #include <opencv2/cudaarithm.hpp>
 #include <opencv2/highgui.hpp>

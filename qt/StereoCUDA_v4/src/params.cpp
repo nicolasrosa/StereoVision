@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 Params::Params(){
-    method = BM;
+    method = BMGPU; //Default
     ndisp = 64;
     minDisparity = 0;
     needCalibration=false;

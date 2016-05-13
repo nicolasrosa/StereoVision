@@ -21,15 +21,17 @@ public:
 
     void handleKey(char key);
     void printParams() const;
-    void stereoBM_GPU_Init();
+    void stereoBMGPU_Init();
     void resizeFrames(Mat* frame1,Mat* frame2,Size resolution);
+    void StereoRectificationInit();
     void videoLooper();
     void startClock();
     void stopClock();
     string text(int precision) const;
 
     StereoCalib calib;
-    StereoUtils::Timer timer;
+    StereoUtils::Timer timer1;
+    StereoUtils::Timer timer2;
 
 private:
     Params p;
@@ -41,8 +43,11 @@ private:
     VideoCapture capR;
     VideoCapture capL;
 
-    Mat imageL_src, imageR_src;
     Mat imageL, imageR;
+    Mat imageL_grey, imageR_grey;
+
+    /* Rectification */
+    Mat rmap[2][2];
 
     /* Disparity Map Declaration */
     //FIXME: Inicializando da variável
@@ -50,10 +55,14 @@ private:
     //Mat disp(imageL.size(), CV_8U);
     Mat disp;
 
+
+
 #ifdef x64
     cuda::GpuMat d_imageL, d_imageR;
 
-    Ptr<cuda::StereoBM> bm;
+    Ptr<StereoBM> bm;
+    Ptr<StereoSGBM> sgbm;
+    Ptr<cuda::StereoBM> bm_gpu;
     Ptr<cuda::StereoBeliefPropagation> bp;
     Ptr<cuda::StereoConstantSpaceBP> csbp;
 
@@ -65,7 +74,7 @@ private:
 #ifdef jetsonTK1
     gpu::GpuMat d_imageL, d_imageR;
 
-    gpu::StereoBM_GPU bm;
+    gpu::StereoBM_GPU bm_gpu;
 
     //TODO: Initialize Variable with imageL.size() like: gpu::GpuMat d_disp(imageL.size(), CV_16S);
     gpu::GpuMat d_disp;

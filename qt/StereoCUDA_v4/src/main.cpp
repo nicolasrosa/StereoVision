@@ -11,7 +11,7 @@ bool help_showed = false;
 static void printHelp(){
     cout << "Usage: stereo_match_gpu\n"
          << "\t--left <left_view> --right <right_view> # must be rectified\n"
-         << "\t--method <stereo_match_method> # BM | BP | CSBP\n"
+         << "\t--method <stereo_match_method> # BM | SGBM | BMGPU | BP | CSBP\n"
          << "\t--ndisp <number> # number of disparity levels\n"
          << "\t--calib <bool> # Set 'true' or 'false' for enabling the Calibration.\n";
     help_showed = true;
@@ -55,6 +55,8 @@ Params Params::read(int argc, char** argv){
             p.right = argv[++i];
         else if (string(argv[i]) == "--method"){
             if (string(argv[i + 1]) == "BM") p.method = BM;
+            else if(string(argv[i + 1]) == "SGBM") p.method = SGBM;
+            else if(string(argv[i + 1]) == "BMGPU") p.method = BMGPU;
             else throw runtime_error("unknown stereo match method: " + string(argv[i + 1]));
             i++;
         }

@@ -25,25 +25,22 @@ public:
     ~Timer();
 
     /* Timing */
-    static void startClock(double *initial);
-    static void stopClock(double *final);
+    void startClock();
+    void stopClock();
     void calculateFPS();
-    static void printElapsedTime(double initial,double final);
+    void calculateElapsedTime();
+    void printElapsedTime();
     void printFPS();
-    int getFPS();
+    double getFPS() const;
 
-    double clockInitial_loop;
-    double clockFinal_loop;
-
-    /* Elapsed time calculating the disparities correspondenses */
-    double clockInitial_d;
-    double clockFinal_d;
+    double clockInitial;
+    double clockFinal;
 
     double d;
     double f;
+    double elapsedTime;
 
 private:
-//    struct timespec start,end;
     double fps;
 };
 
