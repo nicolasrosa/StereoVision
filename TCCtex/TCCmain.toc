@@ -53,5 +53,5 @@
 \contentsline {subsubsection}{CPU}{61}{section*.22}
 \contentsline {subsubsection}{GPU}{61}{section*.23}
 \contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o}{63}{chapter.5}
-\contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{69}{appendix.A}
-\contentsline {chapter}{\numberline {I}Anexo 1}{71}{appendix.A}
+\contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{71}{appendix.A}
+\contentsline {chapter}{\numberline {I}Anexo 1}{73}{appendix.A}
