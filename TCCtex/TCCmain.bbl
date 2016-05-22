@@ -194,6 +194,11 @@ NVIDIA.
 \newblock {Jetson TX1 Developer Kit}.
 \newblock \url{http://www.nvidia.com/object/jetson-tx1-dev-kit.html}.
 
+\bibitem{StereoARM}
+{Gian Marco Iodice; Media Processing Group; ARM}.
+\newblock {Real-time Dense Passive Stereo Vision: A Case Study in Optimizing
+  Computer Vision Applications Using OpenCL™ on ARM$^®$}, 2015.
+
 \bibitem{UEDA2011}
 Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.
 \newblock {3D Reconstruction and Point Cloud Rendering}, 2011.

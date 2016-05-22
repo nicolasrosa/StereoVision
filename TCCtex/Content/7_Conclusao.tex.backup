@@ -2,16 +2,6 @@
 % Conclusões: "fecha" com os objetivos? (respondem aos objetivos?) - aqui é que "se vende o peixe" - elas é que valorizam (ou não) o trabalho realizado.
 % Normalmente é uma parte do trabalho "um pouco desprezada", pois o autor já está "cansado....". Mas é aqui que realmente se mede se o trabalho tem ou não valor.
 % Contém o item Trabalhos futuros, que é uma orientação sobre as possibilidades de continuação do desenvolvimento do trabalho.
-
-%\begin{enumerate}
-%	\item Estudo e aplicação de técnicas de visão computacional para visão estéreo.
-%	\item Desenvolvimento de uma interface de apoio para o monitoramento de um veículo autônomo.
-%	\item Implementação de algoritmos de visão estéreo para Linux embarcado para aplicação em Quadricópteros.
-%	\item Comparativo de desempenho do algoritmo implementado em diferentes plataformas.
-%	\item Estudo e aplicação de métodos para a aceleração em hardware dos algoritmos implementados.
-%	\item Utilização da Plataforma ROS (Robot Operating System)	%
-%\end{enumerate}
-
 \chapter{Conclusão}
 \label{Conclusao}
 
@@ -24,21 +14,27 @@ Com relação ao monitoramento de um veículo autônomo, foi desenvolvida uma pl
 
 Diante deste impasse, duas providências foram cruciais para a continuidade do trabalho. A primeira foi a otimização das rotinas utilizadas, sendo essa uma tentativa para a melhora do desempenho geral dos métodos. A segunda foi a execução de uma ampla revisão bibliográfica, incluindo principalmente trabalhos que apresentassem comparativos de desempenho entre plataformas e que tivessem realizados algum tipo de aceleração por \textit{hardware}, sejam eles envolvendo paralelização de processos, implementação em FPGA ou utilizando a plataforma de computação paralela CUDA. Ao fim, a ultima alternativa foi tomada visto que a plataforma Jetson TK1 apresenta suporte à tecnologia CUDA.
 
-Com relação à utilização de uma plataforma embarcada em quadricóptero, a plataforma Jetson TK1 juntamente com o método BMGPU foi a melhor alternativa para a implementação em um sistema real, mesmo apresentando uma taxa de performance reduzida, era a melhor solução existente durante o período de desenvolvimento do trabalho. Vale ressaltar que as rotinas implementadas utilizaram os métodos estéreo presentes no OpenCV, isto é, não desenvolveu-se rotinas em programação CUDA, diretivas para a manipulação de dados em GPU. Deste modo, existe a possibilidade de que essas bibliotecas sejam otimizadas em novas versões do OpenCV ou que a NVIDIA atualize a versão do CUDA \textit{Toolkit}.
+Com relação à utilização de uma plataforma embarcada em quadricóptero, a plataforma Jetson TK1 juntamente com o método BMGPU foi a melhor alternativa para a implementação em um sistema real, mesmo apresentando uma taxa de performance reduzida, era a melhor solução existente durante o período de desenvolvimento do trabalho. Vale ressaltar que as rotinas implementadas utilizaram os métodos estéreo presentes no OpenCV, isto é, não desenvolveu-se rotinas em programação CUDA, diretivas para a manipulação de dados em GPU. Deste modo, existe a expectativa de que essas bibliotecas sejam otimizadas em novas versões do OpenCV ou que a NVIDIA atualize a versão do CUDA \textit{Toolkit}, reduzindo assim o tempo de execução.
 
-% TODO: Adicionar referência das especificações Jetson TX1
+Com relação às atividades futuras, a NVIDIA lançou recentemente uma nova plataforma - Jetson TX1 que apresenta um aumento expressivo de núcleos CUDA, aproximadamente 30\% em relação à versão anterior \cite{JetsonTX1}. A implementação do trabalho desenvolvido nesta nova plataforma é bastante válida e interessante, visto que existe a possibilidade da melhora de performance do sistema. O estudo de novas alternativas de aceleração em \textit{hardware} usando, por exemplo, FPGAs que possibilitam o desenvolvimento de arquiteturas totalmente especializadas para esta aplicação \cite{Barry2015}. Outra alternativa ainda mais recente, seria a utilização da tecnologia presente nos processadores gráficos Mali™ da ARM$^®$. Eles também permitem a aceleração em GPU, com um levado grau de especialização, através da utilização de programação paralela OpenCL \cite{StereoARM}. Ambas arquiteturas apoiam-se na utilização de \textit{pipelines}, as quais proporcionam que mais de um processo sejam executados comitantemente, reduzindo drasticamente o tempo para a execução de cada quadro. Embora a Jetson TK1 suporte a tecnologia CUDA, ela ainda é uma plataforma de desenvolvimento e de propósito geral, por conta disso, acredita-se que o desempenho das alternativas apresentadas sejam melhores.
 
-Com relação à atividades futuras, a NVIDIA lançou recentemente uma nova plataforma, Jetson TX1, a qual apresenta um aumento expressivo de núcleos CUDA, aproximadamente 30\% em relação à versão anterior \cite{JetsonTX1}. A implementação do trabalho desenvolvido nesta nova plataforma é bastante válida, dado a possibilidade de haver um aumento na taxa de processamento. O estudo de novas alternativas para a 
+Com relação à qualidade do mapa de disparidades, a câmera utilizada, FujiFil
+
+Solução para o problema seria a utilização de Câmeras que já forcenem o mapa de disparidades como
 
 
 
-% TODO: Atividades futuras, falar sobre SLAM, falar que atualmente sistema embarcado é a jetson é a melhor alternativa falar pra testar com a nova Jetson TX1, estudar novas alternativas de aceleração em hardware como por exemplo FPGA/ARM, falar que talvez o problema de processamento possa ser resolvido se utilizamos uma camera stereo que ja realize disponibilize o mapa de disparidades e a plataforma fique sómente pra realizar um pós processamento do mapa obtido. falar o quao inviavel eh utilizar a BBB pra aplicação. Falar sobre implementar as diretivas de GPU para um método que apresente maior confiança (pesquisar algo do tipo "SGBM_GPU")
+% TODO: Atividades futuras
+% Falar sobre SLAM e ROS
+
+
+ falar que talvez o problema de processamento possa ser resolvido se utilizamos uma camera stereo que ja realize disponibilize o mapa de disparidades e a plataforma fique sómente pra realizar um pós processamento do mapa obtido.
+ 
+ Falar sobre implementar as diretivas de GPU para um método que apresente maior confiança (pesquisar algo do tipo "SGBM_GPU")
 %http://www.geoengine.uni-stuttgart.de/forum/master/hailong_fu/Dense_matching_GPU_implementation_short_Hailong_Fu.pdf
 %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5606438)
 
 % TODO: Soluções Viaveis - Conclusoes mais importantes do trabalho
-% 1 - Por hora, a Jetson é a melhor alternativa pra a implementação de Visao Estéreo, visto que ela permite aceleração em hardware(GPU). Recentemente lancou uma nova versão Jetson TX1, seria interessante estudar o desempenho dela neste contexto.
-% 2 - Seria interessante estudar outras artiteturas de hardware como FPGA, e desenvolver um hardware totalmente especializado para esta aplicação. Acredita-se que o desemepnho seja melhor, pois a Jetson mesmo tendo a habilidade de aceleração em hardware, ainda é uma plataforma de desenvolvimento e não de aplicaçoes especializadas.
 % 3 - Outra Solução para o problema seria a utilziação de CÂmeras que já forcenem o mapa de disparidades como a camera BumbleBee(Checar se ela realmente tem o mapa de disparidades como saida) e a ZED. Entretanto, deve se preocupar com o peso dos equipamentos. 
 % Checar video: https://www.youtube.com/watch?v=n8YsrmxJgBQ
 
@@ -47,6 +43,16 @@ Com relação à atividades futuras, a NVIDIA lançou recentemente uma nova plat
 % http://on-demand.gputechconf.com/gtc/2015/posters/GTC_2015_Computer_Vision___Machine_Vision_21_P5332_WEB.pdf
 
 % 5 - Explicar pq da pequena diferenca de desempenho do Metodo BM e o Metodo BM_GPU na Jetson TK1
+
+
+%\begin{enumerate}
+%	\item Estudo e aplicação de técnicas de visão computacional para visão estéreo.
+%	\item Desenvolvimento de uma interface de apoio para o monitoramento de um veículo autônomo.
+%	\item Implementação de algoritmos de visão estéreo para Linux embarcado para aplicação em Quadricópteros.
+%	\item Comparativo de desempenho do algoritmo implementado em diferentes plataformas.
+%	\item Estudo e aplicação de métodos para a aceleração em hardware dos algoritmos implementados.
+%	\item Utilização da Plataforma ROS (Robot Operating System)	%
+%\end{enumerate}
 
 
 Atividades Futuras:
