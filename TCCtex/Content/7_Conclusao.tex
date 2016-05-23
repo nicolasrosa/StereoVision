@@ -19,6 +19,7 @@ Com relação à utilização de uma plataforma embarcada em quadricóptero, a p
 % TODO: Adicionar Referências para os links dos sites das câmeras
 Quanto à qualidade do mapa de disparidades, a câmera utilizada, FinePix 3D W3, mesmo sendo uma câmera comercial que não necessariamente precisa se preocupar com o perfeito alinhamento do \textit{Stereo Rig} e qualidade das lentes apresentou resultados satisfatórios. Com o devido processo de calibração foi capaz de capturar os vídeos utilizados para o desenvolvimento desse trabalho, além de cumprir todos os requisitos do projeto (Leve, \textit{Baseline} rígida, Taxa de quadros elevada).
 
+% TODO: Fazer Resumo Geral
 Em suma, 
 
 \section{Trabalhos Futuros}
@@ -27,10 +28,10 @@ Concluiu-se o trabalho desenvolvido apresentou bons resultados em diversos aspec
 
 No que se refere à atualização de plataformas, a NVIDIA lançou recentemente uma nova plataforma - Jetson TX1 que apresenta um aumento expressivo de núcleos CUDA, aproximadamente 30\% em relação à versão anterior \cite{JetsonTX1}. A implementação do trabalho desenvolvido nesta nova plataforma é bastante válida e interessante, visto que existe a possibilidade da melhora na performance do sistema. O estudo de novas alternativas de aceleração em \textit{hardware} usando, por exemplo, FPGAs que possibilitam o desenvolvimento de arquiteturas totalmente especializadas para esta aplicação \cite{Barry2015}. Outra alternativa ainda mais recente, seria a utilização da tecnologia presente nos processadores gráficos Mali™ da ARM \textregistered. Eles também permitem a aceleração em GPU, com um levado grau de especialização, através da utilização de programação paralela OpenCL \cite{StereoARM}. Ambas arquiteturas apoiam-se na utilização de \textit{pipelines}, as quais proporcionam que mais de um processo sejam executados comitantemente, o que reduz drasticamente o tempo para a execução de cada quadro. Embora a Jetson TK1 suporte a tecnologia CUDA, ela ainda é uma plataforma de desenvolvimento e de propósito geral, por conta disso, acredita-se que o desempenho das alternativas apresentadas sejam melhores.
 
-% No que diz respeito à atualização das câmeras, existem atualmente no mercado algumas câmeras que também cumprem todos os requisitos do projeto e poderia muito bem serem incorporadas. As câmeras estéro mais indicadas para esse tipo de aplicação são a \textit{Bumblebee 2}$^\textregistered$ da \textit{Point Grey Research}, ZED™ da \textit{StereoLabs} e \textit{DUO 3D} da \textit{Code Laboratories}. Cada qual possui sua especialidade: Alta taxa de quadros, Alta Resolução, Tamanho Pequeno, respectivamente. Atualmente, a StereoLab e a NVIDIA têm colaborado para o desenvolvimento de sistemas que utilizem a câmera ZED™ e as plataformas da família Jetson, o que realmente incentiva a comunidade de desenvolvedores optarem por essa solução. Isso é um indicativo que o caminho para o desenvolvimento de plataformas embarcadas utilizando visão estéreo será através da combinação de equipamentos dessas empresas.
+No que diz respeito à atualização das câmeras, existem atualmente no mercado algumas câmeras que também cumprem todos os requisitos do projeto e poderia muito bem serem incorporadas. As câmeras estéro mais indicadas para esse tipo de aplicação são a \textit{Bumblebee 2}\textregistered da \textit{Point Grey Research}, ZED™ da \textit{StereoLabs} e \textit{DUO 3D} da \textit{Code Laboratories}. Cada qual possui sua especialidade: Alta taxa de quadros, Alta Resolução, Tamanho Pequeno, respectivamente. Atualmente, a StereoLab e a NVIDIA têm colaborado para o desenvolvimento de sistemas que utilizem a câmera ZED™ e as plataformas da família Jetson, o que realmente incentiva a comunidade de desenvolvedores optarem por essa solução. Isso é um indicativo que o caminho para o desenvolvimento de plataformas embarcadas utilizando visão estéreo será através da combinação de equipamentos dessas empresas.
+
 
 % TODO: Adicionar referencia ao link: https://developer.nvidia.com/embedded/learn/success-stories/stereolabs
-
 % TODO: Atividades futuras
 
 % 1 - Falar sobre SLAM e ROS

@@ -354,7 +354,8 @@ howpublished={\url{http://www.ecsbdefesa.com.br/defesa/index.php?option=com_cont
 urldate = {2014-04-20},
 year = {Acesso em: 20 de Abril de 2016}
 }
-  
+
+
 @misc{BeagleBoardOrg,
 author = {BeagleBoard.org},
 booktitle = {BeagleBone Black},
@@ -367,7 +368,55 @@ year = {Acesso em: 20 de Abril de 2016}
 @misc{JetsonTK1,
 author = {NVIDIA},
 mendeley-groups = {TCC},
-title = {{Jetson TK1}},
+title = {{Jetson TK1 Developer Kit}},
 howpublished={\url{https://developer.nvidia.com/embedded/develop/hardware}},
 year={Acesso em: 20 de Abril de 2016}
+}
+
+
+@misc{JetsonTX1,
+author = {NVIDIA},
+mendeley-groups = {TCC},
+title = {{Jetson TX1 Developer Kit}},
+howpublished={\url{http://www.nvidia.com/object/jetson-tx1-dev-kit.html}},
+urldate = {Acesso em: 21 de Maio de 2016}
+}
+
+
+@inproceedings{Wang2011,
+abstract = {This document mainly outlines the procedures on implementation of control of S3C2440 based embedded Linux stepping motor. Such discussion is focused on hardware design method, driving program compilation and application program compilation. It also introduces the concept of stepping motor control and analyzes structure, compilation procedure and improvement of stepping motor driving program in embedded system. Application of S3C2440 and Linux 2.6.30 based driving program can realize various controls by ARM processor of stepping motor in embedded Linux system. ?? 2011 Published by Elsevier B.V.},
+author = {Wang, Shuai and Zhang, Heng and Tan, Han Qing and Jiang, Lin Ying},
+booktitle = {Energy Procedia},
+doi = {10.1016/j.egypro.2012.01.241},
+issn = {18766102},
+keywords = {ARM processor,Embedded system,Linux 2.6.30,Stepping motor},
+mendeley-groups = {TCC},
+number = {PART C},
+pages = {1541--1546},
+title = {{Implementation of step motor control under embedded linux based on S3C2440}},
+volume = {16},
+year = {2011}
+}
+
+
+@book{Yaghmour2008,
+author = {Yaghmour, Karim and Masters, Jon and Ben-Yossef, Gilad and Gerum, Philippe},
+isbn = {0596529686},
+mendeley-groups = {TCC},
+publisher = {O'Reilly Media},
+title = {{Building Embedded Linux Systems}},
+url = {http://www.amazon.com/Building-Embedded-Linux-Systems-Yaghmour/dp/0596529686{\%}3FSubscriptionId{\%}3D0JYN1NVW651KCA56C102{\%}26tag{\%}3Dtechkie-20{\%}26linkCode{\%}3Dxm2{\%}26camp{\%}3D2025{\%}26creative{\%}3D165953{\%}26creativeASIN{\%}3D0596529686},
+year = {2008}
+}
+
+
+@misc{StereoARM,
+abstract = {Passive stereo vision is a powerful visual sensing technique aimed at inferring depth without using any structured light. Nowadays, as it offers low cost and reliability solutions, it finds application in many real use cases, such as natural user interfaces, industrial automation, autonomous vehicles, and many more. Since stereo vision algorithms are extremely computationally expensive, resulting in very high CPU load, the aim of this presentation is to demonstrate the feasibility of this task on a low power mobile ARM{\textregistered} Mali™ GPU. In particular, the presentation focuses on a local stereo vision method based on a novel extension of census transform, which exploits the highly parallel execution feature of mobile Graphic Processing Units with OpenCL. The presentation shows also the approaches and the strategies used to optimize the OpenCL™ code in order to reach significant performance benefits on the GPU.},
+address = {Cambrigde, UK},
+author = {{Gian Marco Iodice; Media Processing Group; ARM}},
+file = {:home/nicolas/Desktop/Real-time Dense Passive Stereo Vision A Case Study in Optimizing Computer Vision Applications Using OpenCL on ARM Presentation.pdf:pdf},
+mendeley-groups = {TCC},
+number = {May},
+title = {{Real-time Dense Passive Stereo Vision: A Case Study in Optimizing Computer Vision Applications Using OpenCL™ on ARM®}},
+year = {2015}
 }

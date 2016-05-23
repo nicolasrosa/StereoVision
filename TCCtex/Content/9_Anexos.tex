@@ -4,16 +4,10 @@
 
 Os seguintes trechos de codigo foram incorporados ao projeto da interface grafica para a estacao-base. Duas funcionalidades foram adicionadas ao codigo. A primeira funcionalidade corresponde a parte de reconstrucao tridimensional e renderizacao da nuvem de pontos \cite{UEDA2011}. A segunda funcionalidade corresponde a parte de rastreamento do objeto desenvolvida por Kyle Hounslow \cite{Hounslow2013}. 
 
+
 \lstset {language=C++}
 \textbf{3DReconstruction.h}
-\begin{lstlisting}
-/*
- * 3DReconstruction.h
- *
- *  Created on: Oct 25, 2015
- *      Author: nicolasrosa
- */
-
+\begin{lstlisting}[basicstyle=\tiny]
 #ifndef RECONSTRUCTION_3D_H
 #define RECONSTRUCTION_3D_H
 
@@ -25,7 +19,9 @@ using namespace std;
 
 /* 3D Reconstruction Classes */
 template <class T>
-static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, Mat& destdisp, Mat& xyz, Mat& R, Mat& t, Mat& K, Mat& dist, Mat& mask, bool isSub);
+static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, 
+				 Mat& destdisp, Mat& xyz, Mat& R, Mat& t, 
+				 Mat& K, Mat& dist, Mat& mask, bool isSub);
 
 template <class T>
 static void fillOcclusionInv_(Mat& src, T invalidvalue);
@@ -44,7 +40,9 @@ public:
     /* 3D Reconstruction Functions */
     void eular2rot(double yaw,double pitch, double roll,Mat& dest);
     void lookat(Point3d from, Point3d to, Mat& destR);
-    void projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, Mat &destdisp, Mat &xyz, Mat &R, Mat &t, Mat &K, Mat &dist, bool isSub);
+    void projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, 
+			     Mat &destdisp, Mat &xyz, Mat &R, Mat &t,
+			     Mat &K, Mat &dist, bool isSub);
     void fillOcclusion(Mat& src, int invalidvalue, bool isInv);
 
 
@@ -72,7 +70,7 @@ public:
 \end{lstlisting}
 
 \textbf{trackObject.h}
-\begin{lstlisting}
+\begin{lstlisting}[basicstyle=\tiny]
 /*
  * trackObject.h
  *
@@ -107,7 +105,7 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed);
 \end{lstlisting}
 
 \textbf{3DReconstruction.cpp}
-\begin{lstlisting}
+\begin{lstlisting}[basicstyle=\tiny]
 /*
  * 3DReconstruction.cpp
  *
@@ -167,7 +165,9 @@ void Reconstruction3D::lookat(Point3d from, Point3d to, Mat& destR){
     eular2rot(yaw, pitch, 0,destR);
 }
 
-void Reconstruction3D::projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, Mat &destdisp, Mat &xyz, Mat &R, Mat &t, Mat &K, Mat &dist, bool isSub){
+void Reconstruction3D::projectImagefromXYZ(Mat &image, Mat &destimage, Mat &disp, 
+					   Mat &destdisp, Mat &xyz, Mat &R, Mat &t, 
+					   Mat &K, Mat &dist, bool isSub){
     Mat mask;
     if(mask.empty())mask=Mat::zeros(image.size(),CV_8U);
     if(disp.type()==CV_8U){
@@ -223,7 +223,9 @@ static void fillOcclusionInv_(Mat& src, T invalidvalue){
 }
 
 template <class T>
-static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, Mat& destdisp, Mat& xyz, Mat& R, Mat& t, Mat& K, Mat& dist, Mat& mask, bool isSub){
+static void projectImagefromXYZ_(Mat& image, Mat& destimage, Mat& disp, 
+				 Mat& destdisp, Mat& xyz, Mat& R, Mat& t, 
+				 Mat& K, Mat& dist, Mat& mask, bool isSub){
     if(destimage.empty())destimage=Mat::zeros(Size(image.size()),image.type());
     if(destdisp.empty())destdisp=Mat::zeros(Size(image.size()),disp.type());
 
@@ -432,7 +434,7 @@ static void fillOcclusion_(Mat& src, T invalidvalue){
 \end{lstlisting}
 
 \textbf{trackObject.cpp}
-\begin{lstlisting}
+\begin{lstlisting}[basicstyle=\tiny]
 /*
  * trackObject.cpp
  *
@@ -519,12 +521,3 @@ string intToString(int number){
 	return ss.str();
 }
 \end{lstlisting}
-
-%------------------------------------- Anexo 2 ------------------------------------------------------
-%\chapter{Anexo 2}
-%\label{Anexo2}
-%
-%Texto do Anexo 2.
-
-
-

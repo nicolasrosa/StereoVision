@@ -109,11 +109,11 @@ A primeira a ser utilizada e estudada é a plataforma aberta BeagleBone Black (B
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Jetson TK1}
 
-A segunda a ser utilizada e estudada é a plataforma Jetson TK1 produzida pela NVIDIA, figura \ref{jetson_tk1}. Essa plataforma conta com um processador de 32-bits Tegra K1 baseado na tecnologia ARM Cortex-A15. O motivo pelo qual esta plataforma foi escolhida é devido ao seu poder de processamento gráfico, visto que apresenta 192 núcleos gráficos, sendo assim adequada para aplicações envolvendo processamento de imagens. A tabela \ref{jetson_tk1_tab} apresenta as especificações da plataforma. Outro fator interessante desta plataforma é que ela oferece suporte à tecnologia CUDA, a qual será discutida mais adiante.
+A segunda a ser utilizada e estudada é a plataforma \textit{Jetson TK1} produzida pela NVIDIA, figura \ref{jetson_tk1}. Essa plataforma conta com um processador de 32-bits Tegra K1 baseado na tecnologia ARM Cortex-A15. O motivo pelo qual esta plataforma foi escolhida é devido ao seu poder de processamento gráfico, visto que apresenta 192 núcleos gráficos, sendo assim adequada para aplicações envolvendo processamento de imagens. A tabela \ref{jetson_tk1_tab} apresenta as especificações da plataforma. Outro fator interessante desta plataforma é que ela oferece suporte à tecnologia CUDA, a qual será discutida mais adiante.
 
 \begin{table}[]
 \centering
-\caption{Especificações - Jetson TK1}
+\caption{Especificações - \textit{Jetson TK1}}
 \label{jetson_tk1_tab}
 \begin{tabular}{|c|c|}
 \hline
@@ -131,7 +131,7 @@ A segunda a ser utilizada e estudada é a plataforma Jetson TK1 produzida pela N
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.10]{./Resources/jetson_tk1.jpg}
-	\caption{Plataforma de Desenvolvimento - Jetson TK1}
+	\caption{Plataforma de Desenvolvimento - \textit{Jetson TK1}}
 	\label{jetson_tk1}
 \end{figure}
 
@@ -299,7 +299,7 @@ Nessa seção será apresentado o processamento de imagens utilizado para a iden
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Aceleração em Hardware - \textit{Hardware Acceleration} - CUDA}
 
-Neste trabalho, utilizou-se diferentes versões desta API (\textit{Application Programming Interface}) para o desenvolvimento para \textit{Desktop} e Jetson TK1. Neste contexto, essas versões não oferecem nenhuma alteração visível, visto que não foi desenvolvido nenhum tipo de rotina especificamente para execução em GPU. Na verdade, utilizou-se as funções disponíveis na biblioteca OpenCV, as quais opcionalmente podem ser executadas pela CPU ou GPU. A tabela \ref{cudaopencv} informa as versões do pacote de ferramentas da plataforma CUDA e da biblioteca OpenCV utilizadas. 
+Neste trabalho, utilizou-se diferentes versões desta API (\textit{Application Programming Interface}) para o desenvolvimento para \textit{Desktop} e \textit{Jetson TK1}. Neste contexto, essas versões não oferecem nenhuma alteração visível, visto que não foi desenvolvido nenhum tipo de rotina especificamente para execução em GPU. Na verdade, utilizou-se as funções disponíveis na biblioteca OpenCV, as quais opcionalmente podem ser executadas pela CPU ou GPU. A tabela \ref{cudaopencv} informa as versões do pacote de ferramentas da plataforma CUDA e da biblioteca OpenCV utilizadas. 
 
 \begin{table}[]
 \centering
@@ -344,12 +344,12 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
     \end{enumerate}
   \item Instalando o JetPack L4T
 
-    Siga as instruções no manual de usuário do kit de desenvolvimento da Jetson TK1
+    Siga as instruções no manual de usuário do kit de desenvolvimento da \textit{Jetson TK1}
     \begin{enumerate}
       \item Baixe o guia de instruções no seguinte link e clique na aba "\textit{Install Guide}". Link: \url{https://developer.nvidia.com/embedded/jetpack}
       \item Siga as instruções do instalador do Jetpack L4T.
 
-      Uma informação que merece destaque é que o computador \textit{Host} e o dispositivo alvo (Jetson TK1) DEVEM estar conectados à mesma rede. Isso pode ser feito conectando:
+      Uma informação que merece destaque é que o computador \textit{Host} e o dispositivo alvo (\textit{Jetson TK1}) DEVEM estar conectados à mesma rede. Isso pode ser feito conectando:
       \begin{enumerate}
 	\item Máquina \textit{Host} e dispositivo alvo à mesma Intranet, no caso o dispositivo alvo tenha um endereço IP estático.
 	\begin{lstlisting}[basicstyle=\tiny]
@@ -381,8 +381,8 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
 
 
     \end{enumerate}
-  \item Instalando o OpenCV com Módulo GPU na Jetson TK1
+  \item Instalando o OpenCV com Módulo GPU na \textit{Jetson TK1}
 
-  Primeiramente, deve-se baixar e instalar o pacote de ferramentas CUDA, uma vez que é necessário para OpenCV. Cabe ao usuário decidir se deseja-se utilizar a biblioteca pré-compilada ou compilar a biblioteca do código-fonte. A primeira opção é a mais recomendada, visto que a biblioteca pré-compilada é a OpenCV4Tegra, uma versão otimizada em CPU e GPU do OpenCV para a Jetson TK1. A segunda opção é recomendada caso deseja-se adicionar módulos que não estão presentes na versão OpenCV4Tetra \cite{eLinuxJetsonOpenCV}. 
+  Primeiramente, deve-se baixar e instalar o pacote de ferramentas CUDA, uma vez que é necessário para OpenCV. Cabe ao usuário decidir se deseja-se utilizar a biblioteca pré-compilada ou compilar a biblioteca do código-fonte. A primeira opção é a mais recomendada, visto que a biblioteca pré-compilada é a OpenCV4Tegra, uma versão otimizada em CPU e GPU do OpenCV para a \textit{Jetson TK1}. A segunda opção é recomendada caso deseja-se adicionar módulos que não estão presentes na versão OpenCV4Tetra \cite{eLinuxJetsonOpenCV}. 
 
 \end{enumerate}

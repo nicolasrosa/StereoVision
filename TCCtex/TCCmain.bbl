@@ -189,10 +189,17 @@ Embedded~Linux Wiki.
 \newblock \url{http://elinux.org/Jetson/Installing_OpenCV}, Acesso em: 16 de
   março de 2016.
 
+\bibitem{ARMNEON}
+ARM Ltd.
+\newblock {NEON™}.
+\newblock \url{http://www.arm.com/products/processors/technologies/neon.php},
+  Acesso em: 23 de Maio de 2016.
+
 \bibitem{JetsonTX1}
 NVIDIA.
 \newblock {Jetson TX1 Developer Kit}.
-\newblock \url{http://www.nvidia.com/object/jetson-tx1-dev-kit.html}.
+\newblock \url{http://www.nvidia.com/object/jetson-tx1-dev-kit.html}, Acesso
+  em: 21 de Maio de 2016.
 
 \bibitem{StereoARM}
 {Gian Marco Iodice; Media Processing Group; ARM}.

@@ -98,7 +98,9 @@ O botão \textit{Show Warning Edges} seleciona a opção na qual a interface gr�
 \section{Comparação de Desempenho: Desktop x BBB x Jetson TK1}
 \label{resultsComparison}
 
-Nesta seção, estão apresentados os resultados práticos das diferentes implementações dos métodos de visão estéreo nas plataformas abordadas. Os Métodos utilizados foram BM, SGBM e BMGPU para a comparação das plataformas. O método BMGPU mostrou-se o de melhor performance, visto que é o que requisita menor processamento dentre os outros métodos mais conhecidos (SGBM, BP, CSBP, AD Census, ...) além de ser acelerado em hardware. A tabela \ref{resultsCPUGPU} abaixo, apresenta o resultado de desempenhos obtidos nas plataformas, apresentando comparativamente seu desempenho quando o processado utilizando CPU ou GPU/NEON (Caso da BBB). Com relação à configuração utilizada para a realização dos teste, utilizou-se uma resolução de 640x480, um tamanho média da janela usada para combinar blocos de pixels (\textit{SADWindowSize}) de 15 e um tamanho da gama de disparidades (\textit{NumberOfDisparities}) igual à 16, como pode ser observado na tabela \ref{teste_values}. O critério de escolha desses valores foi dado pelo balanço entre performance e qualidade do mapa de disparidades gerado, isto é, um mapa que fosse denso (confiável) e permitisse a identificação correta dos obstáculos.
+Nesta seção, estão apresentados os resultados práticos das diferentes implementações dos métodos de visão estéreo nas plataformas abordadas. Os Métodos utilizados foram BM, SGBM e BMGPU para a comparação das plataformas. O método BMGPU mostrou-se o de melhor performance, visto que é o que requisita menor processamento dentre os outros métodos mais conhecidos (SGBM, BP, CSBP, AD Census, ...) além de ser acelerado em hardware. A tabela \ref{resultsCPUGPU} abaixo, apresenta o resultado de desempenhos obtidos nas plataformas, apresentando comparativamente seu desempenho quando o processado utilizando CPU ou GPU/NEON (Caso da BBB). Com relação à configuração utilizada para a realização dos teste, utilizou-se uma resolução de 640x480, um tamanho média da janela usada para combinar blocos de pixels (\textit{SADWindowSize}) de 15 e um tamanho da gama de disparidades (\textit{NumberOfDisparities}) igual à 16, como pode ser observado na tabela \ref{teste_values}. O critério de escolha desses valores foi dado pelo balanço entre performance e qualidade do mapa de disparidades gerado, isto é, um mapa que fosse confiável e permitisse as corretas correspondências do mapa de disparidades.
+
+O gráfico da figura \ref{grafico_desempenho} apresenta o comparativo entre o desempenho de cada plataforma para os métodos estéreo BM, SGBM e BMGPU. O resultado da BBB para o método BM é muito inferior aos resultados obtidos nas demais plataformas. O teste para o método SGBM foi abortado, visto que naturalmente este método é um algoritmo mais complexo que o BM. Decorrente a isso, espera-se que sua performance seja inferior à um FPS. Segundo o manual da BBB, o processador ARM Cortex A8 apresenta suporte ao NEON™, o qual é um acelerador de ponto flutuante que utiliza instruções SIMD (\textit{Single instruction, Multiple Data}) para a aceleração de algoritmos de multimídia e processamento de sinais \cite{ARMNEON}. Os testes dos métodos estéreo na BBB utilizando essa tecnologia também não foram executados, pois sua implementação tomaria um tempo considerável e provavelmente não apresentaria um resultado expressivo. 
 
 \begin{table}[]
 \centering
@@ -122,26 +124,34 @@ NumberOfDisparities & 16           \\ \hline
 Quadros por Segundo (FPS)       & BM & SGBM & BM\_GPU  \\ \hline
 Desktop   & 28 & 12   & 30       \\ \hline
 BBB       & 1  & -    & -        \\ \hline
-JetsonTK1 & 6  & 2    & 7$\sim$8 \\ \hline
+Jetson TK1 & 6  & 2    & 7$\sim$8 \\ \hline
 \end{tabular}
 \end{table}
 
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.5]{./Resources/grafico_desempenho.pdf}
- 	\caption{Gráfico - Comparação de Desempenho dos Métodos Estéreos para cada plataforma.}
+ 	\caption{Gráfico - Comparação de Desempenho dos Métodos Estéreo para cada plataforma.}
  	\label{grafico_desempenho}
 \end{figure}
 
+% TODO: Descrever cada Item
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Desktop}
 \subsubsection{CPU}
+
+Primeiramente, as rotinas para execução em CPU foram implementadas no \textit{Desktop} e só então foram adaptadas para as plataformas embarcadas. Os valores de desempenho obtidos foram usados como referência para a comparação com os resultados acelerados por GPU e com as plataformas embarcadas. Como esperado, o SGBM mostrou-se mais lento que o BM, isso deve-se ao fato do algoritmo ser mais complexo por conta da análise global realizada (Mais detalhes em \ref{stereo_methods}). 
+
 \subsubsection{GPU}
 
+Como previsto, o desempenho do método BM acelerado em GPU é superior ao executado em CPU. Consequentemente, este resultado motivou a implementação do mesmo na plataforma \textit{Jetson TK1}, visto que sua implementação é bastante similar a em Desktop por conta de possuírem a mesma arquitetura de GPU (Kepler).  
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{BeagleBone Black(BBB)}
 \subsubsection{CPU}
+
+O resultado obtido para o método BM desmotivou qualquer outra implementação nesta plataforma. Dificilmente algum outro recurso de aceleração apresentaria um resultado que realizasse o processamento de imagens necessários com resposta em tempo real. permitisse a utilização de algoritmos de processamento de imagens para a resposta de 
+
 \subsubsection{NEON}
 
 

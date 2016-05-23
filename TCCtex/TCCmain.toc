@@ -43,13 +43,13 @@
 \contentsline {section}{\numberline {4.2}Compara\IeC {\c c}\IeC {\~a}o de Desempenho: Desktop x BBB x Jetson TK1}{60}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}Desktop}{61}{subsection.4.2.1}
 \contentsline {subsubsection}{CPU}{61}{section*.16}
-\contentsline {subsubsection}{GPU}{61}{section*.17}
-\contentsline {subsection}{\numberline {4.2.2}BeagleBone Black(BBB)}{61}{subsection.4.2.2}
-\contentsline {subsubsection}{CPU}{61}{section*.18}
-\contentsline {subsubsection}{NEON}{61}{section*.19}
-\contentsline {subsection}{\numberline {4.2.3}Jetson TK1}{61}{subsection.4.2.3}
-\contentsline {subsubsection}{CPU}{61}{section*.20}
-\contentsline {subsubsection}{GPU}{61}{section*.21}
+\contentsline {subsubsection}{GPU}{62}{section*.17}
+\contentsline {subsection}{\numberline {4.2.2}BeagleBone Black(BBB)}{62}{subsection.4.2.2}
+\contentsline {subsubsection}{CPU}{62}{section*.18}
+\contentsline {subsubsection}{NEON}{62}{section*.19}
+\contentsline {subsection}{\numberline {4.2.3}Jetson TK1}{62}{subsection.4.2.3}
+\contentsline {subsubsection}{CPU}{62}{section*.20}
+\contentsline {subsubsection}{GPU}{62}{section*.21}
 \contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o e Trabalhos Futuros}{63}{chapter.5}
 \contentsline {section}{\numberline {5.1}Conclus\IeC {\~a}o}{63}{section.5.1}
 \contentsline {section}{\numberline {5.2}Trabalhos Futuros}{64}{section.5.2}
