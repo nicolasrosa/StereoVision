@@ -13,7 +13,7 @@ Warning--can't use both volume and number fields in Wang2011
 Warning--there's a number but no volume in Monish2011
 You've used 35 entries,
             1791 wiz_defined-function locations,
-            658 strings with 10005 characters,
+            658 strings with 10002 characters,
 and the built_in function-call counts, 6654 in all, are:
 = -- 580
 > -- 270

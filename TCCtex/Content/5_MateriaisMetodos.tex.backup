@@ -19,7 +19,9 @@ Com relação aos equipamentos é possível classificá-los em três grupos dist
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Câmeras estéreo}
 
-O projeto já utilizou duas câmeras estéreo. Primeiramente, utilizou-se a \textit{webcam} Minoru (veja figura \ref{minoru}), visto que apresentava preço totalmente acessível e cumpria o requisito de realizar \textit{streaming} via USB. Deste modo, tornou-se um equipamento essencial para a implementação dos métodos para encontro de correspondências entre as câmeras. A tabela \ref{minoru_tab} apresenta as especificações da \textit{webcam}.
+As câmeras utilizadas para aplicações em visão estéreo apresentam uma série de requisitos para que seja possível desenvolver um sistema que seja facilmente embarcável e que gere um mapa de disparidades denso de qualidade, isto é, um mapa com elevado grau de detalhamento e com menor susceptibilidade a erros. Um dos requisitos que este trabalho exige é que \textit{Stereo Rig}, estrutura na qual as câmeras são fixadas, seja o mais alinhado possível. Vale ressaltar que o espaçamento das câmeras está estritamente relacionado com o espaçamento das lentes (\textit{Baseline}). Outro requisito é que essa mesma estrutura seja coerente com o tamanho do veículo e seja leve, consequentemente, diminui-se o esforço exigido pelo veículo, por exemplo, para alçar voo no caso de quadricópteros. Outro requisito é que as câmeras apresentem uma elevada taxa de captura de quadros e que sejam sincronizados, isto é, os quadros de ambas as câmeras sejam capturados no mesmo instante.
+
+O projeto utilizou duas câmeras estéreo. Primeiramente, utilizou-se a \textit{webcam} Minoru (veja figura \ref{minoru}), visto que apresentava preço totalmente acessível e cumpria o requisito de realizar \textit{streaming} via USB. Deste modo, tornou-se um equipamento essencial para a implementação dos métodos para encontro de correspondências entre as câmeras. A tabela \ref{minoru_tab} apresenta as especificações da \textit{webcam}.
 
 \begin{figure}[H]
 	\centering
@@ -88,7 +90,7 @@ A primeira a ser utilizada e estudada é a plataforma aberta BeagleBone Black (B
 \hline
 \textbf{Processador}           & 1GHz TI Sitara AM3359 ARM Cortex-A8			\\	\hline
 \textbf{RAM}                   & 512 MB DDR3L @ 400 MHz					\\	\hline
-\textbf{Armanezamento}         & 2 GB on-board eMMC, MicroSD				\\	\hline
+\textbf{Armazenamento}         & 2 GB on-board eMMC, MicroSD				\\	\hline
 \textbf{Sistemas Operacionais} & Angstrom (Default), Ubuntu, Android, dentre outros...	\\	\hline
 \textbf{Consumo de energia}    & 210-460 mA @ 5V					\\	\hline
 \textbf{Pinos de GPIO}         & 65/92 pinos						\\	\hline
@@ -118,8 +120,8 @@ A segunda a ser utilizada e estudada é a plataforma Jetson TK1 produzida pela N
 \textbf{Processador}           & NVIDIA 2.32GHz ARM quad-core Cortex-A15              \\	\hline
 \textbf{Processador Gráfico}   & NVIDIA Kepler "GK20a" GPU  with 192 SM3.2 CUDA cores \\	\hline
 \textbf{DRAM}                  & 2GB DDR3L 933MHz EMC x16 using 64-bit data width     \\	\hline
-\textbf{Armanezamento}         & 16GB fast eMMC 4.51 (routed to SDMMC4)               \\	\hline
-\textbf{Sistemas Operacionais} & Platforma 64-bit Linux Ubuntu 14.04                  \\	\hline
+\textbf{Armazenamento}         & 16GB fast eMMC 4.51 (routed to SDMMC4)               \\	\hline
+\textbf{Sistemas Operacionais} & Platform 64-bit Linux Ubuntu 14.04                   \\	\hline
 \textbf{Consumo de energia}    & 0.6W to 3W @ 12 V                                    \\	\hline
 \textbf{Pinos de GPIO}         & 7 x GPIO pins (1.8V)                                 \\	\hline
 \textbf{Periféricos}           & USB, mini-PCIe, SATA, SD-card, HDMI, audio           \\	\hline
@@ -137,7 +139,7 @@ A segunda a ser utilizada e estudada é a plataforma Jetson TK1 produzida pela N
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Notebook Asus Q550LF}
 
-A terceira plataforma utilizada é um \textit{Notebook} Asus Q550LF, ela foi utilizada para o desenvolvimento de todos os programas contidos neste trabalho e para estudo de desempenho comparativo com as plataformas embarcadas. A interface desenvolvida, \textit{StereoVisionGUI}, foi desenvolvida para ser executada nesta máquina e em computadores com arquitetura x86 e x64. As espeficações desta plataforma estão apresentadas pela tabela \ref{asusQ550LF}.
+A terceira plataforma utilizada é um \textit{Notebook} Asus Q550LF, ela foi utilizada para o desenvolvimento de todos os programas contidos neste trabalho e para estudo de desempenho comparativo com as plataformas embarcadas. A interface desenvolvida, \textit{StereoVisionGUI}, foi desenvolvida para ser executada nesta máquina e em computadores com arquitetura x86 e x64. As especificações desta plataforma estão apresentadas pela tabela \ref{asusQ550LF}.
 
 \begin{table}[]
 \centering
@@ -149,7 +151,7 @@ A terceira plataforma utilizada é um \textit{Notebook} Asus Q550LF, ela foi uti
 \textbf{CPU}             & Intel Core i7 (4th Gen) 4500U / 1.8~3.0 GHz                              \\ \hline
 \textbf{Number of Cores} & Dual-Core                                                                \\ \hline
 \textbf{Memory}          & DDR3 SDRAM 8 GB                                                          \\ \hline
-\multicolumn{2}{|c|}{\textbf{Espeficações de GPU}}                                                  \\ \hline
+\multicolumn{2}{|c|}{\textbf{Especificações de GPU}}                                                  \\ \hline
 \textbf{Chipset}         & NVIDIA                                                                   \\ \hline
 \textbf{Architecture}    & Kepler                                                                   \\ \hline
 \textbf{GPU}             & GK107 384 @ 837 MHz                                                      \\ \hline
@@ -298,7 +300,7 @@ Nessa seção será apresentado o processamento de imagens utilizado para a iden
 \subsection{Aceleração em Hardware - \textit{Hardware Acceleration}}
 \subsubsection{CUDA}
 
-Neste trabalho, utilizou-se diferentes versões desta plataforma para o desenvolvimento para \textit{Desktop} e Jetson TK1. Neste contexto, essas versões não oferencem nenhuma alteração visível, visto que não foi desenvolvido nenhum tipo de rotina espeficamente para execução em GPU. Na verdade, utilizou-se as funções disponíveis na biblioteca OpenCV, as quais opcionalmente podem ser executadas pela CPU ou GPU. A tabela \ref{cudaopencv} informa as versões do pacote de ferramentas da plataforma CUDA e da biblioteca OpenCV utilizadas. 
+Neste trabalho, utilizou-se diferentes versões desta API (\textit{Application Programming Interface}) para o desenvolvimento para \textit{Desktop} e Jetson TK1. Neste contexto, essas versões não oferecem nenhuma alteração visível, visto que não foi desenvolvido nenhum tipo de rotina especificamente para execução em GPU. Na verdade, utilizou-se as funções disponíveis na biblioteca OpenCV, as quais opcionalmente podem ser executadas pela CPU ou GPU. A tabela \ref{cudaopencv} informa as versões do pacote de ferramentas da plataforma CUDA e da biblioteca OpenCV utilizadas. 
 
 \begin{table}[]
 \centering
@@ -328,31 +330,31 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
       \item Clique \href{http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/jetpack_l4t/2.1/jetpack_l4t_install.htm}{aqui} para ir ser redirecionado para a página do pacote de desenvolvimento Jetpack L4T. Caso o link esteja quebrado, vá até o página da NVIDIA e procure pelo localização correta do pacote.  
 
       \item Na máquina \textit{Host} rodando Ubuntu, crie um novo diretório para armazenar os pacotes de instalação utilizando as seguintes linhas de comando.
-      
+
       \begin{lstlisting}[basicstyle=\tiny]
 	$ ubuntu@ubuntu:~$ cd /home/<user>
 	$ ubuntu@ubuntu:~/home/<user>$ mkdir flash
 	$ ubuntu@ubuntu:~/home/<user>$ cd flash
 	$ ubuntu@ubuntu:~/home/<user>/flash$ 
       \end{lstlisting}
-      
+
       Uma ação importante que merece destaque é baixar o arquivo JetPack-\${VERSION}.run dentro do diretório criado (o caminho NÃO DEVE conter espaços).
-      
+
       \item Dê permissão de execução para o arquivo baixado. 
       \begin{lstlisting}[basicstyle=\tiny]
 	$ ubuntu@ubuntu:~/home/<user>/flash$ chmod +x JetPack-${VERSION}.run
 	$ ubuntu@ubuntu:~/home/<user>/flash$ ./JetPack-${VERSION}.run
       \end{lstlisting}
-      
-      
+
+
     \end{enumerate}
   \item Instalando o JetPack L4T
-  
+
     Siga as instruções no manual de usuário do kit de desenvolvimento da Jetson TK1
     \begin{enumerate}
       \item Baixe o guia de instruções no seguinte link e clique na aba "\textit{Install Guide}". Link: \url{https://developer.nvidia.com/embedded/jetpack}
-      \item Sigua as instruções do instalador do Jetpack L4T.
-     
+      \item Siga as instruções do instalador do Jetpack L4T.
+
       Uma informação que merece destaque é que o computador \textit{Host} e o dispositivo alvo (Jetson TK1) DEVEM estar conectados à mesma rede. Isso pode ser feito conectando:
       \begin{enumerate}
 	\item Máquina \textit{Host} e dispositivo alvo à mesma Intranet, no caso o dispositivo alvo tenha um endereço IP estático.
@@ -371,7 +373,7 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
 	    pre-up ifconfig eth0 hw ether 00:01:02:03:05:09
 	    dns-nameservers  143.107.225.6 143.107.182.2 8.8.8.8
 	 \end{lstlisting}
-	 
+
 	 \item Máquina \textit{Host} e dispositivo alvo ao mesmo roteador. Neste caso, o dispositivo alvo DEVE ser capaz de encontrar o endereço IP por protocolo DHCP.
 	 \begin{lstlisting}[basicstyle=\tiny]
 	    ----------------------------------------------------
@@ -382,12 +384,11 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
 	    iface eth0 inet dhcp
 	 \end{lstlisting}
       \end{enumerate}
-     
-   
-     
+
+
     \end{enumerate}
   \item Instalando o OpenCV com Módulo GPU na Jetson TK1
-  
+
   Primeiramente, deve-se baixar e instalar o pacote de ferramentas CUDA, uma vez que é necessário para OpenCV. Cabe ao usuário decidir se deseja-se utilizar a biblioteca pré-compilada ou compilar a biblioteca do código-fonte. A primeira opção é a mais recomendada, visto que a biblioteca pré-compilada é a OpenCV4Tegra, uma versão otimizada em CPU e GPU do OpenCV para a Jetson TK1. A segunda opção é recomendada caso deseja-se adicionar módulos que não estão presentes na versão OpenCV4Tetra \cite{eLinuxJetsonOpenCV}. 
-  
+
 \end{enumerate}
