@@ -23,7 +23,7 @@
 \BOOKMARK [2][-]{subsection.3.2.1}{Cen\341rios}{section.3.2}% 23
 \BOOKMARK [2][-]{subsection.3.2.2}{Calibra\347\343o}{section.3.2}% 24
 \BOOKMARK [2][-]{subsection.3.2.3}{Processamento de Imagem}{section.3.2}% 25
-\BOOKMARK [2][-]{subsection.3.2.4}{Acelera\347\343o em Hardware - Hardware Acceleration}{section.3.2}% 26
+\BOOKMARK [2][-]{subsection.3.2.4}{Acelera\347\343o em Hardware - Hardware Acceleration - CUDA}{section.3.2}% 26
 \BOOKMARK [2][-]{subsection.3.2.5}{Jetson TK1 - Configura\347\343o da Plataforma}{section.3.2}% 27
 \BOOKMARK [0][-]{chapter.4}{Resultados}{}% 28
 \BOOKMARK [1][-]{section.4.1}{Interface Gr\341fica - StereoVisionGUI}{chapter.4}% 29

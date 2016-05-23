@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.3.14)  22 MAY 2016 19:29
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.3.14)  22 MAY 2016 23:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1774,12 +1774,12 @@ Package babel Info: Redefining portuges shorthand "|
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 305.
+               Default added (so using `tbp') on input line 304.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 323.
+(babel)             in language  on input line 317.
 
-Underfull \vbox (badness 3735) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
@@ -1789,17 +1789,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 326.
+(babel)             in language  on input line 320.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 326.
+(babel)             in language  on input line 320.
 [52 <./Resources/stereo_processor_steps2.png (PNG copy)>]
-Overfull \hbox (16.57059pt too wide) in paragraph at lines 341--342
+Overfull \hbox (16.57059pt too wide) in paragraph at lines 335--336
 []\T1/ptm/m/n/12 Uma ação im-por-tante que me-rece des-ta-que é bai-xar o ar-qu
 ivo JetPack-$VERSION.run
  []
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 345.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 339.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1807,9 +1807,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 366.
+(babel)             in language  on input line 363.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 366.
+(babel)             in language  on input line 363.
 [53]) (./Content/6_Resultados.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1840,7 +1840,7 @@ Package babel Info: Redefining portuges shorthand "|
 [55
 
 ]
-<./Resources/gui_showleftright_view.png, id=762, 1314.9125pt x 743.77875pt>
+<./Resources/gui_showleftright_view.png, id=760, 1314.9125pt x 743.77875pt>
 File: ./Resources/gui_showleftright_view.png Graphic file (type png)
 
 <use ./Resources/gui_showleftright_view.png>
@@ -1867,7 +1867,7 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 52.
 [56]
-<./Resources/gui_showdisparitymap_view.png, id=768, 1294.8375pt x 722.7pt>
+<./Resources/gui_showdisparitymap_view.png, id=766, 1294.8375pt x 722.7pt>
 File: ./Resources/gui_showdisparitymap_view.png Graphic file (type png)
 
 <use ./Resources/gui_showdisparitymap_view.png>
@@ -1880,7 +1880,7 @@ Overfull \hbox (9.33672pt too wide) in paragraph at lines 56--57
  []
 
 
-<./Resources/gui_show3dreconstruction_view.png, id=769, 1290.8225pt x 712.6625p
+<./Resources/gui_show3dreconstruction_view.png, id=767, 1290.8225pt x 712.6625p
 t>
 File: ./Resources/gui_show3dreconstruction_view.png Graphic file (type png)
  <use ./Resources/gui_show3dreconstruction_view.png>
@@ -1908,7 +1908,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 68.
 [57 <./Resources/gui_showleftright_view.png> <./Resources/gui_showdisparitymap_
 view.png>]
-<./Resources/gui_show_tracking_object_view.png, id=774, 1294.8375pt x 721.69624
+<./Resources/gui_show_tracking_object_view.png, id=772, 1294.8375pt x 721.69624
 pt>
 File: ./Resources/gui_show_tracking_object_view.png Graphic file (type png)
  <use ./Resources/gui_show_tracking_object_view.png>
@@ -1920,7 +1920,7 @@ Overfull \hbox (9.33672pt too wide) in paragraph at lines 72--73
  [][] 
  []
 
-<./Resources/gui_showdiffimage_view.png, id=775, 1291.82625pt x 721.69624pt>
+<./Resources/gui_showdiffimage_view.png, id=773, 1291.82625pt x 721.69624pt>
 File: ./Resources/gui_showdiffimage_view.png Graphic file (type png)
 
 <use ./Resources/gui_showdiffimage_view.png>
@@ -1948,7 +1948,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 84.
 [58 <./Resources/gui_show3dreconstruction_view.png> <./Resources/gui_show_track
 ing_object_view.png>]
-<./Resources/gui_showwarningedges_view.png, id=780, 1288.815pt x 714.67pt>
+<./Resources/gui_showwarningedges_view.png, id=778, 1288.815pt x 714.67pt>
 File: ./Resources/gui_showwarningedges_view.png Graphic file (type png)
 
 <use ./Resources/gui_showwarningedges_view.png>
@@ -1990,7 +1990,7 @@ LaTeX Warning: No positions in optional float specifier.
 
 pdfTeX warning: /usr/bin/pdflatex (file ./Resources/grafico_desempenho.pdf): PD
 F inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<./Resources/grafico_desempenho.pdf, id=787, 845.07724pt x 597.55246pt>
+<./Resources/grafico_desempenho.pdf, id=785, 845.07724pt x 597.55246pt>
 File: ./Resources/grafico_desempenho.pdf Graphic file (type pdf)
 
 <use ./Resources/grafico_desempenho.pdf>
@@ -2916,12 +2916,12 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 96.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 96.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 96.
 Package rerunfilecheck Info: File `TCCmain.out' has not changed.
-(rerunfilecheck)             Checksum: 6FA8BA8B3DE19D0AD75BD35D5A66A939;2747.
+(rerunfilecheck)             Checksum: 6597248E0BEC1442ACC5092E5C41B5BE;2754.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 96.
  ) 
 Here is how much of TeX's memory you used:
- 15573 strings out of 494963
- 225612 string characters out of 6179647
+ 15571 strings out of 494963
+ 225590 string characters out of 6179647
  384562 words of memory out of 5000000
  17631 multiletter control sequences out of 15000+600000
  87675 words of font info for 136 fonts, out of 8000000 for 9000
@@ -2937,10 +2937,10 @@ yr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on TCCmain.pdf (88 pages, 13826569 bytes).
+Output written on TCCmain.pdf (88 pages, 13826607 bytes).
 PDF statistics:
- 1669 PDF objects out of 1728 (max. 8388607)
- 1516 compressed objects within 16 object streams
- 783 named destinations out of 1000 (max. 500000)
+ 1667 PDF objects out of 1728 (max. 8388607)
+ 1514 compressed objects within 16 object streams
+ 781 named destinations out of 1000 (max. 500000)
  445 words of extra memory for PDF output out of 10000 (max. 10000000)
 
