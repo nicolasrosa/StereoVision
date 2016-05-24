@@ -113,7 +113,7 @@ A segunda a ser utilizada e estudada é a plataforma \textit{Jetson TK1} produzi
 
 \begin{table}[]
 \centering
-\caption{Especificações - Jetson TK1}
+\caption{Especificações - \textit{Jetson TK1}}
 \label{jetson_tk1_tab}
 \begin{tabular}{|c|c|}
 \hline
@@ -131,7 +131,7 @@ A segunda a ser utilizada e estudada é a plataforma \textit{Jetson TK1} produzi
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.10]{./Resources/jetson_tk1.jpg}
-	\caption{Plataforma de Desenvolvimento - Jetson TK1}
+	\caption{Plataforma de Desenvolvimento - \textit{Jetson TK1}}
 	\label{jetson_tk1}
 \end{figure}
 
@@ -281,16 +281,15 @@ Nessa seção será apresentado o processamento de imagens utilizado para a iden
 
 \textbf{Correspondência Estéreo:} Aplica-se os métodos para encontrar as correspondências entre as duas câmeras, gerando assim o mapa de disparidades.
 
-\textbf{Pré-filtragem:} Este passo, pode ser aplicado tanto nas imagens retificados ou no mapa de disparidades. Atualmente, aplica-se a operação morfológica de abertura e um filtro de Mediana sobre o mapa de disparidades. 
+\textbf{Filtragem:} Este passo, pode ser aplicado tanto nas imagens retificados ou no mapa de disparidades. Atualmente, aplica-se a operação morfológica de abertura e um filtro de Mediana sobre o mapa de disparidades. 
 
 \textbf{Limiarização por Distância:} Visto que a disparidade apresenta uma relação com a distância, aplica-se uma operação de limiarização. Deste modo, apenas os obstáculos a uma certa distância são segmentados.
 
-% TODO: Rever esse Tópico. Remover ou Deixar?
-\textbf{Identificação de Obstáculos:} Após o passo anterior, o objeto é identificado e sua posição é rastreada. Essa informação pode ser utilizada pelo sistema de controle da aeronave para manter distância do obstáculo identificado.
+\textbf{Identificação de Obstáculos:} Após o passo anterior, o objeto é identificado e sua posição é rastreada. Essa informação pode ser utilizada pelo sistema de controle da aeronave para manter distância do obstáculo identificado. Esta etapa encontra-se realçada na figura \ref{stereo_processor_steps}, pois o processo de segmentação e identificação de objetos varia conforme o tipo de obstáculo e as condições da imagem (claro, escuro, muito brilho, baixo contraste). Deste modo, uma árvore de opções surge a partir deste processo, todos com o intuito de contornar as adversidades presentes no ambiente.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.50]{./Resources/stereo_processor_steps2.png}
+	\includegraphics[scale=1.0]{./Resources/stereo_processor_steps3.pdf}
 	\caption{Etapas do Processamento de Imagens}
 	\label{stereo_processor_steps}
 \end{figure}
@@ -299,7 +298,7 @@ Nessa seção será apresentado o processamento de imagens utilizado para a iden
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Aceleração em Hardware - \textit{Hardware Acceleration} - CUDA}
 
-Neste trabalho, utilizou-se diferentes versões desta API (\textit{Application Programming Interface}) para o desenvolvimento para \textit{Desktop} e Jetson TK1. Neste contexto, essas versões não oferecem nenhuma alteração visível, visto que não foi desenvolvido nenhum tipo de rotina especificamente para execução em GPU. Na verdade, utilizou-se as funções disponíveis na biblioteca OpenCV, as quais opcionalmente podem ser executadas pela CPU ou GPU. A tabela \ref{cudaopencv} informa as versões do pacote de ferramentas da plataforma CUDA e da biblioteca OpenCV utilizadas. 
+Neste trabalho, utilizou-se diferentes versões desta API (\textit{Application Programming Interface}) para o desenvolvimento para \textit{Desktop} e \textit{Jetson TK1}. Neste contexto, essas versões não oferecem nenhuma alteração visível, visto que não foi desenvolvido nenhum tipo de rotina especificamente para execução em GPU. Na verdade, utilizou-se as funções disponíveis na biblioteca OpenCV, as quais opcionalmente podem ser executadas pela CPU ou GPU. A tabela \ref{cudaopencv} informa as versões do pacote de ferramentas da plataforma CUDA e da biblioteca OpenCV utilizadas. 
 
 \begin{table}[]
 \centering
@@ -313,8 +312,58 @@ Neste trabalho, utilizou-se diferentes versões desta API (\textit{Application P
 \end{tabular}
 \end{table}
 
+% TODO: Terminar
+% TODO: Referenciar https://github.com/facebook/fbcunn/blob/master/INSTALL.md
+% TODO: Referenciar http://blog.aicry.com/ubuntu-14-04-install-opencv-with-cuda/
+\subsubsection{Desktop - Instalação e Configuração}
+Abaixo, estão apresentadas as instruções necessárias para a instalação e a configuração do ambiente de desenvolvimento para que plataforma CUDA funcione corretamente. O processo seguinte processo também pode ser executado para a configuração do ambiente na \textit{Jetson TK1}. Entretanto, um processo muito mais intuitivo e recomendado para essa plataforma está apresentado na seção \ref{jetsonSetupCUDA}.
+
+\begin{enumerate}
+ \item Instalação da CUDA
+ 
+ Primeiramente, as seguintes instruções são somente compatíveis com máquinas com Ubuntu 14.04+ e com unidades de GPU da NVIDIA com capacidade de computação 3.5 ou maior. 
+ \begin{enumerate}
+  \item  Execute o seguinte comando:
+  
+\begin{lstlisting}[basicstyle=\tiny]
+  $ ubuntu@ubuntu:~$ sudo apt-­get install build­-essential
+\end{lstlisting}
+ 
+ 
+Caso, esteja utilizando uma máquina virtual é necessário que os seguintes comandos sejam executados:
+
+\begin{lstlisting}[basicstyle=\tiny]
+  $ ubuntu@ubuntu:~$ sudo apt-get update
+  $ ubuntu@ubuntu:~$ sudo apt-get install linux-generic
+\end{lstlisting}
+
+
+
+\item Download the CUDA .deb file for Linux Ubuntu 14.04 64-bit from this page: https://developer.nvidia.com/cuda-downloads
+
+It would be a file named similar this: $cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb$ Now, install it using:
+
+\item Execute os seguintes comandos:
+
+\begin{lstlisting}[basicstyle=\tiny]
+	sudo dpkg -i cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb
+sudo apt-get update
+sudo apt-get install cuda
+echo "export PATH=/usr/local/cuda/bin/:\$PATH; export LD_LIBRARY_PATH=/usr/local/cuda/lib64/:\$LD_LIBRARY_PATH; " >>~/.bashrc && source ~/.bashrc
+\end{lstlisting}
+
+\item Restart your computer
+ \end{enumerate}
+ 
+ 
+ \item Instalação do OpenCV com Suporte à CUDA
+ \item Configuração do Ambiente de Desenvolvimento
+\end{enumerate}
+
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Jetson TK1 - Configuração da Plataforma}
+\label{jetsonSetupCUDA}
 
 A execução das rotinas de visão estéreo com aceleração via GPU requisitam que a plataforma de desenvolvimento esteja corretamente configurada. Abaixo, encontra-se o tutorial para configurá-la para a operação desejada, isto é,basicamente, configurá-la para o correto funcionamento da CUDA e do OpenCV2. 
 
@@ -344,12 +393,12 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
     \end{enumerate}
   \item Instalando o JetPack L4T
 
-    Siga as instruções no manual de usuário do kit de desenvolvimento da Jetson TK1
+    Siga as instruções no manual de usuário do kit de desenvolvimento da \textit{Jetson TK1}
     \begin{enumerate}
       \item Baixe o guia de instruções no seguinte link e clique na aba "\textit{Install Guide}". Link: \url{https://developer.nvidia.com/embedded/jetpack}
       \item Siga as instruções do instalador do Jetpack L4T.
 
-      Uma informação que merece destaque é que o computador \textit{Host} e o dispositivo alvo (Jetson TK1) DEVEM estar conectados à mesma rede. Isso pode ser feito conectando:
+      Uma informação que merece destaque é que o computador \textit{Host} e o dispositivo alvo (\textit{Jetson TK1}) DEVEM estar conectados à mesma rede. Isso pode ser feito conectando:
       \begin{enumerate}
 	\item Máquina \textit{Host} e dispositivo alvo à mesma Intranet, no caso o dispositivo alvo tenha um endereço IP estático.
 	\begin{lstlisting}[basicstyle=\tiny]
@@ -381,8 +430,8 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
 
 
     \end{enumerate}
-  \item Instalando o OpenCV com Módulo GPU na Jetson TK1
+  \item Instalando o OpenCV com Módulo GPU na \textit{Jetson TK1}
 
-  Primeiramente, deve-se baixar e instalar o pacote de ferramentas CUDA, uma vez que é necessário para OpenCV. Cabe ao usuário decidir se deseja-se utilizar a biblioteca pré-compilada ou compilar a biblioteca do código-fonte. A primeira opção é a mais recomendada, visto que a biblioteca pré-compilada é a OpenCV4Tegra, uma versão otimizada em CPU e GPU do OpenCV para a Jetson TK1. A segunda opção é recomendada caso deseja-se adicionar módulos que não estão presentes na versão OpenCV4Tetra \cite{eLinuxJetsonOpenCV}. 
+  Primeiramente, deve-se baixar e instalar o pacote de ferramentas CUDA, uma vez que é necessário para OpenCV. Cabe ao usuário decidir se deseja-se utilizar a biblioteca pré-compilada ou compilar a biblioteca do código-fonte. A primeira opção é a mais recomendada, visto que a biblioteca pré-compilada é a OpenCV4Tegra, uma versão otimizada em CPU e GPU do OpenCV para a \textit{Jetson TK1}. A segunda opção é recomendada caso deseja-se adicionar módulos que não estão presentes na versão OpenCV4Tetra \cite{eLinuxJetsonOpenCV}. 
 
 \end{enumerate}

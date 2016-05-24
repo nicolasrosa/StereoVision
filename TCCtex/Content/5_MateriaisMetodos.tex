@@ -281,16 +281,15 @@ Nessa seção será apresentado o processamento de imagens utilizado para a iden
 
 \textbf{Correspondência Estéreo:} Aplica-se os métodos para encontrar as correspondências entre as duas câmeras, gerando assim o mapa de disparidades.
 
-\textbf{Pré-filtragem:} Este passo, pode ser aplicado tanto nas imagens retificados ou no mapa de disparidades. Atualmente, aplica-se a operação morfológica de abertura e um filtro de Mediana sobre o mapa de disparidades. 
+\textbf{Filtragem:} Este passo, pode ser aplicado tanto nas imagens retificados ou no mapa de disparidades. Atualmente, aplica-se a operação morfológica de abertura e um filtro de Mediana sobre o mapa de disparidades. 
 
 \textbf{Limiarização por Distância:} Visto que a disparidade apresenta uma relação com a distância, aplica-se uma operação de limiarização. Deste modo, apenas os obstáculos a uma certa distância são segmentados.
 
-% TODO: Rever esse Tópico. Remover ou Deixar?
-\textbf{Identificação de Obstáculos:} Após o passo anterior, o objeto é identificado e sua posição é rastreada. Essa informação pode ser utilizada pelo sistema de controle da aeronave para manter distância do obstáculo identificado.
+\textbf{Identificação de Obstáculos:} Após o passo anterior, o objeto é identificado e sua posição é rastreada. Essa informação pode ser utilizada pelo sistema de controle da aeronave para manter distância do obstáculo identificado. Esta etapa encontra-se realçada na figura \ref{stereo_processor_steps}, pois o processo de segmentação e identificação de objetos varia conforme o tipo de obstáculo e as condições da imagem (claro, escuro, muito brilho, baixo contraste). Deste modo, uma árvore de opções surge a partir deste processo, todos com o intuito de contornar as adversidades presentes no ambiente.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.50]{./Resources/stereo_processor_steps2.png}
+	\includegraphics[scale=1.0]{./Resources/stereo_processor_steps3.pdf}
 	\caption{Etapas do Processamento de Imagens}
 	\label{stereo_processor_steps}
 \end{figure}
@@ -313,8 +312,73 @@ Neste trabalho, utilizou-se diferentes versões desta API (\textit{Application P
 \end{tabular}
 \end{table}
 
+% TODO: Adicionar Referência ao fim da primeira frase: https://github.com/facebook/fbcunn/blob/master/INSTALL.md
+\subsubsection{Desktop - Instalação e Configuração}
+Abaixo, estão apresentadas as instruções necessárias para a instalação e a configuração do ambiente de desenvolvimento para que plataforma CUDA funcione corretamente . O seguinte processo também pode ser executado para a configuração do ambiente na \textit{Jetson TK1}. Entretanto, um processo muito mais intuitivo e recomendado para essa plataforma está apresentado na seção \ref{jetsonSetupCUDA}.
+
+\begin{enumerate}
+ \item Instalação da CUDA
+ 
+ Primeiramente, as seguintes instruções são compatíveis somente em máquinas com Ubuntu 14.04+ e com processadores gráficos da NVIDIA com capacidade de computação 3.5 ou maior. 
+ \begin{enumerate}
+  \item  Execute o seguinte comando:
+  
+\begin{lstlisting}[basicstyle=\tiny]
+  $ ubuntu@ubuntu:~$ sudo apt-­get install build­-essential
+\end{lstlisting}
+  
+Caso o usuário esteja utilizando uma máquina virtual, é necessário que os seguintes comandos sejam executados:
+
+\begin{lstlisting}[basicstyle=\tiny]
+  $ ubuntu@ubuntu:~$ sudo apt-get update
+  $ ubuntu@ubuntu:~$ sudo apt-get install linux-generic
+\end{lstlisting}
+
+\item Baixe o arquivo .deb da CUDA no seguinte link: \url{https://developer.nvidia.com/cuda-downloads}, e verifique se a versão do arquivo é correspondente ao sistemas operacional utilizado. Neste trabalho, utilizou-se o Linux Ubuntu 14.04 64-bit e o arquivo condizente chamava-se "cuda-repo-ubuntu1404-7-5-local\_7.5-18\_amd64.deb" e foi possível instalá-lo através dos seguintes comandos:
+
+\item Execute os seguintes comandos:
+
+\begin{lstlisting}[basicstyle=\tiny]
+$ ubuntu@ubuntu:~$ cd /home/<user>/Downloads
+$ ubuntu@ubuntu:~/home/<user>/Downloads$ sudo dpkg -i cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb
+$ ubuntu@ubuntu:~/home/<user>/Downloads$ sudo apt-get update
+$ ubuntu@ubuntu:~/home/<user>/Downloads$ sudo apt-get install cuda
+
+\end{lstlisting}
+
+\item Configure as variáveis do ambiente necessárias para o desenvolvimento em programação CUDA:
+ 
+\begin{lstlisting}[basicstyle=\tiny]
+$ ubuntu@ubuntu:~/home/<user>/Downloads$ nano ~/.bashrc
+
+-----------------------------------------------------------------------
+    Edite o arquivo /home/<user>/.bashrc e adicione o seguinte trecho:
+-----------------------------------------------------------------------
+# CUDA Environment Setup 
+# CUDA 6.5
+#export PATH=/usr/local/cuda-6.5/bin:$PATH
+#export LD_LIBRARY_PATH=/usr/local/cuda-6.5/lib64:$LD_LIBRARY_PATH
+
+# CUDA 7.5 (active)
+export PATH=/usr/local/cuda-7.5/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-7.5/lib64:$LD_LIBRARY_PATH
+
+$ ubuntu@ubuntu:~/home/<user>/Downloads$ source ~/.bashrc
+
+\end{lstlisting}
+
+\item Reinicie o computador.
+ \end{enumerate}
+  
+% TODO: Terminar
+% TODO: Adicionar Referência: http://blog.aicry.com/ubuntu-14-04-install-opencv-with-cuda/
+
+  \item Instalação do OpenCV com Suporte à CUDA
+\end{enumerate}
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Jetson TK1 - Configuração da Plataforma}
+\label{jetsonSetupCUDA}
 
 A execução das rotinas de visão estéreo com aceleração via GPU requisitam que a plataforma de desenvolvimento esteja corretamente configurada. Abaixo, encontra-se o tutorial para configurá-la para a operação desejada, isto é,basicamente, configurá-la para o correto funcionamento da CUDA e do OpenCV2. 
 

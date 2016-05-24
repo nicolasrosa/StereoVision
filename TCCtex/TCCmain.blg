@@ -13,16 +13,16 @@ Warning--can't use both volume and number fields in Wang2011
 Warning--there's a number but no volume in Monish2011
 You've used 36 entries,
             1791 wiz_defined-function locations,
-            665 strings with 10157 characters,
-and the built_in function-call counts, 6787 in all, are:
-= -- 592
+            666 strings with 10219 characters,
+and the built_in function-call counts, 6798 in all, are:
+= -- 595
 > -- 274
 < -- 9
 + -- 111
 - -- 75
 * -- 330
-:= -- 1045
-add.period$ -- 104
+:= -- 1048
+add.period$ -- 105
 call.type$ -- 36
 change.case$ -- 32
 chr.to.int$ -- 0
@@ -30,17 +30,17 @@ cite$ -- 44
 duplicate$ -- 300
 empty$ -- 736
 format.name$ -- 75
-if$ -- 1548
+if$ -- 1551
 int.to.chr$ -- 0
 int.to.str$ -- 36
 missing$ -- 21
-newline$ -- 179
+newline$ -- 180
 num.names$ -- 35
-pop$ -- 172
+pop$ -- 171
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 160
+skip$ -- 159
 stack$ -- 0
 substring$ -- 306
 swap$ -- 80
@@ -51,5 +51,5 @@ type$ -- 0
 warning$ -- 8
 while$ -- 65
 width$ -- 38
-write$ -- 366
+write$ -- 368
 (There were 8 warnings)

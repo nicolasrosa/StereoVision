@@ -87,12 +87,12 @@ Jos{\'{e}} Luiz~Boanova Filho.
 {Departamento de Controle do Espa{\c{c}}o A{\'{e}}reo da Aeron{\'{a}}utica}.
 \newblock {DECEA publica nova regulamenta{\c{c}}{\~{a}}o para voos de RPAS
   (drones)}.
-\newblock \url{http://www.decea.gov.br/?p=8465}, Acesso em: 06 de dezembro de
+\newblock \url{http://www.decea.gov.br/?p=8465}, Acesso em: 06 de Dezembro de
   2015.
 
 \bibitem{AAVC}
 {FLYAAVC. Autonomous Aerial Vehicle Competition}.
-\newblock \url{http://www.flyaavc.org/}, Acesso em: 09 de novembro de 2015.
+\newblock \url{http://www.flyaavc.org/}, Acesso em: 09 de Novembro de 2015.
 
 \bibitem{RobertLaganiere}
 Robert Laganière.
@@ -104,7 +104,7 @@ OpenCV {Development Team}.
 \newblock {Camera Calibration and 3D Reconstruction}.
 \newblock
   \url{http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html},
-  Acesso em: 30 de março de 2016.
+  Acesso em: 30 de Março de 2016.
 
 \bibitem{Hirschmuller2008}
 Heiko Hirschm{\"{u}}ller.
@@ -174,7 +174,7 @@ John {E. Stone}, Michael {J. Hallock}, James {C. Phillips}, Joseph {R.
 NVIDIA.
 \newblock Cuda™ - plataforma paralela de computação.
 \newblock \url{http://www.nvidia.com.br/object/cuda_home_new_br.html}, Acesso
-  em: 03 de março de 2015.
+  em: 03 de Março de 2015.
 
 \bibitem{OpenCVCalibrationTutorial}
 OpenCV {Development Team}.
@@ -187,7 +187,7 @@ OpenCV {Development Team}.
 Embedded~Linux Wiki.
 \newblock {Installing OpenCV (including the GPU module) on Jetson TK1}.
 \newblock \url{http://elinux.org/Jetson/Installing_OpenCV}, Acesso em: 16 de
-  março de 2016.
+  Março de 2016.
 
 \bibitem{ARMNEON}
 ARM Ltd.
@@ -208,12 +208,14 @@ NVIDIA.
 
 \bibitem{UEDA2011}
 Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.
-\newblock {3D Reconstruction and Point Cloud Rendering}, 2011.
+\newblock {3D Reconstruction and Point Cloud Rendering}.
+\newblock \url{http://opencv.jp/opencv2-x-samples/point-cloud-rendering},
+  Acesso em: 05 de Dezembro de 2015.
 
 \bibitem{Hounslow2013}
 Kyle Hounslow.
 \newblock {Real-Time Object Tracking Using OpenCV}.
 \newblock \url{https://www.youtube.com/watch?v=bSeFrPrqZ2A}, Acesso em: 05 de
-  dezembro de 2015.
+  Dezembro de 2015.
 
 \end{thebibliography}

@@ -194,30 +194,13 @@ A seguir, encontra-se apresentado um pequeno resumo de como são os operadores d
 \end{enumerate}
 
 
-% TODO: Escrever sobre os dois tipos de pesquisa que existem atualmente: Fast Stereo vs. High-Confidence Stereo
-%Atualmente,
-
-% TODO: Escrever os melhores metódos estéreo que existem hoje: http://www.cvlibs.net/datasets/kitti/eval_stereo_flow.php?benchmark=stereo.
-
-% TODO: Escrever seção de Projeção Tridimensional(Opcional)
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-%\section{Projeção Tridimensional - \textit{3D Reprojection}}
-
-
-% TODO: Escrever seção de Reconhecimento de Objetos(Opcional)
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-%\section{Reconhecimento de Objeto - \textit{Object Recognition}}
-%\subsection{Segmentação - \textit{Image Segmentation}}
-
-%\subsection{Identificação - \textit{Object Identification}}
-
-
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Aplicações em Robótica}
 \label{aplicacoes_robotica}
 Nesta seção, serão apresentados alguns dos trabalhos que têm como principais sensores câmeras estéreo para a navegação autônoma em ambientes terrestre, aérea e subaquática.
 
 Nos dias de hoje, as empresas automobilísticas vem participando de uma verdadeira corrida tecnológica para o desenvolvimento de automóveis totalmente autônomos e economicamente viáveis. As universidades não ficaram para trás e também apresentam pesquisas envolvendo desenvolvimento de algoritmos de controle e sensores, tornando essa corrida ainda mais acirrada. Os resultados apresentados são realmente promissores, e concretizam cada vez mais essa realidade tida até então como distante. Na figura \ref{caminhao_autonomo}, é possível observar o projeto de caminhão autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP. O caminhão conta com diversos sensores, dentre eles câmeras estéreo, que identificam outros automóveis, pessoas e faixas de sinalização \cite{ShinzatoP}. 
+
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{figure}[H]
@@ -227,8 +210,10 @@ Nos dias de hoje, as empresas automobilísticas vem participando de uma verdadei
  	\label{caminhao_autonomo}
 \end{figure}
 
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \textit{Micro Air Vehicle} (MAVS) desenvolvido pelo \textit{Massachusetts Institute of Technology} (MIT) permite que pequenas aeronaves consigam navegar autonomamente e desviar de obstáculos voando a um velocidade de 30 mph (48 $km/h$). A figura \ref{mit_drones} apresenta o trabalho desenvolvido, o qual é um comparativo de desempenho de uma implementação em hardware utilizando \textit{Field-programmable gate array} (FPGA) e um processador ARM para processamento embarcado do método SGBM \cite{BarryMIT}.
+
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{figure}[H]
@@ -238,8 +223,10 @@ No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \tex
  	\label{mit_drones}
 \end{figure}
 
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 No caso de navegação autônoma para ambiente subaquático, um exemplo de \textit{autonomous underwater vehicle} (AUV) é o projeto desenvolvido pela Universidade espanhola de Girona (veja figura \ref{G500}). O trabalho propõe a utilização do método de Mapeamento e Localização Simultânea (SLAM), juntamente com câmera estéreo, para o reconhecimento do ambiente, aprimorando assim o erro de rastreamento dos objetos \cite{Nagappa2013}.
+
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{figure}[H]
@@ -248,6 +235,7 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
  	\caption{Veículo Submarino Autônomo - Girona 500}
  	\label{G500}
 \end{figure}
+
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{OpenCV}
