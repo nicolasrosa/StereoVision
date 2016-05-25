@@ -1,0 +1,11 @@
+%YAML:1.0
+preFilterSize: 50
+preFilterCap: 100
+SADWindowSize: 25
+minDisparity: 47
+numberOfDisparities: 3
+textureThreshold: 30
+uniquenessRatio: 0
+speckleWindowSize: 0
+speckleRange: 0
+disp12MaxDiff: 1
