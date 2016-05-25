@@ -46,7 +46,7 @@
 \contentsline {subsection}{\numberline {4.3.1}Desktop}{69}{subsection.4.3.1}
 \contentsline {subsubsection}{CPU}{69}{section*.17}
 \contentsline {subsubsection}{GPU}{70}{section*.18}
-\contentsline {subsection}{\numberline {4.3.2}BeagleBone Black(BBB)}{70}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.2}BeagleBone Black (BBB)}{70}{subsection.4.3.2}
 \contentsline {subsubsection}{CPU}{70}{section*.19}
 \contentsline {subsubsection}{NEON}{70}{section*.20}
 \contentsline {subsection}{\numberline {4.3.3}Jetson TK1}{70}{subsection.4.3.3}

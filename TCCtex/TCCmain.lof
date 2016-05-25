@@ -8,7 +8,7 @@
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Correspond\IeC {\^e}ncia de pontos hom\IeC {\'o}logos em um par de imagens est\IeC {\'e}reo. Imagem original retirada de \cite {Scharstein2003}.}}{36}{figure.2.5}
 \contentsline {figure}{\numberline {2.6}{\ignorespaces Rela\IeC {\c c}\IeC {\~a}o inversamente proporcional entre dist\IeC {\^a}ncia e disparidade. Imagem retirada de \cite {Bradski2008}}}{37}{figure.2.6}
 \contentsline {figure}{\numberline {2.7}{\ignorespaces Caminh\IeC {\~a}o Aut\IeC {\^o}nomo desenvolvido pelo Laborat\IeC {\'o}rio de Rob\IeC {\'o}tica M\IeC {\'o}vel - LRM - ICMC/USP em parceria com a Scania.}}{39}{figure.2.7}
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Plataformas experimentais de aeronaves com o Sistema Est\IeC {\'e}reo - FPGA e o Sistema Est\IeC {\'e}reo - Pushbroom. C\IeC {\^a}maras s\IeC {\~a}o montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas c\IeC {\'e}lulas. Imagem retirada de \cite {BarryMIT}.}}{39}{figure.2.8}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Plataformas experimentais de aeronaves com o Sistema Est\IeC {\'e}reo - FPGA e o Sistema Est\IeC {\'e}reo - Pushbroom. C\IeC {\^a}meras s\IeC {\~a}o montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas c\IeC {\'e}lulas. Imagem retirada de \cite {BarryMIT}.}}{39}{figure.2.8}
 \contentsline {figure}{\numberline {2.9}{\ignorespaces Ve\IeC {\'\i }culo Submarino Aut\IeC {\^o}nomo - Girona 500}}{40}{figure.2.9}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces 3D Webcam Minoru}}{44}{figure.3.1}
@@ -32,7 +32,7 @@
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Interface Gr\IeC {\'a}fica - Visualiza\IeC {\c c}\IeC {\~a}o da Imagem resultante da adi\IeC {\c c}\IeC {\~a}o da imagem \IeC {\`a} direita com a Imagem da C\IeC {\^a}mera Esquerda e Imagem resultante do processo de realce das bordas dos objetos em movimento pr\IeC {\'o}ximos ao ve\IeC {\'\i }culo}}{63}{figure.4.6}
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Cen\IeC {\'a}rio 1 - Comparativo do Mapa de Disparidades gerado pelos M\IeC {\'e}todos BM, SGBM e BMGPU, respectivamente. \IeC {\'A}rvore como principal obst\IeC {\'a}culo.}}{65}{figure.4.7}
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Cen\IeC {\'a}rio 2 - Comparativo do Mapa de Disparidades gerados pelos M\IeC {\'e}todos BM, SGBM e BMGPU, respectivamente. Bancadas, Cone de seguran\IeC {\c c}a como principais obst\IeC {\'a}culos.}}{66}{figure.4.8}
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Cen\IeC {\'a}rio 3 - Comparativo do Mapa de Disparidades gerados pelos M\IeC {\'e}todos BM, SGBM e BMGPU, respectivamente. Piloto e Ve\IeC {\'\i }culo A\IeC {\'e}reo (Quadric\IeC {\'o}ptero) como principais obst\IeC {\'a}culos.}}{67}{figure.4.9}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Cen\IeC {\'a}rio 3 - Comparativo do Mapa de Disparidades gerados pelos M\IeC {\'e}todos BM, SGBM e BMGPU, respectivamente. Piloto e Ve\IeC {\'\i }culo a\IeC {\'e}reo (Quadric\IeC {\'o}ptero) como principais obst\IeC {\'a}culos.}}{67}{figure.4.9}
 \contentsline {figure}{\numberline {4.10}{\ignorespaces Gr\IeC {\'a}fico - Compara\IeC {\c c}\IeC {\~a}o de Desempenho dos M\IeC {\'e}todos Est\IeC {\'e}reo para cada plataforma.}}{69}{figure.4.10}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
