@@ -183,6 +183,18 @@ OpenCV {Development Team}.
   \url{http://docs.opencv.org/2.4/doc/tutorials/calib3d/camera_calibration/camera_calibration.html},
   Acesso em: 27 de Abril de 2016.
 
+\bibitem{FacebookCUDA}
+Facebook.
+\newblock {CUDA Installation}.
+\newblock \url{https://github.com/facebook/fbcunn/blob/master/INSTALL.md},
+  Acesso em: 24 de Maio de 2016.
+
+\bibitem{Harasimowicz2015}
+Adam Harasimowicz.
+\newblock {Install OpenCV with CUDA}.
+\newblock \url{http://blog.aicry.com/ubuntu-14-04-install-opencv-with-cuda/},
+  Acesso em: 24 de Maio de 2016.
+
 \bibitem{eLinuxJetsonOpenCV}
 Embedded~Linux Wiki.
 \newblock {Installing OpenCV (including the GPU module) on Jetson TK1}.
@@ -195,6 +207,22 @@ ARM Ltd.
 \newblock \url{http://www.arm.com/products/processors/technologies/neon.php},
   Acesso em: 23 de Maio de 2016.
 
+\bibitem{Gerkey2010}
+Brian Gerkey, Richard Vaughan, Andrew Howard, and Nathan Koenig.
+\newblock {Player/Stage Project}.
+\newblock \url{http://playerstage.sourceforge.net/}, Acesso em: 25 de Maio de
+  2016.
+
+\bibitem{Gazebo}
+Open Source~Robotics Foundation.
+\newblock {Gazebo}.
+\newblock \url{http://www.gazebosim.org/}, Acesso em: 25 de Maio de 2016.
+
+\bibitem{ROS}
+Open Source~Robotics Foundation.
+\newblock {ROS - Robot Operating System}.
+\newblock \url{http://www.ros.org/}, Acesso em: 25 de Maio de 2016.
+
 \bibitem{JetsonTX1}
 NVIDIA.
 \newblock {Jetson TX1 Developer Kit}.
@@ -205,6 +233,31 @@ NVIDIA.
 {Gian Marco Iodice; Media Processing Group; ARM}.
 \newblock {Real-time Dense Passive Stereo Vision: A Case Study in Optimizing
   Computer Vision Applications Using OpenCL™ on ARM®}, 2015.
+
+\bibitem{bumblebee2}
+Point Grey~Research Inc.
+\newblock {Bumblebee{\textregistered}2}.
+\newblock
+  \url{https://www.ptgrey.com/bumblebee2-firewire-stereo-vision-camera-systems},
+  Acesso em: 24 de Maio de 2016.
+
+\bibitem{StereoLabsZED}
+StereoLabs.
+\newblock {ZED - 3D Camera for AR/VR and Autonomous Navigation}.
+\newblock \url{https://www.stereolabs.com/zed/specs/}, Acesso em: 24 de Maio de
+  2016.
+
+\bibitem{CodeLaboratoriesDUO}
+{Code Laboratories Inc.}
+\newblock {DUO 3D™}.
+\newblock \url{https://duo3d.com/}, Acesso em: 25 de Maio de 2016.
+
+\bibitem{NVIDIAStereoLabsPartenership}
+NVIDIA.
+\newblock {NVIDIA Jetson Partner Story: Stereolabs}.
+\newblock
+  \url{https://developer.nvidia.com/embedded/learn/success-stories/stereolabs},
+  Acesso em: 25 de Maio de 2016.
 
 \bibitem{UEDA2011}
 Etsuko; UEDA, Masanao; Koeda, Tsuyoshi; Suenaga, and Kentaro; Takemura.

@@ -312,54 +312,106 @@ Neste trabalho, utilizou-se diferentes versões desta API (\textit{Application P
 \end{tabular}
 \end{table}
 
-% TODO: Terminar
-% TODO: Referenciar https://github.com/facebook/fbcunn/blob/master/INSTALL.md
-% TODO: Referenciar http://blog.aicry.com/ubuntu-14-04-install-opencv-with-cuda/
+% TODO: Adicionar Referência ao fim da primeira frase: https://github.com/facebook/fbcunn/blob/master/INSTALL.md
 \subsubsection{Desktop - Instalação e Configuração}
-Abaixo, estão apresentadas as instruções necessárias para a instalação e a configuração do ambiente de desenvolvimento para que plataforma CUDA funcione corretamente. O processo seguinte processo também pode ser executado para a configuração do ambiente na \textit{Jetson TK1}. Entretanto, um processo muito mais intuitivo e recomendado para essa plataforma está apresentado na seção \ref{jetsonSetupCUDA}.
+Abaixo, estão apresentadas as instruções necessárias para a instalação e a configuração do ambiente de desenvolvimento para que plataforma CUDA funcione corretamente . O seguinte processo também pode ser executado para a configuração do ambiente na \textit{Jetson TK1}. Entretanto, um processo muito mais intuitivo e recomendado para essa plataforma está apresentado na seção \ref{jetsonSetupCUDA}.
 
 \begin{enumerate}
- \item Instalação da CUDA
+ \item Instalando a CUDA
  
- Primeiramente, as seguintes instruções são somente compatíveis com máquinas com Ubuntu 14.04+ e com unidades de GPU da NVIDIA com capacidade de computação 3.5 ou maior. 
+ Primeiramente, as seguintes instruções são compatíveis somente em máquinas com Ubuntu 14.04+ e com processadores gráficos da NVIDIA com capacidade de computação 3.5 ou maior. 
  \begin{enumerate}
   \item  Execute o seguinte comando:
   
 \begin{lstlisting}[basicstyle=\tiny]
   $ ubuntu@ubuntu:~$ sudo apt-­get install build­-essential
 \end{lstlisting}
- 
- 
-Caso, esteja utilizando uma máquina virtual é necessário que os seguintes comandos sejam executados:
+  
+Caso o usuário esteja utilizando uma máquina virtual, é necessário que os seguintes comandos sejam executados:
 
 \begin{lstlisting}[basicstyle=\tiny]
   $ ubuntu@ubuntu:~$ sudo apt-get update
   $ ubuntu@ubuntu:~$ sudo apt-get install linux-generic
 \end{lstlisting}
 
-
-
-\item Download the CUDA .deb file for Linux Ubuntu 14.04 64-bit from this page: https://developer.nvidia.com/cuda-downloads
-
-It would be a file named similar this: $cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb$ Now, install it using:
+\item Baixe o arquivo .deb da CUDA no seguinte link: \url{https://developer.nvidia.com/cuda-downloads}, e verifique se a versão do arquivo é correspondente ao sistemas operacional utilizado. Neste trabalho, utilizou-se o Linux Ubuntu 14.04 64-bit e o arquivo condizente chamava-se "cuda-repo-ubuntu1404-7-5-local\_7.5-18\_amd64.deb" e foi possível instalá-lo através dos seguintes comandos:
 
 \item Execute os seguintes comandos:
 
 \begin{lstlisting}[basicstyle=\tiny]
-	sudo dpkg -i cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb
-sudo apt-get update
-sudo apt-get install cuda
-echo "export PATH=/usr/local/cuda/bin/:\$PATH; export LD_LIBRARY_PATH=/usr/local/cuda/lib64/:\$LD_LIBRARY_PATH; " >>~/.bashrc && source ~/.bashrc
+$ ubuntu@ubuntu:~$ cd Downloads
+$ ubuntu@ubuntu:~/Downloads$ sudo dpkg -i cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb
+$ ubuntu@ubuntu:~/Downloads$ sudo apt-get update
+$ ubuntu@ubuntu:~/Downloads$ sudo apt-get install cuda
+
 \end{lstlisting}
 
-\item Restart your computer
- \end{enumerate}
+\item Configure as variáveis do ambiente necessárias para o desenvolvimento em programação CUDA:
  
- 
- \item Instalação do OpenCV com Suporte à CUDA
- \item Configuração do Ambiente de Desenvolvimento
-\end{enumerate}
+\begin{lstlisting}[basicstyle=\tiny]
+$ ubuntu@ubuntu:~/Downloads$ nano ~/.bashrc
 
+-----------------------------------------------------------------------
+    Edite o arquivo /home/<user>/.bashrc e adicione o seguinte trecho:
+-----------------------------------------------------------------------
+# CUDA Environment Setup 
+# CUDA 6.5
+#export PATH=/usr/local/cuda-6.5/bin:$PATH
+#export LD_LIBRARY_PATH=/usr/local/cuda-6.5/lib64:$LD_LIBRARY_PATH
+
+# CUDA 7.5 (active)
+export PATH=/usr/local/cuda-7.5/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-7.5/lib64:$LD_LIBRARY_PATH
+
+$ ubuntu@ubuntu:~/Downloads$ source ~/.bashrc
+\end{lstlisting}
+
+\item Reinicie o computador.
+ \end{enumerate}
+  
+% TODO: Terminar
+% TODO: Adicionar Referência: http://blog.aicry.com/ubuntu-14-04-install-opencv-with-cuda/
+
+  \item Instalando do OpenCV com Suporte à CUDA
+  \begin{enumerate}
+   \item Instalando os pacotes necessários
+   \begin{lstlisting}[basicstyle=\tiny]
+$ ubuntu@ubuntu:~$ sudo apt-get update
+
+$ ubuntu@ubuntu:~$ sudo apt-get install libopencv-dev build-essential checkinstall 
+		   cmake pkg-config yasm libtiff4-dev libjpeg-dev libjasper-dev 
+		   libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev 
+		   libxine-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev 
+		   libv4l-dev python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev 
+		   libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev 
+		   libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils
+$ ubuntu@ubuntu:~$ sudo add-apt-repository ppa:jon-severinsson/ffmpeg  
+$ ubuntu@ubuntu:~$ sudo apt-get update  
+$ ubuntu@ubuntu:~$ sudo apt-get install ffmpeg  
+$ ubuntu@ubuntu:~$ sudo apt-get install frei0r-plugins
+   \end{lstlisting}
+   
+   \item Clonando o repositório do OpenCV. Neste trabalho, utilizou-se a versão 3.0.0:
+   \begin{lstlisting}[basicstyle=\tiny]
+$ ubuntu@ubuntu:~$ mkdir OpenCV  
+$ ubuntu@ubuntu:~$ cd OpenCV
+$ ubuntu@ubuntu:~/OpenCV$ git clone https://github.com/Itseez/opencv.git  
+   \end{lstlisting}
+   
+   
+   \item Instalando e realizando o \textit{build} da biblioteca OpenCV. Este passo é de extrema importância, pois é aqui que configura-se o OpenCV para dar suporte à CUDA. Certifique-se que a arquitetura de GPU configurada na \textit{flag} CUDA\_GENERATION corresponda realmente a da sua plataforma:
+   \begin{lstlisting}[basicstyle=\tiny]
+   $ ubuntu@ubuntu:~/OpenCV$ mkdir build && cd build
+   $ ubuntu@ubuntu:~/OpenCV/build$ cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local 
+   -D WITH_TBB=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON 
+   -D WITH_QT=ON -D WITH_OPENGL=ON -D ENABLE_FAST_MATH=1 -D CUDA_FAST_MATH=1 -D WITH_CUBLAS=1 -D CUDA_GENERATION=Kepler ..
+    \end{lstlisting}
+    
+   \item Configurando o \textit{LIBRARY SEARCH PATH}:
+   
+  \end{enumerate}
+
+\end{enumerate}
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Jetson TK1 - Configuração da Plataforma}
@@ -375,18 +427,17 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
       \item Na máquina \textit{Host} rodando Ubuntu, crie um novo diretório para armazenar os pacotes de instalação utilizando as seguintes linhas de comando.
 
       \begin{lstlisting}[basicstyle=\tiny]
-	$ ubuntu@ubuntu:~$ cd /home/<user>
-	$ ubuntu@ubuntu:~/home/<user>$ mkdir flash
-	$ ubuntu@ubuntu:~/home/<user>$ cd flash
-	$ ubuntu@ubuntu:~/home/<user>/flash$ 
+	$ ubuntu@ubuntu:~$ mkdir flash
+	$ ubuntu@ubuntu:~$ cd flash
+	$ ubuntu@ubuntu:~/flash$ 
       \end{lstlisting}
 
       Uma ação importante que merece destaque é baixar o arquivo JetPack-\${VERSION}.run dentro do diretório criado (o caminho NÃO DEVE conter espaços).
 
       \item Dê permissão de execução para o arquivo baixado. 
       \begin{lstlisting}[basicstyle=\tiny]
-	$ ubuntu@ubuntu:~/home/<user>/flash$ chmod +x JetPack-${VERSION}.run
-	$ ubuntu@ubuntu:~/home/<user>/flash$ ./JetPack-${VERSION}.run
+	$ ubuntu@ubuntu:~/flash$ chmod +x JetPack-${VERSION}.run
+	$ ubuntu@ubuntu:~/flash$ ./JetPack-${VERSION}.run
       \end{lstlisting}
 
 
