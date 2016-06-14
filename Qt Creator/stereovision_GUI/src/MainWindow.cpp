@@ -1,13 +1,8 @@
-/* Project: reprojectImageTo3D - BlockMatching Algorithm
+/*
  * mainwindow.cpp
  *
  *  Created on: June, 2015
  *      Author: nicolasrosa
- *  Credits to:
- * Anonymous Author: Credits: http://opencv.jp/opencv2-x-samples/point-cloud-rendering
- * Kyle Hounslow - https://www.youtube.com/watch?v=bSeFrPrqZ2A
- * helicopters*.png - Icons made by Freepik from www.flaticon.com - Link: http://www.flaticon.com/free-icon/drone_90894#term=drone&page=1&position=11
- * spydrone*.png - Icon made by Aha-Soft from Noun Project
  */
 
 /* Libraries */
@@ -19,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     uiConfiguration();
     timerConfiguration();
 
+    printCredits();
     printHelp();
 
     stereo = new StereoProcessor(0);
@@ -114,8 +110,9 @@ void MainWindow::stereoVisionProcessInit(){
         cerr << "Number of Cols and Number of Rows equal to ZERO!" << endl;
     }else{
         /* Console Output */
-        cout << "Input Resolution(Width,Height): (" << stereo->calib.getResolution_width() << "," << stereo->calib.getResolution_height() << ")" << endl;
-        cout << "Desired Resolution(Width,Height): (" << stereo->calib.getResolutionDesired_width() << "," << stereo->calib.getResolutionDesired_height() << ")" << endl << endl;
+        cout << "------------------------------- Config Resolutions -----------------------------\n"
+             << "Input Resolution(Width,Height): (" << stereo->calib.getResolution_width() << "," << stereo->calib.getResolution_height() << ")\n"
+             << "Desired Resolution(Width,Height): (" << stereo->calib.getResolutionDesired_width() << "," << stereo->calib.getResolutionDesired_height() << ")\n\n";
 
         /* GUI */
 
@@ -282,7 +279,7 @@ void MainWindow::deleteStereoObj(){
 
 void MainWindow::printHelp(){
     /* Console Output */
-    cout << "--------------------------------------------------------------- Help Menu ---------------------------------------------------------------\n"
+    cout << "--------------------------------- Help Menu ------------------------------------\n"
          << "Run command line: ./stereovision_GUI\n"
          << "Keys:\n"
          << "'`' -\tShow Help\n"
@@ -293,7 +290,7 @@ void MainWindow::printHelp(){
          << "x-axis:\t'Key_Right'/'Key_Left' -> +x,-x\n"
          << "y-axis:\t'Key_Up'/'Key_Down' -> +y,-y\n"
          << "z-axis:\t'Key_Plus'/'Key_Minus' -> +z,-z\n"
-         << "---------------------------------------------------------------------------------------------------------------------------------------\n"
+         << "--------------------------------------------------------------------------------\n"
          << "\n";
 
     /* GUI */
@@ -313,6 +310,16 @@ void MainWindow::printHelp(){
              QString("\n"));
 }
 
+void MainWindow::printCredits(){
+   cout << "********************************************************************************\n"
+        << "* StereoVision Interface created by nicolasrosa,2015                           *\n"
+        << "* Credits to:                                                                  *\n"
+        << "* Unknown Author - http://opencv.jp/opencv2-x-samples/point-cloud-rendering    *\n"
+        << "* Kyle Hounslow - https://www.youtube.com/watch?v=bSeFrPrqZ2A                  *\n"
+        << "* Splash Intro - Icons made by Freepik from www.flaticon.com                   *\n"
+        << "********************************************************************************";
+
+}
 
 void MainWindow::openStereoSource(int inputNum){
     /* Create an object that decodes the input Video stream. */
