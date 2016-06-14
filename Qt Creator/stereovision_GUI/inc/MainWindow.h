@@ -36,6 +36,7 @@ public:
 
     void stereoVisionProcessInit();
 
+    void printCredits();
     void printHelp();
     void openStereoSource(int inputNum);
     void deleteStereoObj();
