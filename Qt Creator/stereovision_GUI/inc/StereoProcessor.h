@@ -101,9 +101,6 @@ public:
     /* Mouse Coordinates */
     int x,y;
 
-    /* Result */
-    Mat true_dmap;
-
 private:
     int inputNum;
     int numRows;
