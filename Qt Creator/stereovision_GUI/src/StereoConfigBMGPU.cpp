@@ -14,19 +14,18 @@ StereoConfigBMGPU::StereoConfigBMGPU(){}
 StereoConfigBMGPU::~StereoConfigBMGPU(){}
 
 void StereoConfigBMGPU::showConfigValues(){
-    cout << "------------------------------" << methodName << " Config----------------------------" << endl;
-    cout << "preFilterSize: "       << preFilterSize          << endl;
-    cout << "preFilterCap: "        << preFilterCap           << endl;
-    cout << "SADWindowSize: "       << SADWindowSize          << endl;
-    cout << "minDisparity: "        << minDisparity           << endl;
-    cout << "numberOfDisparities: " << numberOfDisparities    << endl;
-    cout << "textureThreshold: "    << textureThreshold       << endl;
-    cout << "uniquenessRatio: "     << uniquenessRatio        << endl;
-    cout << "speckleWindowSize: "   << speckleWindowSize      << endl;
-    cout << "speckleRange: "        << speckleRange           << endl;
-    cout << "disp12MaxDiff: "       << disp12MaxDiff          << endl;
-    cout << "stereoBMGPU.yml Read Successfully."  << endl << endl;
-    cout << "----------------------------------------------------------------------" << endl << endl;
+    cout << "--------------------------------- " << methodName << " Config --------------------------\n"
+         << "preFilterSize: "       << preFilterSize          << "\n"
+         << "preFilterCap: "        << preFilterCap           << "\n"
+         << "SADWindowSize: "       << SADWindowSize          << "\n"
+         << "minDisparity: "        << minDisparity           << "\n"
+         << "numberOfDisparities: " << numberOfDisparities    << "\n"
+         << "textureThreshold: "    << textureThreshold       << "\n"
+         << "uniquenessRatio: "     << uniquenessRatio        << "\n"
+         << "speckleWindowSize: "   << speckleWindowSize      << "\n"
+         << "speckleRange: "        << speckleRange           << "\n"
+         << "disp12MaxDiff: "       << disp12MaxDiff          << "\n\n"
+         << "stereoBMGPU.yml Read Successfully.\n\n";
 }
 
 
@@ -53,6 +52,4 @@ void StereoConfigBMGPU::readStereoBM_GPUConfigFile(){
 
     // Display
     showConfigValues();
-    cout << "stereoBM_GPU.yml Read Successfully."  << endl << endl;
-    //cout << "----------------------------------------------------------------------" << endl << endl;
 }

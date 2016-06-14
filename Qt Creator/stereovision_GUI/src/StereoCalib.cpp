@@ -32,7 +32,7 @@ StereoCalib::~StereoCalib(){}
   ** Returns:     Nothing
   ***/
 void StereoCalib::readCalibrationFiles(){
-    cout << "Calibration: ON" << endl;
+    cout << "Calibration: ON\n" << endl;
 
     readIntrinsicsFile();
     readExtrinsicsFile();
@@ -44,18 +44,18 @@ void StereoCalib::readCalibrationFiles(){
     }
 
     /* Console Output */
-    cout << "------------------------------Intrinsics------------------------------" << endl;
+    cout << "------------------------------ Intrinsics --------------------------------------" << endl;
     cout << "M1: " << endl << M1 << endl;
     cout << "D1: " << endl << D1 << endl;
     cout << "M2: " << endl << M2 << endl;
     cout << "D2: " << endl << D2 << endl << endl;
     cout << "intrinsics.yml Read Successfully."  << endl << endl;
 
-    cout << "------------------------------Extrinsics------------------------------" << endl;
+    cout << "------------------------------ Extrinsics --------------------------------------" << endl;
     cout << "R: " << endl << R << endl;
     cout << "T: " << endl << T << endl << endl;
-    cout << "extrinsics.yml Read Successfully."  << endl;
-    cout << "----------------------------------------------------------------------" << endl << endl;
+    cout << "extrinsics.yml Read Successfully.\n"  << endl;
+    cout << "--------------------------------------------------------------------------------" << endl << endl;
 }
 
 void StereoCalib::readIntrinsicsFile(){

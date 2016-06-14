@@ -98,7 +98,11 @@ void StereoDisparityMap::computeDispDepthInformation(){
     /* Forces the initialization of the 3DReconstruction Method for obtaining the Depth Values */
     cv::reprojectImageTo3D(disp_16S,view3D_ptr->depth,calib_ptr->Q);
 
-    float disparity = disp_16S.at<uchar>(*y_ptr,*x_ptr);
+    //TODO: Correct?
+    float disparity = disp_16S.at<float>(*y_ptr,*x_ptr);
+    //float disparity = true_dmap.at<float>(*y_ptr,*x_ptr);
+
+
     float depth = view3D_ptr->depth.at<Vec3f>(*y_ptr,*x_ptr)[2];
 
     /* Draw White Cross */

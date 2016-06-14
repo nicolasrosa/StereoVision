@@ -62,15 +62,14 @@ void StereoProcessor::readConfigFile(){
 
     fs.release();
 
-    cout << "------------------------------Config.yml------------------------------"    << endl;
-    cout << "Intrinsics Path: "             << calib.intrinsicsFileName           << endl;
-    cout << "Extrinsics Path: "             << calib.extrinsicsFileName           << endl;
-    cout << "Q Matrix Path: "               << calib.QmatrixFileName              << endl;
-    cout << "StereoBM Parameters Path:"     << cfgBM.StereoBMConfigFileName       << endl;
-    cout << "StereoSGBM Parameters Path:"   << cfgSGBM.StereoSGBMConfigFileName     << endl;
-    cout << "StereoBM_GPU Parameters Path:" << cfgBM_GPU.StereoBM_GPUConfigFileName   << endl;
-    cout << "Config.yml Read Successfully." << endl << endl ;
-    //cout << "----------------------------------------------------------------------"    << endl;
+    cout << "--------------------------------- Config.yml -----------------------------------"
+         << "Intrinsics Path: "             << calib.intrinsicsFileName                << "\n"
+         << "Extrinsics Path: "             << calib.extrinsicsFileName                << "\n"
+         << "Q Matrix Path: "               << calib.QmatrixFileName                   << "\n"
+         << "StereoBM Parameters Path: "     << cfgBM.StereoBMConfigFileName            << "\n"
+         << "StereoSGBM Parameters Path: "   << cfgSGBM.StereoSGBMConfigFileName        << "\n"
+         << "StereoBM_GPU Parameters Path: " << cfgBM_GPU.StereoBM_GPUConfigFileName    << "\n\n"
+         << "Config.yml Read Successfully.\n\n";
 }
 
 
@@ -311,7 +310,7 @@ void StereoProcessor::calculateDisparities(){
 }
 
 void StereoProcessor::calculateTrueMap(){
-    disp.disp_16S.convertTo(true_dmap, CV_32F, 1.0/16.0, 0.0);
+    disp.disp_16S.convertTo(disp.true_dmap, CV_32F, 1.0/16.0, 0.0);
 }
 
 void StereoProcessor::calculate3DReconstruction(){
