@@ -137,6 +137,8 @@ void App::init(){
         // //       }
         calib.createKMatrix();
 
+        /* Stereo Rectification Init */
+        StereoRectificationInit();
     }else{
         cout << "Calibration: OFF" << endl << endl;
         cerr << "Warning: Can't generate 3D Reconstruction. Please, check Q,K Matrix." << endl;
@@ -146,9 +148,6 @@ void App::init(){
     }
 
     running = true;
-
-    /* Stereo Rectification Init */
-    StereoRectificationInit();
 }
 
 void App::StereoRectificationInit(){
