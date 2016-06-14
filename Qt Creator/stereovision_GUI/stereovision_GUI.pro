@@ -1,4 +1,4 @@
-#-------------------------------------------------
+2#-------------------------------------------------
 #
 # Project created by QtCreator 2015-10-13T14:57:07
 #
@@ -13,10 +13,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 # Libraries
 INCLUDEPATH += /usr/local/include/opencv \
                /usr/include/vtk-5.8 \
-               /usr/include/boost \
+              # /usr/include/boost \
                /usr/include/pcl-1.7 \
                /usr/include/eigen3
-LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu -lboost_system
+#LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu -lboost_system
+LIBS += `pkg-config --cflags --libs opencv` -lopencv_gpu
 
 # Sources
 SOURCES += src/main.cpp \
