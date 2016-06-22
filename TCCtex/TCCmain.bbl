@@ -94,6 +94,11 @@ Jos{\'{e}} Luiz~Boanova Filho.
 {FLYAAVC. Autonomous Aerial Vehicle Competition}.
 \newblock \url{http://www.flyaavc.org/}, Acesso em: 09 de Novembro de 2015.
 
+\bibitem{3DR}
+3DR\texttrademark.
+\newblock {3DR - Drone {\&} UAV Technology}.
+\newblock \url{https://3dr.com/}, Acesso em: 22 de Junho de 2016.
+
 \bibitem{RobertLaganiere}
 Robert Laganière.
 \newblock {\em OpenCV 2 Computer Vision Application Programming Cookbook}.
@@ -172,9 +177,14 @@ John {E. Stone}, Michael {J. Hallock}, James {C. Phillips}, Joseph {R.
 
 \bibitem{NVIDIA}
 NVIDIA.
-\newblock Cuda™ - plataforma paralela de computação.
+\newblock Cuda\texttrademark, plataforma paralela de computação.
 \newblock \url{http://www.nvidia.com.br/object/cuda_home_new_br.html}, Acesso
   em: 03 de Março de 2015.
+
+\bibitem{3DRX8}
+3DR\texttrademark.
+\newblock {2014 X8 - Drone {\&} UAV Technology}.
+\newblock \url{https://3dr.com/kb/2014-x8/}, Acesso em: 22 de Junho de 2016.
 
 \bibitem{OpenCVCalibrationTutorial}
 OpenCV {Development Team}.

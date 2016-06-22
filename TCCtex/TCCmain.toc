@@ -29,31 +29,31 @@
 \contentsline {subsection}{\numberline {3.1.3}Equipamentos auxiliares}{47}{subsection.3.1.3}
 \contentsline {section}{\numberline {3.2}M\IeC {\'e}todos}{49}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Cen\IeC {\'a}rios}{49}{subsection.3.2.1}
-\contentsline {subsubsection}{Cen\IeC {\'a}rio 1}{49}{section*.11}
-\contentsline {subsubsection}{Cen\IeC {\'a}rio 2}{49}{section*.12}
-\contentsline {subsubsection}{Cen\IeC {\'a}rio 3}{49}{section*.13}
-\contentsline {subsection}{\numberline {3.2.2}Calibra\IeC {\c c}\IeC {\~a}o}{51}{subsection.3.2.2}
+\contentsline {subsubsection}{Cen\IeC {\'a}rio 1}{50}{section*.11}
+\contentsline {subsubsection}{Cen\IeC {\'a}rio 2}{50}{section*.12}
+\contentsline {subsubsection}{Cen\IeC {\'a}rio 3}{50}{section*.13}
+\contentsline {subsection}{\numberline {3.2.2}Calibra\IeC {\c c}\IeC {\~a}o}{52}{subsection.3.2.2}
 \contentsline {subsubsection}{Par\IeC {\^a}metros intr\IeC {\'\i }nsecos}{52}{section*.14}
 \contentsline {subsubsection}{Par\IeC {\^a}metros extr\IeC {\'\i }nsecos}{53}{section*.15}
-\contentsline {subsection}{\numberline {3.2.3}Processamento de Imagem}{53}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}Acelera\IeC {\c c}\IeC {\~a}o em Hardware - \textit {Hardware Acceleration} - CUDA}{54}{subsection.3.2.4}
-\contentsline {subsubsection}{Desktop - Instala\IeC {\c c}\IeC {\~a}o e Configura\IeC {\c c}\IeC {\~a}o}{55}{section*.16}
-\contentsline {subsection}{\numberline {3.2.5}Jetson TK1 - Configura\IeC {\c c}\IeC {\~a}o da Plataforma}{57}{subsection.3.2.5}
-\contentsline {chapter}{\numberline {4}Resultados}{59}{chapter.4}
-\contentsline {section}{\numberline {4.1}Interface Gr\IeC {\'a}fica - \textit {StereoVisionGUI}}{59}{section.4.1}
-\contentsline {section}{\numberline {4.2}Cen\IeC {\'a}rios - Resultados Visuais}{64}{section.4.2}
-\contentsline {section}{\numberline {4.3}Compara\IeC {\c c}\IeC {\~a}o de Desempenho: Desktop x BBB x Jetson TK1}{68}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Desktop}{70}{subsection.4.3.1}
-\contentsline {subsubsection}{CPU}{70}{section*.17}
-\contentsline {subsubsection}{GPU}{70}{section*.18}
-\contentsline {subsection}{\numberline {4.3.2}BeagleBone Black (BBB)}{70}{subsection.4.3.2}
-\contentsline {subsubsection}{CPU}{70}{section*.19}
-\contentsline {subsubsection}{NEON}{70}{section*.20}
-\contentsline {subsection}{\numberline {4.3.3}Jetson TK1}{71}{subsection.4.3.3}
-\contentsline {subsubsection}{CPU}{71}{section*.21}
-\contentsline {subsubsection}{GPU}{71}{section*.22}
-\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o e Trabalhos Futuros}{73}{chapter.5}
-\contentsline {section}{\numberline {5.1}Conclus\IeC {\~a}o}{73}{section.5.1}
-\contentsline {section}{\numberline {5.2}Trabalhos Futuros}{75}{section.5.2}
-\contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{83}{appendix.A}
-\contentsline {chapter}{\numberline {I}Anexo 1}{85}{appendix.A}
+\contentsline {subsection}{\numberline {3.2.3}Processamento de Imagem}{54}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Acelera\IeC {\c c}\IeC {\~a}o em Hardware - \textit {Hardware Acceleration} - CUDA}{55}{subsection.3.2.4}
+\contentsline {subsubsection}{Desktop - Instala\IeC {\c c}\IeC {\~a}o e Configura\IeC {\c c}\IeC {\~a}o}{56}{section*.16}
+\contentsline {subsection}{\numberline {3.2.5}Jetson TK1 - Configura\IeC {\c c}\IeC {\~a}o da Plataforma}{58}{subsection.3.2.5}
+\contentsline {chapter}{\numberline {4}Resultados}{61}{chapter.4}
+\contentsline {section}{\numberline {4.1}Interface Gr\IeC {\'a}fica - \textit {StereoVisionGUI}}{61}{section.4.1}
+\contentsline {section}{\numberline {4.2}Cen\IeC {\'a}rios - Resultados Visuais}{66}{section.4.2}
+\contentsline {section}{\numberline {4.3}Compara\IeC {\c c}\IeC {\~a}o de Desempenho: Desktop x BBB x Jetson TK1}{70}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Desktop}{72}{subsection.4.3.1}
+\contentsline {subsubsection}{CPU}{72}{section*.17}
+\contentsline {subsubsection}{GPU}{72}{section*.18}
+\contentsline {subsection}{\numberline {4.3.2}BeagleBone Black (BBB)}{72}{subsection.4.3.2}
+\contentsline {subsubsection}{CPU}{72}{section*.19}
+\contentsline {subsubsection}{NEON}{72}{section*.20}
+\contentsline {subsection}{\numberline {4.3.3}Jetson TK1}{73}{subsection.4.3.3}
+\contentsline {subsubsection}{CPU}{73}{section*.21}
+\contentsline {subsubsection}{GPU}{73}{section*.22}
+\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o e Trabalhos Futuros}{75}{chapter.5}
+\contentsline {section}{\numberline {5.1}Conclus\IeC {\~a}o}{75}{section.5.1}
+\contentsline {section}{\numberline {5.2}Trabalhos Futuros}{77}{section.5.2}
+\contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{85}{appendix.A}
+\contentsline {chapter}{\numberline {I}Anexo 1}{87}{appendix.A}

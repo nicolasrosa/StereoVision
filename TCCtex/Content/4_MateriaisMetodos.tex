@@ -89,10 +89,10 @@ Uma das unidades de processamento utilizadas foi a plataforma aberta BeagleBone 
 \begin{tabular}{|c|c|}
 \hline
 \textbf{Processador}           & 1GHz TI Sitara AM3359 ARM Cortex-A8			\\	\hline
-\textbf{RAM}                   & 512 MB DDR3L @ 400 MHz					\\	\hline
+\textbf{RAM}                   & 512 MB DDR3L à 400 MHz					\\	\hline
 \textbf{Armazenamento}         & 2 GB on-board eMMC, MicroSD				\\	\hline
 \textbf{Sistemas Operacionais} & Angstrom (Default), Ubuntu, Android, dentre outros...	\\	\hline
-\textbf{Consumo de energia}    & 210-460 mA @ 5V					\\	\hline
+\textbf{Consumo de energia}    & 210-460 mA à 5V					\\	\hline
 \textbf{Pinos de GPIO}         & 65/92 pinos						\\	\hline
 \textbf{Periféricos}           & 1 USB Host, 1 Mini-USB Client, 1 10/100 Mbps Ethernet  \\	\hline                              
 \end{tabular}
@@ -100,7 +100,7 @@ Uma das unidades de processamento utilizadas foi a plataforma aberta BeagleBone 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.25]{./Resources/bbb.jpg}
+	\includegraphics[scale=0.26]{./Resources/bbb.jpg}
 	\caption{Plataforma de Desenvolvimento - BeagleBone Black}
 	\label{bbb}
 \end{figure}
@@ -109,7 +109,7 @@ Uma das unidades de processamento utilizadas foi a plataforma aberta BeagleBone 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Jetson TK1}
 
-Outra unidade de processamento utilizada foi a plataforma \textit{Jetson TK1} produzida pela NVIDIA, ilustrada pela figura \ref{jetson_tk1}. Essa plataforma conta com um processador de 32-bits Tegra K1 baseado na tecnologia ARM Cortex-A15. O motivo pelo qual esta plataforma foi escolhida é devido ao seu poder de processamento gráfico, visto que apresenta 192 núcleos gráficos, sendo assim adequada para aplicações envolvendo processamento de imagens. A tabela \ref{jetson_tk1_tab} apresenta as especificações da plataforma. Outro fator interessante desta plataforma é que ela oferece suporte à tecnologia CUDA, a qual será discutida mais adiante.
+Outra unidade de processamento utilizada foi a plataforma \textit{Jetson TK1} produzida pela NVIDIA, ilustrada pela figura \ref{jetson_tk1}. Essa plataforma conta com um processador de 32-bits Tegra K1 baseado na tecnologia ARM Cortex-A15. O motivo pelo qual esta plataforma foi escolhida é devido ao seu poder de processamento gráfico, visto que apresenta 192 núcleos gráficos, sendo assim adequada para aplicações envolvendo processamento de imagens. A tabela \ref{jetson_tk1_tab} apresenta as especificações da plataforma. Outro fator interessante desta plataforma é que ela oferece suporte à tecnologia CUDA.
 
 \begin{table}[]
 \centering
@@ -117,14 +117,14 @@ Outra unidade de processamento utilizada foi a plataforma \textit{Jetson TK1} pr
 \label{jetson_tk1_tab}
 \begin{tabular}{|c|c|}
 \hline
-\textbf{Processador}           & NVIDIA 2.32GHz ARM quad-core Cortex-A15              \\	\hline
-\textbf{Processador Gráfico}   & NVIDIA Kepler "GK20a" GPU  with 192 SM3.2 CUDA cores \\	\hline
-\textbf{DRAM}                  & 2GB DDR3L 933MHz EMC x16 using 64-bit data width     \\	\hline
-\textbf{Armazenamento}         & 16GB fast eMMC 4.51 (routed to SDMMC4)               \\	\hline
-\textbf{Sistemas Operacionais} & Platform 64-bit Linux Ubuntu 14.04                   \\	\hline
-\textbf{Consumo de energia}    & 0.6W to 3W @ 12 V                                    \\	\hline
-\textbf{Pinos de GPIO}         & 7 x GPIO pins (1.8V)                                 \\	\hline
-\textbf{Periféricos}           & USB, mini-PCIe, SATA, SD-card, HDMI, audio           \\	\hline
+\textbf{Processador}           & NVIDIA 2.32GHz ARM quad-core Cortex-A15			\\	\hline
+\textbf{Processador Gráfico}   & NVIDIA Kepler "GK20a" GPU com 192 núcleos de CUDA SM3.2	\\	\hline
+\textbf{DRAM}                  & 2GB DDR3L 933MHz EMC x16 usando largura de dados de 64-bit	\\	\hline
+\textbf{Armazenamento}         & Memória de Armazenamento Rápido de 16GB eMMC 4.51		\\	\hline
+\textbf{Sistemas Operacionais} & Plataforma Linux Ubuntu 14.04 64-bit                  		\\	\hline
+\textbf{Consumo de energia}    & 0.6W à 3W à 12 V                    		\\	\hline
+\textbf{Pinos de GPIO}         & 7 x pinos de GPIO (1.8V)                              		\\	\hline
+\textbf{Periféricos}           & USB, mini-PCIe, SATA, SD-card, HDMI, Áudio           		\\	\hline
 \end{tabular}
 \end{table}
 
@@ -147,17 +147,17 @@ Também foi utilizado um \textit{Notebook} Asus Q550LF, ele foi utilizada para o
 \label{asusQ550LF}
 \begin{tabular}{|c|c|}
 \hline
-\multicolumn{2}{|c|}{\textbf{Especificações CPU}}                                                   \\ \hline
-\textbf{CPU}             & Intel Core i7 (4th Gen) 4500U / 1.8~3.0 GHz                              \\ \hline
-\textbf{Number of Cores} & Dual-Core                                                                \\ \hline
-\textbf{Memory}          & DDR3 SDRAM 8 GB                                                          \\ \hline
-\multicolumn{2}{|c|}{\textbf{Especificações de GPU}}                                                  \\ \hline
-\textbf{Chipset}         & NVIDIA                                                                   \\ \hline
-\textbf{Architecture}    & Kepler                                                                   \\ \hline
-\textbf{GPU}             & GK107 384 @ 837 MHz                                                      \\ \hline
-\textbf{Memory}          & DDR3 - 2048 MB - 128 Bit @ 1800 MHz                                      \\ \hline
-\textbf{CUDA Cores}      & 384 Cores                                                                \\ \hline
-\textbf{Features}        & Optimus, GPU Boost 2.0, PhysX, Verde Drivers, CUDA, 3D Vision, 3DTV Play \\ \hline
+\multicolumn{2}{|c|}{\textbf{Especificações CPU}}                                                      		   \\ \hline
+\textbf{Processador}             	& Intel Core i7 (Quarta Geração) 4500U / 1.8 $\sim$ 3.0 GHz           	   \\ \hline
+\textbf{Número de Núcleos} 		& 2  	                                                                   \\ \hline
+\textbf{Memória}          		& DDR3 SDRAM 8 GB                                                          \\ \hline
+\multicolumn{2}{|c|}{\textbf{Especificações de GPU}}                                                   		   \\ \hline
+\textbf{\textit{Chipset} da GPU}        & NVIDIA                                                      		   \\ \hline
+\textbf{Arquitetura}    		& Kepler                                                                   \\ \hline
+\textbf{Processador Gráfico}            & GK107 384 a 837 MHz                                         		   \\ \hline
+\textbf{Memória da GPU}          	& DDR3 - 2048 MB - 128 Bit a 1800 MHz                                      \\ \hline
+\textbf{Núcleos de CUDA}      		& 384 Núcleos                                                              \\ \hline
+\textbf{Periféricos}        		& Optimus, GPU Boost 2.0, PhysX, Verde Drivers, CUDA, 3D Vision, 3DTV Play \\ \hline
 \end{tabular}
 \end{table}
 
@@ -176,7 +176,7 @@ Os métodos para a identificação de correspondências entre as câmeras requer
 	\label{calibration_pattern}
 \end{figure}
 
-A motivação deste trabalho é a sua utilização em veículos aéreos. Por conta disso, é indispensável que se tenha algum desses veículos. O trabalho conta com a utilização de um quadricóptero produzido pela 3DR, porém este apresenta modificações visando o seu desenvolvimento para navegação autônoma. Deste modo, tem-se a adição de \textit{propellers guards}, objetivando o aumento da segurança do veículo e das pessoas que o operam. Além disso, o \textit{drone} conta com suportes para a câmera estéreo e para a plataforma embarcada. Como pode ser observado na figura \ref{quad_camera_support}, todas as peças foram produzidas utilizando impressora 3D.
+A motivação deste trabalho é a sua utilização em veículos aéreos. Por conta disso, é indispensável que se tenha algum desses veículos. O trabalho conta com a utilização de um quadricóptero produzido pela 3DR\texttrademark \cite{3DRX8}, porém este apresenta modificações visando o seu desenvolvimento para navegação autônoma. Deste modo, tem-se a adição de \textit{propellers guards}, objetivando o aumento da segurança do veículo e das pessoas que o operam. Além disso, o \textit{drone} conta com suportes para a câmera estéreo e para a plataforma embarcada. Como pode ser observado na figura \ref{quad_camera_support}, todas as peças foram produzidas utilizando impressora 3D.
 
 \begin{figure}[H]
 	\centering
@@ -243,15 +243,18 @@ O cenário da figura \ref{thumb_video15} foi utilizado para estudo das condiçõ
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Calibração}
-O processo de calibração pode ser realizado de duas maneiras diferentes. 
+O processo de calibração pode ser realizado em dois ambientes diferentes.  
 
 O primeiro método é utilizando a rotina disponibilizada pelo OpenCV \cite{OpenCVCalibrationTutorial}, no qual algumas informações relevantes, como o tipo do padrão utilizado, o tamanho do padrão e o número de quadros, precisam ser informadas ao executá-la. Este método dispensa um conjunto de imagens de entrada para o processo de calibração, pois o próprio, automaticamente, se encarrega de detectar o padrão de calibragem e gravar as imagens utilizadas no processo. Ao fim da execução, as imagens são analisadas e os arquivos \textit{"intrinsics.yml"} e \textit{"extrinsics.yml"} são gerados, os quais contêm as matrizes que corrigem as distorções apresentadas na seção \ref{theory_calib}.
 
-O segundo método é utilizando o aplicativo \textit{Stereo Camera Calibrator} presente no MATLAB. Ele também gera as mesmas informações anteriores, porém permite uma análise ainda mais profunda das distorções das lentes, como o erro de reprojeção 2D de cada imagem ou por pixel. Entretanto, é necessário que um conjunto de pares de imagens seja disponibilizado para o aplicativo para que a calibração seja realizada. Além disso, o MATLAB disponibiliza gráficos que representam as distorções das ambas as lentes, assim como apresentado na imagem \ref{lenses_distortion}, e a estimativa de reconstrução da cena utilizada no processo de calibração, onde estima-se o posicionamento de cada perspectiva das imagens utilizadas com relação às câmeras, assim como ilustrado na figura \ref{stereo_calib_extrinsic}.
+O segundo método é utilizando o aplicativo \textit{Stereo Camera Calibrator} presente no MATLAB. Ele também gera as mesmas informações anteriores, porém permite uma análise ainda mais profunda das distorções das lentes, como o erro de reprojeção 2D de cada imagem ou por pixel. Entretanto, é necessário que um conjunto de pares de imagens seja disponibilizado para o aplicativo para que a calibração seja realizada.
 
+Os dois ambientes foram utilizados para efeito de validação dos parâmetros obtidos pelas calibrações.
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Parâmetros intrínsecos}
+
+O MATLAB disponibiliza gráficos que representam as distorções das ambas as lentes, assim como apresentado na imagem \ref{lenses_distortion}, na qual é possível visualizar três modelos de distorção das lentes. O primeiro par de imagens corresponde ao modelo de distorção completo de ambas as lentes e leva em consideração as distorções radiais e tangenciais. O segundo par de imagens é o modelo de distorção considerando apenas a componente radial. O último par ilustra o modelo de distoção que considera apenas a componente tangencial.
 
 \begin{figure}[H]
  	\centering
@@ -263,6 +266,8 @@ O segundo método é utilizando o aplicativo \textit{Stereo Camera Calibrator} p
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Parâmetros extrínsecos}
+
+Como dito anteriormente, dado um conjunto de pares de imagens de um padrão de calibração é possível obter os parâmetros extrínsicos do equipamento estéreo. Além disso, também é possível estimar a reconstrução da cena utilizada no processo de calibração, onde estima-se o posicionamento de cada perspectiva das imagens utilizadas com relação às câmeras, assim como ilustrado na figura \ref{stereo_calib_extrinsic}. Ao fim do processo, são obtidos os parâmetros que descrevem a orientação da segunda câmera (Vermelha) em relação a primeira (Azul).
 
 \begin{figure}[H]
  	\centering
