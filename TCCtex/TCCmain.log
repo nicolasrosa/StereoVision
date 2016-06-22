@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.28)  20 JUN 2016 19:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.28)  20 JUN 2016 19:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1730,7 +1730,7 @@ File: ./Resources/bbb.jpg Graphic file (type jpg)
 
 <use ./Resources/bbb.jpg>
 Package pdftex.def Info: ./Resources/bbb.jpg used on input line 103.
-(pdftex.def)             Requested size: 65.29747pt x 43.53165pt.
+(pdftex.def)             Requested size: 163.23372pt x 108.82248pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1757,9 +1757,6 @@ File: ./Resources/jetson_tk1.jpg Graphic file (type jpg)
 Package pdftex.def Info: ./Resources/jetson_tk1.jpg used on input line 133.
 (pdftex.def)             Requested size: 192.7313pt x 114.4342pt.
 
-Underfull \vbox (badness 3930) has occurred while \output is active []
-
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1767,10 +1764,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 137.
+(babel)             in language  on input line 143.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 137.
-[46 <./Resources/bbb.jpg>]
+(babel)             in language  on input line 143.
+[46 <./Resources/bbb.jpg> <./Resources/jetson_tk1.jpg>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 144.
@@ -1792,7 +1789,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 171.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 171.
-[47 <./Resources/jetson_tk1.jpg>]
+[47]
 <./Resources/calibration_pattern.png, id=656, 1377.64688pt x 1001.24063pt>
 File: ./Resources/calibration_pattern.png Graphic file (type png)
 
@@ -1810,9 +1807,6 @@ Package pdftex.def Info: ./Resources/quad_camera_support.jpg used on input line
 (pdftex.def)             Requested size: 308.97235pt x 238.20383pt.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 190.
-
-Underfull \vbox (badness 5862) has occurred while \output is active []
-
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2754,7 +2748,7 @@ yr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on TCCmain.pdf (91 pages, 15471388 bytes).
+Output written on TCCmain.pdf (91 pages, 15471489 bytes).
 PDF statistics:
  1841 PDF objects out of 2073 (max. 8388607)
  1679 compressed objects within 17 object streams
