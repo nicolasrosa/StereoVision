@@ -6,7 +6,7 @@
 \chapter{Resultados}
 \label{Resultados}
 
-Os resultados apresentados neste capítulo estão divididos em duas partes. Os resultados da seção \ref{resultsGUI} estão inteiramente relacionados as funções fundamentais presentes na interface gráfica desenvolvida. Já na seção \ref{resultsComparison}, tem-se presente os resultados que apresentam os dados obtidos através dos testes de desempenho dos métodos de \textit{Stereo Matching} nas plataformas utilizadas.
+Os resultados apresentados neste capítulo estão divididos em duas partes. Os resultados da seção \ref{resultsGUI} estão inteiramente relacionados às funções fundamentais presentes na interface gráfica desenvolvida. Já na seção \ref{resultsComparison}, têm-se presente os resultados que apresentam os dados obtidos por meio dos testes de desempenho dos métodos de \textit{Stereo Matching} nas plataformas utilizadas.
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Interface Gráfica - \textit{StereoVisionGUI}}
@@ -25,7 +25,7 @@ estéreo (BM, SGBM e BMGPU) e com 8 opções das quais 6 delas são destinadas a
   \item Imagem resultante da adição da imagem à direita com a Imagem da Câmera Esquerda e Imagem resultante do processo de realce das bordas dos objetos em movimento próximos ao veículo.
 \end{enumerate} 
 
-O botão \textit{Show Left/Right} seleciona a opção na qual a interface gráfica permite a visualização simultânea das imagens retificadas de ambas câmera. A figura \ref{gui_showleftright_view} 
+O botão \textit{Show Left/Right} seleciona a opção na qual a interface gráfica permite a visualização simultânea das imagens retificadas de ambas câmeras. A figura \ref{gui_showleftright_view} 
 ilustra o comportamento do software quando essa opção é selecionada. 
 
 O botão \textit{Show Disparity Map} seleciona a opção na qual a interface gráfica permite a visualização simultânea dos mapas de disparidade em escala de cinza e RGB. A figura 
@@ -96,13 +96,13 @@ O botão \textit{Show Warning Edges} seleciona a opção na qual a interface gr�
 \section{Cenários - Resultados Visuais}
 \label{resultsScenes}
 
-Nesta seção, estão apresentadas os resultados obtidos de cada método estéreo para os cenários propostos na seção \ref{scenes}. Para facilitar a comparação dos mapas de disparidades foi apresentado uma colagem para cada cenário, contendo o par de imagens capturadas da cena, o mapa de disparidade em nível de cinza e em RGB para os métodos BM, SGBM e BMGPU, respectivamente. As regiões que não contêm informações (regiões com grandes porções de cor escura, no caso da imagem RGB, de cor azul-marinho) estão muito próximas às câmeras ou áreas com superfícies refletivas. Nestas superfícies, os métodos estéreo apresentam baixa relação de unicidade, isto é, a cada iteração, mesmo em uma cena parada, o método apresenta dificuldade para definir os corretos valores de correspondências. Deste modo, é preferível identificá-las e desconsiderá-las do mapa de disparidades.
+Nesta seção, estão apresentados os resultados obtidos de cada método estéreo para os cenários propostos na seção \ref{scenes}. Para facilitar a comparação dos mapas de disparidades foi apresentado uma colagem para cada cenário, contendo o par de imagens capturadas da cena, o mapa de disparidade em nível de cinza e em RGB para os métodos BM, SGBM e BMGPU, respectivamente. As regiões que não contêm informações (regiões com grandes porções de cor escura, no caso da imagem RGB, de cor azul-marinho) estão muito próximas às câmeras ou áreas com superfícies refletivas. Nestas superfícies, os métodos estéreo apresentam baixa relação de unicidade, isto é, a cada iteração, mesmo em uma cena parada, o método apresenta dificuldade para definir os corretos valores de correspondências. Deste modo, é preferível identificá-las e desconsiderá-las do mapa de disparidades.
 
-Como apresentado pela figura \ref{scene1_montage}, a árvore é tida como principal obstáculo nesta cena e todos os métodos conseguiram identificá-la e realçá-la corretamente. O método SGBM apresenta cores mais frias, pois a configuração que permitia a correta segmentação do objeto apresenta um maior número de níveis de cinza para o mapa de disparidades. No caso do Método BMGPU, temos uma elevada porcentagem de região desconhecida, porém este consegue identificar essas regiões ao passo que o veículo aproxima-se dessas regiões. 
+Como apresentado pela figura \ref{scene1_montage}, a árvore é tida como principal obstáculo nesta cena e todos os métodos conseguiram identificá-la e realçá-la corretamente. O método SGBM apresenta cores mais frias, pois a configuração que permitia a correta segmentação do objeto apresenta um maior número de níveis de cinza para o mapa de disparidades. No caso do Método BMGPU, temos uma elevada porcentagem de região desconhecida, porém este consegue identificar essas regiões ao passo que o veículo se aproxima dessas regiões. 
 
-Na figura \ref{scene2_montage}, é possível observar que o Método SGBM, diferentemente dos métodos BM e BMGPU, conseguiu identificar as bancadas,as regiões muito próximas ao quadricóptero e o cone de segurança, e não apenas as bancadas como ocorreu nos outros métodos. Entretanto, vale lembrar que este método é pesado computacionalmente e a performance do sistema também deve ser tomado em conta, não somente a qualidade do mapa gerado. 
+Na figura \ref{scene2_montage}, é possível observar que o Método SGBM, diferentemente dos métodos BM e BMGPU, conseguiu identificar as bancadas, as regiões muito próximas ao quadricóptero e o cone de segurança, e não apenas as bancadas como ocorreu nos outros métodos. Entretanto, vale lembrar que este método é pesado computacionalmente e a performance do sistema também deve ser tomado em conta, não somente a qualidade do mapa gerado. 
 
-Os resultados obtidos para o terceiro cenário proposto está ilustrado pela figura \ref{scene3_montage}. Nela foi possível, observar que todos os métodos foram capazes de identificar o piloto e o quadricóptero. Este resultado é bastante importante, visto que provou-se que é possível utilizar visão estéreo para a identificação não somente de obstáculos estáticos, como também obstáculos dinâmicos, sendo estes terrestres ou aéreos. O aperfeiçoamento dos equipamentos para detecção de objetos através de visão estéreo é um dos passos que talvez possibilitem \textit{drones} a utilizar o tráfego aéreo. 
+Os resultados obtidos para o terceiro cenário proposto está ilustrado pela figura \ref{scene3_montage}. Nela foi possível, observar que todos os métodos foram capazes de identificar o piloto e o quadricóptero. Este resultado é bastante importante, visto que se provou que é possível utilizar visão estéreo para a identificação não somente de obstáculos estáticos, como também obstáculos dinâmicos, sendo estes terrestres ou aéreos. O aperfeiçoamento dos equipamentos para detecção de objetos por intermédio de visão estéreo é um dos passos que talvez possibilitem \textit{drones} a utilizar o tráfego aéreo. 
 
 \begin{figure}[H]
  	\centering
@@ -121,7 +121,7 @@ Os resultados obtidos para o terceiro cenário proposto está ilustrado pela fig
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/results/scene3_montage.jpg}
- 	\caption{Cenário 3 - Comparativo do Mapa de Disparidades gerados pelos Métodos BM, SGBM e BMGPU, respectivamente. Piloto e Veículo Aéreo (Quadricóptero) como principais obstáculos.}
+ 	\caption{Cenário 3 - Comparativo do Mapa de Disparidades gerados pelos Métodos BM, SGBM e BMGPU, respectivamente. Piloto e Veículo aéreo (Quadricóptero) como principais obstáculos.}
  	\label{scene3_montage}
 \end{figure}
 
@@ -129,7 +129,7 @@ Os resultados obtidos para o terceiro cenário proposto está ilustrado pela fig
 \section{Comparação de Desempenho: Desktop x BBB x Jetson TK1}
 \label{resultsComparison}
 
-Nesta seção, estão apresentados os resultados práticos das diferentes implementações dos métodos de visão estéreo nas plataformas abordadas. Os Métodos utilizados foram BM, SGBM e BMGPU para a comparação das plataformas. O método BMGPU mostrou-se o de melhor performance, visto que é o que requisita menor processamento dentre os outros métodos mais conhecidos (SGBM, BP, CSBP, AD Census, ...) além de ser acelerado em hardware. A tabela \ref{resultsCPUGPU} abaixo, apresenta o resultado de desempenhos obtidos nas plataformas, apresentando comparativamente seu desempenho quando o processado utilizando CPU ou GPU/NEON (Caso da BBB). Com relação à configuração utilizada para a realização dos teste, utilizou-se uma resolução de 640x480, um tamanho média da janela usada para combinar blocos de pixels (\textit{SADWindowSize}) de 15 e um tamanho da gama de disparidades (\textit{NumberOfDisparities}) igual à 16, como pode ser observado na tabela \ref{teste_values}. O critério de escolha desses valores foi dado pelo balanço entre performance e qualidade do mapa de disparidades gerado, isto é, um mapa que fosse confiável e permitisse as corretas correspondências do mapa de disparidades.
+Nesta seção, estão apresentados os resultados práticos das diferentes implementações dos métodos de visão estéreo nas plataformas abordadas. Os Métodos utilizados foram BM, SGBM e BMGPU para a comparação das plataformas. O método BMGPU mostrou-se o de melhor performance, visto que é o que requisita menor processamento dentre os outros métodos mais conhecidos (SGBM, BP, CSBP, AD Census, ...) além de ser acelerado em hardware. A tabela \ref{resultsCPUGPU} abaixo, apresenta o resultado de desempenhos obtidos nas plataformas, apresentando comparativamente seu desempenho quando o processado utilizando CPU ou GPU/NEON (Caso da BBB). Com relação à configuração utilizada para a realização dos testes, utilizou-se uma resolução de 640x480, um tamanho média da janela usada para combinar blocos de pixels (\textit{SADWindowSize}) de 15 e um tamanho da gama de disparidades (\textit{NumberOfDisparities}) igual à 16, como pode ser observado na tabela \ref{teste_values}. O critério de escolha desses valores foi dado pelo balanço entre performance e qualidade do mapa de disparidades gerado, isto é, um mapa que fosse confiável e permitisse as corretas correspondências do mapa de disparidades.
 
 O gráfico da figura \ref{grafico_desempenho} apresenta o comparativo entre o desempenho de cada plataforma para os métodos estéreo BM, SGBM e BMGPU. O resultado da BBB para o método BM é muito inferior aos resultados obtidos nas demais plataformas. O teste para o método SGBM foi abortado, visto que naturalmente este método é um algoritmo mais complexo que o BM. Decorrente a isso, espera-se que sua performance seja inferior à um FPS. Segundo o manual da BBB, o processador ARM Cortex A8 apresenta suporte ao NEON™, o qual é um acelerador de ponto flutuante que utiliza instruções SIMD (\textit{Single instruction, Multiple Data}) para a aceleração de algoritmos de multimídia e processamento de sinais \cite{ARMNEON}. Os testes dos métodos estéreo na BBB utilizando essa tecnologia também não foram executados, pois sua implementação tomaria um tempo considerável e provavelmente não apresentaria um resultado expressivo. 
 
@@ -166,8 +166,8 @@ Jetson TK1 & 6  & 2    & 7$\sim$8 \\ \hline
  	\label{grafico_desempenho}
 \end{figure}
 
+Este trabalho não tem como escopo realizar a avaliação dos resultados apresentados acima com relação ao atendimento dos requisitos da aplicação. O trabalho realiza a busca pelas limitações dos sistemas para a execução dos métodos estéreo. No que diz respeito às condições do teste, em nenhuma das plataformas realizou-se a prioritização dos processos no sistema. Vale realçar que nenhuma distribuição do tipo RTOS (Sistema Operacional em Tempo Real) foi utilizada.
 
-% TODO: Descrever cada Item
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Desktop}
 \subsubsection{CPU}
@@ -178,8 +178,9 @@ Primeiramente, as rotinas para execução em CPU foram implementadas no \textit{
 
 Como previsto, o desempenho do método BM acelerado em GPU é superior ao executado em CPU. Consequentemente, este resultado motivou a implementação do mesmo na plataforma \textit{Jetson TK1}, visto que sua implementação é bastante similar a em Desktop por conta de possuírem a mesma arquitetura de GPU (Kepler).  
 
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-\subsection{BeagleBone Black(BBB)}
+\subsection{BeagleBone Black (BBB)}
 \subsubsection{CPU}
 
 O resultado obtido para o método BM desmotivou qualquer outra implementação nesta plataforma. Dificilmente, algum outro recurso de aceleração apresentaria um resultado que realizasse o processamento de imagens necessários com resposta em tempo real. 
@@ -187,10 +188,11 @@ O resultado obtido para o método BM desmotivou qualquer outra implementação n
 \subsubsection{NEON}
 Como já fora dito, o resultado obtido pela performance em CPU, desestimulou o estudo e implementação desta tecnologia.
 
+
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Jetson TK1}
 \subsubsection{CPU}
-A implementação em CPU nesta plataforma foi realizada para efeito de comparação entre o desempenho obtido em CPU e com a implementação utilizando CUDA. Como esperado, o método SGBM também mostrou-se mais lento que o BM, apresentando taxa de processamento de aproximadamente dois quadros por segundo, performance relativamente baixa. Com relação ao BM, a taxa atingida foi de aproximadamente seis quadros por segundo, taxa que começa a possibilitar aplicações em tempo real para alguns tipos sistemas.
+A implementação em CPU nesta plataforma foi realizada para efeito de comparação entre o desempenho obtido em CPU e com a implementação utilizando CUDA. Como esperado, o método SGBM também se mostrou mais lento que o BM, apresentando uma taxa de processamento relativamente baixa, aproximadamente dois FPS. Com relação ao BM, a taxa atingida foi de aproximadamente seis quadros por segundo, taxa que começa a possibilitar aplicações em tempo real para alguns tipos sistemas.
 
 \subsubsection{GPU}
 Como esperado, a implementação da tecnologia CUDA na \textit{Jetson TK1} acelerou a execução do método BM em aproximadamente 30\%. O ganho obtido é expressivo, porém, assim como dito acima, aplicações que garantam resposta em tempo real necessitam apresentar taxas de processamento muito superiores à essa. Idealmente, espera-se que a taxa de processamento seja pelo menos igual à taxa de captura da câmera.

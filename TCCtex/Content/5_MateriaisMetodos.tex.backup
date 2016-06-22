@@ -36,17 +36,17 @@ O projeto utilizou duas câmeras estéreo. Primeiramente, utilizou-se a \textit{
 \label{minoru_tab}
 \begin{tabular}{|c|c|}
 \hline
-\textbf{Sensor de Imagem}      & VGA CMOS Sensor  	\\	\hline
-\textbf{Resolução Máxima}      & $800x600$        	\\	\hline
-\textbf{Tamanho Linha de Base} & 6 cm             	\\	\hline
-\textbf{Taxa de Captura}       & 30 fps             	\\	\hline
-\textbf{Distância Focal}       & 10 cm até $\infty$	\\	\hline
-\textbf{Campo de Visão}        & $42\degree$		\\	\hline
-\textbf{Peso}		       & 249.48 g		\\	\hline
+\textbf{Sensor de Imagem}      & VGA CMOS Sensor  		\\	\hline
+\textbf{Resolução Máxima}      & $800x600$        		\\	\hline
+\textbf{Distância entre Sensores (\textit{Baseline})} & 6 cm    \\	\hline
+\textbf{Taxa de Captura}       & 30 fps             		\\	\hline
+\textbf{Distância Focal}       & 10 cm até $\infty$		\\	\hline
+\textbf{Campo de Visão}        & $42\degree$			\\	\hline
+\textbf{Peso}		       & 249.48 g			\\	\hline
 \end{tabular}
 \end{table}
 
-Atualmente, a câmera utilizada é a digital 3D W3 fabricada pela Fujifilm (veja figura \ref{fujiW3}). A primeira câmera foi substituída, pois o controlador USB não permitia que a webcam realizasse \textit{streaming} na máxima resolução. Deste modo, optou-se por uma com maior resolução e que apresentasse lentes com baixa distorção. Entretanto, essa não apresenta \textit{streaming} via USB, assim é necessário que os vídeos sejam processados \textit{offline}. Visto que o projeto preocupa-se principalmente na geração do mapa de disparidades, isso não oferece nenhuma desvantagem para o desenvolvimento do trabalho. Todavia, para uma aplicação real, a câmera instalada no veículo deve apresentar esse aspecto. A tabela \ref{fujiW3_tab} apresenta as especificações da câmera em questão.
+Atualmente, a câmera utilizada é a digital 3D W3 fabricada pela Fujifilm (veja figura \ref{fujiW3}). A primeira câmera foi substituída, pois o controlador USB não permitia que a webcam realizasse \textit{streaming} na máxima resolução. Deste modo, optou-se por uma com maior resolução e que apresentasse lentes com baixa distorção. Entretanto, essa não apresenta \textit{streaming} via USB, assim é necessário que os vídeos sejam processados \textit{offline}. Visto que o projeto se preocupa principalmente na geração do mapa de disparidades, isso não oferece nenhuma desvantagem para o desenvolvimento do trabalho. Todavia, para uma aplicação real, a câmera instalada no veículo deve apresentar esse aspecto. A tabela \ref{fujiW3_tab} apresenta as especificações da câmera em questão.
 
 \begin{table}[]
 \centering
@@ -54,12 +54,12 @@ Atualmente, a câmera utilizada é a digital 3D W3 fabricada pela Fujifilm (veja
 \label{fujiW3_tab}
 \begin{tabular}{|c|c|}
 \hline
-\textbf{Sensor de Imagem}      & 10 MP CCD Sensor  	\\	\hline
-\textbf{Resolução Máxima}      & $1280x720$        	\\	\hline
-\textbf{Tamanho Linha de Base} & 7.5 cm             	\\	\hline
-\textbf{Taxa de Captura}      & 24 - 30 fps          	\\	\hline
-\textbf{Distância Focal}       & 60 cm até $\infty$	\\	\hline
-\textbf{Peso}       		      & 250g		\\	\hline
+\textbf{Sensor de Imagem}      & 10 MP CCD Sensor  		\\	\hline
+\textbf{Resolução Máxima}      & $1280x720$        		\\	\hline
+\textbf{Distância entre Sensores (\textit{Baseline})} & 7.5 cm  \\	\hline
+\textbf{Taxa de Captura}      & 24 - 30 fps          		\\	\hline
+\textbf{Distância Focal}       & 60 cm até $\infty$		\\	\hline
+\textbf{Peso}       		      & 250g			\\	\hline
 \end{tabular}
 \end{table}
 
@@ -80,7 +80,7 @@ Visto que este trabalho busca a implementação dos métodos estéreo em quadric
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{BeagleBone Black}
 
-A primeira a ser utilizada e estudada é a plataforma aberta BeagleBone Black (BBB), ilustrada pela figura \ref{bbb}. Esta plataforma foi escolhida devido ao seu tamanho reduzido, podendo ser facilmente embarcada, isto é, é possível adaptá-la mecanicamente ao veículo. Com relação ao seu poder de processamento, ela apresenta um processador ARM Cortex-A8 operando à 1 GHz. A tabela \ref{bbb_tab} apresenta as especificações da plataforma.
+Uma das unidades de processamento utilizadas foi a plataforma aberta BeagleBone Black (BBB), ilustrada pela figura \ref{bbb}. Esta plataforma foi escolhida devido ao seu tamanho reduzido, podendo ser facilmente embarcada, isto é, é possível adaptá-la mecanicamente ao veículo. Com relação ao seu poder de processamento, ela apresenta um processador ARM Cortex-A8 operando à 1 GHz. A tabela \ref{bbb_tab} apresenta as especificações da plataforma.
 
 \begin{table}[]
 \centering
@@ -100,7 +100,7 @@ A primeira a ser utilizada e estudada é a plataforma aberta BeagleBone Black (B
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.10]{./Resources/bbb.jpg}
+	\includegraphics[scale=0.25]{./Resources/bbb.jpg}
 	\caption{Plataforma de Desenvolvimento - BeagleBone Black}
 	\label{bbb}
 \end{figure}
@@ -109,7 +109,7 @@ A primeira a ser utilizada e estudada é a plataforma aberta BeagleBone Black (B
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Jetson TK1}
 
-A segunda a ser utilizada e estudada é a plataforma \textit{Jetson TK1} produzida pela NVIDIA, figura \ref{jetson_tk1}. Essa plataforma conta com um processador de 32-bits Tegra K1 baseado na tecnologia ARM Cortex-A15. O motivo pelo qual esta plataforma foi escolhida é devido ao seu poder de processamento gráfico, visto que apresenta 192 núcleos gráficos, sendo assim adequada para aplicações envolvendo processamento de imagens. A tabela \ref{jetson_tk1_tab} apresenta as especificações da plataforma. Outro fator interessante desta plataforma é que ela oferece suporte à tecnologia CUDA, a qual será discutida mais adiante.
+Outra unidade de processamento utilizada foi a plataforma \textit{Jetson TK1} produzida pela NVIDIA, ilustrada pela figura \ref{jetson_tk1}. Essa plataforma conta com um processador de 32-bits Tegra K1 baseado na tecnologia ARM Cortex-A15. O motivo pelo qual esta plataforma foi escolhida é devido ao seu poder de processamento gráfico, visto que apresenta 192 núcleos gráficos, sendo assim adequada para aplicações envolvendo processamento de imagens. A tabela \ref{jetson_tk1_tab} apresenta as especificações da plataforma. Outro fator interessante desta plataforma é que ela oferece suporte à tecnologia CUDA, a qual será discutida mais adiante.
 
 \begin{table}[]
 \centering
@@ -139,7 +139,7 @@ A segunda a ser utilizada e estudada é a plataforma \textit{Jetson TK1} produzi
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Notebook Asus Q550LF}
 
-A terceira plataforma utilizada é um \textit{Notebook} Asus Q550LF, ela foi utilizada para o desenvolvimento de todos os programas contidos neste trabalho e para estudo de desempenho comparativo com as plataformas embarcadas. A interface desenvolvida, \textit{StereoVisionGUI}, foi desenvolvida para ser executada nesta máquina e em computadores com arquitetura x86 e x64. As especificações desta plataforma estão apresentadas pela tabela \ref{asusQ550LF}.
+Também foi utilizado um \textit{Notebook} Asus Q550LF, ele foi utilizada para o desenvolvimento de todos os programas contidos neste trabalho e para estudo de desempenho comparativo com as plataformas embarcadas. A interface desenvolvida, \textit{StereoVisionGUI}, foi desenvolvida para ser executada nesta máquina e em computadores com arquitetura x86 e x64. As especificações desta plataforma estão apresentadas pela tabela \ref{asusQ550LF}.
 
 \begin{table}[]
 \centering
@@ -167,7 +167,7 @@ A terceira plataforma utilizada é um \textit{Notebook} Asus Q550LF, ela foi uti
 
 Nesta seção, estão apresentados os equipamentos auxiliares para o desenvolvimento do trabalho. 
 
-Os métodos para a identificação de correspondências entre as câmeras requerem que a imagem estejam calibradas e retificadas. Por conta disso, utiliza-se o padrão de calibração de dimensão 7x10, apresentado na figura \ref{calibration_pattern}, para este propósito. Deste modo, é possível caracterizar as distorções das lentes, parâmetros intrínsecos, e o posicionamento de uma das câmeras com relação a outra, parâmetros extrínsecos.  
+Os métodos para a identificação de correspondências entre as câmeras requerem que as imagens estejam calibradas e retificadas. Por conta disso, utiliza-se o padrão de calibração de dimensão 7x10, apresentado na figura \ref{calibration_pattern}, para este propósito. Deste modo, é possível caracterizar as distorções das lentes, parâmetros intrínsecos, e o posicionamento de uma das câmeras com relação a outra, parâmetros extrínsecos.  
 
 \begin{figure}[H]
 	\centering
@@ -194,8 +194,9 @@ Nesta seção, serão apresentados os cenários e os procedimentos utilizados na
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Cenários}
+\label{scenes}
 
-O pós-processamento do mapa de disparidades foi voltado para a identificação e detecção de obstáculos. Deste modo, os seguintes cenários propõe uma série de adversidades, as quais o algoritmo implementado tenta contorná-las. Propôs-se que ele deve ser flexível à variações na luminosidade, capaz de detectar obstáculos estáticos e móveis, e ser imune à vibrações. Deste modo, dois cenários em ambiente confinado e um em ambiente aberto foram analisados. Deseja-se a navegação autônoma ocorra até mesmo em casos que o sinal do Sistema de Posicionamento Global (GPS) seja perdido, por conta disso escolheu-se a utilização dos ambientes confinados. O ambiente externo foi escolhido devido a quantidade de fatores externos que poderiam atrapalhar a detecção de obstáculos. O tratamento destes percalços tornam o programa mais robusto.
+O pós-processamento do mapa de disparidades foi voltado para a identificação e detecção de obstáculos. Deste modo, os seguintes cenários propõem uma série de adversidades, as quais o algoritmo implementado tenta contorná-las. Propôs-se que ele deve ser flexível a variações na luminosidade, capaz de detectar obstáculos estáticos e móveis, e ser imune a vibrações. Deste modo, dois cenários em ambiente confinado e um em ambiente aberto foram analisados. Deseja-se a navegação autônoma ocorra até mesmo em casos que o sinal do Sistema de Posicionamento Global (GPS) seja perdido, por conta disso escolheu-se a utilização dos ambientes confinados. O ambiente externo foi escolhido devido a quantidade de fatores externos que poderiam atrapalhar a detecção de obstáculos. O tratamento destes percalços torna o programa ainda mais robusto.
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -275,13 +276,13 @@ O segundo método é utilizando o aplicativo \textit{Stereo Camera Calibrator} p
 
 Nessa seção será apresentado o processamento de imagens utilizado para a identificação de obstáculos. Como pode ser visto na figura \ref{stereo_processor_steps}, todo o processo conta com seis etapas.
 
-\textbf{Câmeras:} O primeiro passo do processo é a captura das imagens da câmera estéreo. Idealmente, as imagens deve ser capturadas ao mesmo instante e as lentes não apresentarem distorções.   
+\textbf{Câmeras:} O primeiro passo do processo é a captura das imagens da câmera estéreo. Idealmente, as imagens devem ser capturadas ao mesmo instante e as lentes não apresentarem distorções.   
 
 \textbf{Calibração e Retificação:} Na prática, as lentes apresentam distorção. Com base nos parâmetros obtidos após a calibração das câmeras é possível retificá-las. 
 
 \textbf{Correspondência Estéreo:} Aplica-se os métodos para encontrar as correspondências entre as duas câmeras, gerando assim o mapa de disparidades.
 
-\textbf{Filtragem:} Este passo, pode ser aplicado tanto nas imagens retificados ou no mapa de disparidades. Atualmente, aplica-se a operação morfológica de abertura e um filtro de Mediana sobre o mapa de disparidades. 
+\textbf{Filtragem:} Este passo, pode ser aplicado tanto nas imagens retificados ou no mapa de disparidades. Atualmente, aplica-se a operação morfológica de abertura e um filtro de mediana sobre o mapa de disparidades. 
 
 \textbf{Limiarização por Distância:} Visto que a disparidade apresenta uma relação com a distância, aplica-se uma operação de limiarização. Deste modo, apenas os obstáculos a uma certa distância são segmentados.
 
@@ -312,9 +313,8 @@ Neste trabalho, utilizou-se diferentes versões desta API (\textit{Application P
 \end{tabular}
 \end{table}
 
-% TODO: Adicionar Referência ao fim da primeira frase: https://github.com/facebook/fbcunn/blob/master/INSTALL.md
 \subsubsection{Desktop - Instalação e Configuração}
-Abaixo, estão apresentadas as instruções necessárias para a instalação e a configuração do ambiente de desenvolvimento para que plataforma CUDA funcione corretamente . O seguinte processo também pode ser executado para a configuração do ambiente na \textit{Jetson TK1}. Entretanto, um processo muito mais intuitivo e recomendado para essa plataforma está apresentado na seção \ref{jetsonSetupCUDA}.
+Abaixo, estão apresentadas as instruções necessárias para a instalação e a configuração do ambiente de desenvolvimento para que plataforma CUDA funcione corretamente \cite{FacebookCUDA}. O seguinte processo também pode ser executado para a configuração do ambiente na \textit{Jetson TK1}. Entretanto, um processo muito mais intuitivo e recomendado para essa plataforma está apresentado na seção \ref{jetsonSetupCUDA}.
 
 \begin{enumerate}
  \item Instalando a CUDA
@@ -334,7 +334,7 @@ Caso o usuário esteja utilizando uma máquina virtual, é necessário que os se
   $ ubuntu@ubuntu:~$ sudo apt-get install linux-generic
 \end{lstlisting}
 
-\item Baixe o arquivo .deb da CUDA no seguinte link: \url{https://developer.nvidia.com/cuda-downloads}, e verifique se a versão do arquivo é correspondente ao sistemas operacional utilizado. Neste trabalho, utilizou-se o Linux Ubuntu 14.04 64-bit e o arquivo condizente chamava-se "cuda-repo-ubuntu1404-7-5-local\_7.5-18\_amd64.deb" e foi possível instalá-lo através dos seguintes comandos:
+\item Baixe o arquivo .deb da CUDA no seguinte link: \url{https://developer.nvidia.com/cuda-downloads}, e verifique se a versão do arquivo é correspondente ao sistemas operacional utilizado. Neste trabalho, utilizou-se o Linux Ubuntu 14.04 64-bit e o arquivo condizente chamava-se "cuda-repo-ubuntu1404-7-5-local\_7.5-18\_amd64.deb" e foi possível instalá-lo recorrendo aos seguintes comandos:
 
 \item Execute os seguintes comandos:
 
@@ -368,11 +368,8 @@ $ ubuntu@ubuntu:~/Downloads$ source ~/.bashrc
 
 \item Reinicie o computador.
  \end{enumerate}
-  
-% TODO: Terminar
-% TODO: Adicionar Referência: http://blog.aicry.com/ubuntu-14-04-install-opencv-with-cuda/
 
-  \item Instalando do OpenCV com Suporte à CUDA
+  \item Instalando do OpenCV com Suporte à CUDA \cite{Harasimowicz2015}
   \begin{enumerate}
    \item Instalando os pacotes necessários
    \begin{lstlisting}[basicstyle=\tiny]
@@ -390,25 +387,32 @@ $ ubuntu@ubuntu:~$ sudo apt-get update
 $ ubuntu@ubuntu:~$ sudo apt-get install ffmpeg  
 $ ubuntu@ubuntu:~$ sudo apt-get install frei0r-plugins
    \end{lstlisting}
-   
+
    \item Clonando o repositório do OpenCV. Neste trabalho, utilizou-se a versão 3.0.0:
    \begin{lstlisting}[basicstyle=\tiny]
 $ ubuntu@ubuntu:~$ mkdir OpenCV  
 $ ubuntu@ubuntu:~$ cd OpenCV
 $ ubuntu@ubuntu:~/OpenCV$ git clone https://github.com/Itseez/opencv.git  
    \end{lstlisting}
-   
-   
+
+
    \item Instalando e realizando o \textit{build} da biblioteca OpenCV. Este passo é de extrema importância, pois é aqui que configura-se o OpenCV para dar suporte à CUDA. Certifique-se que a arquitetura de GPU configurada na \textit{flag} CUDA\_GENERATION corresponda realmente a da sua plataforma:
    \begin{lstlisting}[basicstyle=\tiny]
-   $ ubuntu@ubuntu:~/OpenCV$ mkdir build && cd build
-   $ ubuntu@ubuntu:~/OpenCV/build$ cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local 
-   -D WITH_TBB=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON 
-   -D WITH_QT=ON -D WITH_OPENGL=ON -D ENABLE_FAST_MATH=1 -D CUDA_FAST_MATH=1 -D WITH_CUBLAS=1 -D CUDA_GENERATION=Kepler ..
+$ ubuntu@ubuntu:~/OpenCV$ mkdir build && cd build
+$ ubuntu@ubuntu:~/OpenCV/build$ cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local 
+-D WITH_TBB=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON 
+-D WITH_QT=ON -D WITH_OPENGL=ON -D ENABLE_FAST_MATH=1 -D CUDA_FAST_MATH=1 -D WITH_CUBLAS=1 -D CUDA_GENERATION=Kepler ..
+$ ubuntu@ubuntu:~/OpenCV/build$ make -j4
+$ ubuntu@ubuntu:~/OpenCV/build$ sudo make install
     \end{lstlisting}
-    
+
    \item Configurando o \textit{LIBRARY SEARCH PATH}:
-   
+   \begin{lstlisting}[basicstyle=\tiny]
+$ ubuntu@ubuntu:~/$ sudo sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
+$ ubuntu@ubuntu:~/$ sudo ldconfig
+
+  \end{lstlisting}
+
   \end{enumerate}
 
 \end{enumerate}
@@ -417,12 +421,12 @@ $ ubuntu@ubuntu:~/OpenCV$ git clone https://github.com/Itseez/opencv.git
 \subsection{Jetson TK1 - Configuração da Plataforma}
 \label{jetsonSetupCUDA}
 
-A execução das rotinas de visão estéreo com aceleração via GPU requisitam que a plataforma de desenvolvimento esteja corretamente configurada. Abaixo, encontra-se o tutorial para configurá-la para a operação desejada, isto é,basicamente, configurá-la para o correto funcionamento da CUDA e do OpenCV2. 
+A execução das rotinas de visão estéreo com aceleração via GPU requisitam que a plataforma de desenvolvimento esteja corretamente configurada. Abaixo, encontra-se o tutorial para configurá-la para a operação desejada, isto é, basicamente, configurá-la para o correto funcionamento da CUDA e do OpenCV2. 
 
 \begin{enumerate}
   \item Baixando o JetPack L4T
     \begin{enumerate}
-      \item Clique \href{http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/jetpack_l4t/2.1/jetpack_l4t_install.htm}{aqui} para ir ser redirecionado para a página do pacote de desenvolvimento Jetpack L4T. Caso o link esteja quebrado, vá até o página da NVIDIA e procure pelo localização correta do pacote.  
+      \item Clique \href{http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/jetpack_l4t/2.1/jetpack_l4t_install.htm}{aqui} para ir ser redirecionado para a página do pacote de desenvolvimento Jetpack L4T. Caso o link esteja quebrado, vá até a página da NVIDIA e procure pela localização correta do pacote.  
 
       \item Na máquina \textit{Host} rodando Ubuntu, crie um novo diretório para armazenar os pacotes de instalação utilizando as seguintes linhas de comando.
 
@@ -483,6 +487,6 @@ A execução das rotinas de visão estéreo com aceleração via GPU requisitam 
     \end{enumerate}
   \item Instalando o OpenCV com Módulo GPU na \textit{Jetson TK1}
 
-  Primeiramente, deve-se baixar e instalar o pacote de ferramentas CUDA, uma vez que é necessário para OpenCV. Cabe ao usuário decidir se deseja-se utilizar a biblioteca pré-compilada ou compilar a biblioteca do código-fonte. A primeira opção é a mais recomendada, visto que a biblioteca pré-compilada é a OpenCV4Tegra, uma versão otimizada em CPU e GPU do OpenCV para a \textit{Jetson TK1}. A segunda opção é recomendada caso deseja-se adicionar módulos que não estão presentes na versão OpenCV4Tetra \cite{eLinuxJetsonOpenCV}. 
+  Primeiramente, deve-se baixar e instalar o pacote de ferramentas CUDA, uma vez que é necessário para OpenCV. Cabe ao usuário decidir se deseja se utilizar a biblioteca pré-compilada ou compilar a biblioteca do código-fonte. A primeira opção é a mais recomendada, visto que a biblioteca pré-compilada é a OpenCV4Tegra, uma versão otimizada em CPU e GPU do OpenCV para a \textit{Jetson TK1}. A segunda opção é recomendada caso deseja-se adicionar módulos que não estão presentes na versão OpenCV4Tetra \cite{eLinuxJetsonOpenCV}. 
 
 \end{enumerate}

@@ -8,7 +8,7 @@
 \contentsline {section}{\numberline {2.1}Vis\IeC {\~a}o Est\IeC {\'e}reo - \textit {Stereo Vision}}{31}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Triangula\IeC {\c c}\IeC {\~a}o - \textit {Triangulation}}{31}{subsection.2.1.1}
 \contentsline {subsection}{\numberline {2.1.2}Geometria epipolar - \textit {Epipolar Geometry}}{32}{subsection.2.1.2}
-\contentsline {subsection}{\numberline {2.1.3}Calibra\IeC {\c c}\IeC {\~a}o das C\IeC {\^a}meras - \textit {Calibration}}{33}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.3}Calibra\IeC {\c c}\IeC {\~a}o das C\IeC {\^a}meras - \textit {Calibration}}{34}{subsection.2.1.3}
 \contentsline {subsubsection}{Par\IeC {\^a}metros intr\IeC {\'\i }nsecos}{34}{section*.4}
 \contentsline {subsubsection}{Par\IeC {\^a}metros extr\IeC {\'\i }nsecos}{34}{section*.5}
 \contentsline {subsection}{\numberline {2.1.4}Retifica\IeC {\c c}\IeC {\~a}o das Imagens - \textit {Rectification}}{35}{subsection.2.1.4}
@@ -43,17 +43,17 @@
 \contentsline {section}{\numberline {4.1}Interface Gr\IeC {\'a}fica - \textit {StereoVisionGUI}}{59}{section.4.1}
 \contentsline {section}{\numberline {4.2}Cen\IeC {\'a}rios - Resultados Visuais}{64}{section.4.2}
 \contentsline {section}{\numberline {4.3}Compara\IeC {\c c}\IeC {\~a}o de Desempenho: Desktop x BBB x Jetson TK1}{68}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Desktop}{69}{subsection.4.3.1}
-\contentsline {subsubsection}{CPU}{69}{section*.17}
+\contentsline {subsection}{\numberline {4.3.1}Desktop}{70}{subsection.4.3.1}
+\contentsline {subsubsection}{CPU}{70}{section*.17}
 \contentsline {subsubsection}{GPU}{70}{section*.18}
 \contentsline {subsection}{\numberline {4.3.2}BeagleBone Black (BBB)}{70}{subsection.4.3.2}
 \contentsline {subsubsection}{CPU}{70}{section*.19}
 \contentsline {subsubsection}{NEON}{70}{section*.20}
-\contentsline {subsection}{\numberline {4.3.3}Jetson TK1}{70}{subsection.4.3.3}
-\contentsline {subsubsection}{CPU}{70}{section*.21}
-\contentsline {subsubsection}{GPU}{70}{section*.22}
-\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o e Trabalhos Futuros}{71}{chapter.5}
-\contentsline {section}{\numberline {5.1}Conclus\IeC {\~a}o}{71}{section.5.1}
-\contentsline {section}{\numberline {5.2}Trabalhos Futuros}{73}{section.5.2}
-\contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{81}{appendix.A}
-\contentsline {chapter}{\numberline {I}Anexo 1}{83}{appendix.A}
+\contentsline {subsection}{\numberline {4.3.3}Jetson TK1}{71}{subsection.4.3.3}
+\contentsline {subsubsection}{CPU}{71}{section*.21}
+\contentsline {subsubsection}{GPU}{71}{section*.22}
+\contentsline {chapter}{\numberline {5}Conclus\IeC {\~a}o e Trabalhos Futuros}{73}{chapter.5}
+\contentsline {section}{\numberline {5.1}Conclus\IeC {\~a}o}{73}{section.5.1}
+\contentsline {section}{\numberline {5.2}Trabalhos Futuros}{75}{section.5.2}
+\contentsline {chapter}{\numberline {A}Ap\IeC {\^e}ndice 1}{83}{appendix.A}
+\contentsline {chapter}{\numberline {I}Anexo 1}{85}{appendix.A}

@@ -166,6 +166,7 @@ Jetson TK1 & 6  & 2    & 7$\sim$8 \\ \hline
  	\label{grafico_desempenho}
 \end{figure}
 
+Este trabalho não tem como escopo realizar a avaliação dos resultados apresentados acima com relação ao atendimento dos requisitos da aplicação. O trabalho realiza a busca pelas limitações dos sistemas para a execução dos métodos estéreo. No que diz respeito às condições do teste, em nenhuma das plataformas realizou-se a prioritização dos processos no sistema. Vale realçar que nenhuma distribuição do tipo RTOS (Sistema Operacional em Tempo Real) foi utilizada.
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Desktop}
@@ -175,7 +176,7 @@ Primeiramente, as rotinas para execução em CPU foram implementadas no \textit{
 
 \subsubsection{GPU}
 
-Como previsto, o desempenho do método BM acelerado em GPU é superior ao executado em CPU. Consequentemente, este resultado motivou a implementação do mesmo na plataforma \textit{Jetson TK1}, visto que sua implementação é bastante similar a em Desktop por conta de possuírem a mesma arquitetura de GPU (Kepler).  
+Como previsto, o desempenho do método BM acelerado em GPU é superior ao executado em CPU. O ganho em desempenho é pequeno, isto deve-se ao fato do tempo necessário para transferir as imagens entre a memória utilizada pela CPU e a memória da GPU é comparativamente grande ao ganho de processamento pela execução em GPU. Consequentemente, este resultado motivou a implementação do mesmo na plataforma \textit{Jetson TK1}, visto que sua implementação é bastante similar a em Desktop por conta de possuírem a mesma arquitetura de GPU (Kepler).  
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
