@@ -25,6 +25,12 @@ Andrew~J Barry, Helen Oleynikova, Dominik Honegger, Marc Pollefeys, and Russ
 \newblock {\em Vision-based Control and Navigation of Small Lightweight UAVs,
   IROS Workshop}, pages 1--6, 2015.
 
+\bibitem{CUDAPython}
+Computational~Statistics in~Python.
+\newblock {Massively parallel programming with GPUs}.
+\newblock \url{https://people.duke.edu/{~}ccc14/sta-663/CUDAPython.html/},
+  Acesso em: 22 de Junho de 2016.
+
 \bibitem{Bouguet1999}
 Jean-Yves Bouguet.
 \newblock {Complete Camera Calibration Toolbox for MATLAB}, 1999.
@@ -98,6 +104,17 @@ Jos{\'{e}} Luiz~Boanova Filho.
 3DR\texttrademark.
 \newblock {3DR - Drone {\&} UAV Technology}.
 \newblock \url{https://3dr.com/}, Acesso em: 22 de Junho de 2016.
+
+\bibitem{ValkyrieRobot}
+NASA and University of~Edinburgh.
+\newblock {University of Edinburgh's NASA Valkyrie Robot}.
+\newblock \url{http://valkyrie.inf.ed.ac.uk/}, Acesso em: 22 de Junho de 2016.
+
+\bibitem{BigDog}
+Boston Dynamics.
+\newblock {BigDog - The Most Advanced Rough-Terrain Robot on Earth}.
+\newblock \url{http://www.bostondynamics.com/robot_bigdog.html}, Acesso em: 22
+  de Junho de 2016.
 
 \bibitem{RobertLaganiere}
 Robert Laganière.

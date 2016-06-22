@@ -16,7 +16,7 @@ Idealmente, a triangulação de um ponto P de coordenadas globais $(X,Y,Z)$ pode
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/bradski/stereo_image_geometric_model.png}
- 	\caption{Modelo Idealizado de um sistema de visão estéreo. Imagem retirada de \cite{Bradski2008}}
+ 	\caption{Modelo Idealizado de um sistema de visão estéreo. Imagem retirada de \cite{Bradski2008}.}
  	\label{stereo_image_geometric_model}
 \end{figure}
 
@@ -36,7 +36,7 @@ Geometria epipolar corresponde à estrutura básica de um sistema estéreo, na q
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/bradski/geometry_epipolar.png}
- 	\caption{Geometria Epipolar. Imagem retirada de \cite{Mendes2012}}
+ 	\caption{Geometria Epipolar. Imagem retirada de \cite{Mendes2012}.}
  	\label{geometry_epipolar}
 \end{figure}
 
@@ -175,7 +175,7 @@ Como já foi dito anteriormente, disparidade é o deslocamento dos pontos homól
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.3]{./Resources/bradski/depth_disparity.png}
- 	\caption{Relação inversamente proporcional entre distância e disparidade. Imagem retirada de \cite{Bradski2008}}
+ 	\caption{Relação inversamente proporcional entre distância e disparidade. Imagem retirada de \cite{Bradski2008}.}
  	\label{depth_disparity}
 \end{figure}
 
@@ -255,8 +255,16 @@ Assim, começaram a surgir distribuições de Linux, os chamados \textit{Embedde
 \section{Aceleração em Hardware - CUDA}
 \label{cuda}
 
-\textit{Compute Unified Device Architecture} (CUDA) é uma tecnologia desenvolvida pela NVIDIA e em sua essência é uma plataforma de computação paralela de propósito geral, cujo objetivo é tirar proveito das unidades de processamento gráfico (GPU), assim, acelerando consideravelmente a execução de algoritmos computacionais complexos ao comparar-se com o desempenho da CPU.
+\textit{Compute Unified Device Architecture} (CUDA) é uma tecnologia desenvolvida pela NVIDIA e em sua essência é uma plataforma de computação paralela de propósito geral, cujo objetivo é tirar proveito das unidades de processamento gráfico (GPU), assim, acelerando consideravelmente a execução de algoritmos computacionais complexos ao comparar-se com o desempenho em CPU. Como ilustrado pela figura \ref{cpu_gpu}, ao contrário das CPUs, as GPUs apresentam um número maior de ALUs (\textit{Arithmetic Logic Units}), as quais facilitam o processamento de dados ao permitir a paralelização das operações aritméticas.
 
 Atualmente, a maioria das placas de vídeo da NVIDIA contam com essa tecnologia, por conta disso os pesquisadores e desenvolvedores de software estão voltando suas pesquisas para o desenvolvimento e otimização de algoritmos que possam explorar todo o poder de processamento destes dispositivos. Alguns exemplos de aplicações são identificação de placas ocultas em artérias, análise do fluxo de tráfego aéreo \cite{Monish2011} e visualização de moléculas \cite{Stone2015}.
+
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.85]{./Resources/cpu_gpu.jpg}
+ 	\caption{Comparação entre as arquiteturas de CPU e GPU. Imagem Retirada de \cite{CUDAPython}.}
+ 	\label{cpu_gpu}
+\end{figure}
+
 
 Historicamente, a implementação de algoritmos em GPU mostrou-se bastante obscura, visto que sua programação era bastante atrelada ao hardware a ser utilizado, mesmo com linguagens de programação gráfica como o OpenGL. Em 2003, um grupo de pesquisadores de Stanford, apresentou o primeiro compilador, Brook, que facilitaria a implementação de software, visto que permitia lidar de uma maneira mais maleável o fluxo de dados, podendo principalmente paralelizá-los. Em 2006, a NVIDIA juntamente com Ian Buck, criador do Brook, desenvolveu uma plataforma (CUDA) mais intuitiva e que permitisse a utilização de uma linguagem de alto nível e tornasse a GPU em um processador de propósito geral (GPGPU) \cite{NVIDIA}.
