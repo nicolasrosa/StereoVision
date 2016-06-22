@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.28)  22 JUN 2016 15:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.28)  22 JUN 2016 15:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1376,7 +1376,7 @@ LaTeX Warning: Command \textcircled invalid in math mode on input line 43.
 
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 49.
-) (./Content/3_EspecificacaoProjeto.tex) (./Content/4_RevisaoBibliografica.tex
+) (./Content/3_RevisaoBibliografica.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -1655,7 +1655,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 262.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 262.
-[41]) (./Content/5_MateriaisMetodos.tex
+[41]) (./Content/4_MateriaisMetodos.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2060,7 +2060,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 468.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 468.
-[57]) (./Content/6_Resultados.tex
+[57]) (./Content/5_Resultados.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2395,7 +2395,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 196.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 196.
-[70]) (./Content/7_Conclusao.tex
+[70]) (./Content/6_Conclusao.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2553,7 +2553,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 268.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 268.
-[80]) (./Content/8_Apendices.tex
+[80]) (./Content/7_Apendices.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2581,7 +2581,7 @@ Package babel Info: Redefining portuges shorthand "|
 Ap\^endice A.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 2.
-) (./Content/9_Anexos.tex
+) (./Content/8_Anexos.tex
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2734,7 +2734,7 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 505.
 [92])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 96.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 94.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2743,25 +2743,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 96.
+(babel)             in language  on input line 94.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 96.
+(babel)             in language  on input line 94.
 [93]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 96.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 94.
  (./TCCmain.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 96.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 96.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 94.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 94.
 Package rerunfilecheck Info: File `TCCmain.out' has not changed.
 (rerunfilecheck)             Checksum: 8CFFC72547462337BB636154F9BFDA14;2834.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 96.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 94.
  ) 
 Here is how much of TeX's memory you used:
- 20207 strings out of 494929
- 318550 string characters out of 6180142
+ 20204 strings out of 494929
+ 318456 string characters out of 6180142
  479601 words of memory out of 5000000
  22192 multiletter control sequences out of 15000+600000
  95038 words of font info for 141 fonts, out of 8000000 for 9000
@@ -2777,7 +2773,7 @@ yr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on TCCmain.pdf (93 pages, 15475624 bytes).
+Output written on TCCmain.pdf (93 pages, 15475639 bytes).
 PDF statistics:
  1853 PDF objects out of 2073 (max. 8388607)
  1688 compressed objects within 17 object streams

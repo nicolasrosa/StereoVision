@@ -54,18 +54,16 @@
 %------------------------------------- Início do Documento ------------------------------------------
 \begin{document}
 
-%------------------------------------- Includes -----------------------------------------------------
-
 %------------------------------------- Elementos Pré-Textuais ---------------------------------------
 \input{./Content/1_PreTexto.tex}
 
 %------------------------------------- Adição dos Capítulos -----------------------------------------	
 \input{./Content/2_Introducao.tex}
-\input{./Content/3_EspecificacaoProjeto.tex}
-\input{./Content/4_RevisaoBibliografica.tex}
-\input{./Content/5_MateriaisMetodos.tex}
-\input{./Content/6_Resultados.tex}
-\input{./Content/7_Conclusao.tex}
+\input{./Content/3_RevisaoBibliografica.tex}
+\input{./Content/4_MateriaisMetodos.tex}
+\input{./Content/5_Resultados.tex}
+\input{./Content/6_Conclusao.tex}
+
 %------------------------------------- Adição das Bibliografias -------------------------------------	
 \bibliographystyle{unsrt} 			% Define o estilo da bibliografia
 \bibliography{./Content/References} 		% Faz referência ao arquivo ref.bib
@@ -87,10 +85,10 @@
 %------------------------------------- Adição dos Anexos -------------------------------------------- 	
 %\begin{appendices}
 \appendix
-\input{./Content/8_Apendices.tex}
+\input{./Content/7_Apendices.tex}
 %\end{appendices}
 
 \annex
-\input{./Content/9_Anexos.tex}
+\input{./Content/8_Anexos.tex}
 %------------------------------------- Término do Documento -----------------------------------------
 \end{document}
