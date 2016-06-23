@@ -36,7 +36,7 @@ Geometria epipolar corresponde à estrutura básica de um sistema estéreo, na q
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.35]{./Resources/bradski/geometry_epipolar.png}
- 	\caption{Geometria Epipolar. Imagem retirada de \cite{Mendes2012}.}
+ 	\caption{Exemplificação do caso típico de Geometria epipolar. Imagem retirada de \cite{Mendes2012}.}
  	\label{geometry_epipolar}
 \end{figure}
 
@@ -148,7 +148,7 @@ O processo de retificação é responsável por realizar as correções com rela
 
 \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.32]{./Resources/bradski/rectification_process.png}
+ 	\includegraphics[scale=0.32]{./Resources/bradski/rectification_process_ptbr.png}
  	\caption{Retificação de Imagens - Processo de retificação estéreo. Imagem retirada de \cite{Bradski2008}.}
  	\label{rectification_process}
 \end{figure}
@@ -205,7 +205,7 @@ Nos dias de hoje, as empresas automobilísticas vêm participando de uma verdade
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.40]{./Resources/caminhao_autonomo.jpg}
- 	\caption{Caminhão Autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP em parceria com a Scania.}
+ 	\caption{Fotografia do caminhão autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP em parceria com a Scania.}
  	\label{caminhao_autonomo}
 \end{figure}
 
@@ -218,7 +218,7 @@ No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \tex
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.26]{./Resources/mit_drones.png}
- 	\caption{Plataformas experimentais de aeronaves com o Sistema Estéreo - FPGA e o Sistema Estéreo - Pushbroom. Câmeras são montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas células. Imagem retirada de \cite{BarryMIT}.}
+ 	\caption{Fotografia das plataformas experimentais de aeronaves utilizando Sistema Estéreo-FPGA e Sistema Estéreo-Pushbroom. Câmeras são montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas células. Imagem retirada de \cite{BarryMIT}.}
  	\label{mit_drones}
 \end{figure}
 
@@ -231,7 +231,7 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
 \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.1]{./Resources/G500.jpg}
- 	\caption{Veículo Submarino Autônomo - Girona 500}
+ 	\caption{Fotografia do veículo submarino autônomo Girona 500}
  	\label{G500}
 \end{figure}
 
@@ -246,10 +246,11 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
 
 Linux é um sistema operacional de código-aberto que é amplamente utilizado, cujo \textit{Kernel}, originalmente escrito por Linus Torvalds, pode suportar diversos designs de sistemas podendo ser um computador pessoal, um supercomputador ou \textit{cluster}, ou até mesmo sistemas \textit{System-on-Chip} (SoC). Este sistema é capaz de suportar diversas arquiteturas de processadores como x86{\_}64, PowerPC, ARM, MIPS, StrongARM, XScale, dentre outras \cite{Wang2011}.
 
-A popularização do termo Linux fez com que atualmente exista uma certa confusão sobre a distinção de um \textit{Kernel} de um sistema operacional e do sistema operacional propriamente dito. A maior razão desta confusão é a variedade de distribuições desenvolvidas pela comunidade, visto a facilidade para customizar seus módulos, pacotes, sistemas de arquivo e servidores gráficos. Dada sua versatilidade, logo tornou-se a peça chave para o desenvolvimento de sistemas embarcados, os quais são computadores completamente especializados para a realização de tarefas específicas. Esses sistemas diferem de computadores de propósito geral e comumente apresentam certas restrições de dimensão, condições de operação, ou limitação de recursos computacionais como menor poder de processamento ou menor capacidade de armazenamento. 
+A popularização do termo Linux fez com que atualmente exista uma certa confusão sobre a distinção de um \textit{Kernel} de um sistema operacional e do sistema operacional propriamente dito. A maior razão desta confusão é a interpretação errônea de termo Linux ao assumir que este é um sistema operacional. Na realidade, Linux é o \textit{kernel}, ou núcleo, do sistema operacional que, por sua vez, é simplificadamente composto pelo \textit{kernel} e o sistema de arquivos, constituindo assim uma distribuição. Atualmente, existe uma variedade de distribuições desenvolvidas pela comunidade, visto a facilidade para customizar seus módulos, pacotes, sistemas de arquivo e servidores gráficos. 
 
-Assim, começaram a surgir distribuições de Linux, os chamados \textit{Embedded Linux}, que apresentavam menores requisitos de sistemas, devido à remoção de módulos que não são utilizados em determinados sistemas ou à otimização desses módulos para aquela atividade específica \cite{Yaghmour2008}.
+Estes sistemas também podem ser incorporadas à sistemas embarcados, também chamados de sistemas embutidos, são sistemas controlados por microprocessadores que podem ser encapsulados para realização de tarefas com dedição exclusiva para o sistema em questão. Estes sistemas são computadores totalmente especializados, diferindo de computadores de propósito geral e comumente apresentam certas restrições de dimensão, condições de operação, ou limitações de recursos computacionais (menor pode de processamento, menor capacidade de armazenamento).
 
+Com relação à aplicação em sistemas embarcados, devido à versatilidade de sistemas baseados em Linux logo tornaram-se peças-chave para o desenvolvimento destes sistemas. Consequentemente, diversas distribuições de Linux começaram a surgir, os chamados \textit{Embedded Linux}, que apresentavam menores requisitos de sistemas, devido à remoção de módulos que não são utilizados em determinados sistemas ou à otimização desses módulos para aquela atividade específica \cite{Yaghmour2008}.
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \section{Aceleração em Hardware - CUDA}
