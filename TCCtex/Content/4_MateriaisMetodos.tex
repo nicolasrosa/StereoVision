@@ -141,7 +141,7 @@ Outra unidade de processamento utilizada foi a plataforma \textit{Jetson TK1} pr
 
 Também foi utilizado um \textit{Notebook} Asus Q550LF, ele foi utilizada para o desenvolvimento de todos os programas contidos neste trabalho e para estudo de desempenho comparativo com as plataformas embarcadas. A interface desenvolvida, \textit{StereoVisionGUI}, foi desenvolvida para ser executada nesta máquina e em computadores com arquitetura x86 e x64. As especificações desta plataforma estão apresentadas pela tabela \ref{asusQ550LF}.
 
-\begin{table}[]
+\begin{table}[h]
 \centering
 \caption{Especificações - Asus Q550LF}
 \label{asusQ550LF}
@@ -169,7 +169,7 @@ Nesta seção, estão apresentados os equipamentos auxiliares para o desenvolvim
 
 Os métodos para a identificação de correspondências entre as câmeras requerem que as imagens estejam calibradas e retificadas. Por conta disso, utiliza-se o padrão de calibração de dimensão 7x10, apresentado na figura \ref{calibration_pattern}, para este propósito. Deste modo, é possível caracterizar as distorções das lentes, parâmetros intrínsecos, e o posicionamento de uma das câmeras com relação a outra, parâmetros extrínsecos.  
 
-\begin{figure}[H]
+\begin{figure}[]
 	\centering
 	\includegraphics[scale=0.10]{./Resources/calibration_pattern.png}
 	\caption{Fotografia do Padrão de Calibração}
@@ -178,7 +178,7 @@ Os métodos para a identificação de correspondências entre as câmeras requer
 
 A motivação deste trabalho é a sua utilização em veículos aéreos. Por conta disso, é indispensável que se tenha algum desses veículos. O trabalho conta com a utilização de um quadricóptero produzido pela 3DR\texttrademark \cite{3DRX8}, porém este apresenta modificações visando o seu desenvolvimento para navegação autônoma. Deste modo, tem-se a adição de \textit{propellers guards}, objetivando o aumento da segurança do veículo e das pessoas que o operam. Além disso, o \textit{drone} conta com suportes para a câmera estéreo e para a plataforma embarcada. Como pode ser observado na figura \ref{quad_camera_support}, todas as peças foram produzidas utilizando impressora 3D.
 
-\begin{figure}[H]
+\begin{figure}[]
 	\centering
 	\includegraphics[scale=0.10]{./Resources/quad_camera_support.jpg}
 	\caption{Fotografia do Quadricóptero 3DR X8 com suporte para a Câmera 3D}

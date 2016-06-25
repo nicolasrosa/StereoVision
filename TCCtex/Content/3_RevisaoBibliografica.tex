@@ -157,7 +157,7 @@ O processo de retificação é responsável por realizar as correções com rela
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Correspondência Estéreo - \textit{Stereo Correspondence}}
 
-Correspondência estéreo não é nada mais que a utilização de métodos estéreo, os quais são responsáveis pela procura de pontos homólogos nos pares de imagens estéreo. Como visto anteriormente, devido ao distanciamento das câmeras $(T)$ e ao distanciamento do objeto com relação às câmeras $(Z)$, o mesmo ponto apresenta diferentes posicionamento nos planos das câmeras $x^l$ e $x^r$. A figura \ref{homologous_points _stereo} ilustra um par de imagens estéreo (esquerda e direita) e o mapa de disparidades gerado pela cena, nas quais os pixels homólogos estão destacados. Os métodos estéreo utilizam da restrição epipolar o que reduz o espaço de busca e de diferentes meios para encontrá-los. Mesmo com essa restrição e com a retificação das imagens, os métodos ainda assim apresentam um elevado custo computacional, além do que ainda estão sujeitos à encontrarem falsas correspondências. 
+Correspondência estéreo não é nada mais que a utilização de métodos estéreo, os quais são responsáveis pela procura de pontos homólogos nos pares de imagens estéreo. Como visto anteriormente, devido ao distanciamento das câmeras $(T)$ e ao distanciamento do objeto com relação às câmeras $(Z)$, o mesmo ponto apresenta diferentes posicionamento nos planos das câmeras $x^l$ e $x^r$. A figura \ref{homologous_points _stereo} ilustra um par de imagens estéreo (esquerda e direita) e o mapa de disparidades gerado pela cena, nas quais os pixels homólogos estão destacados. Os métodos estéreo utilizam da restrição epipolar o que reduz o espaço de busca e de diferentes meios para encontrá-los. Mesmo com essa restrição e com a retificação das imagens, os métodos ainda assim apresentam um elevado custo computacional, além do que ainda estão sujeitos à encontrarem falsas correspondências \cite{Wang2007}. 
 
 \begin{figure}[H]
  	\centering
@@ -184,13 +184,11 @@ Como já foi dito anteriormente, disparidade é o deslocamento dos pontos homól
 \label{stereo_methods}
 A seguir, encontra-se apresentado um pequeno resumo de como são os operadores dos métodos estéreo utilizados neste trabalho.
 
-\begin{enumerate}
- \item \textbf{\textit{Block Matching} - BM:} Este algoritmo é um método local, no qual utiliza soma das diferenças ao quadrado (SSD - \textit{Sum of Squared Differences}) para a determinação de correspondências. O tamanho da vizinhança deve ser avaliado, visto que a densidade do mapa gerado, nível de detalhamento e intensidade de ruído dependem disso. Caso o bloco seja pequeno, o mapa apresentará detalhes mais nítidos, porém adicionará ruídos ao mapa. Por outro lado, um bloco maior reduz o nível de ruído, porém diminui o nível de detalhamento do mapa. As limitações serviram de motivação para a criação do método a seguir \cite{Hirschmuller2008}.   
+\textbf{\textit{Block Matching} - BM:} Este algoritmo é um método local, no qual utiliza soma das diferenças ao quadrado (SSD - \textit{Sum of Squared Differences}) para a determinação de correspondências. O tamanho da vizinhança deve ser avaliado, visto que a densidade do mapa gerado, nível de detalhamento e intensidade de ruído dependem disso. Caso o bloco seja pequeno, o mapa apresentará detalhes mais nítidos, porém adicionará ruídos ao mapa. Por outro lado, um bloco maior reduz o nível de ruído, porém diminui o nível de detalhamento do mapa. As limitações serviram de motivação para a criação do método a seguir \cite{Hirschmuller2008}.   
 
- \item \textbf{\textit{Semi-global Block Matching} - SGBM:} Este algoritmo é um método global e também visa a obtenção de uma correspondência estéreo mais precisa, para isso, além da etapa de agregação de custo (cálculo da similaridade), modela-se o sistema como um problema de minimização energética, o que adiciona restrições que suavizam o mapa ao penalizar descontinuidades.  \cite{JunhwanKim2003}. Por conta disso, este método é mais lento que o apresentado anteriormente, porém é mais denso ao comparar-se o nível de detalhamento para um bloco de tamanho pequeno \cite{Hirschmuller2008}.
+\textbf{\textit{Semi-global Block Matching} - SGBM:} Este algoritmo é um método global e também visa a obtenção de uma correspondência estéreo mais precisa, para isso, além da etapa de agregação de custo (cálculo da similaridade), modela-se o sistema como um problema de minimização energética, o que adiciona restrições que suavizam o mapa ao penalizar descontinuidades.  \cite{JunhwanKim2003}. Por conta disso, este método é mais lento que o apresentado anteriormente, porém é mais denso ao comparar-se o nível de detalhamento para um bloco de tamanho pequeno \cite{Hirschmuller2008}.
 
- \item \textbf{\textit{Block Matching with GPU Acceleration} - BMGPU:} Método é igual ao primeiro apresentado, diferindo do fato que as suas bibliotecas e métodos implementados são voltados para a aceleração em GPU (\textit{Graphics Processing Unit}). Dado o paralelismo inerente dos aceleradores gráficos de hoje, esse tipo de \textit{hardware} permite o processamento simultâneo dos dados. 
-\end{enumerate}
+\textbf{\textit{Block Matching with GPU Acceleration} - BMGPU:} Método é igual ao primeiro apresentado, diferindo do fato que as suas bibliotecas e métodos implementados são voltados para a aceleração em GPU (\textit{Graphics Processing Unit}). Dado o paralelismo inerente dos aceleradores gráficos de hoje, esse tipo de \textit{hardware} permite o processamento simultâneo dos dados. 
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -202,7 +200,7 @@ Nos dias de hoje, as empresas automobilísticas vêm participando de uma verdade
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-\begin{figure}[H]
+\begin{figure}[]
  	\centering
  	\includegraphics[scale=0.40]{./Resources/caminhao_autonomo.jpg}
  	\caption{Fotografia do caminhão autônomo desenvolvido pelo Laboratório de Robótica Móvel - LRM - ICMC/USP em parceria com a Scania.}
@@ -215,11 +213,20 @@ No caso de navegação autônoma para ambiente aéreo, o projeto utilizando \tex
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-\begin{figure}[H]
+\begin{figure}[]
  	\centering
  	\includegraphics[scale=0.26]{./Resources/mit_drones.png}
- 	\caption{Fotografia das plataformas experimentais de aeronaves utilizando Sistema Estéreo-FPGA e Sistema Estéreo-Pushbroom. Câmeras são montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas células. Imagem retirada de \cite{BarryMIT}.}
+ 	\caption{Fotografia das plataformas experimentais de aeronaves utilizando Sistema Estéreo-FPGA e Sistema Estéreo-\textit{Pushbroom}. Câmeras são montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas células. Imagem retirada de \cite{BarryMIT}.}
  	\label{mit_drones}
+\end{figure}
+
+Para atingir este objetivo, os pesquisados utilizaram uma arquitetura hídrida de sensores, como ilustrado na figura \ref{barry_diagram}, na qual os sensores visuais (câmeras estéreo) juntamente com os sensores para estimação de estado (Sensores Inerciais, Barômetro, Tubo de Pitot) permitem a construção da nuvem de pontos 3D do ambiente.
+
+\begin{figure}[]
+ 	\centering
+ 	\includegraphics[scale=0.20]{./Resources/barry_diagram.png}
+ 	\caption{Visão geral da arquitetura utilizada nas aeronaves desenvolvidas pelos pesquisadores do MIT. Imagem traduzida de \cite{Barry2014}.}
+ 	\label{barry_diagram}
 \end{figure}
 
 
@@ -230,7 +237,7 @@ No caso de navegação autônoma para ambiente subaquático, um exemplo de \text
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.1]{./Resources/G500.jpg}
+ 	\includegraphics[scale=0.09]{./Resources/G500.jpg}
  	\caption{Fotografia do veículo submarino autônomo Girona 500}
  	\label{G500}
 \end{figure}

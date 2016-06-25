@@ -85,6 +85,24 @@ year = {2015}
 }
 
 
+@article{Barry2014,
+abstract = {We present a novel stereo vision algorithm that is capable of obstacle detection on a mobile-CPU processor at 120 frames per second. Our system performs a subset of standard block-matching stereo processing, searching only for obstacles at a single depth. By using an onboard IMU and state-estimator, we can recover the position of obstacles at all other depths, building and updating a full depth-map at framerate. Here, we describe both the algorithm and our implementation on a high-speed, small UAV, flying at over 20 MPH (9 m/s) close to obstacles. The system requires no external sensing or computation and is, to the best of our knowledge, the first high-framerate stereo detection system running onboard a small UAV.},
+archivePrefix = {arXiv},
+arxivId = {1407.7091},
+author = {Barry, Andrew J. and Tedrake, Russ},
+doi = {10.1109/ICRA.2015.7139617},
+eprint = {1407.7091},
+file = {:home/nicolas/Downloads/Barry14a.pdf:pdf},
+isbn = {9781479969227},
+journal = {3rd Workshop on Robots in Clutter: Perception and Interaction},
+mendeley-groups = {TCC},
+pages = {2--8},
+title = {{Pushbroom Stereo for High-Speed Navigation in Cluttered Environments}},
+url = {http://arxiv.org/abs/1407.7091},
+year = {2014}
+}
+
+
 @article{Barry2015,
 abstract = {As MAVs increase in functionality and utility, lightweight perception becomes critical to increasing autonomy. Cameras present an attractive solution for on-board sensing, due to their low weight, small power consumption, and dense information stream. High-speed stereo vision provides 3D data for obstacle avoidance, but generally has substantial processing requirements which are especially difficult to achieve on small aircraft. Here, we compare two solutions to this problem: dense stereo on an FPGA and sparse stereo on an ARM processor. We detail the design considerations and performance of both systems on duplicate fixed-wing aircraft platforms flying near obstacles in an outdoor environment.},
 author = {Barry, Andrew J. and Oleynikova, Helen and Honegger, Dominik and Pollefeys, Marc and Tedrake, Russ},
@@ -560,4 +578,17 @@ mendeley-groups = {TCC},
 title = {{University of Edinburgh's NASA Valkyrie Robot}},
 howpublished={\url{http://valkyrie.inf.ed.ac.uk/}},
 year = {Acesso em: 22 de Junho de 2016}
+}
+
+
+@inproceedings{Wang2007,
+abstract = {We present a stereo algorithm that achieves high quality results while maintaining real-time performance. The key idea is simple: we introduce an adaptive aggregation step in a dynamic-programming (DP) stereo framework. The per-pixel matching cost is aggregated in the vertical direction only. Compared to traditional DP, our approach reduces the typical "streaking" artifacts without the penalty of blurry object boundaries. Evaluation using the benchmark Middlebury stereo database shows that our approach is among the best (ranked first in the new evaluation system) for DP-based approaches. The performance gain mainly comes from a computationally expensive weighting scheme based on color and distance proximity. We utilize the vector processing capability and parallelism in commodity graphics hardware to speed up this process over two orders of magnitude. Over 50 million disparity evaluations per second (MDE/s)1 are achieved in our current implementation.},
+author = {Wang, Liang and Liao, Miao and Gong, Minglun and Yang, Ruigang and Nister, David},
+booktitle = {Proceedings - Third International Symposium on 3D Data Processing, Visualization, and Transmission, 3DPVT 2006},
+doi = {10.1109/3DPVT.2006.75},
+isbn = {0769528252},
+mendeley-groups = {TCC},
+pages = {798--805},
+title = {{High-quality real-time stereo using adaptive cost aggregation and dynamic programming}},
+year = {2007}
 }
