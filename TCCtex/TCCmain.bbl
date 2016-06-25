@@ -128,6 +128,14 @@ OpenCV {Development Team}.
   \url{http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html},
   Acesso em: 30 de Março de 2016.
 
+\bibitem{Wang2007}
+Liang Wang, Miao Liao, Minglun Gong, Ruigang Yang, and David Nister.
+\newblock {High-quality real-time stereo using adaptive cost aggregation and
+  dynamic programming}.
+\newblock In {\em Proceedings - Third International Symposium on 3D Data
+  Processing, Visualization, and Transmission, 3DPVT 2006}, pages 798--805,
+  2007.
+
 \bibitem{Hirschmuller2008}
 Heiko Hirschm{\"{u}}ller.
 \newblock {Stereo processing by semiglobal matching and mutual information}.
@@ -147,6 +155,13 @@ D.~F. {Shinzato, P. Y. ; Os{\'{o}}rio, F. S. ; Wolf}.
   Vision.}
 \newblock {\em IEEE/RSJ International Conference on Intelligent Robots and
   Systems - IROS - Workshop}.
+
+\bibitem{Barry2014}
+Andrew~J. Barry and Russ Tedrake.
+\newblock {Pushbroom Stereo for High-Speed Navigation in Cluttered
+  Environments}.
+\newblock {\em 3rd Workshop on Robots in Clutter: Perception and Interaction},
+  pages 2--8, 2014.
 
 \bibitem{Nagappa2013}
 Sharad Nagappa, Narc{\'{\i}}s Palomeras, Chee~Sing Lee, Nuno Gracias, Daniel~E.
