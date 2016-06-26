@@ -4,7 +4,7 @@
 Gary Bradski and Adrian Kaehler.
 \newblock {\em {Learning OpenCV: Computer Vision with the OpenCV Library}},
   volume~1.
-\newblock 2008.
+\newblock O'Reilly Media, 2008.
 
 \bibitem{Mendes2012}
 Caio C{\'{e}}sar~Teodoro Mendes.
@@ -24,6 +24,13 @@ Andrew~J Barry, Helen Oleynikova, Dominik Honegger, Marc Pollefeys, and Russ
 \newblock {FPGA vs . Pushbroom Stereo Vision for MAVs}.
 \newblock {\em Vision-based Control and Navigation of Small Lightweight UAVs,
   IROS Workshop}, pages 1--6, 2015.
+
+\bibitem{Barry2014}
+Andrew~J. Barry and Russ Tedrake.
+\newblock {Pushbroom Stereo for High-Speed Navigation in Cluttered
+  Environments}.
+\newblock {\em 3rd Workshop on Robots in Clutter: Perception and Interaction},
+  pages 2--8, 2014.
 
 \bibitem{CUDAPython}
 Computational~Statistics in~Python.
@@ -53,12 +60,19 @@ M.W.M.G. Dissanayake, P.~Newman, S.~Clark, H.F. Durrant-Whyte, and M.~Csorba.
 Andrew~J. Barry, Helen Oleynikova, Dominik Honegger, Marc Pollefeys, and Russ
   Tedrake.
 \newblock {Fast Onboard Stereo Vision for UAVs}.
-\newblock page~7, 2015.
+\newblock In {\em IROS Workshop}, page~7, 2015.
 
 \bibitem{Lemaire2007}
 Thomas Lemaire, Cyrille Berger, Il-Kyun Jung, and Simon Lacroix.
 \newblock {Vision-Based SLAM: Stereo and Monocular Approaches}.
 \newblock {\em International Journal of Computer Vision}, 74(3):343--364, 2007.
+
+\bibitem{Ehsan2009}
+Shoaib Ehsan and Klaus~D. McDonald-Maier.
+\newblock {On-board vision processing for small UAVs: Time to rethink
+  strategy}.
+\newblock {\em Proceedings - 2009 NASA/ESA Conference on Adaptive Hardware and
+  Systems, AHS 2009}, pages 75--81, 2009.
 
 \bibitem{BeagleBoardOrg}
 BeagleBoard.org.
@@ -73,8 +87,9 @@ NVIDIA.
 
 \bibitem{Shah2014}
 Sunil Shah.
-\newblock {Real-time Image Processing on Low Cost Embedded Computers}.
-\newblock pages 1--29, 2014.
+\newblock Real-time image processing on low cost embedded computers.
+\newblock Master's thesis, EECS Department, University of California, Berkeley,
+  May 2014.
 
 \bibitem{Magno2009}
 Victor M.~G. Paula.
@@ -95,6 +110,12 @@ Jos{\'{e}} Luiz~Boanova Filho.
   (drones)}.
 \newblock \url{http://www.decea.gov.br/?p=8465}, Acesso em: 06 de Dezembro de
   2015.
+
+\bibitem{AuditReport2014}
+U.S.~Department of~Transportation.
+\newblock {FAA faces significant barriers to safely integrate unmanned aircraft
+  systems into the national airspace system}.
+\newblock Technical report, 2014.
 
 \bibitem{AAVC}
 {FLYAAVC. Autonomous Aerial Vehicle Competition}.
@@ -149,19 +170,18 @@ Heiko Hirschm{\"{u}}ller.
 \newblock In {\em Proceedings Ninth IEEE International Conference on Computer
   Vision}, number Iccv, pages 1033--1040 vol.2, 2003.
 
+\bibitem{Howard2014}
+Daniel Howard.
+\newblock {Public Perceptions of Self-driving Cars: The Case of Berkeley,
+  California}.
+\newblock {\em MS Transportation Engineering}, 2014, 2014.
+
 \bibitem{ShinzatoP}
 D.~F. {Shinzato, P. Y. ; Os{\'{o}}rio, F. S. ; Wolf}.
 \newblock {Visual Road Recognition Using Artificial Neural Networks and Stereo
   Vision.}
 \newblock {\em IEEE/RSJ International Conference on Intelligent Robots and
-  Systems - IROS - Workshop}.
-
-\bibitem{Barry2014}
-Andrew~J. Barry and Russ Tedrake.
-\newblock {Pushbroom Stereo for High-Speed Navigation in Cluttered
-  Environments}.
-\newblock {\em 3rd Workshop on Robots in Clutter: Perception and Interaction},
-  pages 2--8, 2014.
+  Systems - IROS - Workshop}, 2011.
 
 \bibitem{Nagappa2013}
 Sharad Nagappa, Narc{\'{\i}}s Palomeras, Chee~Sing Lee, Nuno Gracias, Daniel~E.
