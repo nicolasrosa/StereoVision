@@ -11,7 +11,7 @@
 \contentsline {figure}{\numberline {2.8}{\ignorespaces Fotografia das plataformas experimentais de aeronaves utilizando Sistema Est\IeC {\'e}reo-FPGA e Sistema Est\IeC {\'e}reo-\textit {Pushbroom}. C\IeC {\^a}meras s\IeC {\~a}o montados na parte dianteira das asas na mesma linha de base (34 cm) em ambas c\IeC {\'e}lulas. Imagem retirada de \cite {BarryMIT}.}}{39}{figure.2.8}
 \contentsline {figure}{\numberline {2.9}{\ignorespaces Vis\IeC {\~a}o geral da arquitetura utilizada nas aeronaves desenvolvidas pelos pesquisadores do MIT. Imagem traduzida de \cite {Barry2014}.}}{40}{figure.2.9}
 \contentsline {figure}{\numberline {2.10}{\ignorespaces Fotografia do ve\IeC {\'\i }culo submarino aut\IeC {\^o}nomo Girona 500}}{40}{figure.2.10}
-\contentsline {figure}{\numberline {2.11}{\ignorespaces Compara\IeC {\c c}\IeC {\~a}o entre as arquiteturas de CPU e GPU. Imagem Retirada de \cite {CUDAPython}.}}{43}{figure.2.11}
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Compara\IeC {\c c}\IeC {\~a}o entre as arquiteturas de CPU e GPU. Imagem Retirada de \cite {CUDAPython}.}}{42}{figure.2.11}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Fotografia da 3D Webcam Minoru}}{46}{figure.3.1}
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Fotografia da C\IeC {\^a}mera Digital Fujifilm FinePix Real 3D W3}}{47}{figure.3.2}
