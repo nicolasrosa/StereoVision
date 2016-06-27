@@ -178,7 +178,7 @@ Os métodos para a identificação de correspondências entre as câmeras requer
 
 A motivação deste trabalho é a sua utilização em veículos aéreos. Por conta disso, é indispensável que se tenha algum desses veículos. O trabalho conta com a utilização de um quadricóptero produzido pela 3DR\texttrademark \cite{3DRX8}, porém este apresenta modificações visando o seu desenvolvimento para navegação autônoma. Deste modo, tem-se a adição de \textit{propellers guards}, objetivando o aumento da segurança do veículo e das pessoas que o operam. Além disso, o \textit{drone} conta com suportes para a câmera estéreo e para a plataforma embarcada. Como pode ser observado na figura \ref{quad_camera_support}, todas as peças foram produzidas utilizando impressora 3D.
 
-\begin{figure}[]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.10]{./Resources/quad_camera_support.jpg}
 	\caption{Fotografia do Quadricóptero 3DR X8 com suporte para a Câmera 3D}
@@ -219,14 +219,14 @@ O cenário da figura \ref{thumb_video15} foi utilizado para estudo das condiçõ
 
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 % Figuras
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.55]{./Resources/thumbs/thumb_video10_l.png}
 	\caption{\textit{Thumbnail} do video referente ao Cenário 1 - Ambiente Externo - Árvore}
 	\label{thumb_video10_l}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.55]{./Resources/thumbs/thumb_video12_l.png}
 	\caption{\textit{Thumbnail} do video referente ao Cenário 2 - Ambiente Interno - Mesa/Cadeira/Estantes}
@@ -256,7 +256,7 @@ Os dois ambientes foram utilizados para efeito de validação dos parâmetros ob
 
 O MATLAB disponibiliza gráficos que representam as distorções das ambas as lentes, assim como apresentado na imagem \ref{lenses_distortion}, na qual é possível visualizar três modelos de distorção das lentes. O primeiro par de imagens corresponde ao modelo de distorção completo de ambas as lentes e leva em consideração as distorções radiais e tangenciais. O segundo par de imagens é o modelo de distorção considerando apenas a componente radial. O último par ilustra o modelo de distoção que considera apenas a componente tangencial.
 
-\begin{figure}[H]
+\begin{figure}[p]
  	\centering
  	\includegraphics[scale=0.20]{./Resources/distortion/lenses_distortion.jpg}
  	\caption{Calibração estéreo dos parâmetros intrínsecos - Modelo de Distorções da câmera esquerda e direita, respectivamente. Imagem obtida utilizando \textit{Camera Calibration Toolbox for MATLAB} \cite{Bouguet1999}.}
@@ -269,7 +269,7 @@ O MATLAB disponibiliza gráficos que representam as distorções das ambas as le
 
 Como dito anteriormente, dado um conjunto de pares de imagens de um padrão de calibração é possível obter os parâmetros extrínsicos do equipamento estéreo. Além disso, também é possível estimar a reconstrução da cena utilizada no processo de calibração, onde estima-se o posicionamento de cada perspectiva das imagens utilizadas com relação às câmeras, assim como ilustrado na figura \ref{stereo_calib_extrinsic}. Ao fim do processo, são obtidos os parâmetros que descrevem a orientação da segunda câmera (Vermelha) em relação a primeira (Azul).
 
-\begin{figure}[H]
+\begin{figure}[h]
  	\centering
  	\includegraphics[scale=0.70]{./Resources/stereo_calib_extrinsic.png}
  	\caption{Calibração estéreo dos parâmetros extrínsecos - Estimativa do posicionamento da câmera direita$^2$ em relação à câmera esquerda$^1$. Imagem obtida utilizando o aplicativo \textit{Stereo Calibration App} do MATLAB \cite{MatlabStereoApp}.}
