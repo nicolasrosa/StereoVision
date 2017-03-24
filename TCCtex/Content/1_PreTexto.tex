@@ -1,5 +1,4 @@
 %------------------------------------- CONFIGURAÇÕES DE CAPA --------------------------------------
-% TODO: Mudar título
 \begin{titlepage}
 	% Capa Principal
 	\begin{center}
@@ -40,7 +39,7 @@
 	%\thispagestyle{empty}
 		\Large{\textbf{Nícolas dos Santos Rosa}}\\
 		\vspace{0.15\textheight}
-		\Huge{\textbf{Percepção de ambientes baseada em algoritmos de Visão Estéreo com aceleração em GPU sobre Linux Embarcado para aplicação em VANTs}} 
+		\huge{\textbf{Percepção de ambientes baseada em algoritmos de Visão Estéreo com aceleração em GPU sobre Linux Embarcado para aplicação em VANTs}} 
 		\vspace{0.08\textheight}
 	\end{center}
 		
@@ -65,28 +64,22 @@
 
 
 
-%------------------------------------- FICHA CATALOGRÁFICA ------------------------------------------
+%------------------------------------- Ficha Catalográfica ------------------------------------------
 \newpage
 
-Página com a ficha catalográfica (em página par).
+% Página com a ficha catalográfica (em página par).
 
 %ficha catalografica no verso
-%\includepdf{./Resources/ficha_catalografica.pdf}
+\includepdf{./Resources/ficha_catalografica.pdf}
 
 %------------------------------------- Folha de aprovação--------------------------------------------
 \newpage
 
-página com a folha de aprovação (página ímpar). \cleardoublepage
+% página com a folha de aprovação (página ímpar).
 
-\begin{comment}
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.3]{./Resources/aprovacao.jpg}
-	\caption{Fluxo de comunicação entre os principais componentes.}
-	\label{Aprovacao}
-\end{figure}
+\includepdf{./Resources/aprovacao.pdf}
+
 \cleardoublepage
-\end{comment}
 %------------------------------------- Dedicatória --------------------------------------------------
 \vspace{0.11\textheight} 
 \begin{center}
@@ -173,7 +166,7 @@ Rosa, Nícolas \textbf{Percepção de ambientes baseada em algoritmos de Visão 
 
 \vspace{0.05\textheight}
 
-Atualmente, veículos aéreos não tripulados (VANT) vêm tornando-se um assunto recorrente no âmbito científico. Estes veículos, devido a sua mobilidade e inteligência artificial, vêm sendo adaptados para a atuação em diferentes ambientes, desempenhando assim diversas atividades que vão desde aplicações militares, agronômicas, espaciais, cinematográficas, entre outras. Entretanto, essa atuação só não é mais ampla devido a problemas relacionados ao reconhecimento do ambiente ao seu redor e detecção de objetos e obstáculos. Neste trabalho, estudou-se a utilização de visão estéreo em sistemas embarcados para mapeamento de ambientes e obstáculos ameacem a locomoção do veículo autônomo. Os métodos estéreo mais conhecidos pela literatura, BM (\textit{Block Matching}) e SGBM (\textit{Semi-Global Block Matching}), foram implementados e também foi desenvolvido uma interface que facilite a extração de informações e a comparação de performance destes métodos. Após análise, o algoritmo mais robusto para a aplicação em veículos aéreos foi o método BM para ambas as plataformas, BBB e \textit{Jetson TK1}. Visto que a \textit{Jetson TK1} permite a aceleração em hardware do método BM, foi possível implementar o método BMGPU (\textit{Block Matching with GPU Acceleration}) fornecido pelo OpenCV nesta plataforma. Por fim, os algoritmos utilizados permitiram que as distâncias de objetos próximos ao veículo móvel pudessem ser estimadas.
+Atualmente, veículos aéreos não tripulados (VANT) vêm tornando-se um assunto recorrente no âmbito científico. Estes veículos, devido a sua mobilidade e inteligência artificial, vêm sendo adaptados para a atuação em diferentes ambientes, desempenhando assim diversas atividades que vão desde aplicações militares, agronômicas, espaciais, cinematográficas, entre outras. Entretanto, essa atuação só não é mais ampla devido a problemas relacionados ao reconhecimento do ambiente ao seu redor e detecção de objetos e obstáculos. Neste trabalho, estudou-se a utilização de visão estéreo em sistemas embarcados para percepção de ambientes e obstáculos ameacem a locomoção do veículo autônomo. Os métodos estéreo mais conhecidos pela literatura, BM (\textit{Block Matching}) e SGBM (\textit{Semi-Global Block Matching}), foram implementados e também foi desenvolvido uma interface que facilite a extração de informações e a comparação de performance destes métodos. Após análise, o algoritmo mais robusto para a aplicação em veículos aéreos foi o método BM para ambas as plataformas, BBB e \textit{Jetson TK1}. Visto que a \textit{Jetson TK1} permite a aceleração em hardware do método BM, foi possível implementar o método BMGPU (\textit{Block Matching with GPU Acceleration}) fornecido pelo OpenCV nesta plataforma. Por fim, os algoritmos utilizados permitiram que as distâncias de objetos próximos ao veículo móvel pudessem ser estimadas.
 
 \vspace{0.05\textheight}
 
